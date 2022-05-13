@@ -1,0 +1,17 @@
+.card-secondary {
+  display: flex;
+  flex-direction: column;
+  /* border: 3px solid red; */
+  background: var(--iq-color-background-warm);
+  color: var(--iq-color-accent);
+  padding: 2rem;
+  border-radius: 50px;
+  box-shadow: inset -1px -1px 14px -7px rgb(255 255 255),
+    inset 1px 1px 14px -7px rgb(0 0 0 / 50%);
+  box-shadow: inset 4px 4px 14px -7px rgb(255 255 255),
+    inset -4px -4px 14px -7px rgb(0 0 0 / 50%);
+}
+
+card-secondary a {
+  color: var(--iq-color-accent);
+}

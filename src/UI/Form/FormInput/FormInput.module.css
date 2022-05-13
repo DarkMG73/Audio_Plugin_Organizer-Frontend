@@ -1,0 +1,46 @@
+.input-container {
+  flex-grow: 1;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: left;
+  min-height: 2em;
+  flex-direction: column;
+  padding: 1em;
+  /* flex-basis: calc(25% - 4em); */
+  height: 100%;
+}
+.input-container .input-wrap {
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+}
+
+.input-container input {
+  /* width: 100%; */
+  min-height: 100%;
+}
+.Name {
+  display: flex;
+  width: 100%;
+}
+.Name input {
+  flex-grow: 1;
+  padding: 0.5em;
+  font-size: 18px;
+  font-weight: 700;
+  border: none;
+}
+
+.input-container select {
+  padding: 0.5em;
+  text-align: center;
+}
+
+.input-container option {
+  text-align: center;
+}
+
+.input-required-error {
+  border: 3px solid red;
+}

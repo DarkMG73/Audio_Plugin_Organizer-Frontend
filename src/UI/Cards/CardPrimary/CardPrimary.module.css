@@ -1,0 +1,15 @@
+.card-primary {
+  display: flex;
+  flex-direction: column;
+  /* border: 3px solid red; */
+  background: var(--iq-color-accent);
+  color: var(--iq-color-background-warm);
+  padding: 2rem;
+  border-radius: 50px;
+  box-shadow: inset 4px 4px 14px -7px rgb(255 255 255),
+    inset -4px -4px 14px -7px rgb(0 0 0 / 50%);
+}
+
+.card-priimary a {
+  color: var(--iq-color-background-warm);
+}

@@ -1,0 +1,35 @@
+.db-login-status {
+  margin: 1em;
+}
+
+.login-text {
+  padding: 0.5em;
+  margin: 2em auto;
+  border: 1px solid;
+  border-color: var(--iq-color-accent);
+  color: var(--iq-color-accent);
+  background-color: var(--iq-color-background-warm);
+}
+
+.not-logged-in-text {
+  background-color: var(--iq-color-accent);
+  color: var(--iq-color-background);
+  font-weight: 700;
+}
+
+.inner-wrap {
+  background: green;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-container > * {
+  max-width: 18rem;
+  width: 200px;
+  flex-grow: 1;
+}

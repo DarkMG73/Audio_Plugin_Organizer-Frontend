@@ -1,0 +1,75 @@
+.button {
+  margin: 0 0.5em;
+  box-shadow: inset 1px 1px 1px rgb(255 255 255 / 25%),
+    inset 1px -1px 1px rgb(0 0 0 / 15%), 1px 1px 5px -3px black;
+  border: none;
+  background: inherit;
+  color: inherit;
+  border-radius: 0.25em;
+  padding: 0.5em 1em;
+  margin-top: 1em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s all ease;
+}
+
+.button:hover {
+  text-shadow: 0 0 1px;
+  transform: scale(1.1);
+  transition: 0.1s all ease;
+}
+
+/* Color Control */
+.button.primary {
+  background: var(--iq-color-accent);
+  color: var(--iq-color-background-warm);
+}
+
+.button.primary.selected {
+  box-shadow: inset 1px 1px 1px rgb(255 255 255 / 25%),
+    inset 1px -1px 1px rgb(0 0 0 / 15%), 1px 1px 5px -3px black, 0 0 10px white,
+    inset 0 0 10px white;
+}
+
+.button.secondary {
+  background: var(--iq-color-background-warm);
+  color: var(--iq-color-accent);
+}
+.button.secondary.selected {
+  box-shadow: inset 1px 1px 1px rgb(255 255 255 / 25%),
+    inset 1px -1px 1px rgb(0 0 0 / 15%), 1px 1px 5px -3px black, 0 0 10px white,
+    inset 0 0 10px white;
+}
+
+.button.basic {
+  background: var(--iq-color-background);
+  color: var(--iq-color-background-contrast);
+}
+
+/* Font Control */
+.button.heading {
+  letter-spacing: var(--iq-spacing-heading);
+}
+.button.heading-2 {
+  font: var(--iq--font-heading-2);
+  letter-spacing: var(--iq-spacing-heading);
+}
+.button.subheading {
+  font: var(-font-subheading);
+  letter-spacing: var(--iq-spacing-subheading);
+}
+.button.body {
+  font: var(--iq-font-body-text);
+  font-weight: 700;
+}
+.button.small {
+  font: var(--iq-font-body-text);
+  font-size: 0.75em;
+  font-weight: 700;
+}
+
+.button.large {
+  font: var(--iq-font-body-text);
+  font-size: 1.5em;
+  font-weight: 700;
+}

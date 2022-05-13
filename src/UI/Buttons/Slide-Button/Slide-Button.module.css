@@ -1,0 +1,84 @@
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+}
+
+/* Hide default HTML checkbox */
+.switch-input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--iq-color-background-warm);
+  box-shadow: inset 1px 1px 7px -5px black,
+    inset 30px 30px 30px -15px rgba(0, 0, 0, 0.077), 1px 1px 7px -5px white,
+    inset -1px -1px 7px -5px white;
+  -webkit-transition: 0.4s;
+  transition: 0.2s all linear;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  min-height: 100%;
+  width: 50%;
+  left: 0;
+  background-color: var(--iq-color-background-warm);
+  box-shadow: inset -1px -1px 7px -5px black,
+    inset 30px 30px 30px -15px rgb(255 255 255 / 51%), 1px 1px 7px -5px white,
+    inset 1px 1px 7px -5px white, 2px 2px 7px -5px black;
+  transition: 0.2s all linear;
+}
+
+input:checked + .slider {
+  background-color: var(--iq-color-accent);
+}
+
+/* input:focus + .slider {
+  background-color: var(--iq-color-accent);
+} */
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(100%);
+  -ms-transform: translateX(100%);
+  transform: translateX(100%);
+}
+
+/* Rounded sliders */
+.slider {
+  border-radius: 34px;
+}
+
+.slider:before {
+  border-radius: inherit;
+}
+
+.slide-button-wrap {
+  display: flex;
+  margin: 0.5em auto;
+  min-width: 9em;
+  flex-grow: 1;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.title::first-letter {
+  text-transform: capitalize;
+}
+
+.title {
+  font: var(--iq-font-body-text);
+  min-width: 100%;
+  margin: 0.5em auto 0.25em;
+}
