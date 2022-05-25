@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import styles from "./FilterTools.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import SlideButton from "../../UI/Buttons/Slide-Button/Slide-Button";
-import { hyphenate } from "../../Hooks/utility";
+import { escapeHtml } from "../../Hooks/utility";
 import SetFilteredToolIdList from "../../Hooks/SetFilteredToolList";
 import { audioToolDataActions } from "../../store/audioToolDataSlice";
 
@@ -14,28 +14,37 @@ function FilterTools(props) {
     filteredToolsIds,
     currentFilters,
     allTools,
-    toolMetadata,
+    toolsMetadata,
   } = allToolsData;
 
   useEffect(() => {
+    console.log(
+      "%c --> %cline:24%ccurrentFilters",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
+      currentFilters
+    );
     dispatch(audioToolDataActions.clearToolFilterIds);
     const filteredToolIdList = SetFilteredToolIdList(allTools, currentFilters);
     dispatch(audioToolDataActions.setToolFilterIds(filteredToolIdList));
   }, [currentFilters, allTools, dispatch]);
-  function levelFilterButtonHandler(e) {
+
+  function filterButtonHandler(e) {
+    const value = escapeHtml(e.target.value);
     if (e.target.checked) {
       dispatch(
         audioToolDataActions.addToToolFilters({
-          type: "level",
-          value: e.target.value.replace(/-/g, ""),
+          type: e.target.dataset.data,
+          value: value,
         })
       );
       SetFilteredToolIdList();
     } else {
       dispatch(
         audioToolDataActions.removeFromToolFilters({
-          type: "level",
-          value: e.target.value.replace(/-/g, ""),
+          type: e.target.dataset.data,
+          value: value,
         })
       );
     }
@@ -81,62 +90,36 @@ function FilterTools(props) {
     // FilterTools(allToolsData);
   }
 
-  return <div>Filter</div>;
+  // return <div>Filter</div>;
   return (
     <div id="tool-filter" className={styles.outerwrap}>
       <h2 class="section-title">Tool Filter</h2>
       <div className={styles["slide-button-wrap"]}>
-        {Object.key(toolsMetadata).map((filterName) => {
-          <div className={styles["slide-button-inner-wrap"]}>
-            <h3 className={styles["slide-button-inner-wrap-title"]}>
-              {filterName}
-            </h3>
-            return (
-            <SlideButton
-              key={currentFilters[filterName]}
-              label={currentFilters[filterName]}
-              onClick={levelFilterButtonHandler}
-              checked={currentFilters[filterName].includes(level)}
-            />
-            );
-          </div>;
+        {Object.keys(currentFilters).map((topic) => {
+          if (topic === "name") return;
+          return (
+            <div className={styles["slide-button-inner-wrap"]}>
+              <h3 className={styles["slide-button-inner-wrap-title"]}>
+                {topic}
+              </h3>
+              {toolsMetadata[topic].map((entry) => {
+                return (
+                  <SlideButton
+                    key={currentFilters[topic + " " + entry]}
+                    label={entry}
+                    onClick={filterButtonHandler}
+                    checked={currentFilters[topic].includes(entry)}
+                    data={topic}
+                  />
+                );
+              })}
+            </div>
+          );
         })}
-
-        <div className={styles["slide-button-inner-wrap"]}>
-          <h3 className={styles["slide-button-inner-wrap-title"]}>Topics</h3>
-          {toolMetadata.topic.map((topic) => {
-            const topicNonHyphen = topic;
-            if (topic === "noncoding") {
-              topic = hyphenate(topic, 3, "-");
-            }
-
-            return (
-              <SlideButton
-                key={topic}
-                label={topic}
-                onClick={topicFilterButtonHandler}
-                checked={currentFilters.topic.includes(topicNonHyphen)}
-              />
-            );
-          })}
-        </div>
-        <div className={styles["slide-button-inner-wrap"]}>
-          <h3 className={styles["slide-button-inner-wrap-title"]}>Tags</h3>
-          {toolMetadata.tags.map((tag) => {
-            return (
-              <SlideButton
-                key={tag}
-                label={tag}
-                onClick={tagsFilterButtonHandler}
-                checked={currentFilters.tags.includes(tag)}
-              />
-            );
-          })}
-        </div>
       </div>
       <div className={styles["output-container"]}>
         <p>
-          Of the {toolMetadata._id.length} tools, you have selected{" "}
+          Of the {toolsMetadata._id.length} tools, you have selected{" "}
           {filteredToolsIds.length} in {currentFilters.toString()}.
         </p>
       </div>

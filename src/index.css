@@ -1,13 +1,105 @@
+/* defaults */
+body {
+  background-color: #ffffff;
+  color: #003647;
+  font: normal 500 12px "Kodchasan", sans-serif;
+}
+
+/* blue & gray */
+/* :root {
+  --iq-color-accent: #287094;
+  --iq-color-accent-light: #3a9aca;
+  --iq-color-accent-dark: #005570;
+  --iq-color-background: white;
+  --iq-color-background-warm: #d4d4ce;
+  --iq-color-background-cool: #c7cfd1;
+  --iq-color-background-contrast: #003647;
+  --iq--font-heading: small-caps normal 700 32px "Kodchasan", sans-serif;
+  --iq--font-heading-2: small-caps normal 700 24px "Kodchasan", sans-serif;
+  --iq-spacing-heading: 0.25em;
+  --iq-spacing-subheading: 0.375em;
+  --iq-font-subheading: small-caps normal 700 16px "Kodchasan", sans-serif;
+  --iq-font-body-text: normal 500 12px "Kodchasan", sans-serif;
+} */
+
+/* blue & gray 2 */
+/* :root {
+  --iq-color-accent: #1277c4;
+  --iq-color-accent-light: #42b2ed;
+  --iq-color-accent-dark: #005570;
+  --iq-color-background: white;
+  --iq-color-background-warm: #d3e1ed;
+  --iq-color-background-cool: #c7cfd1;
+  --iq-color-background-contrast: #123040;
+  --iq--font-heading: small-caps normal 700 32px "Kodchasan", sans-serif;
+  --iq--font-heading-2: small-caps normal 700 24px "Kodchasan", sans-serif;
+  --iq-spacing-heading: 0.25em;
+  --iq-spacing-subheading: 0.375em;
+  --iq-font-subheading: small-caps normal 700 16px "Kodchasan", sans-serif;
+  --iq-font-body-text: normal 500 12px "Kodchasan", sans-serif;
+} */
+
+/* blue & light-gray */
+/* :root {
+  --iq-color-accent: #287094;
+  --iq-color-accent-light: #3a9aca;
+  --iq-color-accent-dark: #005570;
+  --iq-color-background: white;
+  --iq-color-background-warm: #f6f4f4;
+  --iq-color-background-cool: #c7cfd1;
+  --iq-color-background-contrast: #003647;
+  --iq--font-heading: small-caps normal 700 32px "Kodchasan", sans-serif;
+  --iq--font-heading-2: small-caps normal 700 24px "Kodchasan", sans-serif;
+  --iq-spacing-heading: 0.25em;
+  --iq-spacing-subheading: 0.375em;
+  --iq-font-subheading: small-caps normal 700 16px "Kodchasan", sans-serif;
+  --iq-font-body-text: normal 500 12px "Kodchasan", sans-serif;
+} */
+
+/* blue & light-gray  2 */
+:root {
+  --iq-color-accent: #287094;
+  --iq-color-accent-light: #3a9aca;
+  --iq-color-accent-dark: #005570;
+  --iq-color-background: white;
+  --iq-color-background-warm: hsl(60deg 6% 93%);
+  --iq-color-background-cool: #c7cfd1;
+  --iq-color-background-contrast: #003647;
+  --iq--font-heading: small-caps normal 700 32px "Kodchasan", sans-serif;
+  --iq--font-heading-2: small-caps normal 700 24px "Kodchasan", sans-serif;
+  --iq-spacing-heading: 0.25em;
+  --iq-spacing-subheading: 0.375em;
+  --iq-font-subheading: small-caps normal 700 16px "Kodchasan", sans-serif;
+  --iq-font-body-text: normal 500 12px "Kodchasan", sans-serif;
+}
+
+html {
+  font-size: 10px;
+}
+* {
+  box-sizing: border-box;
+}
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font: var(--iq-font-body-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+a {
+  color: var(--iq-color-accent);
+}
+code {
+  /* font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace; */
+  white-space: pre-wrap;
+}
+
+.section-title {
+  font: var(--iq--font-heading-2);
+  letter-spacing: var(--iq-spacing-heading);
+}
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }

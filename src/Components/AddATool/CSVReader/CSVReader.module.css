@@ -1,0 +1,22 @@
+.csv-reader {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10;
+}
+.browse-file {
+  width: "20%";
+}
+.accepted-file {
+  border: 1px solid #ccc;
+  height: 45;
+  line-height: 2.5;
+  padding-left: 10;
+  width: 80%;
+}
+.remove {
+  border-radius: 0;
+  padding: 0 20px;
+}
+.progress-bar-background-color {
+  background-color: red;
+}

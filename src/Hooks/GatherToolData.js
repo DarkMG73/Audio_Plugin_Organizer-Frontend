@@ -33,19 +33,19 @@ export default async function GatherToolData() {
   ////////////
 
   allTools.forEach((toolData) => {
-    const tags = [];
-    if (toolData.hasOwnProperty("tags")) {
-      if (toolData.tags.constructor === String) {
-        toolData.tags = stringToArray(toolData.tags);
-      } else if (!toolData.tags.constructor === Array) {
-        console.log("ERROR: The tool tags are an incorrect format");
-        toolData.tags = [];
-      } else {
-        toolData.tags = toolData.tags.map((tag) => tag.replaceAll(" ", ""));
-      }
-    } else {
-      toolData.tags = [];
-    }
+    // const tags = [];
+    // if (toolData.hasOwnProperty("tags")) {
+    //   if (toolData.tags.constructor === String) {
+    //     toolData.tags = stringToArray(toolData.tags);
+    //   } else if (!toolData.tags.constructor === Array) {
+    //     console.log("ERROR: The tool tags are an incorrect format");
+    //     toolData.tags = [];
+    //   } else {
+    //     toolData.tags = toolData.tags.map((tag) => tag.replaceAll(" ", ""));
+    //   }
+    // } else {
+    //   toolData.tags = [];
+    // }
     allToolsData.allTools[toolData._id] = toolData;
   });
 
@@ -59,13 +59,6 @@ export default async function GatherToolData() {
   allToolsData.toolsMetadata = gatherAllMetadata(allTools);
 
   const gatherFilters = (keysArray) => {
-    console.log(
-      "%c --> %cline:75%ckeysArray",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
-      keysArray
-    );
     const output = {};
     keysArray.forEach((item) => {
       if (item != "_id") output[item] = [];
@@ -75,14 +68,6 @@ export default async function GatherToolData() {
 
   allToolsData.currentFilters =
     currentFilters ?? gatherFilters(Object.keys(allToolsData.toolsMetadata));
-
-  console.log(
-    "%c --> %cline:62%callToolsData",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(17, 63, 61);padding:3px;border-radius:2px",
-    allToolsData
-  );
 
   return allToolsData;
 }
@@ -109,14 +94,43 @@ function objectExtractAllValuesPerKey(
   for (const i in objectToLoop) {
     // Get each item withing that tool (ID, topic, answer, etc)
     for (let key in objectToLoop[i]) {
+      const keyBeforeTrim = key;
       key = key.trim();
-
       // Check if we are meant to include that item & the value is valid
       if (
         !itemsToExclude.includes(key) &&
         !valuesToExclude.includes(objectToLoop[i][key])
       ) {
         // If the value is a list, separate at the comma
+        console.log(
+          "%c --> %cline:105%cobjectToLoop[i][key]",
+          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+          "color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px",
+          objectToLoop[i][key]
+        );
+        console.log(
+          "%c --> %cline:105%cobjectToLoop[i][key]",
+          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+          "color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px",
+          typeof objectToLoop[i][key] !== "boolean"
+        );
+
+        // Convert booleans & numbers to strings for more standardized processing
+        if (
+          typeof objectToLoop[i][key] === "boolean" ||
+          typeof objectToLoop[i][key] === "number"
+        ) {
+          objectToLoop[i][key] = '"' + objectToLoop[i][key] + '"';
+        }
+        console.log(
+          "%c --> %cline:105%cobjectToLoop[i][key]",
+          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+          "color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px",
+          objectToLoop[i][key]
+        );
         if (objectToLoop[i][key].indexOf(",") >= 0) {
           const termArray = objectToLoop[i][key].split(",");
 
@@ -146,10 +160,11 @@ function objectExtractAllValuesPerKey(
         else if (objectToLoop[i][key].constructor === Array) {
           if (objectToLoop[i][key].length > 0) {
             objectToLoop[i][key].forEach((rawValue) => {
-              const value = rawValue.replaceAll(" ", "").toString();
+              const value = rawValue.toString();
+
               // Check if  the value is valid
               if (!valuesToExclude.includes(value)) {
-                if (outputObject.hasOwnProperty(key)) {
+                if (outputObject.hasOwnProperty(keyBeforeTrim)) {
                   outputObject[key].add(value);
                 } else {
                   outputObject[key] = new Set();
@@ -159,7 +174,8 @@ function objectExtractAllValuesPerKey(
             });
           } else {
             // Given this is an empty array, just return an empty Setup
-            outputObject[key] = new Set();
+            if (!outputObject.hasOwnProperty(key))
+              outputObject[key] = new Set();
           }
         }
       }

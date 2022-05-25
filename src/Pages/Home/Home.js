@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./Home.module.css";
 import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
+import CardSecondary from "../../UI/Cards/CardSecondary/CardSecondary";
 import AddATool from "../../Components/AddATool/AddATool";
 import FilterTools from "../../Components/FilterTools/FilterTools";
+import ToolsRowsList from "../../Components/ToolsRows/ToolsRowsList/ToolsRowsList";
 
 const Home = () => {
   const { allTools, toolsMetadata } = useSelector((state) => state.toolsData);
@@ -25,28 +27,17 @@ const Home = () => {
   );
   return (
     <div className={styles["home-page"]}>
-      <CardPrimary key={"filter"}>
-        {toolsMetadata && <FilterTools />}
+      {toolsMetadata && !toolsMetadata._id.includes("error") && (
+        <CardSecondary key={"filter"}>
+          <FilterTools />
+        </CardSecondary>
+      )}
+      <CardPrimary>
+        <ToolsRowsList />
       </CardPrimary>
-      <AddATool />
-      {toolsMetadata._id.map((id) => (
-        <div>
-          <CardPrimary key={id}>
-            {allTools[id].name && (
-              <h4 key={id} className={styles[allTools[id].name]}>
-                {allTools[id].name}
-              </h4>
-            )}
-            {Object.keys(allTools[id]).map(function (key) {
-              return (
-                <div>
-                  {key}; {allTools[id][key]}
-                </div>
-              );
-            })}
-          </CardPrimary>
-        </div>
-      ))}
+      <CardSecondary key={"filter"}>
+        <AddATool />
+      </CardSecondary>
     </div>
   );
 };

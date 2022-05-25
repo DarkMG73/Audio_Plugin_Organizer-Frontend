@@ -1,3 +1,5 @@
+import { formInputData } from "../data/formInputData";
+
 export function hyphenate(string, indexBreakPoint, separator) {
   const firstHalf = string.substring(0, indexBreakPoint);
   const secondHalf = string.substring(indexBreakPoint, string.length);
@@ -72,4 +74,131 @@ export const refreshTokenSetup = (res) => {
 
   // Setup first refresh timer
   setTimeout(refreshToken, refreshTiming);
+};
+
+export function escapeHtml(string) {
+  var entityMap = {
+    "&": "&",
+    "<": "<",
+    ">": ">",
+    '"': '"',
+    "'": "'",
+    "/": "/",
+    "`": "`",
+    "=": "=",
+  };
+
+  return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+    return entityMap[s];
+  });
+}
+
+const createKeyValueObjectsArray = (formOutputArray) => {
+  const outputArray = [];
+  const categoryTitles = formOutputArray[0];
+  formOutputArray.forEach((row) => {
+    const assembledRow = {};
+    row.forEach((value, i) => {
+      assembledRow[categoryTitles[i].trim()] = value.trim();
+    });
+    outputArray.push(assembledRow);
+  });
+  outputArray.shift();
+  return outputArray;
+};
+
+export const groomFormOutput = (formOutputArray) => {
+  console.log(
+    "%c --> %cline:110%cformOutputArray",
+    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+    "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
+    formOutputArray
+  );
+  const pairedObjectsArray = createKeyValueObjectsArray(formOutputArray);
+  console.log(
+    "%c --> %cline:24%cpairedObjectsArray",
+    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+    "color:#fff;background:rgb(179, 214, 110);padding:3px;border-radius:2px",
+    pairedObjectsArray
+  );
+
+  const outputArray = [];
+  pairedObjectsArray.forEach((row) => {
+    console.log(
+      "%c --> %cline:29%crow",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
+      row
+    );
+    const rowGroup = [];
+    let assembledRow = {};
+    formInputData.forEach((inputData, i) => {
+      console.log(
+        "%c --> %cline:32%cinputData",
+        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+        "color:#fff;background:rgb(56, 13, 49);padding:3px;border-radius:2px",
+        inputData
+      );
+      assembledRow = { ...inputData };
+      console.log(
+        "%c --> %cline:54%c_____________________",
+        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+        "color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px"
+      );
+
+      console.log(
+        "%c --> %cline:29%crow",
+        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+        "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
+        row
+      );
+      console.log(
+        "%c --> %cline:54%cinputData.title",
+        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+        "color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px",
+        inputData.name
+      );
+      console.log(
+        "%c --> %cline:67%crow[inputData.title]",
+        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+        "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
+        row[inputData.name]
+      );
+      console.log(
+        "%c --> %cline:67%crow[inputData.title]",
+        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+        "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
+        row["name"]
+      );
+
+      assembledRow.preFilledData = row[inputData.name]
+        ? row[inputData.name]
+        : "";
+      console.log(
+        "%c --> %cline:70%cassembledRow",
+        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+        "color:#fff;background:rgb(60, 79, 57);padding:3px;border-radius:2px",
+        assembledRow
+      );
+      console.log(
+        "%c --> %cline:54%c_____________________",
+        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+        "color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px"
+      );
+      rowGroup.push(assembledRow);
+    });
+    outputArray.push(rowGroup);
+  });
+  return outputArray;
 };

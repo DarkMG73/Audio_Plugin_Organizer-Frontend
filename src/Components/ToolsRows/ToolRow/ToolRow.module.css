@@ -1,0 +1,130 @@
+.tool-id {
+  font-size: 90%;
+  opacity: 0.75;
+  font-feature-settings: "smcp", "c2sc";
+  text-align: center;
+  padding: 0.5em;
+  transition: 0.2s all ease;
+}
+.tool-id:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.grid-item {
+  position: relative;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font: var(--iq-font-subheading);
+  font-size: 1rem;
+}
+.grid-item-title {
+  margin-right: 1em;
+  opacity: 0.5;
+  font-size: 1rem;
+}
+
+.grid-item-title::first-letter {
+  text-transform: capitalize;
+}
+
+.grid-item-text {
+  font-weight: 700;
+  color: var(--iq-color-accent);
+}
+
+.grid-item-child {
+  position: relative;
+}
+
+.list {
+  list-style: none;
+  text-align: left;
+  padding: 0;
+}
+
+._id,
+.title-title {
+  display: none;
+}
+
+.name {
+  padding-bottom: 0;
+  font: var(--iq-font-subheading);
+  min-height: 100%;
+}
+
+.name-wrap,
+.company-wrap {
+  flex-basis: 100%;
+  justify-content: center;
+  min-width: max-content;
+  flex-grow: 1;
+  flex-direction: row;
+  justify-content: left;
+}
+
+.color {
+  grid-area: color;
+  padding-top: 0;
+  min-width: min-content;
+  grid-row-end: -1;
+}
+
+.title-text {
+  font: var(--iq-font-subheading);
+  min-height: 100%;
+}
+.tool {
+  grid-area: tool;
+}
+.answer {
+  grid-area: answer;
+}
+
+.answer > .grid-item-text,
+.tool > .grid-item-text {
+  font: var(--iq-font-body-text);
+  font-weight: 500;
+  border-radius: 27px;
+  border: 1px solid var(--iq-color-accent);
+  padding: 1em 2em;
+  margin: 1em auto;
+  width: 100%;
+  max-width: 100%;
+}
+.tool,
+.answer {
+  background: var(--iq-color-background);
+  color: var(--iq-color-background-contrast);
+}
+.search {
+  grid-area: search;
+}
+.credit {
+  grid-area: credit;
+}
+.link {
+  grid-area: link;
+}
+button.edit {
+  /* Set within prop passed to button component */
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.deleted {
+  border-radius: 3px !important;
+  font-size: 1.5em !important;
+  box-shadow: inset 1px 1px 7px -5px black, inset -4px -4px 7px -5px white !important;
+  padding: 1em !important;
+  opacity: 0.7 !important;
+}

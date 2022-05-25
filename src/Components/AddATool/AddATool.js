@@ -12,6 +12,8 @@ import styles from "./AddATool.module.css";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
 import AddAQuestionForm from "./AddAToolForm";
 // import { auth } from "../../storage/firebase.config.js";
+import FileUpload from "./FileUpload";
+import CSVReader from "./CSVReader/CSVReader";
 
 function AddATool(props) {
   const { allTools } = useSelector((state) => state.toolsData);
@@ -20,13 +22,16 @@ function AddATool(props) {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [loginError, setLoginError] = useState(false);
+  const [fileUploadArray, setFileUploadArray] = useState(false);
 
   useEffect(() => {
     if (Object.keys(allTools).includes("error")) {
       setShowAddQuestionForm(true);
     }
   }, []);
-
+  useEffect(() => {
+    console.log("fileUploadArray", fileUploadArray);
+  }, [fileUploadArray]);
   // const userData = useSelector((state) => state.loginStatus);
   // const user = userData.user;
   // const isLoggedIn = userData.userLoggedIn;
@@ -117,7 +122,7 @@ function AddATool(props) {
   return (
     <div id="output-controls" className={styles.outerwrap}>
       <div id="add-quest-wrap" className={styles["add-quest-wrap"]}>
-        <h2 class="section-title">Add Questions Here</h2>
+        <h2 class="section-title">Add A Tool Here</h2>
         <p>
           To add questions to this tool, simply click the{" "}
           <i>Create an Entry Form</i> button and fill out the small form. Feel
@@ -225,8 +230,21 @@ function AddATool(props) {
                 <span>Show the Question Entry Form</span>
               )}
             </PushButton>
+            <PushButton
+              inputOrButton="button"
+              id="create-entry-btn"
+              colorType="primary"
+              value="Add a Question"
+              data=""
+              size="small"
+              onClick={showNewQuestionFormButtonHandler}
+            >
+              Upload a CSV Spreadsheet
+            </PushButton>
+            <CSVReader setFileUploadArray={setFileUploadArray} />
           </div>
           {showAddQuestionForm && <AddAQuestionForm />}
+          {fileUploadArray && <AddAQuestionForm formData={fileUploadArray} />}
         </div>
       </div>
     </div>

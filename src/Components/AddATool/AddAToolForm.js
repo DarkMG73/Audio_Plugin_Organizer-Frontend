@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import styles from "./AddAToolForm.module.css";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
 import AddAQuestionFormElms from "./AddAToolFormElms";
@@ -12,7 +11,10 @@ function AddAToolForm(props) {
   var userLoggedIn = true;
   const [requiredError, setRequiredError] = useState(false);
   const [formJSX, setFormJSX] = useState([
-    <AddAQuestionFormElms requiredError={requiredError} />,
+    <AddAQuestionFormElms
+      requiredError={requiredError}
+      formData={props.formData}
+    />,
   ]);
 
   function addAnotherQuestionFormButtonHandler(e) {
@@ -28,19 +30,119 @@ function AddAToolForm(props) {
     setRequiredError(false);
     const data = new FormData(e.target.parentNode);
 
-    const dataEntries = [...data.entries()];
+    let dataEntries = [...data.entries()];
     let foundRequiredError = false;
+
+    /////// Groom Data ///////
+    // Convert string lists to arrays
+    const entriesRequiringArrays = ["use", "precision", "color"];
+    const sortedDataEntries = [];
     dataEntries.forEach((entry) => {
+      if (!entriesRequiringArrays.includes(entry[0])) {
+        sortedDataEntries.push(entry);
+      } else {
+        const arrayOfStrings = entry[1].split(",");
+        arrayOfStrings.forEach((value) => {
+          sortedDataEntries.push([entry[0], value]);
+        });
+      }
+    });
+    console.log(
+      "%c --> %cline:46%csortedDataEntries",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
+      sortedDataEntries
+    );
+
+    // Trim leading and trailing whitespace and add the id to preserve order reference
+    let companySelections = [];
+    sortedDataEntries.forEach((entry, i) => {
+      sortedDataEntries[i][0] === "NEWGROUP" ||
+        console.log(
+          "%c --> %cline:62%csortedDataEntries[i][0]",
+          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+          "color:#fff;background:rgb(248, 214, 110);padding:3px;border-radius:2px",
+          sortedDataEntries[i][0]
+        );
+      console.log(
+        "%c --> %cline:66%csortedDataEntries[i][0].includes(URL)",
+        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+        "color:#fff;background:rgb(248, 147, 29);padding:3px;border-radius:2px",
+        sortedDataEntries[i][0].includes("URL")
+      );
+      if (
+        sortedDataEntries[i][0] === "NEWGROUP" ||
+        sortedDataEntries[i][0].includes("URL")
+      ) {
+        sortedDataEntries[i][1] = sortedDataEntries[i][1].trim();
+      } else {
+        sortedDataEntries[i][1] = sortedDataEntries[i][1].trim().toLowerCase();
+      }
+      sortedDataEntries[i].push(i);
+    });
+
+    // Sort and remove unnecessary items
+    let usedValues = { indexesToRemove: [] };
+    sortedDataEntries.forEach((entry) => {
+      // Make sure name field is filled out
       if (entry[0] === "name" && entry[1].length <= 0) {
         setRequiredError(true);
         foundRequiredError = true;
         return;
       }
+      // If multiple companies put in, keep only one
+      if (entry[0] === "NEWGROUP") {
+        // Mark begining of new group in companySelections
+        companySelections.push("NEWGROUP");
+        // Reset group used term log for each NEWGROUP element in usedValues
+        usedValues = { indexesToRemove: [...usedValues.indexesToRemove] };
+      } else if (entry[0] === "company") {
+        companySelections.push(entry[2]);
+      }
+      // Remove duplicates from all others
+      else {
+        if (usedValues.hasOwnProperty(entry[0])) {
+          if (usedValues[entry[0]].includes(entry[1])) {
+            usedValues.indexesToRemove.push(entry[2]);
+          } else {
+            usedValues[entry[0]].push(entry[1]);
+          }
+        } else {
+          usedValues[entry[0]] = [entry[1]];
+        }
+      }
     });
+    // If there are not enough character in the "name" field, exit
     if (foundRequiredError) return;
+
+    // Reduce companySelections to only company entries in excess of one per group
+    let newGroupCounter = 0;
+    const companySelectionsFiltered = companySelections.filter((id) => {
+      if (id === "NEWGROUP") newGroupCounter = 0;
+      if (newGroupCounter === 0 || newGroupCounter === 1) {
+        newGroupCounter++;
+        return false;
+      }
+      newGroupCounter++;
+      return true;
+    });
+
+    // If duplicates, remove those entries
+    const dataEntriesOutput = sortedDataEntries.filter((entry) => {
+      // if There are more than one company added, keep only first
+      if (companySelectionsFiltered.includes(entry[2])) return false;
+      // If duplicates, remove those entries
+      if (usedValues.indexesToRemove.includes(entry[2])) return false;
+      return true;
+    });
+
+    // Process each form group separately
     let cnt = 0;
     const sortedDataEntriesObj = {};
-    dataEntries.forEach((entry) => {
+    dataEntriesOutput.forEach((entry) => {
       if (entry[0] === "NEWGROUP") {
         cnt++;
         sortedDataEntriesObj[cnt] = {};
@@ -62,17 +164,16 @@ function AddAToolForm(props) {
     for (const key in sortedDataEntriesObj) {
       sortedDatedEntriesArray.push(sortedDataEntriesObj[key]);
     }
-    const questions = sortedDatedEntriesArray;
 
     // Replace the temp ID's with a hash based on the question title
-    const questionsGroomed = {};
-    for (const i in questions) {
+    const toolsGroomed = {};
+    for (const i in sortedDatedEntriesArray) {
       const d = new Date();
       let year = d.getFullYear();
-      const hasId = sha256(JSON.stringify(questions[i]));
+      const hasId = sha256(JSON.stringify(sortedDatedEntriesArray[i]));
       const newId = year + "-" + hasId;
-      questionsGroomed[newId] = questions[i];
-      questionsGroomed[newId].id = newId;
+      toolsGroomed[newId] = sortedDatedEntriesArray[i];
+      toolsGroomed[newId].id = newId;
     }
 
     // Access FormData fields with `data.get(fieldName)`
@@ -80,14 +181,14 @@ function AddAToolForm(props) {
     // data.set('username', data.get('username').toUpperCase());
 
     console.log(
-      "%c --> %cline:80%cquestionsGroomed",
+      "%c --> %cline:80%ctoolsGroomed",
       "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
       "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
       "color:#fff;background:rgb(95, 92, 51);padding:3px;border-radius:2px",
-      questionsGroomed
+      toolsGroomed
     );
-    for (const key in questionsGroomed) {
-      const theData = questionsGroomed[key];
+    for (const key in toolsGroomed) {
+      const theData = toolsGroomed[key];
 
       if (userLoggedIn) {
         // addDocToDB(key, theData);
