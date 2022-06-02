@@ -101,21 +101,7 @@ function objectExtractAllValuesPerKey(
         !itemsToExclude.includes(key) &&
         !valuesToExclude.includes(objectToLoop[i][key])
       ) {
-        // If the value is a list, separate at the comma
-        console.log(
-          "%c --> %cline:105%cobjectToLoop[i][key]",
-          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-          "color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px",
-          objectToLoop[i][key]
-        );
-        console.log(
-          "%c --> %cline:105%cobjectToLoop[i][key]",
-          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-          "color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px",
-          typeof objectToLoop[i][key] !== "boolean"
-        );
+        // TODO: If the value is a list, separate at the comma
 
         // Convert booleans & numbers to strings for more standardized processing
         if (
@@ -124,13 +110,7 @@ function objectExtractAllValuesPerKey(
         ) {
           objectToLoop[i][key] = '"' + objectToLoop[i][key] + '"';
         }
-        console.log(
-          "%c --> %cline:105%cobjectToLoop[i][key]",
-          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-          "color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px",
-          objectToLoop[i][key]
-        );
+
         if (objectToLoop[i][key].indexOf(",") >= 0) {
           const termArray = objectToLoop[i][key].split(",");
 

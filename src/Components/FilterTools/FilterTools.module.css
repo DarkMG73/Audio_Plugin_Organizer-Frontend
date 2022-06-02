@@ -1,23 +1,38 @@
 .slide-button-wrap {
   display: flex;
   flex-direction: column;
-  width: fit-content;
-  margin: 0.5em auto;
-  justify-items: center;
-  max-width: 100%;
-  flex-wrap: wrap;
+  /* margin: 0.5em auto; */
+  /* min-width: 9em; */
+  /* flex-grow: 1; */
+  /* justify-content: center; */
+  /* flex-wrap: wrap; */
+  align-items: center;
+  max-width: 16em;
 }
 
 .slide-button-inner-wrap {
   display: flex;
   flex-wrap: wrap;
-  width: fit-content;
+  width: -moz-fit-content;
+  width: 100%;
   max-width: 100%;
   overflow: hidden;
   flex-wrap: wrap;
   justify-content: start;
   flex-grow: 1;
   align-items: center;
+  flex-basis: 50%;
+  /* flex-direction: column; */
+}
+
+.slide-button-wrap > * {
+  flex-basis: 50%;
+  min-width: 100%;
+  margin: 0;
+  width: 50%;
+  overflow: hidden;
+  white-space: break-spaces;
+  word-break: normal;
 }
 
 .slide-button-inner-wrap:first-child {
@@ -32,8 +47,9 @@
 .slide-button-wrap:nth-child(3) {
   flex-basis: auto;
 } */
+
 .slide-button-inner-wrap-title {
-  min-width: max-content;
+  min-width: 100%;
   font: var(--iq-font-subheading);
   letter-spacing: var(--iq-spacing-subheading);
 }

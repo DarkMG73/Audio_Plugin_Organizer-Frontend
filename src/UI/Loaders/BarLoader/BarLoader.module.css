@@ -16,7 +16,7 @@
   padding: 200px;
   box-sizing: border-box;
   overflow: hidden;
-  background-color: var(--iq-color-background-warm);
+  background: var(--iq-color-background-warm-gradient);
 }
 
 .loader-wrap:before {
@@ -27,7 +27,7 @@
   width: 100%;
   height: 100%;
   opacity: 0.5;
-  background-color: var(--iq-color-background-warm);
+  background: var(--iq-color-background-warm-gradient);
   background-image: url(https://www.transparenttextures.com/patterns/real-carbon-fibre.png);
 }
 

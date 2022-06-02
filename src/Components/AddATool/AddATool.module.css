@@ -8,7 +8,7 @@
   border: 1px solid;
   border-color: var(--iq-color-accent);
   color: var(--iq-color-accent);
-  background-color: var(--iq-color-background-warm);
+  background: var(--iq-color-background-warm-gradient);
 }
 
 .not-logged-in-text {

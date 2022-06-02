@@ -11,36 +11,43 @@ import {
   updateAPlugin as addDocToDB,
   deleteAPlugin as deleteDocFromDb,
 } from "../../../Hooks/DbInteractions";
+import GetPluginFormInputsWithOptions from "../../../Hooks/GetPluginFormInputsWithOptions";
 
 function ToolRow(props) {
   const toolsMetadata = useSelector((state) => state.toolsData.toolsMetadata);
   const [inEditMode, setInEditMode] = useState(false);
   const [deleted, setDeleted] = useState(false);
+
+  const [formInputData, setFormInputData] = useState(false);
+  useEffect(() => {
+    GetPluginFormInputsWithOptions().then((res) => {
+      console.log(
+        "%c --> %cline:13%cres",
+        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+        "color:#fff;background:rgb(95, 92, 51);padding:3px;border-radius:2px",
+        res
+      );
+      setFormInputData(res);
+    });
+  }, []);
   const editedTools = useRef({ edits: {} });
   const tool = props.tool;
-  console.log(
-    "%c *************** %cline:17%ctool",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
-    tool
-  );
   const key = props.keyOne;
   const k = props.keyOne;
   // editButtonDirection to be used with future edit mode visual manipulations
   const editButtonDirection = inEditMode ? "" : "";
   const editButtonWidth = inEditMode ? "max-content" : "5em";
-  let formInputData;
-  // useEffect(() => {
-  //   console.log(
-  //     "%c --> %cline:35%ctool",
-  //     "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-  //     "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-  //     "color:#fff;background:rgb(17, 63, 61);padding:3px;border-radius:2px",
-  //     tool
-  //   );
-  //   formInputData = groomFormOutput(tool);
-  // }, [tool]);
+  let groomedFormInputData;
+
+  useEffect(() => {
+    const toolFormDataArray = [tool];
+    if (formInputData)
+      groomedFormInputData = groomFormOutput(toolFormDataArray, formInputData);
+  }, [tool, formInputData]);
+  const toolFormDataArray = [tool];
+  if (formInputData)
+    groomedFormInputData = groomFormOutput(toolFormDataArray, formInputData);
 
   const rowEditButtonHandler = (e, setElmOpen) => {
     setInEditMode(!inEditMode);
@@ -72,22 +79,17 @@ function ToolRow(props) {
     }
 
     for (const title of categoryNamesArray) {
-      console.log(
-        "%c --> %cline:62%ctitle",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(130, 57, 53);padding:3px;border-radius:2px",
-        title
-      );
-
       let value;
       if (Object.keys(tool).includes(title)) {
         value = tool[title];
         if (Array.isArray(value)) {
           value = (
-            <ul className={styles[title + "list"] + " " + styles.list}>
+            <ul
+              key={value + Math.random()}
+              className={styles[title + "list"] + " " + styles.list}
+            >
               {value.map((item) => (
-                <li>{item}</li>
+                <li key={item + Math.random()}>{item}</li>
               ))}
             </ul>
           );
@@ -102,33 +104,19 @@ function ToolRow(props) {
 
       // If link, add <a> tag
       const isValidLink = isValidHttpUrl(value);
-      console.log(
-        "%c --> %cline:92%cisValidLink",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(3, 22, 52);padding:3px;border-radius:2px",
-        isValidLink
-      );
 
-      console.log(
-        "%c --> %cline:95%ctitle",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(248, 147, 29);padding:3px;border-radius:2px",
-        title
-      );
       if (isValidLink) {
-        console.log(
-          "%c --> %cline:95%c   IN  ",
-          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-          "color:#fff;background:rgb(248, 147, 29);padding:3px;border-radius:2px"
-        );
         if (title === "photoURL") {
-          value = <img src={value} alt={title} />;
+          value = <img key={title + Math.random()} src={value} alt={title} />;
         } else {
           value = (
-            <a href={value} alt={title} target="_blank">
+            <a
+              key={title + Math.random()}
+              href={value}
+              alt={title}
+              target="_blank"
+              rel="noreferrer"
+            >
               {value}
             </a>
           );
@@ -140,24 +128,32 @@ function ToolRow(props) {
         <div
           key={key + "-" + title}
           id={key + "-" + title}
-          className={styles[title + "-wrap"] + " " + styles["grid-item"]}
+          className={
+            styles[title + "-wrap"] +
+            " " +
+            styles["grid-item"] +
+            " " +
+            styles[title]
+          }
         >
           <div
-            className={`${styles[title]} ${styles[title + "-title"]}
+            key={itemTitle + Math.random()}
+            className={`${styles[title + "-title"]}
                ${styles["grid-item-title"]} 
                ${styles["grid-item-child"]}`}
           >
             {itemTitle}
           </div>
           <div
-            className={`${styles[title]} ${styles[title + "-text"]}
+            key={key + Math.random()}
+            className={` ${styles[title + "-text"]}
             ${styles["grid-item-text"]} 
             ${styles["grid-item-child"]}`}
             contentEditable={inEditMode}
             ref={(elm) => {
               //  Moving this out of processing to handle after elements added.
               setTimeout(() => {
-                editedTools.current.edits[title] = elm.innerText;
+                if (elm) editedTools.current.edits[title] = elm.innerText;
               }, 0);
             }}
             onBlur={(e) => {
@@ -175,9 +171,10 @@ function ToolRow(props) {
 
   // Add the edit button
   const output = (
-    <div key={key} id={key} class="tool-result-container">
-      <CardSecondary>
+    <div key={key + "1"} id={key} className="tool-result-container">
+      <CardSecondary key={key + "1"} styles={{ position: "relative" }}>
         <CollapsibleElm
+          key={key + "2"}
           id={key + "-collapsible-elm"}
           styles={{
             position: "relative",
@@ -204,8 +201,9 @@ function ToolRow(props) {
           open={inEditMode}
         >
           {AssembleInnerRow(tool, key, Object.keys(toolsMetadata))}
-          <div className={styles["button-container"]}>
+          <div key={key + "3"} className={styles["button-container"]}>
             <PushButton
+              key={key + "4"}
               inputOrButton="button"
               styles={{
                 gridArea: "edit",
@@ -233,6 +231,7 @@ function ToolRow(props) {
             {inEditMode && (
               <>
                 <PushButton
+                  key={Math.random(100)}
                   inputOrButton="input"
                   styles={{
                     type: "submit",
@@ -257,6 +256,7 @@ function ToolRow(props) {
                   Save Changes
                 </PushButton>
                 <PushButton
+                  key={key + "5"}
                   inputOrButton="input"
                   styles={{
                     type: "submit",
@@ -280,10 +280,10 @@ function ToolRow(props) {
                 >
                   Delete Tool
                 </PushButton>
-                <div className={styles["tool-id"]}>
-                  <p>
+                <div key={key + "6"} className={styles["tool-id"]}>
+                  <p key={Math.random(100)}>
                     Tool ID:
-                    <br />
+                    <br key={Math.random(100)} />
                     {key}
                   </p>
                 </div>
@@ -298,14 +298,20 @@ function ToolRow(props) {
   if (!deleted) {
     return (
       <Fragment>
-        {!inEditMode && output}
-        {inEditMode && <AddAQuestionForm formData={formInputData} />}
+        {output}
+        {inEditMode && (
+          <AddAQuestionForm
+            key={key + "7"}
+            saveOrUpdateData="update"
+            formData={groomedFormInputData}
+          />
+        )}
       </Fragment>
     );
   } else {
     return (
-      <div className={styles.deleted}>
-        <h3>This tool was deleted (ID: {key})</h3>
+      <div key={Math.random()} className={styles.deleted}>
+        <h3 key={key + "9"}>This tool was deleted (ID: {key})</h3>
       </div>
     );
   }

@@ -2,19 +2,38 @@ import styles from "./AddAToolFormElms.module.css";
 import { useState, useEffect, Fragment } from "react";
 import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
 import FormInput from "../../UI/Form/FormInput/FormInput";
-import { formInputData } from "../../data/formInputData";
-
+import GetPluginFormInputsWithOptions from "../../Hooks/GetPluginFormInputsWithOptions";
 function AddAToolFormElms(props) {
   const [formOpen, setFormOpen] = useState(true);
+  const [formInputData, setFormInputData] = useState(false);
+
+  useEffect(() => {
+    console.log(
+      "%c --> %cline:20%cformInputData",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(39, 72, 98);padding:3px;border-radius:2px",
+      formInputData
+    );
+  }, [formInputData]);
+
+  useEffect(() => {
+    GetPluginFormInputsWithOptions().then((res) => {
+      console.log(
+        "%c --> %cline:13%cres",
+        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+        "color:#fff;background:rgb(95, 92, 51);padding:3px;border-radius:2px",
+        res
+      );
+      setFormInputData(res);
+    });
+  }, []);
+
   // spreadsheet upload sends nested data groups, so blank form requests need to be nested here
-  const newFormInputData = props.formData ? props.formData : [formInputData];
-  console.log(
-    "%c --> %cline:10%cnewFormInputData",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px",
-    newFormInputData
-  );
+  let newFormInputData = [];
+  if (formInputData)
+    newFormInputData = props.formData ? props.formData : [formInputData];
 
   function cancelQuestionFormButtonHandler() {
     const close = window.confirm(

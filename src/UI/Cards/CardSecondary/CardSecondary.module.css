@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   /* border: 3px solid red; */
-  background: var(--iq-color-background-warm);
+  background: var(--iq-color-background-warm-gradient);
   color: var(--iq-color-accent);
   padding: 2rem;
   border-radius: 50px;

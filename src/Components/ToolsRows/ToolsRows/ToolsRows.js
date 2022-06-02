@@ -21,29 +21,17 @@ function ToolsRows(props) {
     }
   }
 
-  console.log(
-    "%c --> %cline:12%callTools",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(34, 8, 7);padding:3px;border-radius:2px",
-    allTools
-  );
-  console.log(
-    "%c --> %cline:36%callToolsRows",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(17, 63, 61);padding:3px;border-radius:2px",
-    allToolsRows
-  );
-
   return (
-    <div className={styles["tools-rows-list-container"]}>
+    <div key="toolsrows-1" className={styles["tools-rows-list-container"]}>
       {allToolsCount > 0 ? (
         Object.keys(allTools).map((key) => {
-          return <ToolRow tool={allTools[key]} keyOne={key} />;
+          return <ToolRow key={key} tool={allTools[key]} keyOne={key} />;
         })
       ) : (
-        <Card styles={{ borderRadius: "30px", padding: "3em" }}>
+        <Card
+          key="toolsrows-2"
+          styles={{ borderRadius: "30px", padding: "3em" }}
+        >
           {!props.showLoader && props.noQuestionsMessage}
           {props.showLoader && <BarLoader />}
         </Card>

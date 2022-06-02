@@ -12,7 +12,7 @@ const SlideButton = (props) => {
           onClick={props.onClick}
           className={styles["switch-input"]}
           value={props.label}
-          checked={props.checked}
+          defaultChecked={props.checked}
           data-data={props.data}
         />
         <span className={styles["slider"]}></span>

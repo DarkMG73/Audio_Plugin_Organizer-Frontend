@@ -5,6 +5,7 @@ import SlideButton from "../../UI/Buttons/Slide-Button/Slide-Button";
 import { escapeHtml } from "../../Hooks/utility";
 import SetFilteredToolIdList from "../../Hooks/SetFilteredToolList";
 import { audioToolDataActions } from "../../store/audioToolDataSlice";
+import CollapsibleElm from "../../UI/CollapsibleElm/CollapsibleElm";
 
 function FilterTools(props) {
   const allToolsData = useSelector((state) => state.toolsData);
@@ -18,13 +19,6 @@ function FilterTools(props) {
   } = allToolsData;
 
   useEffect(() => {
-    console.log(
-      "%c --> %cline:24%ccurrentFilters",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
-      currentFilters
-    );
     dispatch(audioToolDataActions.clearToolFilterIds);
     const filteredToolIdList = SetFilteredToolIdList(allTools, currentFilters);
     dispatch(audioToolDataActions.setToolFilterIds(filteredToolIdList));
@@ -93,27 +87,66 @@ function FilterTools(props) {
   // return <div>Filter</div>;
   return (
     <div id="tool-filter" className={styles.outerwrap}>
-      <h2 class="section-title">Tool Filter</h2>
+      <h2 className="section-title">Tool Filter</h2>
       <div className={styles["slide-button-wrap"]}>
         {Object.keys(currentFilters).map((topic) => {
           if (topic === "name") return;
           return (
-            <div className={styles["slide-button-inner-wrap"]}>
-              <h3 className={styles["slide-button-inner-wrap-title"]}>
-                {topic}
-              </h3>
-              {toolsMetadata[topic].map((entry) => {
-                return (
-                  <SlideButton
-                    key={currentFilters[topic + " " + entry]}
-                    label={entry}
-                    onClick={filterButtonHandler}
-                    checked={currentFilters[topic].includes(entry)}
-                    data={topic}
-                  />
-                );
-              })}
-            </div>
+            <CollapsibleElm
+              key={topic + "2"}
+              id={topic + "-collapsible-elm"}
+              styles={{
+                position: "relative",
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "space-between",
+              }}
+              maxHeight="9em"
+              inputOrButton="button"
+              buttonStyles={{
+                margin: "0 auto",
+                letterSpacing: "0.25em",
+                fontVariant: "small-caps",
+                transform: "translateY(0%)",
+                transition: "0.7s all ease",
+                minWidth: "100%",
+                textAlign: "center",
+                display: "flex",
+                alignItems: "center",
+                zIndex: "10",
+                boxShadow: "inset 0px -7px 10px -7px white",
+                background: "transparent",
+                borderRadius: "25px",
+                paddingBottom: "1em",
+              }}
+              colorType="secondary"
+              data=""
+              size="small"
+              open={false}
+            >
+              <div
+                key={topic + "1"}
+                className={styles["slide-button-inner-wrap"]}
+              >
+                <h3
+                  key={topic + "2"}
+                  className={styles["slide-button-inner-wrap-title"]}
+                >
+                  {topic}
+                </h3>
+                {toolsMetadata[topic].map((entry) => {
+                  return (
+                    <SlideButton
+                      key={entry + "3"}
+                      label={entry}
+                      onClick={filterButtonHandler}
+                      checked={currentFilters[topic].includes(entry)}
+                      data={topic}
+                    />
+                  );
+                })}
+              </div>
+            </CollapsibleElm>
           );
         })}
       </div>

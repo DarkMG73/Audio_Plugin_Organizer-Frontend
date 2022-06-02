@@ -5,13 +5,6 @@ const DbInteractions = (props) => {
 };
 
 export function savePlugin(dataObj) {
-  console.log(
-    "%c --> %cline:7%cdataObj",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
-    dataObj
-  );
   axios
     .get(`/api/all-plugins/add/`, { params: dataObj })
     .then((res) => {
@@ -24,20 +17,6 @@ export function savePlugin(dataObj) {
 }
 
 export function updateAPlugin(id, dataObj) {
-  console.log(
-    "%c --> %cline:26%cdataObj",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
-    dataObj
-  );
-  console.log(
-    "%c --> %cline:7%cdataObj",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
-    id
-  );
   axios
     .get(`/api/all-plugins/update/`, { params: dataObj })
     .then((res) => {
@@ -50,13 +29,6 @@ export function updateAPlugin(id, dataObj) {
 }
 
 export function deleteAPlugin(id) {
-  console.log(
-    "%c --> %cline:7%cdataObj",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
-    id
-  );
   axios
     .get(`/api/all-plugins/${id}/delete/`)
     .then((res) => {
@@ -67,4 +39,20 @@ export function deleteAPlugin(id) {
       console.log("errors", err.response.data.err.message);
     });
 }
+
+export async function getSchemaForAudioPlugin() {
+  const output = await axios
+    .get(`/api/all-plugins/model/`)
+    .then((res) => {
+      console.log("res", res);
+      return res;
+    })
+    .catch((err) => {
+      console.log("err", err);
+      console.log("errors", err.response.data.err.message);
+    });
+
+  return output;
+}
+
 export default DbInteractions;

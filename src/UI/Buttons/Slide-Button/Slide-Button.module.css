@@ -3,6 +3,7 @@
   position: relative;
   display: inline-block;
   width: 60px;
+  height: 1.25em;
 }
 
 /* Hide default HTML checkbox */
@@ -20,7 +21,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--iq-color-background-warm);
+  background: var(--iq-color-background-warm-gradient);
   box-shadow: inset 1px 1px 7px -5px black,
     inset 30px 30px 30px -15px rgba(0, 0, 0, 0.077), 1px 1px 7px -5px white,
     inset -1px -1px 7px -5px white;
@@ -34,7 +35,7 @@
   min-height: 100%;
   width: 50%;
   left: 0;
-  background-color: var(--iq-color-background-warm);
+  background: var(--iq-color-background-warm-gradient);
   box-shadow: inset -1px -1px 7px -5px black,
     inset 30px 30px 30px -15px rgb(255 255 255 / 51%), 1px 1px 7px -5px white,
     inset 1px 1px 7px -5px white, 2px 2px 7px -5px black;
@@ -67,10 +68,9 @@ input:checked + .slider:before {
 .slide-button-wrap {
   display: flex;
   margin: 0.5em auto;
-  min-width: 9em;
+  min-width: 100%;
   flex-grow: 1;
-  justify-content: center;
-  flex-wrap: wrap;
+  align-items: center;
 }
 
 .title::first-letter {
@@ -79,6 +79,6 @@ input:checked + .slider:before {
 
 .title {
   font: var(--iq-font-body-text);
-  min-width: 100%;
-  margin: 0.5em auto 0.25em;
+  width: calc(100% - 60px);
+  /* margin: 0.5em auto 0.25em; */
 }

@@ -23,39 +23,18 @@ export const audioToolDataSlice = createSlice({
     },
 
     addToToolFilters: (state, action) => {
-      console.log(
-        "%c --> %cline:26%caction.payload",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(60, 79, 57);padding:3px;border-radius:2px",
-        action.payload
-      );
       state.currentFilters[action.payload.type] = [
         ...state.currentFilters[action.payload.type],
         action.payload.value,
       ];
     },
     removeFromToolFilters: (state, action) => {
-      console.log(
-        "%c --> %cline:26%caction.payload",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(60, 79, 57);padding:3px;border-radius:2px",
-        action.payload
-      );
       let newState = [...state.currentFilters[action.payload.type]];
 
       newState.splice(newState.indexOf(action.payload.value), 1);
       state.currentFilters[action.payload.type] = newState;
     },
     setToolFilterIds: (state, action) => {
-      console.log(
-        "%c --> %cline:52%caction.payload",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(178, 190, 126);padding:3px;border-radius:2px",
-        action.payload
-      );
       state.filteredToolsIds = [...action.payload];
     },
     clearToolFilterIds: (state, action) => {

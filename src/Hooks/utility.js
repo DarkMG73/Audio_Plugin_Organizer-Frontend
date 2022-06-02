@@ -1,5 +1,3 @@
-import { formInputData } from "../data/formInputData";
-
 export function hyphenate(string, indexBreakPoint, separator) {
   const firstHalf = string.substring(0, indexBreakPoint);
   const secondHalf = string.substring(indexBreakPoint, string.length);
@@ -107,98 +105,73 @@ const createKeyValueObjectsArray = (formOutputArray) => {
   return outputArray;
 };
 
-export const groomFormOutput = (formOutputArray) => {
-  console.log(
-    "%c --> %cline:110%cformOutputArray",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
-    formOutputArray
-  );
-  const pairedObjectsArray = createKeyValueObjectsArray(formOutputArray);
-  console.log(
-    "%c --> %cline:24%cpairedObjectsArray",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(179, 214, 110);padding:3px;border-radius:2px",
-    pairedObjectsArray
-  );
+export const groomFormOutput = (formOutputArray, formInputData) => {
+  const pairedObjectsArray = formOutputArray;
 
   const outputArray = [];
   pairedObjectsArray.forEach((row) => {
-    console.log(
-      "%c --> %cline:29%crow",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
-      row
-    );
     const rowGroup = [];
     let assembledRow = {};
     formInputData.forEach((inputData, i) => {
-      console.log(
-        "%c --> %cline:32%cinputData",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(56, 13, 49);padding:3px;border-radius:2px",
-        inputData
-      );
       assembledRow = { ...inputData };
-      console.log(
-        "%c --> %cline:54%c_____________________",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px"
-      );
-
-      console.log(
-        "%c --> %cline:29%crow",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
-        row
-      );
-      console.log(
-        "%c --> %cline:54%cinputData.title",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px",
-        inputData.name
-      );
-      console.log(
-        "%c --> %cline:67%crow[inputData.title]",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
-        row[inputData.name]
-      );
-      console.log(
-        "%c --> %cline:67%crow[inputData.title]",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
-        row["name"]
-      );
 
       assembledRow.preFilledData = row[inputData.name]
         ? row[inputData.name]
         : "";
-      console.log(
-        "%c --> %cline:70%cassembledRow",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(60, 79, 57);padding:3px;border-radius:2px",
-        assembledRow
-      );
-      console.log(
-        "%c --> %cline:54%c_____________________",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px"
-      );
+
       rowGroup.push(assembledRow);
     });
     outputArray.push(rowGroup);
   });
   return outputArray;
+};
+
+export const toTitleCase = (str, spaceAtCamelCase = false) => {
+  if (spaceAtCamelCase) {
+    str = [...str].map((character) => {
+      console.log(
+        "%c --> %cline:131%ccharacter",
+        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+        "color:#fff;background:rgb(20, 68, 106);padding:3px;border-radius:2px",
+        character
+      );
+      console.log(
+        "%c --> %cline:133%c!isNaN(character * 1)",
+        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+        "color:#fff;background:rgb(237, 222, 139);padding:3px;border-radius:2px",
+        !isNaN(character * 1)
+      );
+      console.log(
+        "%c --> %cline:134%ccharacter == character.toUpperCase()",
+        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+        "color:#fff;background:rgb(227, 160, 93);padding:3px;border-radius:2px",
+        character == character.toUpperCase()
+      );
+      if (!isNaN(character * 1) && character == character.toUpperCase()) {
+        console.log(
+          "%c --> %cline:133%cWITH SPACEcharacter",
+          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+          "color:#fff;background:rgb(1, 77, 103);padding:3px;border-radius:2px",
+          character
+        );
+        return "-" + character;
+      }
+      console.log(
+        "%c --> %cline:133%cNO SPACEcharacter",
+        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+        "color:#fff;background:rgb(130, 57, 53);padding:3px;border-radius:2px",
+        character
+      );
+      return character;
+    });
+  }
+  str = str.join("");
+  return str.replace(/\w\S*/g, function (txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
 };

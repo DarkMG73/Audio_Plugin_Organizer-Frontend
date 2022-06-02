@@ -122,7 +122,7 @@ function AddATool(props) {
   return (
     <div id="output-controls" className={styles.outerwrap}>
       <div id="add-quest-wrap" className={styles["add-quest-wrap"]}>
-        <h2 class="section-title">Add A Tool Here</h2>
+        <h2 className="section-title">Add A Tool Here</h2>
         <p>
           To add questions to this tool, simply click the{" "}
           <i>Create an Entry Form</i> button and fill out the small form. Feel
@@ -243,8 +243,13 @@ function AddATool(props) {
             </PushButton>
             <CSVReader setFileUploadArray={setFileUploadArray} />
           </div>
-          {showAddQuestionForm && <AddAQuestionForm />}
-          {fileUploadArray && <AddAQuestionForm formData={fileUploadArray} />}
+          {showAddQuestionForm && <AddAQuestionForm saveOrUpdateData="save" />}
+          {fileUploadArray && (
+            <AddAQuestionForm
+              saveOrUpdateData="save"
+              formData={fileUploadArray}
+            />
+          )}
         </div>
       </div>
     </div>

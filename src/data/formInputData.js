@@ -1,5 +1,5 @@
-export const formInputData = [
-  {
+export const formInputData = {
+  name: {
     title: "Name",
     name: "name",
     type: "text",
@@ -7,7 +7,7 @@ export const formInputData = [
     required: true,
     preFilledData: "",
   },
-  {
+  company: {
     title: "Company",
     name: "company",
     type: "select",
@@ -15,7 +15,7 @@ export const formInputData = [
     required: "true",
     preFilledData: "",
   },
-  {
+  functions: {
     title: "Functions",
     name: "functions",
     type: "checkbox",
@@ -24,7 +24,7 @@ export const formInputData = [
     required: "false",
     preFilledData: "",
   },
-  {
+  precision: {
     title: "Precision",
     name: "precision",
     type: "checkbox",
@@ -33,8 +33,8 @@ export const formInputData = [
     required: "false",
     preFilledData: "",
   },
-  {
-    title: "color",
+  color: {
+    title: "Color",
     name: "color",
     type: "checkbox",
     options: [
@@ -49,7 +49,7 @@ export const formInputData = [
     required: "false",
     preFilledData: "",
   },
-  {
+  productURL: {
     title: "Product Page Link",
     name: "productURL",
     type: "url",
@@ -57,7 +57,7 @@ export const formInputData = [
     required: false,
     preFilledData: "",
   },
-  {
+  photoURL: {
     title: "Photo Link",
     name: "photoURL",
     type: "url",
@@ -65,7 +65,7 @@ export const formInputData = [
     required: false,
     preFilledData: "",
   },
-  {
+  favorite: {
     title: "Favorite",
     name: "favorite",
     type: "checkbox",
@@ -73,7 +73,7 @@ export const formInputData = [
     required: false,
     preFilledData: "",
   },
-  {
+  rating: {
     title: "Rating (1=Low & 5=Best)",
     name: "rating",
     type: "checkbox",
@@ -81,7 +81,7 @@ export const formInputData = [
     required: false,
     preFilledData: "",
   },
-  {
+  notes: {
     title: "Notes",
     name: "notes",
     type: "textarea",
@@ -89,4 +89,4 @@ export const formInputData = [
     required: "false",
     preFilledData: "",
   },
-];
+};

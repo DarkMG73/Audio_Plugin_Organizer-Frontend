@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./CSVReader.module.css";
 import { useCSVReader } from "react-papaparse";
-import { formInputData } from "../../../data/formInputData";
+import GetPluginFormInputsWithOptions from "../../../Hooks/GetPluginFormInputsWithOptions";
 
 export default function CSVReader(props) {
   const { CSVReader } = useCSVReader();
+  const [formInputData, setFormInputData] = useState(false);
+  useEffect(() => {
+    GetPluginFormInputsWithOptions().then((res) => {
+      console.log(
+        "%c --> %cline:13%cres",
+        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+        "color:#fff;background:rgb(95, 92, 51);padding:3px;border-radius:2px",
+        res
+      );
+      setFormInputData(res);
+    });
+  }, []);
 
   const createKeyValueObjectsArray = (csvOutputArray) => {
     const outputArray = [];
@@ -22,86 +35,18 @@ export default function CSVReader(props) {
 
   const groomCSVOutput = (csvOutputArray) => {
     const pairedObjectsArray = createKeyValueObjectsArray(csvOutputArray);
-    console.log(
-      "%c --> %cline:24%cpairedObjectsArray",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(179, 214, 110);padding:3px;border-radius:2px",
-      pairedObjectsArray
-    );
 
     const outputArray = [];
     pairedObjectsArray.forEach((row) => {
-      console.log(
-        "%c --> %cline:29%crow",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
-        row
-      );
       const rowGroup = [];
       let assembledRow = {};
       formInputData.forEach((inputData, i) => {
-        console.log(
-          "%c --> %cline:32%cinputData",
-          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-          "color:#fff;background:rgb(56, 13, 49);padding:3px;border-radius:2px",
-          inputData
-        );
         assembledRow = { ...inputData };
-        console.log(
-          "%c --> %cline:54%c_____________________",
-          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-          "color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px"
-        );
-
-        console.log(
-          "%c --> %cline:29%crow",
-          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-          "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
-          row
-        );
-        console.log(
-          "%c --> %cline:54%cinputData.title",
-          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-          "color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px",
-          inputData.name
-        );
-        console.log(
-          "%c --> %cline:67%crow[inputData.title]",
-          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-          "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
-          row[inputData.name]
-        );
-        console.log(
-          "%c --> %cline:67%crow[inputData.title]",
-          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-          "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
-          row["name"]
-        );
 
         assembledRow.preFilledData = row[inputData.name]
           ? row[inputData.name]
           : "";
-        console.log(
-          "%c --> %cline:70%cassembledRow",
-          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-          "color:#fff;background:rgb(60, 79, 57);padding:3px;border-radius:2px",
-          assembledRow
-        );
-        console.log(
-          "%c --> %cline:54%c_____________________",
-          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-          "color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px"
-        );
+
         rowGroup.push(assembledRow);
       });
       outputArray.push(rowGroup);
@@ -112,9 +57,6 @@ export default function CSVReader(props) {
   return (
     <CSVReader
       onUploadAccepted={(results) => {
-        console.log("---------------------------");
-        console.log(results);
-        console.log("---------------------------");
         const groomedCSVOutput = groomCSVOutput(results.data);
         console.log(
           "%c --> %cline:27%cgroomedCSVOutput",

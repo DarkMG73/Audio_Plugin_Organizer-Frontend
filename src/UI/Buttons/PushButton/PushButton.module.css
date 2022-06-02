@@ -32,7 +32,7 @@
 }
 
 .button.secondary {
-  background: var(--iq-color-background-warm);
+  background: var(--iq-color-background-warm-gradient);
   color: var(--iq-color-accent);
 }
 .button.secondary.selected {
@@ -72,4 +72,10 @@
   font: var(--iq-font-body-text);
   font-size: 1.5em;
   font-weight: 700;
+}
+
+.button > span {
+  width: inherit;
+  min-width: inherit;
+  max-width: inherit;
 }

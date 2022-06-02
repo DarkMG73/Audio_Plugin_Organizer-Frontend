@@ -4,7 +4,7 @@ import PushButton from "../../UI/Buttons/PushButton/PushButton";
 import AddAQuestionFormElms from "./AddAToolFormElms";
 import { sha256 } from "js-sha256";
 // import { addDocToDB } from "../../storage/firebase.config";
-import { savePlugin } from "../../Hooks/DbInteractions";
+import { savePlugin, updateAPlugin } from "../../Hooks/DbInteractions";
 
 function AddAToolForm(props) {
   // const userLoggedIn = useSelector((state) => state.loginStatus.userLoggedIn);
@@ -31,11 +31,18 @@ function AddAToolForm(props) {
     const data = new FormData(e.target.parentNode);
 
     let dataEntries = [...data.entries()];
+    console.log(
+      "%c --> %cline:33%cdataEntries",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(3, 38, 58);padding:3px;border-radius:2px",
+      dataEntries
+    );
     let foundRequiredError = false;
 
     /////// Groom Data ///////
     // Convert string lists to arrays
-    const entriesRequiringArrays = ["use", "precision", "color"];
+    const entriesRequiringArrays = ["functions", "precision", "color"];
     const sortedDataEntries = [];
     dataEntries.forEach((entry) => {
       if (!entriesRequiringArrays.includes(entry[0])) {
@@ -47,32 +54,10 @@ function AddAToolForm(props) {
         });
       }
     });
-    console.log(
-      "%c --> %cline:46%csortedDataEntries",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
-      sortedDataEntries
-    );
 
     // Trim leading and trailing whitespace and add the id to preserve order reference
     let companySelections = [];
     sortedDataEntries.forEach((entry, i) => {
-      sortedDataEntries[i][0] === "NEWGROUP" ||
-        console.log(
-          "%c --> %cline:62%csortedDataEntries[i][0]",
-          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-          "color:#fff;background:rgb(248, 214, 110);padding:3px;border-radius:2px",
-          sortedDataEntries[i][0]
-        );
-      console.log(
-        "%c --> %cline:66%csortedDataEntries[i][0].includes(URL)",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(248, 147, 29);padding:3px;border-radius:2px",
-        sortedDataEntries[i][0].includes("URL")
-      );
       if (
         sortedDataEntries[i][0] === "NEWGROUP" ||
         sortedDataEntries[i][0].includes("URL")
@@ -180,13 +165,6 @@ function AddAToolForm(props) {
     // For example, converting to upper case
     // data.set('username', data.get('username').toUpperCase());
 
-    console.log(
-      "%c --> %cline:80%ctoolsGroomed",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(95, 92, 51);padding:3px;border-radius:2px",
-      toolsGroomed
-    );
     for (const key in toolsGroomed) {
       const theData = toolsGroomed[key];
 
@@ -201,7 +179,18 @@ function AddAToolForm(props) {
         //   analog: true,
         //   precise: false,
         // });
-        savePlugin(theData);
+
+        console.log(
+          "%c --> %cline:213%ctheData",
+          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+          "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
+          theData
+        );
+
+        if (props.saveOrUpdateData === "save") savePlugin(theData);
+        if (props.saveOrUpdateData === "update")
+          updateAPlugin(theData.id, theData);
       } else {
         const questionAdminEmail = "general@glassinteractive.com";
         const subject = "A New Question for the Interview Questions Tool";

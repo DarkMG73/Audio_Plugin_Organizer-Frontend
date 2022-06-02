@@ -23,14 +23,15 @@
 }
 
 .tools-rows-list-container > div {
-  min-width: min-content;
+  width: 100%;
   max-width: 100%;
   min-height: max-content;
-
-  /* margin: 14rem auto; */
-  flex-basis: 24%;
-  border-radius: 50%;
-  margin: 0.5em;
+  margin: 0;
+  flex-basis: 23%;
+  border-radius: 50px;
+  margin: 1%;
+  overflow: hidden;
+  flex-grow: 1;
 }
 
 .tool-row-list-container > div {

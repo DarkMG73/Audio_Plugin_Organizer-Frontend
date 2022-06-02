@@ -17,26 +17,11 @@ function ToolsRowsList(props) {
   let toolsToDisplay = { ...allTools };
 
   if (filteredToolsIds.length > 0) {
-    console.log(
-      "%c --> %cline:18%cfilteredToolsIds",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(229, 187, 129);padding:3px;border-radius:2px",
-      filteredToolsIds
-    );
     toolsToDisplay = {};
     filteredToolsIds.forEach((id) => {
       toolsToDisplay[id] = allTools[id];
     });
   }
-
-  console.log(
-    "%c --> %cline:17%ctoolsToDisplay",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
-    toolsToDisplay
-  );
 
   let noQuestionsMessage = (
     <p>
@@ -65,10 +50,13 @@ function ToolsRowsList(props) {
     }
   }
   return (
-    <div id="tool-row-list" className={styles.outerwrap}>
-      <h2 class="section-title">Plugins and other Tools</h2>
+    <div key="toolsrowsList-1" id="tool-row-list" className={styles.outerwrap}>
+      <h2 key="toolsrowsList-2" className="section-title">
+        Plugins and other Tools
+      </h2>
 
       <ToolsRows
+        key="toolsrowsList-3"
         allTools={toolsToDisplay}
         showLoader={props.showLoader}
         noQuestionsMessage={noQuestionsMessage}
