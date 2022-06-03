@@ -1,0 +1,9 @@
+.edit-buttons-wrap {
+  position: absolute;
+  display: flex;
+  border: 0;
+  min-width: 100%;
+  max-width: 100%;
+  transform: translateY(-100%);
+  min-height: min-content !important;
+}

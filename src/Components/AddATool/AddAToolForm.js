@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import styles from "./AddAToolForm.module.css";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
 import AddAQuestionFormElms from "./AddAToolFormElms";
 import { sha256 } from "js-sha256";
 // import { addDocToDB } from "../../storage/firebase.config";
 import { savePlugin, updateAPlugin } from "../../Hooks/DbInteractions";
+import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
 
 function AddAToolForm(props) {
   // const userLoggedIn = useSelector((state) => state.loginStatus.userLoggedIn);
@@ -28,7 +29,7 @@ function AddAToolForm(props) {
   function submitButtonHandler(e) {
     e.preventDefault();
     setRequiredError(false);
-    const data = new FormData(e.target.parentNode);
+    const data = new FormData(e.target.closest("form#add-quest-form"));
 
     let dataEntries = [...data.entries()];
     console.log(
@@ -149,17 +150,36 @@ function AddAToolForm(props) {
     for (const key in sortedDataEntriesObj) {
       sortedDatedEntriesArray.push(sortedDataEntriesObj[key]);
     }
-
+    console.log(
+      "%c --> %cline:150%csortedDatedEntriesArray",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(60, 79, 57);padding:3px;border-radius:2px",
+      sortedDatedEntriesArray
+    );
     // Replace the temp ID's with a hash based on the question title
     const toolsGroomed = {};
+
     for (const i in sortedDatedEntriesArray) {
       const d = new Date();
       let year = d.getFullYear();
       const hasId = sha256(JSON.stringify(sortedDatedEntriesArray[i]));
-      const newId = year + "-" + hasId;
+      const newId = sortedDatedEntriesArray[i]._id
+        ? sortedDatedEntriesArray[i]._id
+        : year + "-" + hasId;
       toolsGroomed[newId] = sortedDatedEntriesArray[i];
       toolsGroomed[newId].id = newId;
+
+      if (sortedDatedEntriesArray[i].hasOwnProperty("_id"))
+        delete sortedDatedEntriesArray[i]._id;
     }
+    console.log(
+      "%c --> %cline:160%ctoolsGroomed",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(179, 214, 110);padding:3px;border-radius:2px",
+      toolsGroomed
+    );
 
     // Access FormData fields with `data.get(fieldName)`
     // For example, converting to upper case
@@ -213,7 +233,53 @@ function AddAToolForm(props) {
   return (
     <form action="" id="add-quest-form" className={styles["inner-wrap form"]}>
       <div className={styles["inner-wrap"]}>
-        {formJSX.map((formElms) => formElms)}
+        {formJSX.map((formElms) => (
+          <Fragment>
+            <CardPrimary styles={{ position: "relative" }}>
+              {" "}
+              {formElms}
+            </CardPrimary>
+            {props.removeAddMoreButton && (
+              <div className={styles["edit-buttons-wrap"]}>
+                <PushButton
+                  inputOrButton="input"
+                  type="submit"
+                  id="quest-submit-btn"
+                  colorType="primary"
+                  value="Submit"
+                  data=""
+                  size="small"
+                  onClick={submitButtonHandler}
+                  styles={{
+                    ...props.buttonStyles,
+                    borderRadius: "10px 2.5px 2.5px 10px",
+                  }}
+                >
+                  Submit
+                </PushButton>
+                <PushButton
+                  inputOrButton="input"
+                  type="submit"
+                  id="quest-submit-btn"
+                  colorType="primary"
+                  value="Delete"
+                  data=""
+                  size="small"
+                  onClick={submitButtonHandler}
+                  styles={{
+                    ...props.buttonStyles,
+                    flexBasis: " 25%",
+                    color: "var( --iq-color-background-warm",
+                    background: "var( --iq-color-accent-gradient)",
+                    borderRadius: "2.5px 10px 10px 2.5px",
+                  }}
+                >
+                  Delete Tool
+                </PushButton>
+              </div>
+            )}
+          </Fragment>
+        ))}
         {requiredError && (
           <div className={styles["error-text"]}>
             <p>
@@ -222,31 +288,36 @@ function AddAToolForm(props) {
             </p>
           </div>
         )}
-        <PushButton
-          inputOrButton="button"
-          id="quest-submit-btn"
-          colorType="primary"
-          value="Add another Question"
-          data=""
-          size="small"
-          onClick={addAnotherQuestionFormButtonHandler}
-        >
-          Add another Question
-        </PushButton>
+        {!props.removeAddMoreButton && (
+          <Fragment>
+            <PushButton
+              inputOrButton="button"
+              id="quest-submit-btn"
+              colorType="primary"
+              value="Add another Question"
+              data=""
+              size="small"
+              onClick={addAnotherQuestionFormButtonHandler}
+              styles={props.buttonStyles}
+            >
+              Add another Question
+            </PushButton>
+            <PushButton
+              inputOrButton="input"
+              type="submit"
+              id="quest-submit-btn"
+              colorType="primary"
+              value="Submit"
+              data=""
+              size="small"
+              onClick={submitButtonHandler}
+              styles={props.buttonStyles}
+            >
+              Submit
+            </PushButton>
+          </Fragment>
+        )}
       </div>
-
-      <PushButton
-        inputOrButton="input"
-        type="submit"
-        id="quest-submit-btn"
-        colorType="primary"
-        value="Submit"
-        data=""
-        size="small"
-        onClick={submitButtonHandler}
-      >
-        Submit
-      </PushButton>
     </form>
   );
 }

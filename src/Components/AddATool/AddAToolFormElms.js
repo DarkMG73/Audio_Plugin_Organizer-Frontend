@@ -1,6 +1,5 @@
 import styles from "./AddAToolFormElms.module.css";
 import { useState, useEffect, Fragment } from "react";
-import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
 import FormInput from "../../UI/Form/FormInput/FormInput";
 import GetPluginFormInputsWithOptions from "../../Hooks/GetPluginFormInputsWithOptions";
 function AddAToolFormElms(props) {
@@ -46,31 +45,29 @@ function AddAToolFormElms(props) {
     <Fragment>
       {formOpen &&
         newFormInputData.map((formDataGroup) => (
-          <CardPrimary styles={{ position: "relative" }}>
-            <div
-              id={Math.random()}
-              key={Math.random()}
-              className={styles["form-group-wrap"]}
-            >
-              {/* This hidden input separates input groups */}
-              <input name="NEWGROUP" value="NEWGROUP" hidden />
-              {formDataGroup.map((inputData, i) => {
-                return (
-                  <FormInput
-                    inputDataObj={inputData}
-                    requiredError={props.requiredError}
-                  />
-                );
-              })}
+          <div
+            id={Math.random()}
+            key={Math.random()}
+            className={styles["form-group-wrap"]}
+          >
+            {/* This hidden input separates input groups */}
+            <input name="NEWGROUP" value="NEWGROUP" hidden />
+            {formDataGroup.map((inputData, i) => {
+              return (
+                <FormInput
+                  inputDataObj={inputData}
+                  requiredError={props.requiredError}
+                />
+              );
+            })}
 
-              <button
-                className={styles["close-question-form-button"]}
-                onClick={cancelQuestionFormButtonHandler}
-              >
-                X
-              </button>
-            </div>
-          </CardPrimary>
+            <button
+              className={styles["close-question-form-button"]}
+              onClick={cancelQuestionFormButtonHandler}
+            >
+              X
+            </button>
+          </div>
         ))}
     </Fragment>
   );

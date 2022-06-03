@@ -5,7 +5,7 @@ import PushButton from "../../../UI/Buttons/PushButton/PushButton";
 import { isValidHttpUrl, groomFormOutput } from "../../../Hooks/utility";
 import CardSecondary from "../../../UI/Cards/CardSecondary/CardSecondary";
 import CollapsibleElm from "../../../UI/CollapsibleElm/CollapsibleElm";
-import AddAQuestionForm from "../..//AddATool/AddAToolForm";
+import AddAToolForm from "../..//AddATool/AddAToolForm";
 // import { addDocToDB, deleteDocFromDb } from "../../storage/firebase.config";
 import {
   updateAPlugin as addDocToDB,
@@ -48,6 +48,13 @@ function ToolRow(props) {
   const toolFormDataArray = [tool];
   if (formInputData)
     groomedFormInputData = groomFormOutput(toolFormDataArray, formInputData);
+  console.log(
+    "%c --> %cline:50%cgroomedFormInputData",
+    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+    "color:#fff;background:rgb(237, 222, 139);padding:3px;border-radius:2px",
+    groomedFormInputData
+  );
 
   const rowEditButtonHandler = (e, setElmOpen) => {
     setInEditMode(!inEditMode);
@@ -292,22 +299,33 @@ function ToolRow(props) {
           </div>
         </CollapsibleElm>
       </CardSecondary>
+      {inEditMode && (
+        <div className={styles["editing-fields-wrap"]}>
+          <AddAToolForm
+            key={key + "7"}
+            saveOrUpdateData="update"
+            formData={groomedFormInputData}
+            removeAddMoreButton={true}
+            styles={{ minHeight: "100%" }}
+            buttonStyles={{
+              height: "3em",
+              width: "100%",
+              left: "0",
+              background: "var( --iq-color-background-warm-gradient)",
+              fontSize: "24px",
+              letterSpacing: "0.5em",
+              textTransform: "uppercase",
+              margin: "auto",
+              color: "var( --iq-color-accent)",
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 
   if (!deleted) {
-    return (
-      <Fragment>
-        {output}
-        {inEditMode && (
-          <AddAQuestionForm
-            key={key + "7"}
-            saveOrUpdateData="update"
-            formData={groomedFormInputData}
-          />
-        )}
-      </Fragment>
-    );
+    return <div className={styles["tool-row-wrap"]}>{output}</div>;
   } else {
     return (
       <div key={Math.random()} className={styles.deleted}>

@@ -171,3 +171,20 @@ button.edit {
 .photoURL {
   min-width: 100%;
 }
+
+.tool-row-wrap {
+  position: relative;
+}
+.editing-fields-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0.95;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  background: var(--iq-color-background-warm-gradient);
+  color: var(--iq-color-accent);
+}

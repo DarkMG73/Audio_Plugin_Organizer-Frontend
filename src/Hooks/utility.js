@@ -105,8 +105,27 @@ const createKeyValueObjectsArray = (formOutputArray) => {
   return outputArray;
 };
 
-export const groomFormOutput = (formOutputArray, formInputData) => {
+export const groomFormOutput = (formOutputArray, passFormInputData) => {
   const pairedObjectsArray = formOutputArray;
+
+  // The _id field must remain to allow the ID to be passed on DB item updates.
+  const idData = {
+    title: "Tool ID",
+    name: "_id",
+    type: "textarea",
+    options: [],
+    required: "false",
+    preFilledData: "",
+  };
+
+  const formInputData = [...passFormInputData, idData];
+  console.log(
+    "%c --> %cline:109%cpairedObjectsArray",
+    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+    "color:#fff;background:rgb(3, 22, 52);padding:3px;border-radius:2px",
+    pairedObjectsArray
+  );
 
   const outputArray = [];
   pairedObjectsArray.forEach((row) => {
@@ -121,6 +140,7 @@ export const groomFormOutput = (formOutputArray, formInputData) => {
 
       rowGroup.push(assembledRow);
     });
+
     outputArray.push(rowGroup);
   });
   return outputArray;
