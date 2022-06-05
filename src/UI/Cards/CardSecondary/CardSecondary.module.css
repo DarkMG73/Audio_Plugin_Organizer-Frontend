@@ -3,7 +3,7 @@
   flex-direction: column;
   /* border: 3px solid red; */
   background: var(--iq-color-background-warm-gradient);
-  color: var(--iq-color-accent);
+  color: var(--iq-color-foreground);
   padding: 2rem;
   border-radius: 50px;
   box-shadow: inset -1px -1px 14px -7px rgb(255 255 255),
@@ -13,5 +13,5 @@
 }
 
 card-secondary a {
-  color: var(--iq-color-accent);
+  color: var(--iq-color-foreground);
 }

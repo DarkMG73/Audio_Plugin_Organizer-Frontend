@@ -69,8 +69,8 @@
 
 .loader2 span:nth-child(2) {
   left: 25px;
-  background-color: var(--iq-color-accent);
-  box-shadow: 0 0 20px var(--iq-color-accent);
+  background-color: var(--iq-color-foreground);
+  box-shadow: 0 0 20px var(--iq-color-foreground);
   animation: loader2 3s ease infinite 0.15s;
 }
 
@@ -83,8 +83,8 @@
 
 .loader2 span:nth-child(4) {
   left: 75px;
-  background-color: var(--iq-color-accent);
-  box-shadow: 0 0 20px var(--iq-color-accent);
+  background-color: var(--iq-color-foreground);
+  box-shadow: 0 0 20px var(--iq-color-foreground);
   animation: loader2 3s ease infinite 0.6s;
 }
 .loader2 span:nth-child(5) {
@@ -96,8 +96,8 @@
 
 .loader2 span:nth-child(6) {
   left: 128px;
-  background-color: var(--iq-color-accent);
-  box-shadow: 0 0 20px var(--iq-color-accent);
+  background-color: var(--iq-color-foreground);
+  box-shadow: 0 0 20px var(--iq-color-foreground);
   animation: loader2 3s ease infinite 0.9s;
 }
 .loader2 span:nth-child(7) {
@@ -109,7 +109,7 @@
 
 .loader2 span:nth-child(8) {
   left: 175px;
-  background-color: var(--iq-color-accent);
-  box-shadow: 0 0 20px var(--iq-color-accent);
+  background-color: var(--iq-color-foreground);
+  box-shadow: 0 0 20px var(--iq-color-foreground);
   animation: loader2 3s ease infinite 1.2s;
 }

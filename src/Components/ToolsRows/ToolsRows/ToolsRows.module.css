@@ -3,7 +3,6 @@
   flex-wrap: wrap;
   /* max-height: 10em; */
   overflow-x: hidden;
-  overflow-y: scroll;
   padding: 0 2em;
 }
 .history-section-title {
@@ -11,7 +10,7 @@
   font-variant: small-caps;
   /* font-size: 1.75em; */
   /* background: var(--iq-color-background-warm); */
-  /* color: var(--iq-color-accent); */
+  /* color: var(--iq-color-foreground); */
   font-weight: 700;
   letter-spacing: var(--iq-spacing-subheading);
   box-shadow: inset 0 8px 15px -13px rgb(0 0 0 / 30%), 0 -8px 15px -16px white;

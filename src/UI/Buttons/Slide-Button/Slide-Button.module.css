@@ -47,7 +47,7 @@ input:checked + .slider {
 }
 
 /* input:focus + .slider {
-  background-color: var(--iq-color-accent);
+  background-color: var(--iq-color-foreground);
 } */
 
 input:checked + .slider:before {
@@ -59,6 +59,7 @@ input:checked + .slider:before {
 /* Rounded sliders */
 .slider {
   border-radius: 34px;
+  background: transparent;
 }
 
 .slider:before {

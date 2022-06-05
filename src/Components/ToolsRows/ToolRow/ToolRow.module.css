@@ -37,7 +37,7 @@
 
 .grid-item-text {
   font-weight: 700;
-  color: var(--iq-color-accent);
+  color: var(--iq-color-foreground);
 }
 
 .grid-item-child {
@@ -100,7 +100,7 @@
   font: var(--iq-font-body-text);
   font-weight: 500;
   border-radius: 27px;
-  border: 1px solid var(--iq-color-accent);
+  border: 1px solid var(--iq-color-foreground);
   padding: 1em 2em;
   margin: 1em auto;
   width: 100%;
@@ -177,14 +177,30 @@ button.edit {
 }
 .editing-fields-wrap {
   position: fixed;
+  top: 50%;
+  left: 50%;
+  height: 100%;
+  width: 90%;
+  transform: translate(-50%, -50%);
+  max-width: 1200px;
+  opacity: 0.9;
+  z-index: 90;
+  display: flex;
+
+  max-height: 90%;
+
+  padding-bottom: 3em;
+}
+
+.overlay {
+  position: fixed;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  opacity: 0.95;
   z-index: 90;
   display: flex;
-  align-items: center;
-  background: var(--iq-color-background-warm-gradient);
-  color: var(--iq-color-accent);
+  background: var(--iq-color-foreground);
+  max-height: 100%;
+  opacity: 0.9;
 }

@@ -38,36 +38,41 @@ function AddAToolFormElms(props) {
     const close = window.confirm(
       "Are you sure you want to cancel this specific question? Any data input for this question will be lost (other questions in this Question Entry Form will not be affected)? "
     );
-    if (close) setFormOpen(false);
+    if (close) {
+      setFormOpen(false);
+      props.setFormParentOpen(false);
+    }
   }
 
   return (
     <Fragment>
       {formOpen &&
         newFormInputData.map((formDataGroup) => (
-          <div
-            id={Math.random()}
-            key={Math.random()}
-            className={styles["form-group-wrap"]}
-          >
-            {/* This hidden input separates input groups */}
-            <input name="NEWGROUP" value="NEWGROUP" hidden />
-            {formDataGroup.map((inputData, i) => {
-              return (
-                <FormInput
-                  inputDataObj={inputData}
-                  requiredError={props.requiredError}
-                />
-              );
-            })}
-
+          <Fragment>
+            <div
+              id={Math.random()}
+              key={Math.random()}
+              className={styles["form-group-wrap"]}
+            >
+              {/* This hidden input separates input groups */}
+              <input name="NEWGROUP" value="NEWGROUP" hidden />
+              {formDataGroup.map((inputData, i) => {
+                return (
+                  <FormInput
+                    inputDataObj={inputData}
+                    requiredError={props.requiredError}
+                  />
+                );
+              })}
+            </div>
             <button
               className={styles["close-question-form-button"]}
               onClick={cancelQuestionFormButtonHandler}
+              style={props.cancelButtonStyles}
             >
               X
             </button>
-          </div>
+          </Fragment>
         ))}
     </Fragment>
   );

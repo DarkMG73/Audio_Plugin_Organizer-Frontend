@@ -50,7 +50,11 @@ function ToolsRowsList(props) {
     }
   }
   return (
-    <div key="toolsrowsList-1" id="tool-row-list" className={styles.outerwrap}>
+    <div
+      key="toolsrowsList-1"
+      id="tool-row-list"
+      className={styles["tool-row-list"]}
+    >
       <h2 key="toolsrowsList-2" className="section-title">
         Plugins and other Tools
       </h2>

@@ -10,7 +10,7 @@ import AddAToolForm from "../..//AddATool/AddAToolForm";
 import {
   updateAPlugin as addDocToDB,
   deleteAPlugin as deleteDocFromDb,
-} from "../../../Hooks/DbInteractions";
+} from "../../../storage/MongoDb";
 import GetPluginFormInputsWithOptions from "../../../Hooks/GetPluginFormInputsWithOptions";
 
 function ToolRow(props) {
@@ -300,26 +300,48 @@ function ToolRow(props) {
         </CollapsibleElm>
       </CardSecondary>
       {inEditMode && (
-        <div className={styles["editing-fields-wrap"]}>
-          <AddAToolForm
-            key={key + "7"}
-            saveOrUpdateData="update"
-            formData={groomedFormInputData}
-            removeAddMoreButton={true}
-            styles={{ minHeight: "100%" }}
-            buttonStyles={{
-              height: "3em",
-              width: "100%",
-              left: "0",
-              background: "var( --iq-color-background-warm-gradient)",
-              fontSize: "24px",
-              letterSpacing: "0.5em",
-              textTransform: "uppercase",
-              margin: "auto",
-              color: "var( --iq-color-accent)",
-            }}
-          />
-        </div>
+        <>
+          <div className={styles.overlay}></div>
+          <div className={styles["editing-fields-wrap"]}>
+            <AddAToolForm
+              key={key + "7"}
+              saveOrUpdateData="update"
+              formData={groomedFormInputData}
+              removeAddMoreButton={true}
+              deleteToolButtonHandler={deleteToolButtonHandler}
+              setFormParentOpen={setInEditMode}
+              styles={{ minHeight: "100%" }}
+              buttonStyles={{
+                height: "3em",
+                width: "100%",
+                left: "0",
+                background: "var( --iq-color-background-warm-gradient)",
+                fontSize: "24px",
+                letterSpacing: "0.5em",
+                textTransform: "uppercase",
+                margin: "auto",
+                color: "var( --iq-color-foreground)",
+                borderRadius: "50px ",
+                boxShadow: "0 0 20px -5px var(--iq-color-accent)",
+                textShadow: "0 0 3px var(--iq-color-accent)",
+              }}
+              cancelButtonStyles={{
+                position: "fixed",
+                top: "7%",
+                left: "12px",
+                zIndex: "100",
+                color: "var(--iq-color-background-warm)",
+                padding: "0.25em 0",
+                borderRadius: "50%",
+                fontSize: "2.5rem",
+                transform: "scale(0.8, 1.8) translateX(-12.5%)",
+                fontWeight: "900",
+                textShadow: "0 0 15px #ffffff",
+                textAlign: "left",
+              }}
+            />
+          </div>
+        </>
       )}
     </div>
   );

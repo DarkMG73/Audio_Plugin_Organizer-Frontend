@@ -17,7 +17,28 @@ const FormInput = (props) => {
     }
   };
 
-  if (input.type === "select") {
+  if (input.type === "textarea") {
+    outputJSX = (
+      <div className={styles["input-container"] + " " + styles[input.name]}>
+        <label htmlFor={input.name}> {input.title}</label>
+        <textarea
+          type={input.type}
+          name={input.name}
+          value={inputValue}
+          ref={requiredTextInput}
+          onChange={textInputOnChangeHandler}
+          className={requiredError && styles["input-required-error"]}
+          style={{ height: "auto", width: "auto", minHeight: "0" }}
+        ></textarea>
+        {requiredError && input.required == true && (
+          <span>
+            <br />
+            This field is required
+          </span>
+        )}
+      </div>
+    );
+  } else if (input.type === "select") {
     const options = input.options.map((option) => (
       <option
         name={input.name}
@@ -67,7 +88,7 @@ const FormInput = (props) => {
         </select>
       </div>
     );
-  } else if (input.type === "checkbox") {
+  } else if (input.type === "checkbox" || input.type === "radio") {
     const options = input.options.map((option) => (
       <div
         className={styles["input-wrap"] + " " + styles["input-option" + option]}

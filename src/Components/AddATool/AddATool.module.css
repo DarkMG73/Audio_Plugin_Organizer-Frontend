@@ -6,13 +6,13 @@
   padding: 0.5em;
   margin: 2em auto;
   border: 1px solid;
-  border-color: var(--iq-color-accent);
-  color: var(--iq-color-accent);
+  border-color: var(--iq-color-foreground);
+  color: var(--iq-color-foreground);
   background: var(--iq-color-background-warm-gradient);
 }
 
 .not-logged-in-text {
-  background-color: var(--iq-color-accent);
+  background-color: var(--iq-color-foreground);
   color: var(--iq-color-background);
   font-weight: 700;
 }

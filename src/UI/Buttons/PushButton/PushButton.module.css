@@ -21,7 +21,7 @@
 
 /* Color Control */
 .button.primary {
-  background: var(--iq-color-accent);
+  background: var(--iq-color-foreground);
   color: var(--iq-color-background-warm);
 }
 
@@ -33,7 +33,7 @@
 
 .button.secondary {
   background: var(--iq-color-background-warm-gradient);
-  color: var(--iq-color-accent);
+  color: var(--iq-color-foreground);
 }
 .button.secondary.selected {
   box-shadow: inset 1px 1px 1px rgb(255 255 255 / 25%),

@@ -4,7 +4,7 @@ import PushButton from "../../UI/Buttons/PushButton/PushButton";
 import AddAQuestionFormElms from "./AddAToolFormElms";
 import { sha256 } from "js-sha256";
 // import { addDocToDB } from "../../storage/firebase.config";
-import { savePlugin, updateAPlugin } from "../../Hooks/DbInteractions";
+import { savePlugin, updateAPlugin } from "../../storage/MongoDb";
 import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
 
 function AddAToolForm(props) {
@@ -15,6 +15,8 @@ function AddAToolForm(props) {
     <AddAQuestionFormElms
       requiredError={requiredError}
       formData={props.formData}
+      setFormParentOpen={props.setFormParentOpen}
+      cancelButtonStyles={props.cancelButtonStyles}
     />,
   ]);
 
@@ -22,7 +24,11 @@ function AddAToolForm(props) {
     e.preventDefault();
     setFormJSX([
       ...formJSX,
-      <AddAQuestionFormElms requiredError={requiredError} />,
+      <AddAQuestionFormElms
+        requiredError={requiredError}
+        setFormParentOpen={props.setFormParentOpen}
+        cancelButtonStyles={props.cancelButtonStyles}
+      />,
     ]);
   }
 
@@ -235,49 +241,57 @@ function AddAToolForm(props) {
       <div className={styles["inner-wrap"]}>
         {formJSX.map((formElms) => (
           <Fragment>
-            <CardPrimary styles={{ position: "relative" }}>
-              {" "}
+            <CardPrimary
+              styles={{
+                position: "relative",
+                maxHeight: "100%",
+                overflow: "scroll",
+                display: "block",
+              }}
+            >
+              {props.removeAddMoreButton && (
+                <div className={styles["edit-buttons-wrap"]}>
+                  <PushButton
+                    inputOrButton="input"
+                    type="submit"
+                    id="quest-submit-btn"
+                    colorType="primary"
+                    value="Submit"
+                    data=""
+                    size="small"
+                    onClick={submitButtonHandler}
+                    styles={{
+                      ...props.buttonStyles,
+                    }}
+                  >
+                    Submit
+                  </PushButton>
+                  <PushButton
+                    inputOrButton="input"
+                    type="submit"
+                    id="quest-submit-btn"
+                    colorType="primary"
+                    value="Delete"
+                    data=""
+                    size="small"
+                    onClick={props.deleteToolButtonHandler}
+                    styles={{
+                      ...props.buttonStyles,
+                      flexBasis: " 25%",
+                      flexGrow: "1",
+                      width: "90%",
+                      maxWidth: " 93%",
+                      fontSize: "1em",
+                      color: "var( --iq-color-background-warm",
+                      background: "var( --iq-color-foreground-gradient)",
+                    }}
+                  >
+                    Delete
+                  </PushButton>
+                </div>
+              )}
               {formElms}
             </CardPrimary>
-            {props.removeAddMoreButton && (
-              <div className={styles["edit-buttons-wrap"]}>
-                <PushButton
-                  inputOrButton="input"
-                  type="submit"
-                  id="quest-submit-btn"
-                  colorType="primary"
-                  value="Submit"
-                  data=""
-                  size="small"
-                  onClick={submitButtonHandler}
-                  styles={{
-                    ...props.buttonStyles,
-                    borderRadius: "10px 2.5px 2.5px 10px",
-                  }}
-                >
-                  Submit
-                </PushButton>
-                <PushButton
-                  inputOrButton="input"
-                  type="submit"
-                  id="quest-submit-btn"
-                  colorType="primary"
-                  value="Delete"
-                  data=""
-                  size="small"
-                  onClick={submitButtonHandler}
-                  styles={{
-                    ...props.buttonStyles,
-                    flexBasis: " 25%",
-                    color: "var( --iq-color-background-warm",
-                    background: "var( --iq-color-accent-gradient)",
-                    borderRadius: "2.5px 10px 10px 2.5px",
-                  }}
-                >
-                  Delete Tool
-                </PushButton>
-              </div>
-            )}
           </Fragment>
         ))}
         {requiredError && (

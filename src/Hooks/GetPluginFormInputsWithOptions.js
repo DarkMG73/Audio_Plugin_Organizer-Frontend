@@ -1,4 +1,4 @@
-import { getSchemaForAudioPlugin } from "./DbInteractions";
+import { getSchemaForAudioPlugin } from "../storage/MongoDb";
 import { formInputData } from "../data/formInputData";
 import { toTitleCase } from "./utility";
 

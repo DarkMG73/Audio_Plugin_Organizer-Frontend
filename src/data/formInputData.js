@@ -68,15 +68,15 @@ export const formInputData = {
   favorite: {
     title: "Favorite",
     name: "favorite",
-    type: "checkbox",
-    options: ["loved"],
+    type: "radio",
+    options: ["true", "false"],
     required: false,
     preFilledData: "",
   },
   rating: {
     title: "Rating (1=Low & 5=Best)",
     name: "rating",
-    type: "checkbox",
+    type: "select",
     options: ["1", "2", "3", "4", "5"],
     required: false,
     preFilledData: "",
@@ -86,7 +86,7 @@ export const formInputData = {
     name: "notes",
     type: "textarea",
     options: [],
-    required: "false",
+    required: false,
     preFilledData: "",
   },
 };
