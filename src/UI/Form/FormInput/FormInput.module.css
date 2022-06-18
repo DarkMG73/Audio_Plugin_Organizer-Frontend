@@ -42,8 +42,17 @@
   text-align: center;
 }
 
-.input-required-error {
-  border: 3px solid red;
+.required-input-error {
+  border: 14px inset var(--iq-color-accent) !important;
+  color: var(--iq-color-accent) !important;
+}
+.required-input-error-text {
+  color: orangered !important;
+  font-size: 1.5em;
+}
+
+.required-input {
+  border: 5px solid var(--iq-color-accent) !important;
 }
 
 .input-container textarea {
@@ -130,14 +139,27 @@
 }
 
 .input-favorite,
-.input-container.input-rating {
+.input-container .input-rating {
   flex-basis: 10%;
   width: 11em;
   flex-shrink: 1;
 }
 
+.input-favorite > .input-wrap {
+  width: 5em;
+  margin: 0 auto;
+}
+
+.input-rating .input-wrap {
+  width: fit-content;
+  margin: 0 auto;
+}
 .input-container.notes {
   flex-basis: 70%;
   min-height: 100%;
   flex-grow: 1;
+}
+
+.input-container._id {
+  display: none;
 }
