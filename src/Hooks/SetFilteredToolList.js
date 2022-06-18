@@ -23,6 +23,12 @@ function SetFilteredToolList(
       currentFilters[filterName].forEach((chosenName) => {
         if (
           allTools[id].hasOwnProperty(filterName) &&
+          (allTools[id][filterName].constructor === Boolean ||
+            allTools[id][filterName].constructor === Number)
+        ) {
+          hasTerms.push(allTools[id][filterName] === chosenName);
+        } else if (
+          allTools[id].hasOwnProperty(filterName) &&
           allTools[id][filterName].length > 0
         ) {
           hasTerms.push(allTools[id][filterName].includes(chosenName));

@@ -1,10 +1,40 @@
 import styles from "./FormInput.module.css";
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 
 const FormInput = (props) => {
-  const [requiredError, setRequiredError] = useState(false);
+  const [requiredError, setRequiredError] = useState(true);
+  const [requiredClass, setRequiredClass] = useState("");
   const input = props.inputDataObj;
+  useEffect(() => {
+    if (input.required == true) setRequiredClass("required-input");
+  }, []);
+  useEffect(() => {
+    if (input.required == true && requiredError) {
+      setRequiredClass("required-input-error");
+    }
+    if (input.required == true && !requiredError) {
+      setRequiredClass("required-input");
+    }
+  }, [requiredError]);
   const [inputValue, setInputValue] = useState(input.preFilledData);
+  const [checkboxTextInputValue, setCheckboxTextInputValue] = useState();
+  useEffect(() => {
+    if (inputValue.constructor === String) {
+      setInputValue(inputValue.replaceAll('"', ""));
+    } else {
+      setInputValue(inputValue);
+    }
+  }, [inputValue]);
+  // useEffect(() => {
+  //   console.log(
+  //     "%c --> %cline:21%cprops.requiredError",
+  //     "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+  //     "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+  //     "color:#fff;background:rgb(34, 8, 7);padding:3px;border-radius:2px",
+  //     props.requiredError
+  //   );
+  //   setRequiredError(props.requiredError);
+  // }, [props.requiredError]);
   const requiredTextInput = useRef();
   let outputJSX;
 
@@ -16,72 +46,134 @@ const FormInput = (props) => {
       setRequiredError(false);
     }
   };
+  const checkboxTextInputOnChangeHandler = (e) => {
+    setCheckboxTextInputValue(e.target.value);
+  };
+  const checkboxInputOnChangeHandler = (e) => {
+    // setInputValue(e.target.value);
+    console.log(
+      "%c --> %cline:54%ce.target.value)",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(3, 38, 58);padding:3px;border-radius:2px",
+      e.target.value
+    );
+  };
 
   if (input.type === "textarea") {
     outputJSX = (
-      <div className={styles["input-container"] + " " + styles[input.name]}>
-        <label htmlFor={input.name}> {input.title}</label>
+      <div
+        key={"form-input"}
+        className={styles["input-container"] + " " + styles[input.name]}
+      >
+        <label key={"form-inpu-1t"} htmlFor={input.name}>
+          {" "}
+          {input.title}
+        </label>
         <textarea
+          key={"form-input-2"}
           type={input.type}
           name={input.name}
-          value={inputValue}
+          defaultValue={inputValue}
           ref={requiredTextInput}
           onChange={textInputOnChangeHandler}
-          className={requiredError && styles["input-required-error"]}
+          className={styles[requiredClass]}
           style={{ height: "auto", width: "auto", minHeight: "0" }}
         ></textarea>
         {requiredError && input.required == true && (
-          <span>
+          <span
+            key={"form-input-3"}
+            className={styles[requiredClass + "-text"]}
+          >
             <br />
-            This field is required
+            &uarr; This field is required &uarr;
           </span>
         )}
       </div>
     );
   } else if (input.type === "select") {
-    const options = input.options.map((option) => (
-      <option
-        name={input.name}
-        className={styles.option + " " + styles["option-" + input.name]}
-        value={option}
-      >
-        {option}
-      </option>
-    ));
+    // *** Select Boxes***
+    let inputHasSelected = false;
+    const options = input.options.map((option, i) => {
+      if (inputValue.toLowerCase().trim() == option.toLowerCase().trim()) {
+        inputHasSelected = true;
+        return (
+          <option
+            key={"form-input-" + i}
+            name={input.name}
+            className={styles.option + " " + styles["option-" + input.name]}
+            defaultValue={option}
+            selected
+          >
+            {option}
+          </option>
+        );
+      } else {
+        return (
+          <option
+            key={"form-input-" + i}
+            name={input.name}
+            className={styles.option + " " + styles["option-" + input.name]}
+            defaultValue={option}
+          >
+            {option}
+          </option>
+        );
+      }
+    });
+    if (!inputHasSelected)
+      options.push(
+        <option
+          key={"form-input-noInputHasSelected"}
+          disabled
+          selected
+          defaultValue=""
+        >
+          -- select an option --
+        </option>
+      );
+    options.push(<option key={"form-input-empty"} defaultValue=""></option>);
     options.push(
-      <option disabled selected value="">
-        -- select an option --
+      <option key={"form-input-unkown"} defaultValue="">
+        -- Unkown --
       </option>
     );
-    options.push(<option value=""></option>);
-    options.push(<option value="">-- Unkown --</option>);
 
     outputJSX = (
       <div
+        key={"form-input-jsx"}
         className={
           styles["input-container"] + " " + styles["input-" + input.name]
         }
       >
-        <label htmlFor={input.name}>{input.title}</label>
+        <label key={"form-input-1"} htmlFor={input.name}>
+          {input.title}
+        </label>
         <input
+          key={"form-input-2"}
           type="text"
           name={input.name}
-          value={inputValue}
+          defaultValue={inputValue}
           ref={requiredTextInput}
           onChange={textInputOnChangeHandler}
-          className={requiredError && styles["input-required-error"]}
+          className={styles[requiredClass]}
         />
         {requiredError && input.required == true && (
-          <span>
+          <span
+            key={"form-input-3"}
+            className={styles[requiredClass + "-text"]}
+          >
             <br />
-            This field is required
+            &uarr; This field is required &uarr;
           </span>
         )}
         <select
+          key={"form-input-4"}
           type={input.type}
           name={input.name}
-          value={input.value}
+          defaultValue={input.value}
           required={input.required}
+          onChange={textInputOnChangeHandler}
         >
           {" "}
           {options.map((optionHTML) => optionHTML)}
@@ -89,54 +181,164 @@ const FormInput = (props) => {
       </div>
     );
   } else if (input.type === "checkbox" || input.type === "radio") {
-    const options = input.options.map((option) => (
-      <div
-        className={styles["input-wrap"] + " " + styles["input-option" + option]}
-      >
-        <input type={input.type} name={input.name} value={option} />{" "}
-        <label htmlFor={input.name}>{option}</label>
-      </div>
-    ));
-    outputJSX = (
-      <div
-        className={
-          styles["input-container"] + " " + styles["input-" + input.name]
-        }
-      >
-        <label htmlFor={input.name}>{input.title}</label>
-        <input
-          type="text"
-          name={input.name}
-          value={inputValue}
-          ref={requiredTextInput}
-          onChange={textInputOnChangeHandler}
-          className={requiredError && styles["input-required-error"]}
-        />
-        {requiredError && input.required == true && (
-          <span>
-            <br />
-            This field is required
-          </span>
-        )}
-        {options.map((optionHTML) => optionHTML)}
-      </div>
-    );
+    // *** Checkboxes and Radio Buttons***
+    const options = input.options.map((option, i) => {
+      if (
+        (inputValue.constructor.name === "Number" ||
+          inputValue.constructor.name === "Boolean" ||
+          (option == "false" && inputValue == "")) &&
+        (inputValue.toString() == option ||
+          (option == "false" && inputValue == ""))
+      ) {
+        return (
+          <div
+            key={"form-input" + i}
+            className={
+              styles["input-wrap"] + " " + styles["input-option" + option]
+            }
+          >
+            <input
+              key={"form-input-2" + i}
+              type={input.type}
+              name={input.name}
+              value={option}
+              checked={"true"}
+              onChange={checkboxInputOnChangeHandler}
+            />
+            <label key={"form-input-3" + i} htmlFor={input.name}>
+              {option}
+            </label>
+          </div>
+        );
+      } else if (
+        (inputValue.constructor === String ||
+          inputValue.constructor === Array) &&
+        inputValue.length > 0 &&
+        (inputValue.toString().toLowerCase().trim() ==
+          option.toLowerCase().trim() ||
+          inputValue.includes(option))
+      ) {
+        return (
+          <div
+            key={"form-input-a" + option}
+            className={
+              styles["input-wrap"] + " " + styles["input-option" + option]
+            }
+          >
+            <input
+              key={"form-input-b" + option}
+              type={input.type}
+              name={input.name}
+              value={option}
+              checked={"true"}
+              onChange={checkboxInputOnChangeHandler}
+            />{" "}
+            <label key={"form-input-a2"} htmlFor={input.name}>
+              {option}
+            </label>
+          </div>
+        );
+      } else {
+        return (
+          <div
+            key={"form-input-a3" + i}
+            className={
+              styles["input-wrap"] + " " + styles["input-option" + option]
+            }
+          >
+            <input
+              key={"form-inputa4"}
+              type={input.type}
+              name={input.name}
+              defaultValue={option}
+              onChange={checkboxInputOnChangeHandler}
+            />{" "}
+            <label key={"form-input-a5"} htmlFor={input.name}>
+              {option}
+            </label>
+          </div>
+        );
+      }
+    });
+    if (input.type === "radio") {
+      outputJSX = (
+        <div
+          key={"form-input-a6"}
+          className={
+            styles["input-container"] + " " + styles["input-" + input.name]
+          }
+        >
+          <label key={"form-input-a7"} htmlFor={input.name}>
+            {input.title}
+          </label>
+
+          {requiredError && input.required == true && (
+            <span
+              key={"form-input-a8"}
+              className={styles[requiredClass + "-text"]}
+            >
+              <br />
+              &uarr; This field is required &uarr;
+            </span>
+          )}
+          {options.map((optionHTML) => optionHTML)}
+        </div>
+      );
+    } else {
+      outputJSX = (
+        <div
+          key={"form-input-c1"}
+          className={
+            styles["input-container"] + " " + styles["input-" + input.name]
+          }
+        >
+          <label key={"form-input-c2"} htmlFor={input.name}>
+            {input.title}
+          </label>
+          <input
+            key={"form-input-c3"}
+            type="text"
+            name={input.name}
+            value={checkboxTextInputValue}
+            ref={requiredTextInput}
+            onChange={checkboxTextInputOnChangeHandler}
+            className={styles[requiredClass]}
+          />
+          {requiredError && input.required == true && (
+            <span
+              key={"form-input-c4"}
+              className={styles[requiredClass + "-text"]}
+            >
+              <br />
+              &uarr; This field is required &uarr;
+            </span>
+          )}
+          {options.map((optionHTML) => optionHTML)}
+        </div>
+      );
+    }
   } else {
     outputJSX = (
-      <div className={styles["input-container"] + " " + styles[input.name]}>
-        <label htmlFor={input.name}> {input.title}</label>
+      <div
+        key={"text-input-1"}
+        className={styles["input-container"] + " " + styles[input.name]}
+      >
+        <label key={"text-input-2"} htmlFor={input.name}>
+          {input.title}
+        </label>
         <input
+          key={"text-input-3"}
           type={input.type}
           name={input.name}
-          value={inputValue}
+          defaultValue={inputValue}
           ref={requiredTextInput}
           onChange={textInputOnChangeHandler}
-          className={requiredError && styles["input-required-error"]}
+          className={styles[requiredClass]}
         />
         {requiredError && input.required == true && (
-          <span>
+          <span key={"form-input"} className={styles[requiredClass + "-text"]}>
             <br />
-            This field is required
+            &uarr; This field is required &uarr;
           </span>
         )}
       </div>

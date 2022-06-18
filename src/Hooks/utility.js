@@ -62,7 +62,6 @@ export const refreshTokenSetup = (res) => {
   const refreshToken = async () => {
     const newAuthRes = await res.reloadAuthResponse();
     refreshTiming = (newAuthRes.expires_in || 3600 - 5 * 60) * 1000;
-    console.log("newAuthRes:", newAuthRes);
     // saveUserToken(newAuthRes.access_token);  <-- save new token
     localStorage.setItem("authToken", newAuthRes.id_token);
 
@@ -119,25 +118,23 @@ export const groomFormOutput = (formOutputArray, passFormInputData) => {
   };
 
   const formInputData = [...passFormInputData, idData];
-  console.log(
-    "%c --> %cline:109%cpairedObjectsArray",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(3, 22, 52);padding:3px;border-radius:2px",
-    pairedObjectsArray
-  );
-
   const outputArray = [];
   pairedObjectsArray.forEach((row) => {
     const rowGroup = [];
     let assembledRow = {};
     formInputData.forEach((inputData, i) => {
       assembledRow = { ...inputData };
-
-      assembledRow.preFilledData = row[inputData.name]
-        ? row[inputData.name]
-        : "";
-
+      if (
+        row.hasOwnProperty(inputData.name) &&
+        row[inputData.name].constructor === Boolean
+      ) {
+        if (row[inputData.name]) assembledRow.preFilledData = "true";
+        if (row[inputData.name] == false) assembledRow.preFilledData = "false";
+      } else {
+        assembledRow.preFilledData = row[inputData.name]
+          ? row[inputData.name]
+          : "";
+      }
       rowGroup.push(assembledRow);
     });
 
@@ -149,44 +146,10 @@ export const groomFormOutput = (formOutputArray, passFormInputData) => {
 export const toTitleCase = (str, spaceAtCamelCase = false) => {
   if (spaceAtCamelCase) {
     str = [...str].map((character) => {
-      console.log(
-        "%c --> %cline:131%ccharacter",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(20, 68, 106);padding:3px;border-radius:2px",
-        character
-      );
-      console.log(
-        "%c --> %cline:133%c!isNaN(character * 1)",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(237, 222, 139);padding:3px;border-radius:2px",
-        !isNaN(character * 1)
-      );
-      console.log(
-        "%c --> %cline:134%ccharacter == character.toUpperCase()",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(227, 160, 93);padding:3px;border-radius:2px",
-        character == character.toUpperCase()
-      );
       if (!isNaN(character * 1) && character == character.toUpperCase()) {
-        console.log(
-          "%c --> %cline:133%cWITH SPACEcharacter",
-          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-          "color:#fff;background:rgb(1, 77, 103);padding:3px;border-radius:2px",
-          character
-        );
         return "-" + character;
       }
-      console.log(
-        "%c --> %cline:133%cNO SPACEcharacter",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(130, 57, 53);padding:3px;border-radius:2px",
-        character
-      );
+
       return character;
     });
   }

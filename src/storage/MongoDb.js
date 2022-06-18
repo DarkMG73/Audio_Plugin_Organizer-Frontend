@@ -1,5 +1,3 @@
-import { useSelector, useDispatch } from "react-redux";
-import GatherToolData from "../Hooks/GatherToolData";
 import axios from "axios";
 
 export const getData = async () => {
@@ -7,50 +5,69 @@ export const getData = async () => {
   return res.data;
 };
 
-export function savePlugin(dataObj, reGatherToolData = false) {
-  axios
+export async function savePlugin(dataObj) {
+  const response = await axios
     .get(`/api/all-plugins/add/`, { params: dataObj })
     .then((res) => {
-      console.log("res", res);
-      if (reGatherToolData) GatherToolData();
+      return res;
     })
     .catch((err) => {
       console.log("err", err);
       console.log("errors", err.response.data.err.message);
+      return err;
     });
+  return response;
 }
 
-export function updateAPlugin(id, dataObj, reGatherToolData = false) {
-  axios
+export async function updateAPlugin(id, dataObj) {
+  const response = await axios
     .get(`/api/all-plugins/update/`, { params: dataObj })
     .then((res) => {
-      console.log("res", res);
-      if (reGatherToolData) GatherToolData();
+      return res;
     })
     .catch((err) => {
       console.log("err", err);
       console.log("errors", err.response.data.err.message);
+      return err;
     });
+
+  return response;
 }
 
-export function deleteAPlugin(id) {
-  axios
+export async function deleteAPlugin(id) {
+  const response = await axios
     .get(`/api/all-plugins/${id}/delete/`)
     .then((res) => {
-      console.log("res", res);
+      return res;
     })
     .catch((err) => {
       console.log("err", err);
       console.log("errors", err.response.data.err.message);
+      return err;
     });
+  return response;
+}
+
+export async function deleteAllPlugins() {
+  const response = await axios
+    .get(`/api/all-plugins/delete/`)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      console.log("err", err);
+      console.log("errors", err.response.data.err.message);
+      return err;
+    });
+  return response;
 }
 
 export async function getSchemaForAudioPlugin() {
   const output = await axios
     .get(`/api/all-plugins/model/`)
     .then((res) => {
-      console.log("res", res);
-      return res;
+      // console.log("res", res);
+      return res.data.model;
     })
     .catch((err) => {
       console.log("err", err);

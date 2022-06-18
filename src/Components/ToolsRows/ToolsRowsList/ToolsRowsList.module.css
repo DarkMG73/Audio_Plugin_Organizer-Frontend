@@ -1,3 +1,8 @@
 .tool-row-list > h2 {
-  color: var(--iq-color-accent);
+  /* color: var(--iq-color-accent); */
+  text-align: center;
+  /* text-shadow: 0 0 3px var(--iq-color-accent); */
+  font: var(--iq--font-heading);
+  letter-spacing: var(--iq-spacing-heading);
+  font-weight: 700;
 }

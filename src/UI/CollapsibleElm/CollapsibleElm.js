@@ -9,17 +9,20 @@ function CollapsibleElm(props) {
 
   // See if div is overflowing and Se More button is needed
   function isOverflowActive(e) {
-    return e.offsetHeight < e.scrollHeight || e.offsetWidth < e.scrollWidth;
+    if (e)
+      return e.offsetHeight < e.scrollHeight || e.offsetWidth < e.scrollWidth;
   }
 
   useEffect(() => {
-    if (isOverflowActive(textRef.current)) {
-      setOverflowActive(true);
-      return;
-    }
+    setTimeout(() => {
+      if (isOverflowActive(textRef.current)) {
+        setOverflowActive(true);
+        return;
+      }
 
-    setOverflowActive(false);
-  }, [isOverflowActive]);
+      setOverflowActive(false);
+    }, 1000);
+  }, []);
 
   const seeMoreButtonHandler = (e) => {
     setElmOpen(!elmOpen);

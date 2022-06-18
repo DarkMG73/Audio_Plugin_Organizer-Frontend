@@ -76,7 +76,7 @@ export const formInputData = {
   rating: {
     title: "Rating (1=Low & 5=Best)",
     name: "rating",
-    type: "select",
+    type: "radio",
     options: ["1", "2", "3", "4", "5"],
     required: false,
     preFilledData: "",

@@ -6,6 +6,7 @@ import CardSecondary from "../../UI/Cards/CardSecondary/CardSecondary";
 import AddATool from "../../Components/AddATool/AddATool";
 import FilterTools from "../../Components/FilterTools/FilterTools";
 import ToolsRowsList from "../../Components/ToolsRows/ToolsRowsList/ToolsRowsList";
+import OutputControls from "../../Components/OutputControls/OutputControls";
 
 const Home = () => {
   const { allTools, toolsMetadata } = useSelector((state) => state.toolsData);
@@ -36,9 +37,28 @@ const Home = () => {
       >
         <ToolsRowsList />
       </CardPrimary>
-      <CardSecondary key={"AddATool"}>
+      <CardSecondary
+        key={"AddATool"}
+        styles={{
+          flexBasis: "calc(90% - 177px)",
+          minWidth: "0",
+          margin: "0",
+          flexGrow: "1",
+        }}
+      >
         <AddATool />
       </CardSecondary>
+      <CardPrimary
+        key={"OuputControls"}
+        styles={{
+          flexBasis: "calc(90% - 177px)",
+          minWidth: "0",
+          margin: "0",
+          flexGrow: "1",
+        }}
+      >
+        <OutputControls />
+      </CardPrimary>
     </div>
   );
 };

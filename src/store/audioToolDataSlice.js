@@ -5,6 +5,7 @@ function InitState() {
   initialState.allTools = null;
   initialState.filteredToolsIds = null;
   initialState.toolsMetadata = null;
+  initialState.toolsHistory = null;
   initialState.currentFilters = null;
   return initialState;
 }
@@ -18,8 +19,8 @@ export const audioToolDataSlice = createSlice({
       state.allTools = toolsData.allTools;
       state.filteredToolsIds = [];
       state.toolsMetadata = toolsData.toolsMetadata;
+      state.toolsHistory = toolsData.toolsHistory;
       state.currentFilters = toolsData.currentFilters;
-      console.log("toolsData", toolsData);
     },
 
     addToToolFilters: (state, action) => {

@@ -1,4 +1,6 @@
-import { useState, Fragment } from "react";
+import { useState, useEffect, Fragment } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { audioToolDataActions } from "../../store/audioToolDataSlice";
 import styles from "./AddAToolForm.module.css";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
 import AddAQuestionFormElms from "./AddAToolFormElms";
@@ -6,6 +8,7 @@ import { sha256 } from "js-sha256";
 // import { addDocToDB } from "../../storage/firebase.config";
 import { savePlugin, updateAPlugin } from "../../storage/MongoDb";
 import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
+import GatherToolData from "../../Hooks/GatherToolData";
 
 function AddAToolForm(props) {
   // const userLoggedIn = useSelector((state) => state.loginStatus.userLoggedIn);
@@ -13,46 +16,64 @@ function AddAToolForm(props) {
   const [requiredError, setRequiredError] = useState(false);
   const [formJSX, setFormJSX] = useState([
     <AddAQuestionFormElms
-      requiredError={requiredError}
+      key={"addatoolformcomponent-1"}
       formData={props.formData}
       setFormParentOpen={props.setFormParentOpen}
       cancelButtonStyles={props.cancelButtonStyles}
+      requiredError={props.requiredError}
     />,
   ]);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    setFormJSX([
+      <AddAQuestionFormElms
+        key={"addatoolformcomponent-2"}
+        formData={props.formData}
+        setFormParentOpen={props.setFormParentOpen}
+        cancelButtonStyles={props.cancelButtonStyles}
+        requiredError={props.requiredError}
+      />,
+    ]);
+  }, [requiredError]);
   function addAnotherQuestionFormButtonHandler(e) {
     e.preventDefault();
     setFormJSX([
       ...formJSX,
       <AddAQuestionFormElms
-        requiredError={requiredError}
+        key={"addatoolformcomponent-3"}
         setFormParentOpen={props.setFormParentOpen}
         cancelButtonStyles={props.cancelButtonStyles}
+        requiredError={props.requiredError}
       />,
     ]);
   }
 
   function submitButtonHandler(e) {
     e.preventDefault();
-    setRequiredError(false);
+    // setRequiredError(false);
     const data = new FormData(e.target.closest("form#add-quest-form"));
-
     let dataEntries = [...data.entries()];
-    console.log(
-      "%c --> %cline:33%cdataEntries",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(3, 38, 58);padding:3px;border-radius:2px",
-      dataEntries
-    );
     let foundRequiredError = false;
 
     /////// Groom Data ///////
     // Convert string lists to arrays
     const entriesRequiringArrays = ["functions", "precision", "color"];
+    const entriesRequiringNumbers = ["rating"];
+    const entriesRequiringBoolean = ["favorite"];
     const sortedDataEntries = [];
+
+    let nameFieldsWithRequiredError = 0;
     dataEntries.forEach((entry) => {
-      if (!entriesRequiringArrays.includes(entry[0])) {
+      if (entriesRequiringNumbers.includes(entry[0])) {
+        sortedDataEntries.push([entry[0], parseInt(entry[1])]);
+      } else if (entriesRequiringBoolean.includes(entry[0])) {
+        if (entry[1] === "True") {
+          sortedDataEntries.push([entry[0], true]);
+        } else {
+          sortedDataEntries.push([entry[0], false]);
+        }
+      } else if (!entriesRequiringArrays.includes(entry[0])) {
         sortedDataEntries.push(entry);
       } else {
         const arrayOfStrings = entry[1].split(",");
@@ -70,8 +91,14 @@ function AddAToolForm(props) {
         sortedDataEntries[i][0].includes("URL")
       ) {
         sortedDataEntries[i][1] = sortedDataEntries[i][1].trim();
+      } else if (
+        sortedDataEntries[i][1].constructor === Array ||
+        sortedDataEntries[i][1].constructor === Boolean ||
+        sortedDataEntries[i][1].constructor === Number
+      ) {
+        sortedDataEntries[i][1] = sortedDataEntries[i][1];
       } else {
-        sortedDataEntries[i][1] = sortedDataEntries[i][1].trim().toLowerCase();
+        sortedDataEntries[i][1] = sortedDataEntries[i][1].trim();
       }
       sortedDataEntries[i].push(i);
     });
@@ -80,8 +107,17 @@ function AddAToolForm(props) {
     let usedValues = { indexesToRemove: [] };
     sortedDataEntries.forEach((entry) => {
       // Make sure name field is filled out
+
       if (entry[0] === "name" && entry[1].length <= 0) {
-        setRequiredError(true);
+        console.log(
+          "%c --> %cline:108%centry[0] === name && entry[1].length <= 0",
+          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+          "color:#fff;background:rgb(130, 57, 53);padding:3px;border-radius:2px",
+          entry[0] === "name" && entry[1].length <= 0
+        );
+        // setRequiredError(true);
+        nameFieldsWithRequiredError++;
         foundRequiredError = true;
         return;
       }
@@ -107,7 +143,13 @@ function AddAToolForm(props) {
         }
       }
     });
+
     // If there are not enough character in the "name" field, exit
+    alert(
+      "Unfortunately, " +
+        nameFieldsWithRequiredError +
+        '  "Name" field(s) remain blank. Every entry is required to have a name. In addition, that name can not be the same as any production tool name that you currently have in the database or  that is being submitted now. This is to prevent duplicate production tools. If two different tools do happen to have the same name, please slightly alter one name to make it unique.'
+    );
     if (foundRequiredError) return;
 
     // Reduce companySelections to only company entries in excess of one per group
@@ -156,14 +198,8 @@ function AddAToolForm(props) {
     for (const key in sortedDataEntriesObj) {
       sortedDatedEntriesArray.push(sortedDataEntriesObj[key]);
     }
-    console.log(
-      "%c --> %cline:150%csortedDatedEntriesArray",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(60, 79, 57);padding:3px;border-radius:2px",
-      sortedDatedEntriesArray
-    );
-    // Replace the temp ID's with a hash based on the question title
+
+    // Replace the temp ID's with a hash based on the tool title
     const toolsGroomed = {};
 
     for (const i in sortedDatedEntriesArray) {
@@ -179,13 +215,6 @@ function AddAToolForm(props) {
       if (sortedDatedEntriesArray[i].hasOwnProperty("_id"))
         delete sortedDatedEntriesArray[i]._id;
     }
-    console.log(
-      "%c --> %cline:160%ctoolsGroomed",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(179, 214, 110);padding:3px;border-radius:2px",
-      toolsGroomed
-    );
 
     // Access FormData fields with `data.get(fieldName)`
     // For example, converting to upper case
@@ -206,23 +235,45 @@ function AddAToolForm(props) {
         //   precise: false,
         // });
 
-        console.log(
-          "%c --> %cline:213%ctheData",
-          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-          "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
-          theData
-        );
-
-        if (props.saveOrUpdateData === "save") savePlugin(theData);
+        if (props.saveOrUpdateData === "save")
+          savePlugin(theData, true).then((res) => {
+            if (res.response.status < 299) {
+              GatherToolData().then((data) => {
+                console.log("🟣 | getData | questionsFromDB", data);
+                dispatch(audioToolDataActions.initState(data));
+                props.setFormParentOpen(false);
+              });
+            } else if (res.response.status === 404) {
+              alert(
+                "IS THE NAME UNIQUE? There was an error when trying to save the new entry. This was most likely caused by trying to add the entry with the same name as an existing tool. Make sure you do not already have this one saved. If it is a different tool that happens to have the same exact name as one you already have saved, please alter this name in some way. The name must be unique."
+              );
+            } else {
+              alert(
+                "There was an error when trying to save the new entry. Here is the message from the server: ",
+                res.data.message
+              );
+            }
+          });
         if (props.saveOrUpdateData === "update")
-          updateAPlugin(theData.id, theData);
+          updateAPlugin(theData.id, theData, true).then((res) => {
+            if (res.status < 299) {
+              GatherToolData().then((data) => {
+                console.log("🟣 | getData | questionsFromDB", data);
+                dispatch(audioToolDataActions.initState(data));
+                props.setFormParentOpen(false);
+              });
+            } else {
+              alert(
+                "There was an error when trying to update this production tool. If the problem continues, please contact the website administrator. Here is the message from the server: ",
+                res.data.message
+              );
+            }
+          });
       } else {
         const questionAdminEmail = "general@glassinteractive.com";
-        const subject = "A New Question for the Interview Questions Tool";
-        const body = `A new question is being offered: ${JSON.stringify(
-          theData
-        )}`;
+        const subject =
+          "A New Plugin Request for the Production Tool Organizer";
+        const body = `A new tool is being offered: ${JSON.stringify(theData)}`;
         window.open(
           `mailto:${questionAdminEmail}?subject=${subject}l&body=${body}`
         );
@@ -235,23 +286,36 @@ function AddAToolForm(props) {
       // })
     }
   }
+  console.log(
+    "%c --> %cline:263%cformJSX",
+    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+    "color:#fff;background:rgb(34, 8, 7);padding:3px;border-radius:2px",
+    formJSX
+  );
 
   return (
     <form action="" id="add-quest-form" className={styles["inner-wrap form"]}>
-      <div className={styles["inner-wrap"]}>
-        {formJSX.map((formElms) => (
-          <Fragment>
+      <div key={"addatoolform-4"} className={styles["inner-wrap"]}>
+        {formJSX.map((formElms, i) => (
+          <Fragment key={"addatoolformcomponent-5"}>
             <CardPrimary
+              key={"addatoolform-2" + i}
               styles={{
                 position: "relative",
                 maxHeight: "100%",
                 overflow: "scroll",
                 display: "block",
+                background: "var(--iq-color-foreground)",
               }}
             >
               {props.removeAddMoreButton && (
-                <div className={styles["edit-buttons-wrap"]}>
+                <div
+                  key={"addatoolform-3"}
+                  className={styles["edit-buttons-wrap"]}
+                >
                   <PushButton
+                    key={"addatoolform-4"}
                     inputOrButton="input"
                     type="submit"
                     id="quest-submit-btn"
@@ -267,6 +331,7 @@ function AddAToolForm(props) {
                     Submit
                   </PushButton>
                   <PushButton
+                    key={"addatoolform-5"}
                     inputOrButton="input"
                     type="submit"
                     id="quest-submit-btn"
@@ -295,35 +360,37 @@ function AddAToolForm(props) {
           </Fragment>
         ))}
         {requiredError && (
-          <div className={styles["error-text"]}>
-            <p>
+          <div key={"addatoolform-6"} className={styles["error-text"]}>
+            <p key={"addatoolform-7"}>
               Please make sure all required fields are filled out before
               submitting.
             </p>
           </div>
         )}
         {!props.removeAddMoreButton && (
-          <Fragment>
+          <Fragment key={"addatoolformcomponent-8"}>
             <PushButton
+              key={"addatoolform-8"}
               inputOrButton="button"
               id="quest-submit-btn"
               colorType="primary"
               value="Add another Question"
               data=""
-              size="small"
+              size="large"
               onClick={addAnotherQuestionFormButtonHandler}
               styles={props.buttonStyles}
             >
               Add another Question
             </PushButton>
             <PushButton
+              key={"addatoolform-9"}
               inputOrButton="input"
               type="submit"
               id="quest-submit-btn"
               colorType="primary"
               value="Submit"
               data=""
-              size="small"
+              size="large"
               onClick={submitButtonHandler}
               styles={props.buttonStyles}
             >

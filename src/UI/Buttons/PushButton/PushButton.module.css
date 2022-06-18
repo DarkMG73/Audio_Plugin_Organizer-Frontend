@@ -21,7 +21,7 @@
 
 /* Color Control */
 .button.primary {
-  background: var(--iq-color-foreground);
+  background: var(--iq-color-foreground-gradient);
   color: var(--iq-color-background-warm);
 }
 
@@ -68,6 +68,11 @@
   font-weight: 700;
 }
 
+.button.medium {
+  font: var(--iq-font-body-text);
+  font-size: 1em;
+  font-weight: 700;
+}
 .button.large {
   font: var(--iq-font-body-text);
   font-size: 1.5em;

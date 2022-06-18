@@ -30,7 +30,7 @@ function AddATool(props) {
     }
   }, []);
   useEffect(() => {
-    console.log("fileUploadArray", fileUploadArray);
+    // console.log("fileUploadArray", fileUploadArray);
   }, [fileUploadArray]);
   // const userData = useSelector((state) => state.loginStatus);
   // const user = userData.user;
@@ -120,10 +120,10 @@ function AddATool(props) {
   }
 
   return (
-    <div id="output-controls" className={styles.outerwrap}>
-      <div id="add-quest-wrap" className={styles["add-quest-wrap"]}>
+    <div id="add-a-tool-outer-wrap" className={styles["add-a-tool-outer-wrap"]}>
+      <div id="add-a-tool-container" className={styles["add-a-tool-container"]}>
         <h2 className="section-title">Add A Tool Here</h2>
-        <p>
+        <p className={styles["add-a-tool-intro"]}>
           To add questions to this tool, simply click the{" "}
           <i>Create an Entry Form</i> button and fill out the small form. Feel
           free to click the same button to create as many forms as needed to add
@@ -134,10 +134,11 @@ function AddATool(props) {
         </p>
         <p>Thanks for contributing!</p>
         <div
-          id="db-login-wrap"
-          className={`${styles["inner-wrap "]}  ${styles["db-login"]}`}
+          id="db-login-container"
+          className={`${styles["inner-wrap "]}  ${styles["db-login-container"]}`}
         >
-          <p>Database login status:</p>
+          <h4>Database login status:</h4>
+
           <p>
             <span id="db-login-status" className={styles["db-login-status"]}>
               {user ? (
@@ -212,44 +213,44 @@ function AddATool(props) {
               </PushButton>
             )}
             {loginError && <p>{loginError}</p>}
-            <PushButton
-              inputOrButton="button"
-              id="create-entry-btn"
-              colorType="primary"
-              value="Add a Question"
-              data=""
-              size="small"
-              onClick={showNewQuestionFormButtonHandler}
-            >
-              {showAddQuestionForm && (
-                <span>
-                  <b>Cancel</b> the Question Entry Form
-                </span>
-              )}
-              {!showAddQuestionForm && (
-                <span>Show the Question Entry Form</span>
-              )}
-            </PushButton>
-            <PushButton
-              inputOrButton="button"
-              id="create-entry-btn"
-              colorType="primary"
-              value="Add a Question"
-              data=""
-              size="small"
-              onClick={showNewQuestionFormButtonHandler}
-            >
-              Upload a CSV Spreadsheet
-            </PushButton>
-            <CSVReader setFileUploadArray={setFileUploadArray} />
           </div>
-          {showAddQuestionForm && <AddAQuestionForm saveOrUpdateData="save" />}
+          {showAddQuestionForm && (
+            <AddAQuestionForm
+              saveOrUpdateData="save"
+              setFormParentOpen={setShowAddQuestionForm}
+            />
+          )}
           {fileUploadArray && (
             <AddAQuestionForm
               saveOrUpdateData="save"
               formData={fileUploadArray}
+              setFormParentOpen={setShowAddQuestionForm}
             />
           )}
+        </div>
+        <div className={styles["button-container"]}>
+          <h4>Poduction Tool Entry Form</h4>
+          <PushButton
+            inputOrButton="button"
+            id="create-entry-btn"
+            colorType="secondary"
+            value="Add a Question"
+            data=""
+            size="medium"
+            onClick={showNewQuestionFormButtonHandler}
+          >
+            {showAddQuestionForm && (
+              <span>
+                <b>Cancel</b> the Entry Form
+              </span>
+            )}
+            {!showAddQuestionForm && <span>Show the Entry Form</span>}
+          </PushButton>
+          <h4>Upload a CSV Spreadsheet</h4>
+
+          <div className={styles["cvs-buttons-container"]}>
+            <CSVReader setFileUploadArray={setFileUploadArray} />
+          </div>
         </div>
       </div>
     </div>

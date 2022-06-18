@@ -20,6 +20,7 @@
   overflow: hidden;
   font: var(--iq-font-subheading);
   font-size: 1rem;
+  flex-grow: 1;
 }
 
 .grid-item-title {
@@ -68,7 +69,7 @@
 }
 
 .name-wrap,
-.company-wrap {
+.notes-wrap {
   flex-basis: 100%;
   justify-content: center;
   min-width: max-content;
@@ -170,6 +171,18 @@ button.edit {
 
 .photoURL {
   min-width: 100%;
+}
+.photoURL-title {
+  display: none;
+}
+.photoURL > div {
+  max-height: 500px !important;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.productURL-text {
+  word-break: break-all;
 }
 
 .tool-row-wrap {

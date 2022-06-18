@@ -1,9 +1,10 @@
 import storage from "../storage/storage";
-import { getData } from "../storage/MongoDb";
+import { getData, getSchemaForAudioPlugin } from "../storage/MongoDb";
 
 export default async function GatherToolData() {
   const allToolsData = {};
   const dataFromStorage = storage("get");
+  let pluginSchema = await getSchemaForAudioPlugin();
   let historyDataFromStorage = null;
   let currentFilters = null;
   if (dataFromStorage) {
@@ -104,14 +105,32 @@ function objectExtractAllValuesPerKey(
         // TODO: If the value is a list, separate at the comma
 
         // Convert booleans & numbers to strings for more standardized processing
-        if (
-          typeof objectToLoop[i][key] === "boolean" ||
-          typeof objectToLoop[i][key] === "number"
-        ) {
-          objectToLoop[i][key] = '"' + objectToLoop[i][key] + '"';
-        }
+        // if (
+        //   typeof objectToLoop[i][key] === "boolean" ||
+        //   typeof objectToLoop[i][key] === "number"
+        // ) {
+        //   objectToLoop[i][key] = '"' + objectToLoop[i][key] + '"';
+        // }
 
-        if (objectToLoop[i][key].indexOf(",") >= 0) {
+        if (typeof objectToLoop[i][key] === "boolean") {
+          if (outputObject.hasOwnProperty(key)) {
+            // No need to log false Booloens
+            if (objectToLoop[i][key] === true)
+              outputObject[key].add(objectToLoop[i][key]);
+          } else {
+            outputObject[key] = new Set();
+            // No need to log false Booloens
+            if (objectToLoop[i][key] === true)
+              outputObject[key].add(objectToLoop[i][key]);
+          }
+        } else if (typeof objectToLoop[i][key] === "number") {
+          if (outputObject.hasOwnProperty(key)) {
+            outputObject[key].add(objectToLoop[i][key]);
+          } else {
+            outputObject[key] = new Set();
+            outputObject[key].add(objectToLoop[i][key]);
+          }
+        } else if (objectToLoop[i][key].indexOf(",") >= 0) {
           const termArray = objectToLoop[i][key].split(",");
 
           // For each list item, put is in the Set (removes duplicates)

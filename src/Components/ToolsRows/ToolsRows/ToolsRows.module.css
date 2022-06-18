@@ -24,6 +24,7 @@
 .tools-rows-list-container > div {
   width: 100%;
   max-width: 100%;
+  min-width: min-content;
   min-height: max-content;
   margin: 0;
   flex-basis: 23%;
@@ -35,4 +36,22 @@
 
 .tool-row-list-container > div {
   box-shadow: inset 0px -4px 4px rgb(0 0 0 / 38%), inset 0px 4px 4px #e4e4e4;
+}
+
+.open-all-button-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  transition: all 0.2s ease;
+}
+
+.open-all-button-wrap button {
+  transition: all 0.7s ease;
+}
+
+.open-all-button-wrap button:hover {
+  box-shadow: inset 0 0 30px -15px;
+  color: var(--iq-color-accent);
+  text-shadow: 0 0 3px rgba(255, 255, 0, 0.504);
+  transition: all 0.3s ease;
 }

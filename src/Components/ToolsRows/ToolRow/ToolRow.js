@@ -12,22 +12,21 @@ import {
   deleteAPlugin as deleteDocFromDb,
 } from "../../../storage/MongoDb";
 import GetPluginFormInputsWithOptions from "../../../Hooks/GetPluginFormInputsWithOptions";
+import useToolDisplayOrder from "../../../Hooks/useToolDisplayOrder";
 
 function ToolRow(props) {
   const toolsMetadata = useSelector((state) => state.toolsData.toolsMetadata);
   const [inEditMode, setInEditMode] = useState(false);
+  const [toolRowOrder, setToolRowOrder] = useState(false);
   const [deleted, setDeleted] = useState(false);
+  const toolDisplayOrder = useToolDisplayOrder;
 
   const [formInputData, setFormInputData] = useState(false);
   useEffect(() => {
-    GetPluginFormInputsWithOptions().then((res) => {
-      console.log(
-        "%c --> %cline:13%cres",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(95, 92, 51);padding:3px;border-radius:2px",
-        res
-      );
+    toolDisplayOrder().then((order) => {
+      setToolRowOrder(order);
+    });
+    GetPluginFormInputsWithOptions(toolsMetadata).then((res) => {
       setFormInputData(res);
     });
   }, []);
@@ -43,18 +42,19 @@ function ToolRow(props) {
   useEffect(() => {
     const toolFormDataArray = [tool];
     if (formInputData)
-      groomedFormInputData = groomFormOutput(toolFormDataArray, formInputData);
-  }, [tool, formInputData]);
+      groomedFormInputData = groomFormOutput(
+        toolFormDataArray,
+        formInputData,
+        toolRowOrder
+      );
+  }, [tool, formInputData, toolRowOrder]);
   const toolFormDataArray = [tool];
   if (formInputData)
-    groomedFormInputData = groomFormOutput(toolFormDataArray, formInputData);
-  console.log(
-    "%c --> %cline:50%cgroomedFormInputData",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(237, 222, 139);padding:3px;border-radius:2px",
-    groomedFormInputData
-  );
+    groomedFormInputData = groomFormOutput(
+      toolFormDataArray,
+      formInputData,
+      toolRowOrder
+    );
 
   const rowEditButtonHandler = (e, setElmOpen) => {
     setInEditMode(!inEditMode);
@@ -63,29 +63,53 @@ function ToolRow(props) {
   const rowSaveButtonHandler = (e) => {
     // Use tempKey instead of key when in dev
     // const tempKey = "TESTTEST";
-    addDocToDB(key, editedTools.current.edits);
+
+    addDocToDB(key, editedTools.current.edits, true).then((res) => {
+      setInEditMode(!inEditMode);
+      return res;
+    });
   };
 
   const deleteToolButtonHandler = (e) => {
     // Use tempKey instead of key when in dev
     // const tempKey = "TESTTEST";
-    const shouldDelete = window.confirm(
-      "Are you sure you want to delete this tool (ID: " + key + ")"
-    );
-    if (shouldDelete) {
-      deleteDocFromDb(key);
-      setDeleted(true);
+
+    if (
+      window.confirm(
+        "Are you sure you want to delete this tool (ID: " +
+          key +
+          ")? This can not be undone. You might want to use the CVS download at the bottom of the page to backup your production tools first in case you want to restore this list as it is right now. Clicking CANCEL returns to the page as-is and clicking CONFIRM will delete this tool."
+      )
+    ) {
+      deleteDocFromDb(key)
+        .then((res) => {
+          if (res.status < 299) {
+            setDeleted(true);
+          } else {
+            alert(
+              "There was an error when trying to delete the production tool. Here is the message from the server: ",
+              res.response.data.message
+            );
+          }
+        })
+        .catch((err) => {
+          alert(
+            "There was an error when trying to delete the entry. Contact the website administrator."
+          );
+        });
     }
   };
 
-  function AssembleInnerRow(tool, key, categoryNamesArray) {
+  function AssembleInnerRow(tool, key, passedCategoryNamesArray) {
+    const categoryNamesArray = passedCategoryNamesArray
+      ? passedCategoryNamesArray
+      : Object.keys(toolsMetadata);
     let rowHTML = [];
 
     function onTextChangeHandler(e, title) {
       editedTools.current.edits[title] = e.target.innerText;
     }
-
-    for (const title of categoryNamesArray) {
+    categoryNamesArray.forEach((title) => {
       let value;
       if (Object.keys(tool).includes(title)) {
         value = tool[title];
@@ -151,27 +175,49 @@ function ToolRow(props) {
           >
             {itemTitle}
           </div>
-          <div
-            key={key + Math.random()}
-            className={` ${styles[title + "-text"]}
+          <CollapsibleElm
+            key={key + "2"}
+            id={key + "-collapsible-elm"}
+            styles={{
+              position: "relative",
+            }}
+            maxHeight="10em"
+            inputOrButton="button"
+            buttonStyles={{
+              margin: "0 auto",
+              fontVariant: "small-caps",
+              transform: "translateY(100%)",
+              transition: "0.7s all ease",
+              textAlign: "center",
+              display: "flex",
+              alignItems: "center",
+              padding: "0",
+            }}
+            colorType="secondary"
+            data=""
+            size="small"
+          >
+            <div
+              key={key + Math.random()}
+              className={` ${styles[title + "-text"]}
             ${styles["grid-item-text"]} 
             ${styles["grid-item-child"]}`}
-            contentEditable={inEditMode}
-            ref={(elm) => {
-              //  Moving this out of processing to handle after elements added.
-              setTimeout(() => {
-                if (elm) editedTools.current.edits[title] = elm.innerText;
-              }, 0);
-            }}
-            onBlur={(e) => {
-              onTextChangeHandler(e, title);
-            }}
-          >
-            {value}
-          </div>
+              ref={(elm) => {
+                //  Moving this out of processing to handle after elements added.
+                setTimeout(() => {
+                  if (elm) editedTools.current.edits[title] = elm.innerText;
+                }, 0);
+              }}
+              onBlur={(e) => {
+                onTextChangeHandler(e, title);
+              }}
+            >
+              {value}
+            </div>
+          </CollapsibleElm>
         </div>
       );
-    }
+    });
 
     return rowHTML;
   }
@@ -188,8 +234,10 @@ function ToolRow(props) {
             display: "flex",
             flexWrap: "wrap",
             justifyContent: "space-between",
+            alignItems: "baseline",
+            minHeight: "21em",
           }}
-          maxHeight="9em"
+          maxHeight="21em"
           inputOrButton="button"
           buttonStyles={{
             margin: "0 auto",
@@ -205,9 +253,9 @@ function ToolRow(props) {
           colorType="primary"
           data=""
           size="small"
-          open={inEditMode}
+          open={props.openAll}
         >
-          {AssembleInnerRow(tool, key, Object.keys(toolsMetadata))}
+          {AssembleInnerRow(tool, key, toolRowOrder)}
           <div key={key + "3"} className={styles["button-container"]}>
             <PushButton
               key={key + "4"}
@@ -334,9 +382,10 @@ function ToolRow(props) {
                 padding: "0.25em 0",
                 borderRadius: "50%",
                 fontSize: "2.5rem",
-                transform: "scale(0.8, 1.8) translateX(-12.5%)",
+                transform: "scale(0.8, 1) translateX(-21.5%)",
                 fontWeight: "900",
-                textShadow: "0 0 15px #ffffff",
+                textShadow:
+                  "rgb(255 135 0) 0px 0px 2px, rgb(0 0 0) 2px 2px 4px, rgb(255 135 0) 0px 0px 15px, rgb(255 135 0) 0px 0px 30px",
                 textAlign: "left",
               }}
             />

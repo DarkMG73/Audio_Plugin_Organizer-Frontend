@@ -81,5 +81,8 @@ input:checked + .slider:before {
 .title {
   font: var(--iq-font-body-text);
   width: calc(100% - 60px);
-  /* margin: 0.5em auto 0.25em; */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 10em;
+  margin-right: 0.5em;
 }

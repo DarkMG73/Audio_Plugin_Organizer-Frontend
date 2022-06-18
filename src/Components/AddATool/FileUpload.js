@@ -10,9 +10,6 @@ const UploadFiles = () => {
   const selectFile = (event) => {
     setSelectedFiles(event.target.files);
   };
-  useEffect(() => {
-    console.log("selectedFiles", selectedFiles);
-  }, [selectedFiles]);
 
   const upload = () => {
     let currentFile = selectedFiles[0];

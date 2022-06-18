@@ -35,7 +35,7 @@ export default function CSVReader(props) {
       let assembledRow = {};
       formInputData.forEach((inputData, i) => {
         assembledRow = { ...inputData };
-        if (false) {
+        if (inputData.name === "favorite") {
           console.log(
             "%c --> %cline:38%cinputData.name === favorite",
             "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",

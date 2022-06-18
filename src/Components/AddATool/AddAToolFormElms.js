@@ -1,30 +1,16 @@
 import styles from "./AddAToolFormElms.module.css";
-import { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import FormInput from "../../UI/Form/FormInput/FormInput";
 import GetPluginFormInputsWithOptions from "../../Hooks/GetPluginFormInputsWithOptions";
+import { useSelector } from "react-redux";
+
 function AddAToolFormElms(props) {
   const [formOpen, setFormOpen] = useState(true);
   const [formInputData, setFormInputData] = useState(false);
+  const toolsMetadata = useSelector((state) => state.toolsData.toolsMetadata);
 
   useEffect(() => {
-    console.log(
-      "%c --> %cline:20%cformInputData",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(39, 72, 98);padding:3px;border-radius:2px",
-      formInputData
-    );
-  }, [formInputData]);
-
-  useEffect(() => {
-    GetPluginFormInputsWithOptions().then((res) => {
-      console.log(
-        "%c --> %cline:13%cres",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(95, 92, 51);padding:3px;border-radius:2px",
-        res
-      );
+    GetPluginFormInputsWithOptions(toolsMetadata).then((res) => {
       setFormInputData(res);
     });
   }, []);
@@ -33,6 +19,13 @@ function AddAToolFormElms(props) {
   let newFormInputData = [];
   if (formInputData)
     newFormInputData = props.formData ? props.formData : [formInputData];
+  console.log(
+    "%c --> %cline:21%cnewFormInputData",
+    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+    "color:#fff;background:rgb(56, 13, 49);padding:3px;border-radius:2px",
+    newFormInputData
+  );
 
   function cancelQuestionFormButtonHandler() {
     const close = window.confirm(
@@ -44,21 +37,34 @@ function AddAToolFormElms(props) {
     }
   }
 
+  if (newFormInputData.length > 0) {
+    newFormInputData[0].forEach((group) => {
+      // To make the flow of teh options through the form clearer, we will set fixed numbers and booleans as strings
+      if (group.name === "rating") group.options = ["1", "2", "3", "4", "5"];
+      if (group.name === "favorite") group.options = ["True", "False"];
+    });
+  }
+
   return (
-    <Fragment>
+    <Fragment key={"addtoolformelms-1"}>
       {formOpen &&
         newFormInputData.map((formDataGroup) => (
-          <Fragment>
+          <Fragment key={"addtoolformelms-2"}>
             <div
-              id={Math.random()}
-              key={Math.random()}
+              key={"addtoolformelms-1"}
               className={styles["form-group-wrap"]}
             >
               {/* This hidden input separates input groups */}
-              <input name="NEWGROUP" value="NEWGROUP" hidden />
+              <input
+                key={"addtoolformelms-3"}
+                name="NEWGROUP"
+                defaultValue="NEWGROUP"
+                hidden
+              />
               {formDataGroup.map((inputData, i) => {
                 return (
                   <FormInput
+                    key={"addtoolformelms-4" + i}
                     inputDataObj={inputData}
                     requiredError={props.requiredError}
                   />
@@ -66,6 +72,7 @@ function AddAToolFormElms(props) {
               })}
             </div>
             <button
+              key={"addtoolformelms-5"}
               className={styles["close-question-form-button"]}
               onClick={cancelQuestionFormButtonHandler}
               style={props.cancelButtonStyles}

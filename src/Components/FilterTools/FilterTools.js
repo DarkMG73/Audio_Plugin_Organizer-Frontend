@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, Fragment } from "react";
 import styles from "./FilterTools.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import SlideButton from "../../UI/Buttons/Slide-Button/Slide-Button";
@@ -6,6 +6,7 @@ import { escapeHtml } from "../../Hooks/utility";
 import SetFilteredToolIdList from "../../Hooks/SetFilteredToolList";
 import { audioToolDataActions } from "../../store/audioToolDataSlice";
 import CollapsibleElm from "../../UI/CollapsibleElm/CollapsibleElm";
+import FormInput from "../../UI/Form/FormInput/FormInput";
 
 function FilterTools(props) {
   const allToolsData = useSelector((state) => state.toolsData);
@@ -19,14 +20,58 @@ function FilterTools(props) {
   } = allToolsData;
 
   useEffect(() => {
+    // console.log(
+    //   "%c --> %cline:30%ccurrentFilters",
+    //   "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+    //   "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+    //   "color:#fff;background:rgb(248, 147, 29);padding:3px;border-radius:2px",
+    //   currentFilters
+    // );
     dispatch(audioToolDataActions.clearToolFilterIds);
     const filteredToolIdList = SetFilteredToolIdList(allTools, currentFilters);
+
     dispatch(audioToolDataActions.setToolFilterIds(filteredToolIdList));
   }, [currentFilters, allTools, dispatch]);
 
   function filterButtonHandler(e) {
     const value = escapeHtml(e.target.value);
-    if (e.target.checked) {
+
+    if (e.target.dataset.data === "rating" && value !== "") {
+      // Only one rating can be selected at a time
+      dispatch(
+        audioToolDataActions.removeFromToolFilters({
+          type: e.target.dataset.data,
+          value: currentFilters.rating,
+        })
+      );
+
+      dispatch(
+        audioToolDataActions.addToToolFilters({
+          type: e.target.dataset.data,
+          value: parseInt(value),
+        })
+      );
+
+      SetFilteredToolIdList();
+    } else if (e.target.dataset.data === "favorite") {
+      // Only one favorite selection can be selected at a time
+      dispatch(
+        audioToolDataActions.removeFromToolFilters({
+          type: e.target.dataset.data,
+          value: currentFilters.favorite,
+        })
+      );
+      if (e.target.checked) {
+        dispatch(
+          audioToolDataActions.addToToolFilters({
+            type: e.target.dataset.data,
+            value: true,
+          })
+        );
+      }
+
+      SetFilteredToolIdList();
+    } else if (e.target.checked) {
       dispatch(
         audioToolDataActions.addToToolFilters({
           type: e.target.dataset.data,
@@ -46,51 +91,109 @@ function FilterTools(props) {
     // FilterTools(allToolsData);
   }
 
-  function topicFilterButtonHandler(e) {
-    if (e.target.checked) {
-      dispatch(
-        audioToolDataActions.addToToolFilters({
-          type: "topic",
-          value: e.target.value.replace(/-/g, ""),
-        })
-      );
-    } else {
-      dispatch(
-        audioToolDataActions.removeFromToolFilters({
-          type: "topic",
-          value: e.target.value.replace(/-/g, ""),
-        })
-      );
-    }
-    // FilterTools(allToolsData);
-  }
-
-  function tagsFilterButtonHandler(e) {
-    if (e.target.checked) {
-      dispatch(
-        audioToolDataActions.addToToolFilters({
-          type: "tags",
-          value: e.target.value.replace(/-/g, ""),
-        })
-      );
-    } else {
-      dispatch(
-        audioToolDataActions.removeFromToolFilters({
-          type: "tags",
-          value: e.target.value.replace(/-/g, ""),
-        })
-      );
-    }
-    // FilterTools(allToolsData);
-  }
-
   // return <div>Filter</div>;
+
   return (
     <div id="tool-filter" className={styles.outerwrap}>
       <h2 className="section-title">Tool Filter</h2>
       <div className={styles["slide-button-wrap"]}>
         {Object.keys(currentFilters).map((topic) => {
-          if (topic === "name") return;
+          if (topic === "name" || topic.includes("URL") || topic === "notes")
+            return;
+
+          if (topic === "rating") {
+            return (
+              <div
+                key={topic + "1"}
+                className={
+                  styles["slide-button-inner-wrap"] +
+                  " " +
+                  styles[topic + "-slide-button-inner-wrap"]
+                }
+              >
+                <h3
+                  key={topic + "2"}
+                  className={styles["slide-button-inner-wrap-title"]}
+                >
+                  {topic}
+                </h3>
+                {currentFilters[topic] > 0 && (
+                  <span className={styles["option-selected"]}></span>
+                )}
+                <select onChange={filterButtonHandler} data-data={topic}>
+                  <option
+                    key={topic + "3"}
+                    type="radio"
+                    className={
+                      ["radio-button"] + " " + styles[topic + "-radio-button"]
+                    }
+                    value=""
+                  ></option>
+                  {toolsMetadata[topic].map((entry) => {
+                    return (
+                      <Fragment>
+                        <option
+                          key={entry + "3"}
+                          selected={currentFilters[topic].includes(entry)}
+                          type="radio"
+                          className={
+                            ["radio-button"] +
+                            " " +
+                            styles[topic + "-radio-button"]
+                          }
+                          value={entry}
+                        >
+                          {entry}
+                        </option>
+                      </Fragment>
+                    );
+                  })}
+                </select>
+              </div>
+            );
+          }
+          if (topic === "favorite") {
+            return (
+              <div
+                key={topic + "1"}
+                className={
+                  styles["slide-button-inner-wrap"] +
+                  " " +
+                  styles[topic + "-slide-button-inner-wrap"]
+                }
+              >
+                <h3
+                  key={topic + "2"}
+                  className={styles["slide-button-inner-wrap-title"]}
+                >
+                  {topic}
+                </h3>
+                <form>
+                  {toolsMetadata[topic].map((entry) => {
+                    return (
+                      <Fragment>
+                        <label for={entry}>{entry}</label>
+                        <input
+                          key={entry + "3"}
+                          checked={currentFilters.favorite.length > 0}
+                          type="checkbox"
+                          className={
+                            ["radio-button"] +
+                            " " +
+                            styles[topic + "-radio-button"]
+                          }
+                          data-data={topic}
+                          onChange={filterButtonHandler}
+                          value={entry}
+                        />
+                        <span className={styles["checkmark"]}></span>
+                      </Fragment>
+                    );
+                  })}
+                </form>
+              </div>
+            );
+          }
           return (
             <CollapsibleElm
               key={topic + "2"}
@@ -101,7 +204,7 @@ function FilterTools(props) {
                 flexWrap: "wrap",
                 justifyContent: "space-between",
               }}
-              maxHeight="9em"
+              maxHeight="20.5em"
               inputOrButton="button"
               buttonStyles={{
                 margin: "0 auto",
@@ -149,12 +252,6 @@ function FilterTools(props) {
             </CollapsibleElm>
           );
         })}
-      </div>
-      <div className={styles["output-container"]}>
-        <p>
-          Of the {toolsMetadata._id.length} tools, you have selected{" "}
-          {filteredToolsIds.length} in {currentFilters.toString()}.
-        </p>
       </div>
     </div>
   );

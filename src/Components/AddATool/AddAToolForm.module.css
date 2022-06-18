@@ -14,3 +14,11 @@
   position: relative;
   height: 100%;
 }
+
+.error-text {
+  border-bottom: 14px inset orangered !important;
+  border-top: 14px inset orangered !important;
+  color: orangered !important;
+  font-size: 1.5em;
+  margin: 1em auto 0;
+}
