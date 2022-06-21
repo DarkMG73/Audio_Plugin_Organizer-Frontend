@@ -1,6 +1,7 @@
 .form-group-wrap {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-evenly;
   border-radius: inherit;
   overflow: hidden;
   margin: 1em;

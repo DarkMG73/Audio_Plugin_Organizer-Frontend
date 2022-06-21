@@ -1,4 +1,4 @@
-.input-container {
+/* .input-container {
   flex-grow: 1;
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -8,9 +8,43 @@
   flex-direction: column;
   padding: 1em;
   /* flex-basis: calc(25% - 4em); */
+/* height: 100%; */
+/* } */
+.input-container {
+  flex-grow: 1;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: left;
+  min-height: 2em;
+  /* flex-direction: column; */
+  padding: 1em;
+  /* flex-basis: calc(25% - 4em); */
   height: 100%;
+  flex-basis: 50%;
+  max-width: 100%;
+  flex-wrap: wrap;
 }
+.input-container {
+  /* flex-grow: 1; */
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: left;
+  /* min-height: 2em; */
+  /* flex-direction: column; */
+  padding: 1em;
+  flex-basis: fit-content;
+  height: 100%;
+  max-width: 100%;
+  flex-wrap: wrap;
+  width: min-content;
+  width: min-content;
+  min-width: min-content;
+}
+
 .input-container > label {
+  flex-basis: 100%;
   font-variant: small-caps;
   margin: 0 auto 0.5em;
   font-size: 1.6rem;
@@ -20,14 +54,29 @@
   display: flex;
   width: 100%;
   min-height: 100%;
+  text-align: left;
+  max-width: 16em;
+  max-height: 3em;
+  overflow: hidden;
+  font-size: 1.4rem;
 }
 
+.required-input-error-text {
+  width: 100%;
+}
+
+/* .display-row {
+  flex-basis: 33.33%;
+} */
+
 .input-container input[type="text"] {
+  flex-basis: 100%;
   flex-grow: 1;
   padding: 0.5em;
   font-size: 18px;
   font-weight: 700;
   border: none;
+  margin-bottom: 1em;
 }
 
 .input-container select,
@@ -47,7 +96,7 @@
   color: var(--iq-color-accent) !important;
 }
 .required-input-error-text {
-  color: orangered !important;
+  color: var(--iq-color-accent) !important;
   font-size: 1.5em;
 }
 
@@ -56,6 +105,7 @@
 }
 
 .input-container textarea {
+  min-width: 100%;
   max-height: 100%;
   min-height: 3em;
   resize: vertical;
@@ -63,12 +113,15 @@
 
 .input-container input[type="url"] {
   height: 3em;
+  width: 100%;
 }
+
 /* *** Checkbox Styles *** */
 .input-container input[type="checkbox"] + label {
   flex-grow: 1;
+  max-width: calc(100% - 2em);
   padding: 0.5em;
-  font-size: 18px;
+  font-size: inherit;
   font-weight: 700;
   border: none;
 }
@@ -103,11 +156,16 @@
   position: absolute;
   font-weight: 900;
   top: 50%;
-  left: 3px;
-  color: orangered;
-  color: var(--color-accent-gradient);
-  text-shadow: 0 0 7px #fdff01;
+  left: 0px;
+  max-width: 110%;
+  min-width: 110%;
+  min-height: 110%;
+  color: var(--iq-color-background);
+  background: var(--iq-color-foreground-gradient);
+  text-shadow: 0 0 1px #000000, 0 0 3px #ffffff;
   transform: translateY(-50%);
+  /* color: black; */
+  box-shadow: inset -2px -2px 7px -5px black, inset 3px 3px 7px -5px white;
 }
 /****************/
 
@@ -131,6 +189,7 @@
 .input-container.input-company select {
   text-align: center;
   font-size: 2em;
+  width: 100%;
 }
 
 .input-container.productURL,
@@ -139,14 +198,16 @@
 }
 
 .input-favorite,
-.input-container .input-rating {
-  flex-basis: 10%;
+.input-container.input-rating {
   width: 11em;
   flex-shrink: 1;
+  max-width: 17em;
+  justify-content: space-evenly;
+  text-align: center;
 }
 
 .input-favorite > .input-wrap {
-  width: 5em;
+  max-width: 50%;
   margin: 0 auto;
 }
 
@@ -155,11 +216,110 @@
   margin: 0 auto;
 }
 .input-container.notes {
-  flex-basis: 70%;
+  flex-basis: 100%;
   min-height: 100%;
   flex-grow: 1;
+  text-align: center;
 }
 
 .input-container._id {
   display: none;
+}
+
+.input-container.input-functions .input-wrap {
+  position: relative;
+  min-height: fit-content;
+  flex-wrap: wrap;
+  padding: 0.5em;
+  max-height: none;
+  margin: 1em;
+  box-shadow: inset 2px 2px 3px -2px black, inset -2px -2px 3px -2px white;
+}
+.Analyzers {
+  background: rgb(90, 0, 128);
+  color: #fefefe;
+}
+.Analyzers:before {
+  content: "Analyzers";
+}
+.input-container .Dynamics {
+  background: green;
+  color: #fefefe;
+}
+.Dynamics:before {
+  content: "Dynamics";
+}
+.input-container .FrequencyControl {
+  background: rgb(0, 255, 251);
+  color: #1e1e1e;
+}
+.FrequencyControl:before {
+  content: "Frequency Control";
+}
+.input-container .MIDI {
+  background: rgb(255, 255, 255);
+  color: #3d3d3d;
+}
+.MIDI:before {
+  content: "MIDI";
+}
+.input-container .Modulation {
+  background: rgb(128, 109, 0);
+  color: #fefefe;
+}
+.Modulation:before {
+  content: "Modulation";
+}
+.input-container .Multi-FunctionShaper {
+  background: rgb(128, 0, 115);
+  color: #fefefe;
+}
+.Multi-FunctionShaper:before {
+  content: "Multi-Function Shaper";
+}
+.input-container .Saturation {
+  background: rgb(128, 30, 0);
+  color: #fefefe;
+}
+.Saturation:before {
+  content: "Saturation";
+}
+.input-container .TimeandSpace {
+  background: rgb(0, 11, 128);
+  color: #fefefe;
+}
+.TimeandSpace:before {
+  content: "Time and Space";
+}
+
+.input-container .UserAdded {
+  background: rgb(33, 33, 33);
+  color: #fefefe;
+}
+.UserAdded:before {
+  content: "User Added";
+}
+.input-container .CombinationTools {
+  background: rgb(247, 238, 206);
+  color: #222222;
+}
+.CombinationTools:before {
+  content: "Combination Tools";
+}
+.input-container .Tools {
+  background: rgb(165, 165, 165);
+  color: #222222;
+}
+.Tools:before {
+  content: "Tools";
+}
+
+.input-container.input-functions .input-wrap:before {
+  width: 100%;
+  flex-basis: 100%;
+  font-size: 0.9em;
+  opacity: 0.5;
+  letter-spacing: 0.25em;
+  margin-bottom: 0.5em;
+  font-weight: 700;
 }

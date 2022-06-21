@@ -47,6 +47,13 @@ function ToolRow(props) {
         formInputData,
         toolRowOrder
       );
+    console.log(
+      "%c --> %cline:45%cgroomedFormInputData",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
+      groomedFormInputData
+    );
   }, [tool, formInputData, toolRowOrder]);
   const toolFormDataArray = [tool];
   if (formInputData)

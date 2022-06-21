@@ -109,13 +109,6 @@ function AddAToolForm(props) {
       // Make sure name field is filled out
 
       if (entry[0] === "name" && entry[1].length <= 0) {
-        console.log(
-          "%c --> %cline:108%centry[0] === name && entry[1].length <= 0",
-          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-          "color:#fff;background:rgb(130, 57, 53);padding:3px;border-radius:2px",
-          entry[0] === "name" && entry[1].length <= 0
-        );
         // setRequiredError(true);
         nameFieldsWithRequiredError++;
         foundRequiredError = true;
@@ -145,12 +138,14 @@ function AddAToolForm(props) {
     });
 
     // If there are not enough character in the "name" field, exit
-    alert(
-      "Unfortunately, " +
-        nameFieldsWithRequiredError +
-        '  "Name" field(s) remain blank. Every entry is required to have a name. In addition, that name can not be the same as any production tool name that you currently have in the database or  that is being submitted now. This is to prevent duplicate production tools. If two different tools do happen to have the same name, please slightly alter one name to make it unique.'
-    );
-    if (foundRequiredError) return;
+    if (foundRequiredError) {
+      alert(
+        "Unfortunately, " +
+          nameFieldsWithRequiredError +
+          '  "Name" field(s) remain blank. Every entry is required to have a name. In addition, that name can not be the same as any production tool name that you currently have in the database or  that is being submitted now. This is to prevent duplicate production tools. If two different tools do happen to have the same name, please slightly alter one name to make it unique.'
+      );
+      return;
+    }
 
     // Reduce companySelections to only company entries in excess of one per group
     let newGroupCounter = 0;
@@ -237,7 +232,7 @@ function AddAToolForm(props) {
 
         if (props.saveOrUpdateData === "save")
           savePlugin(theData, true).then((res) => {
-            if (res.response.status < 299) {
+            if (res.status && res.status < 299) {
               GatherToolData().then((data) => {
                 console.log("🟣 | getData | questionsFromDB", data);
                 dispatch(audioToolDataActions.initState(data));

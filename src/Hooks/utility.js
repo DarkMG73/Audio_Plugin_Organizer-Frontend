@@ -122,24 +122,78 @@ export const groomFormOutput = (formOutputArray, passFormInputData) => {
   pairedObjectsArray.forEach((row) => {
     const rowGroup = [];
     let assembledRow = {};
+
     formInputData.forEach((inputData, i) => {
       assembledRow = { ...inputData };
+
       if (
         row.hasOwnProperty(inputData.name) &&
         row[inputData.name].constructor === Boolean
       ) {
-        if (row[inputData.name]) assembledRow.preFilledData = "true";
         if (row[inputData.name] == false) assembledRow.preFilledData = "false";
+      } else if (inputData.name === "functions") {
+        // See if row[inputData.name], which is an array, has an item that is equal to any of the set options. To do this, we need to compare the option item after the tilde ( ~) )
+
+        //  loop through row[inputData.name]
+
+        const groomedFunctionsOptions = row[inputData.name].map(
+          (rowFunctionOption) => {
+            // loop through all of the function options
+            for (const functionOption of inputData.options) {
+              // break each function option down into part after the tilde (~)
+              let optionGroup = "User Added";
+              let functionOptionName = functionOption;
+              if (functionOption.includes("~")) {
+                [optionGroup, functionOptionName] = functionOption.split("~");
+                optionGroup = optionGroup.trim();
+                functionOptionName = functionOptionName.trim();
+              }
+
+              // compare the this with the row variable
+              // if they match, push the prefilled data array variable with the information plus the group info preceding it.
+
+              if (rowFunctionOption === functionOptionName) {
+                return optionGroup + " ~ " + functionOptionName;
+              }
+              // if they do not match, let pass to next in loop
+            }
+
+            // if at the end of the loop nothing matches, just assign the "User ~ " group and the info an array and assign that to the prefilled array.
+
+            assembledRow.options.push("User Added ~ " + rowFunctionOption);
+            return "User Added" + " ~ " + rowFunctionOption;
+          }
+        );
+
+        assembledRow.preFilledData = groomedFunctionsOptions;
       } else {
         assembledRow.preFilledData = row[inputData.name]
           ? row[inputData.name]
           : "";
       }
+
+      const removeUngroomedOptions = [...assembledRow.options];
+      removeUngroomedOptions.forEach((optionToRemove) => {
+        if (!optionToRemove.includes("~")) {
+          assembledRow.options.splice(
+            assembledRow.options.indexOf(optionToRemove),
+            1
+          );
+        }
+      });
+
       rowGroup.push(assembledRow);
     });
 
     outputArray.push(rowGroup);
   });
+  console.log(
+    "%c --> %cline:208%coutputArray",
+    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+    "color:#fff;background:rgb(118, 77, 57);padding:3px;border-radius:2px",
+    outputArray
+  );
   return outputArray;
 };
 

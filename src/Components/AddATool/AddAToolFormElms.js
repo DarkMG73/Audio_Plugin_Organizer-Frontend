@@ -31,6 +31,7 @@ function AddAToolFormElms(props) {
     const close = window.confirm(
       "Are you sure you want to cancel this specific question? Any data input for this question will be lost (other questions in this Question Entry Form will not be affected)? "
     );
+
     if (close) {
       setFormOpen(false);
       props.setFormParentOpen(false);
@@ -44,7 +45,13 @@ function AddAToolFormElms(props) {
       if (group.name === "favorite") group.options = ["True", "False"];
     });
   }
-
+  console.log(
+    "%c --> %cline:42%c LAST newFormInputData",
+    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+    "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
+    newFormInputData
+  );
   return (
     <Fragment key={"addtoolformelms-1"}>
       {formOpen &&

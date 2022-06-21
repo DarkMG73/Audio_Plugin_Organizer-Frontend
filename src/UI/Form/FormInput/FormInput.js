@@ -5,9 +5,18 @@ const FormInput = (props) => {
   const [requiredError, setRequiredError] = useState(true);
   const [requiredClass, setRequiredClass] = useState("");
   const input = props.inputDataObj;
+  console.log(
+    "%c --> %cline:7%cinput",
+    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+    "color:#fff;background:rgb(1, 77, 103);padding:3px;border-radius:2px",
+    input
+  );
+
   useEffect(() => {
     if (input.required == true) setRequiredClass("required-input");
   }, []);
+
   useEffect(() => {
     if (input.required == true && requiredError) {
       setRequiredClass("required-input-error");
@@ -16,14 +25,32 @@ const FormInput = (props) => {
       setRequiredClass("required-input");
     }
   }, [requiredError]);
+
   const [inputValue, setInputValue] = useState(input.preFilledData);
+
   const [checkboxTextInputValue, setCheckboxTextInputValue] = useState();
+
+  console.log(
+    "%c --> %cline:29%cinputValue",
+    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+    "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
+    inputValue
+  );
+
   useEffect(() => {
     if (inputValue.constructor === String) {
       setInputValue(inputValue.replaceAll('"', ""));
     } else {
       setInputValue(inputValue);
     }
+    console.log(
+      "%c --> %cline:39%cinputValue",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(179, 214, 110);padding:3px;border-radius:2px",
+      inputValue
+    );
   }, [inputValue]);
   // useEffect(() => {
   //   console.log(
@@ -60,6 +87,15 @@ const FormInput = (props) => {
     );
   };
 
+  const groomedOptions = input.options.map((option) => option.trim());
+  console.log(
+    "%c --> %cline:79%cgroomedOptions",
+    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+    "color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px",
+    groomedOptions
+  );
+
   if (input.type === "textarea") {
     outputJSX = (
       <div
@@ -85,7 +121,6 @@ const FormInput = (props) => {
             key={"form-input-3"}
             className={styles[requiredClass + "-text"]}
           >
-            <br />
             &uarr; This field is required &uarr;
           </span>
         )}
@@ -94,33 +129,38 @@ const FormInput = (props) => {
   } else if (input.type === "select") {
     // *** Select Boxes***
     let inputHasSelected = false;
-    const options = input.options.map((option, i) => {
-      if (inputValue.toLowerCase().trim() == option.toLowerCase().trim()) {
-        inputHasSelected = true;
-        return (
-          <option
-            key={"form-input-" + i}
-            name={input.name}
-            className={styles.option + " " + styles["option-" + input.name]}
-            defaultValue={option}
-            selected
-          >
-            {option}
-          </option>
-        );
-      } else {
-        return (
-          <option
-            key={"form-input-" + i}
-            name={input.name}
-            className={styles.option + " " + styles["option-" + input.name]}
-            defaultValue={option}
-          >
-            {option}
-          </option>
-        );
-      }
-    });
+
+    const options = groomedOptions
+      .sort(function (a, b) {
+        return a.toLowerCase().localeCompare(b.toLowerCase());
+      })
+      .map((option, i) => {
+        if (inputValue.toLowerCase().trim() == option.toLowerCase().trim()) {
+          inputHasSelected = true;
+          return (
+            <option
+              key={"form-input-" + i}
+              name={input.name}
+              className={styles.option + " " + styles["option-" + input.name]}
+              defaultValue={option}
+              selected
+            >
+              {option}
+            </option>
+          );
+        } else {
+          return (
+            <option
+              key={"form-input-" + i}
+              name={input.name}
+              className={styles.option + " " + styles["option-" + input.name]}
+              defaultValue={option}
+            >
+              {option}
+            </option>
+          );
+        }
+      });
     if (!inputHasSelected)
       options.push(
         <option
@@ -153,7 +193,7 @@ const FormInput = (props) => {
           key={"form-input-2"}
           type="text"
           name={input.name}
-          defaultValue={inputValue}
+          value={inputValue}
           ref={requiredTextInput}
           onChange={textInputOnChangeHandler}
           className={styles[requiredClass]}
@@ -163,7 +203,6 @@ const FormInput = (props) => {
             key={"form-input-3"}
             className={styles[requiredClass + "-text"]}
           >
-            <br />
             &uarr; This field is required &uarr;
           </span>
         )}
@@ -182,7 +221,22 @@ const FormInput = (props) => {
     );
   } else if (input.type === "checkbox" || input.type === "radio") {
     // *** Checkboxes and Radio Buttons***
-    const options = input.options.map((option, i) => {
+
+    if (input.name === "functions") {
+      groomedOptions.sort(function (a, b) {
+        return a.toLowerCase().localeCompare(b.toLowerCase());
+      });
+    }
+
+    const options = groomedOptions.map((option, i) => {
+      let optionGroup = "";
+      let optionName = option;
+      if (option.includes("~")) {
+        [optionGroup, optionName] = option.split("~");
+        optionGroup = optionGroup.trim();
+        optionName = optionName.trim();
+      }
+
       if (
         (inputValue.constructor.name === "Number" ||
           inputValue.constructor.name === "Boolean" ||
@@ -215,26 +269,33 @@ const FormInput = (props) => {
           inputValue.constructor === Array) &&
         inputValue.length > 0 &&
         (inputValue.toString().toLowerCase().trim() ==
-          option.toLowerCase().trim() ||
+          optionName.toLowerCase().trim() ||
           inputValue.includes(option))
       ) {
         return (
           <div
-            key={"form-input-a" + option}
+            key={"form-input-a" + optionName}
             className={
-              styles["input-wrap"] + " " + styles["input-option" + option]
+              styles["input-wrap"] +
+              " " +
+              styles["input-option" + optionName] +
+              " " +
+              styles["display-row"] +
+              " " +
+              styles[optionGroup.replaceAll(" ", "")]
             }
+            data-group={optionGroup.replaceAll(" ", "")}
           >
             <input
-              key={"form-input-b" + option}
+              key={"form-input-b" + optionName}
               type={input.type}
               name={input.name}
-              value={option}
+              value={optionName}
               checked={"true"}
               onChange={checkboxInputOnChangeHandler}
             />{" "}
             <label key={"form-input-a2"} htmlFor={input.name}>
-              {option}
+              {optionName}
             </label>
           </div>
         );
@@ -243,18 +304,25 @@ const FormInput = (props) => {
           <div
             key={"form-input-a3" + i}
             className={
-              styles["input-wrap"] + " " + styles["input-option" + option]
+              styles["input-wrap"] +
+              " " +
+              styles["input-option" + optionName] +
+              " " +
+              styles["display-row"] +
+              " " +
+              styles[optionGroup.replaceAll(" ", "")]
             }
+            data-group={optionGroup.replaceAll(" ", "")}
           >
             <input
               key={"form-inputa4"}
               type={input.type}
               name={input.name}
-              defaultValue={option}
+              defaultValue={optionName}
               onChange={checkboxInputOnChangeHandler}
             />{" "}
             <label key={"form-input-a5"} htmlFor={input.name}>
-              {option}
+              {optionName}
             </label>
           </div>
         );
@@ -277,7 +345,6 @@ const FormInput = (props) => {
               key={"form-input-a8"}
               className={styles[requiredClass + "-text"]}
             >
-              <br />
               &uarr; This field is required &uarr;
             </span>
           )}
@@ -309,7 +376,6 @@ const FormInput = (props) => {
               key={"form-input-c4"}
               className={styles[requiredClass + "-text"]}
             >
-              <br />
               &uarr; This field is required &uarr;
             </span>
           )}
@@ -337,7 +403,6 @@ const FormInput = (props) => {
         />
         {requiredError && input.required == true && (
           <span key={"form-input"} className={styles[requiredClass + "-text"]}>
-            <br />
             &uarr; This field is required &uarr;
           </span>
         )}

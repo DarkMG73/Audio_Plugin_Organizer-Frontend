@@ -1,3 +1,4 @@
+import topicOptions from "./topicOptions";
 export const formInputData = {
   name: {
     title: "Name",
@@ -11,7 +12,7 @@ export const formInputData = {
     title: "Company",
     name: "company",
     type: "select",
-    options: ["Klienhelm", "SoftTube", "Brainworx", "SPL"],
+    options: topicOptions.company,
     required: "true",
     preFilledData: "",
   },
@@ -19,7 +20,7 @@ export const formInputData = {
     title: "Functions",
     name: "functions",
     type: "checkbox",
-    options: ["Compressor", "EQ", "Saturator"],
+    options: topicOptions.functions,
     value: "Use Case",
     required: "false",
     preFilledData: "",
