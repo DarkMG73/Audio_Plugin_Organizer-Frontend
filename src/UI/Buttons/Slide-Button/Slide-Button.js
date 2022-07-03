@@ -2,9 +2,14 @@ import styles from "./Slide-Button.module.css";
 
 const SlideButton = (props) => {
   return (
-    <div className={styles["slide-button-wrap"]}>
-      <span className={styles.title}>{props.label}</span>
-      <label className={styles.switch}>
+    <div
+      key={"slide-bitton-1" + props.label}
+      className={styles["slide-button-wrap"]}
+    >
+      <span key={"slide-bitton-2" + props.label} className={styles.title}>
+        {props.label}
+      </span>
+      <label key={"slide-bitton-3" + props.label} className={styles.switch}>
         <input
           key={props.label}
           type="checkbox"
@@ -15,7 +20,10 @@ const SlideButton = (props) => {
           defaultChecked={props.checked}
           data-data={props.data}
         />
-        <span className={styles["slider"]}></span>
+        <span
+          key={"slide-bitton-4" + props.label}
+          className={styles["slider"]}
+        ></span>
       </label>
     </div>
   );

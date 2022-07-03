@@ -13,7 +13,7 @@ export const formInputData = {
     name: "company",
     type: "select",
     options: topicOptions.company,
-    required: "true",
+    required: false,
     preFilledData: "",
   },
   functions: {
@@ -31,7 +31,7 @@ export const formInputData = {
     type: "checkbox",
     options: ["Vibey Analog", "Analog Mastering", "Digital Precision"],
     value: "Precision",
-    required: "false",
+    required: false,
     preFilledData: "",
   },
   color: {
@@ -47,7 +47,7 @@ export const formInputData = {
       "Sci-Fi",
     ],
     value: "Color",
-    required: "false",
+    required: false,
     preFilledData: "",
   },
   productURL: {
@@ -81,6 +81,14 @@ export const formInputData = {
     options: ["1", "2", "3", "4", "5"],
     required: false,
     preFilledData: "",
+  },
+  status: {
+    title: "Status",
+    name: "status",
+    type: "select",
+    options: topicOptions.status,
+    required: false,
+    preFilledData: "Active",
   },
   notes: {
     title: "Notes",

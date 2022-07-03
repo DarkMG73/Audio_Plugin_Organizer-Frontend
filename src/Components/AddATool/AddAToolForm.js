@@ -1,21 +1,18 @@
 import { useState, useEffect, Fragment } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { audioToolDataActions } from "../../store/audioToolDataSlice";
 import styles from "./AddAToolForm.module.css";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
-import AddAQuestionFormElms from "./AddAToolFormElms";
+import AddAToolFormElms from "./AddAToolFormElms";
 import { sha256 } from "js-sha256";
 // import { addDocToDB } from "../../storage/firebase.config";
 import { savePlugin, updateAPlugin } from "../../storage/MongoDb";
 import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
-import GatherToolData from "../../Hooks/GatherToolData";
 
 function AddAToolForm(props) {
   // const userLoggedIn = useSelector((state) => state.loginStatus.userLoggedIn);
   var userLoggedIn = true;
   const [requiredError, setRequiredError] = useState(false);
   const [formJSX, setFormJSX] = useState([
-    <AddAQuestionFormElms
+    <AddAToolFormElms
       key={"addatoolformcomponent-1"}
       formData={props.formData}
       setFormParentOpen={props.setFormParentOpen}
@@ -23,11 +20,10 @@ function AddAToolForm(props) {
       requiredError={props.requiredError}
     />,
   ]);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     setFormJSX([
-      <AddAQuestionFormElms
+      <AddAToolFormElms
         key={"addatoolformcomponent-2"}
         formData={props.formData}
         setFormParentOpen={props.setFormParentOpen}
@@ -36,11 +32,12 @@ function AddAToolForm(props) {
       />,
     ]);
   }, [requiredError]);
+
   function addAnotherQuestionFormButtonHandler(e) {
     e.preventDefault();
     setFormJSX([
       ...formJSX,
-      <AddAQuestionFormElms
+      <AddAToolFormElms
         key={"addatoolformcomponent-3"}
         setFormParentOpen={props.setFormParentOpen}
         cancelButtonStyles={props.cancelButtonStyles}
@@ -65,6 +62,7 @@ function AddAToolForm(props) {
 
     let nameFieldsWithRequiredError = 0;
     dataEntries.forEach((entry) => {
+      entry[0] = entry[0].substring(entry[0].indexOf("#") + 1);
       if (entriesRequiringNumbers.includes(entry[0])) {
         sortedDataEntries.push([entry[0], parseInt(entry[1])]);
       } else if (entriesRequiringBoolean.includes(entry[0])) {
@@ -78,7 +76,7 @@ function AddAToolForm(props) {
       } else {
         const arrayOfStrings = entry[1].split(",");
         arrayOfStrings.forEach((value) => {
-          sortedDataEntries.push([entry[0], value]);
+          sortedDataEntries.push([entry[0], value.replace("~", "")]);
         });
       }
     });
@@ -114,17 +112,17 @@ function AddAToolForm(props) {
         foundRequiredError = true;
         return;
       }
+
       // If multiple companies put in, keep only one
       if (entry[0] === "NEWGROUP") {
         // Mark begining of new group in companySelections
         companySelections.push("NEWGROUP");
+
         // Reset group used term log for each NEWGROUP element in usedValues
         usedValues = { indexesToRemove: [...usedValues.indexesToRemove] };
       } else if (entry[0] === "company") {
         companySelections.push(entry[2]);
-      }
-      // Remove duplicates from all others
-      else {
+      } else {
         if (usedValues.hasOwnProperty(entry[0])) {
           if (usedValues[entry[0]].includes(entry[1])) {
             usedValues.indexesToRemove.push(entry[2]);
@@ -233,11 +231,12 @@ function AddAToolForm(props) {
         if (props.saveOrUpdateData === "save")
           savePlugin(theData, true).then((res) => {
             if (res.status && res.status < 299) {
-              GatherToolData().then((data) => {
-                console.log("🟣 | getData | questionsFromDB", data);
-                dispatch(audioToolDataActions.initState(data));
-                props.setFormParentOpen(false);
-              });
+              window.location.reload();
+              // GatherToolData().then((data) => {
+              //   console.log("🟣 | getData | questionsFromDB", data);
+              //   dispatch(audioToolDataActions.initState(data));
+              //   props.setFormParentOpen(false);
+              // });
             } else if (res.response.status === 404) {
               alert(
                 "IS THE NAME UNIQUE? There was an error when trying to save the new entry. This was most likely caused by trying to add the entry with the same name as an existing tool. Make sure you do not already have this one saved. If it is a different tool that happens to have the same exact name as one you already have saved, please alter this name in some way. The name must be unique."
@@ -252,11 +251,12 @@ function AddAToolForm(props) {
         if (props.saveOrUpdateData === "update")
           updateAPlugin(theData.id, theData, true).then((res) => {
             if (res.status < 299) {
-              GatherToolData().then((data) => {
-                console.log("🟣 | getData | questionsFromDB", data);
-                dispatch(audioToolDataActions.initState(data));
-                props.setFormParentOpen(false);
-              });
+              window.location.reload();
+              // GatherToolData().then((data) => {
+              //   console.log("🟣 | getData | questionsFromDB", data);
+              //   dispatch(audioToolDataActions.initState(data));
+              //   props.setFormParentOpen(false);
+              // });
             } else {
               alert(
                 "There was an error when trying to update this production tool. If the problem continues, please contact the website administrator. Here is the message from the server: ",
@@ -281,13 +281,6 @@ function AddAToolForm(props) {
       // })
     }
   }
-  console.log(
-    "%c --> %cline:263%cformJSX",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(34, 8, 7);padding:3px;border-radius:2px",
-    formJSX
-  );
 
   return (
     <form action="" id="add-quest-form" className={styles["inner-wrap form"]}>

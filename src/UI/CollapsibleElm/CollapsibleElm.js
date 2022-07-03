@@ -14,16 +14,27 @@ function CollapsibleElm(props) {
   }
 
   useEffect(() => {
-    setTimeout(() => {
-      if (isOverflowActive(textRef.current)) {
-        setOverflowActive(true);
-        return;
-      }
-
+    if (isOverflowActive(textRef.current)) {
+      setOverflowActive(true);
+    } else {
       setOverflowActive(false);
-    }, 1000);
+    }
   }, []);
 
+  setTimeout(() => {
+    if (isOverflowActive(textRef.current)) {
+      setOverflowActive(true);
+    } else {
+      setOverflowActive(false);
+    }
+  }, 5000);
+  setTimeout(() => {
+    if (isOverflowActive(textRef.current)) {
+      setOverflowActive(true);
+    } else {
+      setOverflowActive(false);
+    }
+  }, 5000);
   const seeMoreButtonHandler = (e) => {
     setElmOpen(!elmOpen);
   };

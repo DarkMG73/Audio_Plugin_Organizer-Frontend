@@ -36,29 +36,8 @@ export default function CSVReader(props) {
       formInputData.forEach((inputData, i) => {
         assembledRow = { ...inputData };
         if (inputData.name === "favorite") {
-          console.log(
-            "%c --> %cline:38%cinputData.name === favorite",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
-            inputData.name === "favorite"
-          );
           if (row[inputData.name]) {
-            console.log(
-              "%c --> %cline:40%crow[inputData.name]",
-              "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-              "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-              "color:#fff;background:rgb(161, 23, 21);padding:3px;border-radius:2px",
-              row[inputData.name]
-            );
             if (row[inputData.name].toLowerCase() == "true") {
-              console.log(
-                "%c --> %cline:41%crow[inputData.name].toLowerCase() ",
-                "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                "color:#fff;background:rgb(229, 187, 129);padding:3px;border-radius:2px",
-                row[inputData.name].toLowerCase()
-              );
               assembledRow.preFilledData = "true";
             } else {
               assembledRow.preFilledData = "false";

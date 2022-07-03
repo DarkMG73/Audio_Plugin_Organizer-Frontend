@@ -75,9 +75,9 @@ function exportCSVFile(headers, items, fileTitle) {
         if (str[0] == ",") {
           str = str.substring(1);
         }
-        outputGroup[topic] = str.replaceAll(",", "|");
+        outputGroup[topic] = str.replaceAll(",", "/");
       } else if (group[topic].constructor === String) {
-        outputGroup[topic] = group[topic].replaceAll(",", "|");
+        outputGroup[topic] = group[topic].replaceAll(",", "/");
       } else {
         outputGroup[topic] = group[topic];
       }

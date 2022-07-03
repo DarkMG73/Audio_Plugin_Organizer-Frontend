@@ -21,6 +21,10 @@ const Home = () => {
             margin: " 0",
             minWidth: "min-content",
             width: "177px",
+            position: "sticky",
+            height: "100vh",
+            overflowY: "auto",
+            top: "0",
           }}
         >
           <FilterTools />

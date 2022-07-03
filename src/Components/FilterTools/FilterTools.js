@@ -94,9 +94,11 @@ function FilterTools(props) {
   // return <div>Filter</div>;
 
   return (
-    <div id="tool-filter" className={styles.outerwrap}>
-      <h2 className="section-title">Tool Filter</h2>
-      <div className={styles["slide-button-wrap"]}>
+    <div key={"tool-filter-1"} id="tool-filter" className={styles.outerwrap}>
+      <h2 key={"tool-filter-2"} className="section-title">
+        Tool Filter
+      </h2>
+      <div key={"tool-filter-3"} className={styles["slide-button-wrap"]}>
         {Object.keys(currentFilters).map((topic) => {
           if (topic === "name" || topic.includes("URL") || topic === "notes")
             return;
@@ -118,9 +120,16 @@ function FilterTools(props) {
                   {topic}
                 </h3>
                 {currentFilters[topic] > 0 && (
-                  <span className={styles["option-selected"]}></span>
+                  <span
+                    key={"tool-filter-1" + topic}
+                    className={styles["option-selected"]}
+                  ></span>
                 )}
-                <select onChange={filterButtonHandler} data-data={topic}>
+                <select
+                  key={"tool-filter-2" + topic}
+                  onChange={filterButtonHandler}
+                  data-data={topic}
+                >
                   <option
                     key={topic + "3"}
                     type="radio"
@@ -131,7 +140,7 @@ function FilterTools(props) {
                   ></option>
                   {toolsMetadata[topic].map((entry) => {
                     return (
-                      <Fragment>
+                      <Fragment key={entry + "fragment 1"}>
                         <option
                           key={entry + "3"}
                           selected={currentFilters[topic].includes(entry)}
@@ -155,7 +164,7 @@ function FilterTools(props) {
           if (topic === "favorite") {
             return (
               <div
-                key={topic + "1"}
+                key={topic + "10"}
                 className={
                   styles["slide-button-inner-wrap"] +
                   " " +
@@ -163,16 +172,21 @@ function FilterTools(props) {
                 }
               >
                 <h3
-                  key={topic + "2"}
+                  key={topic + "20"}
                   className={styles["slide-button-inner-wrap-title"]}
                 >
                   {topic}
                 </h3>
-                <form>
+                <form key={"tool-filter-form-1" + topic}>
                   {toolsMetadata[topic].map((entry) => {
                     return (
-                      <Fragment>
-                        <label for={entry}>{entry}</label>
+                      <Fragment key={"tool-filter-form-2" + entry}>
+                        <label
+                          key={"tool-filter-form-3" + entry}
+                          htmlFor={entry.toString()}
+                        >
+                          {entry}
+                        </label>
                         <input
                           key={entry + "3"}
                           checked={currentFilters.favorite.length > 0}
@@ -186,7 +200,10 @@ function FilterTools(props) {
                           onChange={filterButtonHandler}
                           value={entry}
                         />
-                        <span className={styles["checkmark"]}></span>
+                        <span
+                          key={"tool-filter-form-4" + entry}
+                          className={styles["checkmark"]}
+                        ></span>
                       </Fragment>
                     );
                   })}
@@ -196,7 +213,7 @@ function FilterTools(props) {
           }
           return (
             <CollapsibleElm
-              key={topic + "2"}
+              key={topic + "20"}
               id={topic + "-collapsible-elm"}
               styles={{
                 position: "relative",
@@ -228,11 +245,11 @@ function FilterTools(props) {
               open={false}
             >
               <div
-                key={topic + "1"}
+                key={topic + "30"}
                 className={styles["slide-button-inner-wrap"]}
               >
                 <h3
-                  key={topic + "2"}
+                  key={topic + "40"}
                   className={styles["slide-button-inner-wrap-title"]}
                 >
                   {topic}
@@ -240,7 +257,7 @@ function FilterTools(props) {
                 {toolsMetadata[topic].map((entry) => {
                   return (
                     <SlideButton
-                      key={entry + "3"}
+                      key={entry + "30"}
                       label={entry}
                       onClick={filterButtonHandler}
                       checked={currentFilters[topic].includes(entry)}

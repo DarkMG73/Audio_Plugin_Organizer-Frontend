@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-
+import { useSelector } from "react-redux";
 // import {
 //   signInWithEmailAndPassword,
 //   onAuthStateChanged,
@@ -8,11 +7,10 @@ import { useSelector, useDispatch } from "react-redux";
 //   signOut,
 // } from "firebase/auth";
 // import { loginStatusActions } from "../../store/loginStatusSlice";
+// import { auth } from "../../storage/firebase.config.js";
 import styles from "./AddATool.module.css";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
 import AddAQuestionForm from "./AddAToolForm";
-// import { auth } from "../../storage/firebase.config.js";
-import FileUpload from "./FileUpload";
 import CSVReader from "./CSVReader/CSVReader";
 
 function AddATool(props) {
@@ -29,9 +27,8 @@ function AddATool(props) {
       setShowAddQuestionForm(true);
     }
   }, []);
-  useEffect(() => {
-    // console.log("fileUploadArray", fileUploadArray);
-  }, [fileUploadArray]);
+
+  // LOGIN & USER DATA
   // const userData = useSelector((state) => state.loginStatus);
   // const user = userData.user;
   // const isLoggedIn = userData.userLoggedIn;
@@ -53,6 +50,7 @@ function AddATool(props) {
   //     dispatch(loginStatusActions.logOut());
   //   }
   // });
+
   const logInButtonHandler = () => {
     setShowLoginForm(!showLoginForm);
   };
@@ -92,13 +90,13 @@ function AddATool(props) {
     ("click");
     try {
       // const user = await signOut(auth);
-      console.log(
-        "%c --> %cline:67%cuser",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(131, 175, 155);padding:3px;border-radius:2px",
-        user
-      );
+      // console.log(
+      //   "%c --> %cline:67%cuser",
+      //   "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      //   "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      //   "color:#fff;background:rgb(131, 175, 155);padding:3px;border-radius:2px",
+      //   user
+      // );
       setLoginError(false);
     } catch (error) {
       setLoginError(
@@ -175,7 +173,7 @@ function AddATool(props) {
 
             {showLoginForm && !user ? (
               <form name="login-form" onSubmit={logInSubmitHandler}>
-                <label for="login-email">Email Address</label>
+                <label htmlFor="login-email">Email Address</label>
                 <input
                   type="text"
                   name="login-email"
@@ -184,7 +182,7 @@ function AddATool(props) {
                   }}
                 />
 
-                <label for="login-password">Email Address</label>
+                <label htmlFor="login-password">Email Address</label>
                 <input
                   type="text"
                   name="login-password"

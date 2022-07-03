@@ -106,7 +106,7 @@ const createKeyValueObjectsArray = (formOutputArray) => {
 
 export const groomFormOutput = (formOutputArray, passFormInputData) => {
   const pairedObjectsArray = formOutputArray;
-
+  const duplicateFunctionOptions = [];
   // The _id field must remain to allow the ID to be passed on DB item updates.
   const idData = {
     title: "Tool ID",
@@ -135,7 +135,6 @@ export const groomFormOutput = (formOutputArray, passFormInputData) => {
         // See if row[inputData.name], which is an array, has an item that is equal to any of the set options. To do this, we need to compare the option item after the tilde ( ~) )
 
         //  loop through row[inputData.name]
-
         const groomedFunctionsOptions = row[inputData.name].map(
           (rowFunctionOption) => {
             // loop through all of the function options
@@ -143,6 +142,7 @@ export const groomFormOutput = (formOutputArray, passFormInputData) => {
               // break each function option down into part after the tilde (~)
               let optionGroup = "User Added";
               let functionOptionName = functionOption;
+
               if (functionOption.includes("~")) {
                 [optionGroup, functionOptionName] = functionOption.split("~");
                 optionGroup = optionGroup.trim();
@@ -161,39 +161,94 @@ export const groomFormOutput = (formOutputArray, passFormInputData) => {
             // if at the end of the loop nothing matches, just assign the "User ~ " group and the info an array and assign that to the prefilled array.
 
             assembledRow.options.push("User Added ~ " + rowFunctionOption);
+
             return "User Added" + " ~ " + rowFunctionOption;
           }
         );
 
         assembledRow.preFilledData = groomedFunctionsOptions;
+
+        const removeUngroomedOptions = [...assembledRow.options];
+
+        // Groom user added options
+        removeUngroomedOptions.forEach((optionToRemove) => {
+          if (!optionToRemove.includes("~")) {
+            if (duplicateFunctionOptions.includes(optionToRemove.trim())) {
+              assembledRow.options.splice(
+                assembledRow.options.indexOf(optionToRemove),
+                1
+              );
+            } else {
+              assembledRow.options[
+                assembledRow.options.indexOf(optionToRemove)
+              ] = "User Added" + " ~ " + optionToRemove;
+            }
+          } else {
+            let [optionGroup, optionName] = optionToRemove.split("~");
+            optionGroup = optionGroup.trim();
+            optionName = optionName.trim();
+
+            if (duplicateFunctionOptions.includes(optionName)) {
+              assembledRow.options.splice(
+                assembledRow.options.indexOf(
+                  "User Added" + " ~ " + optionToRemove
+                ),
+                1
+              );
+            }
+          }
+        });
+
+        const tempAssembledRowOptions = [...assembledRow.options];
+        tempAssembledRowOptions.forEach((optionOne) => {
+          // Separate the first options
+          let [optionOneGroup, optionOneName] = optionOne.split("~");
+          optionOneGroup = optionOneGroup.trim();
+          optionOneName = optionOneName.trim();
+          // Remove any blanks
+          if (optionOneName === "" || optionOneName === " ") {
+            assembledRow.options.splice(
+              assembledRow.options.indexOf(optionOne),
+              1
+            );
+            return;
+          }
+          // Loop through assembledRow.options and remove any user-added duplicates
+          if (optionOneGroup === "User Added") {
+            let foundCount = 0;
+            assembledRow.options.forEach((rowOption) => {
+              let [rowOptionGroup, rowOptionName] = rowOption.split("~");
+              rowOptionGroup = rowOptionGroup.trim();
+              rowOptionName = rowOptionName.trim();
+
+              if (optionOneName === rowOptionName) {
+                foundCount++;
+                if (foundCount > 1) {
+                  assembledRow.options.splice(
+                    assembledRow.options.indexOf(optionOne),
+                    1
+                  );
+                }
+              }
+            });
+          }
+        });
+
+        // Remove any duplicates
+        // const optionsSet = new Set();
+        // assembledRow.options.forEach((option) => optionsSet.add(option));
+        // assembledRow.options = Array.from(optionsSet);
       } else {
         assembledRow.preFilledData = row[inputData.name]
           ? row[inputData.name]
           : "";
       }
 
-      const removeUngroomedOptions = [...assembledRow.options];
-      removeUngroomedOptions.forEach((optionToRemove) => {
-        if (!optionToRemove.includes("~")) {
-          assembledRow.options.splice(
-            assembledRow.options.indexOf(optionToRemove),
-            1
-          );
-        }
-      });
-
       rowGroup.push(assembledRow);
     });
 
     outputArray.push(rowGroup);
   });
-  console.log(
-    "%c --> %cline:208%coutputArray",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(118, 77, 57);padding:3px;border-radius:2px",
-    outputArray
-  );
   return outputArray;
 };
 

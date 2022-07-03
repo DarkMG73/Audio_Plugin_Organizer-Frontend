@@ -5,14 +5,7 @@ const FormInput = (props) => {
   const [requiredError, setRequiredError] = useState(true);
   const [requiredClass, setRequiredClass] = useState("");
   const input = props.inputDataObj;
-  console.log(
-    "%c --> %cline:7%cinput",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(1, 77, 103);padding:3px;border-radius:2px",
-    input
-  );
-
+  const formNumber = props.formNumber;
   useEffect(() => {
     if (input.required == true) setRequiredClass("required-input");
   }, []);
@@ -30,27 +23,12 @@ const FormInput = (props) => {
 
   const [checkboxTextInputValue, setCheckboxTextInputValue] = useState();
 
-  console.log(
-    "%c --> %cline:29%cinputValue",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
-    inputValue
-  );
-
   useEffect(() => {
     if (inputValue.constructor === String) {
       setInputValue(inputValue.replaceAll('"', ""));
     } else {
       setInputValue(inputValue);
     }
-    console.log(
-      "%c --> %cline:39%cinputValue",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(179, 214, 110);padding:3px;border-radius:2px",
-      inputValue
-    );
   }, [inputValue]);
   // useEffect(() => {
   //   console.log(
@@ -78,23 +56,9 @@ const FormInput = (props) => {
   };
   const checkboxInputOnChangeHandler = (e) => {
     // setInputValue(e.target.value);
-    console.log(
-      "%c --> %cline:54%ce.target.value)",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(3, 38, 58);padding:3px;border-radius:2px",
-      e.target.value
-    );
   };
 
   const groomedOptions = input.options.map((option) => option.trim());
-  console.log(
-    "%c --> %cline:79%cgroomedOptions",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px",
-    groomedOptions
-  );
 
   if (input.type === "textarea") {
     outputJSX = (
@@ -102,14 +66,14 @@ const FormInput = (props) => {
         key={"form-input"}
         className={styles["input-container"] + " " + styles[input.name]}
       >
-        <label key={"form-inpu-1t"} htmlFor={input.name}>
+        <label key={"form-inpu-1t"} htmlFor={formNumber + "#" + input.name}>
           {" "}
           {input.title}
         </label>
         <textarea
           key={"form-input-2"}
           type={input.type}
-          name={input.name}
+          name={formNumber + "#" + input.name}
           defaultValue={inputValue}
           ref={requiredTextInput}
           onChange={textInputOnChangeHandler}
@@ -140,7 +104,7 @@ const FormInput = (props) => {
           return (
             <option
               key={"form-input-" + i}
-              name={input.name}
+              name={formNumber + "#" + input.name}
               className={styles.option + " " + styles["option-" + input.name]}
               defaultValue={option}
               selected
@@ -152,7 +116,7 @@ const FormInput = (props) => {
           return (
             <option
               key={"form-input-" + i}
-              name={input.name}
+              name={formNumber + "#" + input.name}
               className={styles.option + " " + styles["option-" + input.name]}
               defaultValue={option}
             >
@@ -186,13 +150,26 @@ const FormInput = (props) => {
           styles["input-container"] + " " + styles["input-" + input.name]
         }
       >
-        <label key={"form-input-1"} htmlFor={input.name}>
+        <label key={"form-input-1"} htmlFor={formNumber + "#" + input.name}>
           {input.title}
         </label>
+        <select
+          key={"form-input-4"}
+          type={input.type}
+          name={formNumber + "#" + input.name}
+          defaultValue={input.value}
+          required={input.required}
+          onChange={textInputOnChangeHandler}
+        >
+          {" "}
+          {options.map((optionHTML) => optionHTML)}
+        </select>
+
         <input
           key={"form-input-2"}
           type="text"
-          name={input.name}
+          placeholder="If the item is not in the list, type a new one here."
+          name={formNumber + "#" + input.name}
           value={inputValue}
           ref={requiredTextInput}
           onChange={textInputOnChangeHandler}
@@ -206,22 +183,10 @@ const FormInput = (props) => {
             &uarr; This field is required &uarr;
           </span>
         )}
-        <select
-          key={"form-input-4"}
-          type={input.type}
-          name={input.name}
-          defaultValue={input.value}
-          required={input.required}
-          onChange={textInputOnChangeHandler}
-        >
-          {" "}
-          {options.map((optionHTML) => optionHTML)}
-        </select>
       </div>
     );
   } else if (input.type === "checkbox" || input.type === "radio") {
     // *** Checkboxes and Radio Buttons***
-
     if (input.name === "functions") {
       groomedOptions.sort(function (a, b) {
         return a.toLowerCase().localeCompare(b.toLowerCase());
@@ -242,7 +207,7 @@ const FormInput = (props) => {
           inputValue.constructor.name === "Boolean" ||
           (option == "false" && inputValue == "")) &&
         (inputValue.toString() == option ||
-          (option == "false" && inputValue == ""))
+          (option == "true" && inputValue == ""))
       ) {
         return (
           <div
@@ -254,12 +219,15 @@ const FormInput = (props) => {
             <input
               key={"form-input-2" + i}
               type={input.type}
-              name={input.name}
+              name={formNumber + "#" + input.name}
               value={option}
               checked={"true"}
               onChange={checkboxInputOnChangeHandler}
             />
-            <label key={"form-input-3" + i} htmlFor={input.name}>
+            <label
+              key={"form-input-3" + i}
+              htmlFor={formNumber + "#" + input.name}
+            >
               {option}
             </label>
           </div>
@@ -289,12 +257,15 @@ const FormInput = (props) => {
             <input
               key={"form-input-b" + optionName}
               type={input.type}
-              name={input.name}
+              name={formNumber + "#" + input.name}
               value={optionName}
-              checked={"true"}
+              defaultChecked={"true"}
               onChange={checkboxInputOnChangeHandler}
             />{" "}
-            <label key={"form-input-a2"} htmlFor={input.name}>
+            <label
+              key={"form-input-a2"}
+              htmlFor={formNumber + "#" + input.name}
+            >
               {optionName}
             </label>
           </div>
@@ -317,11 +288,14 @@ const FormInput = (props) => {
             <input
               key={"form-inputa4"}
               type={input.type}
-              name={input.name}
+              name={formNumber + "#" + input.name}
               defaultValue={optionName}
               onChange={checkboxInputOnChangeHandler}
             />{" "}
-            <label key={"form-input-a5"} htmlFor={input.name}>
+            <label
+              key={"form-input-a5"}
+              htmlFor={formNumber + "#" + input.name}
+            >
               {optionName}
             </label>
           </div>
@@ -336,7 +310,7 @@ const FormInput = (props) => {
             styles["input-container"] + " " + styles["input-" + input.name]
           }
         >
-          <label key={"form-input-a7"} htmlFor={input.name}>
+          <label key={"form-input-a7"} htmlFor={formNumber + "#" + input.name}>
             {input.title}
           </label>
 
@@ -359,13 +333,14 @@ const FormInput = (props) => {
             styles["input-container"] + " " + styles["input-" + input.name]
           }
         >
-          <label key={"form-input-c2"} htmlFor={input.name}>
+          <label key={"form-input-c2"} htmlFor={formNumber + "#" + input.name}>
             {input.title}
           </label>
           <input
             key={"form-input-c3"}
             type="text"
-            name={input.name}
+            placeholder="Type new additions here. Use commas to separate lists, like this:  Item 1, Item 2, Item 3"
+            name={formNumber + "#" + input.name}
             value={checkboxTextInputValue}
             ref={requiredTextInput}
             onChange={checkboxTextInputOnChangeHandler}
@@ -389,13 +364,13 @@ const FormInput = (props) => {
         key={"text-input-1"}
         className={styles["input-container"] + " " + styles[input.name]}
       >
-        <label key={"text-input-2"} htmlFor={input.name}>
+        <label key={"text-input-2"} htmlFor={formNumber + "#" + input.name}>
           {input.title}
         </label>
         <input
           key={"text-input-3"}
           type={input.type}
-          name={input.name}
+          name={formNumber + "#" + input.name}
           defaultValue={inputValue}
           ref={requiredTextInput}
           onChange={textInputOnChangeHandler}

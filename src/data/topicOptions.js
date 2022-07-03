@@ -50,7 +50,7 @@ const topicOptions = {
     "Multi-Function Shaper ~ Enhancer",
     "Saturation ~ Exciter",
     "Frequency Control ~ Filter",
-    "Modulation ~ Chorus, Flanger, Phaser & Tremolo",
+    "Modulation ~ Chorus | Flanger | Phaser | Tremolo",
     "Modulation ~ Frequency-Shifter/Pitch-Shifter",
     "Time and Space ~ Glitch, Stutter and Granular FX",
     "Modulation ~ Modulator",
@@ -63,7 +63,7 @@ const topicOptions = {
     "MIDI ~ MIDI Effects",
     "Tools ~ DAW's",
     "Tools ~  Editor",
-    "Tools ~ Loop lIbrary",
+    "Tools ~ Loop library",
   ],
   precision: ["Vibey Analog", "Analog Mastering", "Digital Precision"],
   color: [
@@ -74,6 +74,7 @@ const topicOptions = {
     "Extreme",
     "Sci-Fi",
   ],
+  status: ["Active", "Disabled", "Wanted"],
 };
 
 export default topicOptions;

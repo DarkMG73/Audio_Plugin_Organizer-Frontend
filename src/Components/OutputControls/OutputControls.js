@@ -19,7 +19,7 @@ function OutputControls(props) {
     );
     if (confirmation)
       deleteAllPlugins().then((res) => {
-        if (res.response.status < 299) {
+        if (res.status < 299) {
           window.location.reload();
         } else {
           alert(

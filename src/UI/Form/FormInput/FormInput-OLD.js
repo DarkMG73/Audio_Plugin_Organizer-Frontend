@@ -39,6 +39,7 @@ const FormInput = (props) => {
       </div>
     );
   } else if (input.type === "select") {
+    let selected = "-- select an option --";
     const options = input.options.map((option) => (
       <option
         name={input.name}
@@ -49,7 +50,7 @@ const FormInput = (props) => {
       </option>
     ));
     options.push(
-      <option disabled selected value="">
+      <option disabled value="-- select an option --">
         -- select an option --
       </option>
     );
@@ -80,6 +81,7 @@ const FormInput = (props) => {
         <select
           type={input.type}
           name={input.name}
+          defaultValue={selected}
           value={input.value}
           required={input.required}
         >

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import styles from "./ToolRow.module.css";
-import { useState, useRef, Fragment, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import PushButton from "../../../UI/Buttons/PushButton/PushButton";
 import { isValidHttpUrl, groomFormOutput } from "../../../Hooks/utility";
 import CardSecondary from "../../../UI/Cards/CardSecondary/CardSecondary";
@@ -20,8 +20,8 @@ function ToolRow(props) {
   const [toolRowOrder, setToolRowOrder] = useState(false);
   const [deleted, setDeleted] = useState(false);
   const toolDisplayOrder = useToolDisplayOrder;
-
   const [formInputData, setFormInputData] = useState(false);
+
   useEffect(() => {
     toolDisplayOrder().then((order) => {
       setToolRowOrder(order);
@@ -47,13 +47,6 @@ function ToolRow(props) {
         formInputData,
         toolRowOrder
       );
-    console.log(
-      "%c --> %cline:45%cgroomedFormInputData",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
-      groomedFormInputData
-    );
   }, [tool, formInputData, toolRowOrder]);
   const toolFormDataArray = [tool];
   if (formInputData)
@@ -123,11 +116,11 @@ function ToolRow(props) {
         if (Array.isArray(value)) {
           value = (
             <ul
-              key={value + Math.random()}
+              key={value + 10}
               className={styles[title + "list"] + " " + styles.list}
             >
               {value.map((item) => (
-                <li key={item + Math.random()}>{item}</li>
+                <li key={item + 11}>{item}</li>
               ))}
             </ul>
           );
@@ -145,11 +138,12 @@ function ToolRow(props) {
 
       if (isValidLink) {
         if (title === "photoURL") {
-          value = <img key={title + Math.random()} src={value} alt={title} />;
+          // value = <img key={title + value} src={value} alt={title} />;
+          value = <img key={title + value} src={value} alt={title} />;
         } else {
           value = (
             <a
-              key={title + Math.random()}
+              key={title + value}
               href={value}
               alt={title}
               target="_blank"
@@ -158,6 +152,19 @@ function ToolRow(props) {
               {value}
             </a>
           );
+        }
+      }
+
+      let favoriteClass = "";
+      if (title === "favorite") {
+        if (
+          (value.constructor === Boolean && value) ||
+          value.toLowercase == "true" ||
+          value == "True"
+        ) {
+          favoriteClass = "favorite-true";
+        } else {
+          favoriteClass = "favorite-false";
         }
       }
 
@@ -171,14 +178,16 @@ function ToolRow(props) {
             " " +
             styles["grid-item"] +
             " " +
-            styles[title]
+            styles[title] +
+            " " +
+            styles[favoriteClass]
           }
         >
           <div
-            key={itemTitle + Math.random()}
+            key={itemTitle + value}
             className={`${styles[title + "-title"]}
                ${styles["grid-item-title"]} 
-               ${styles["grid-item-child"]}`}
+               ${styles["grid-item-child"]} `}
           >
             {itemTitle}
           </div>
@@ -205,7 +214,7 @@ function ToolRow(props) {
             size="small"
           >
             <div
-              key={key + Math.random()}
+              key={key + value}
               className={` ${styles[title + "-text"]}
             ${styles["grid-item-text"]} 
             ${styles["grid-item-child"]}`}
@@ -293,7 +302,7 @@ function ToolRow(props) {
             {inEditMode && (
               <>
                 <PushButton
-                  key={Math.random(100)}
+                  key={"toolrow" + key + "4"}
                   inputOrButton="input"
                   styles={{
                     type: "submit",
@@ -343,9 +352,9 @@ function ToolRow(props) {
                   Delete Tool
                 </PushButton>
                 <div key={key + "6"} className={styles["tool-id"]}>
-                  <p key={Math.random(100)}>
+                  <p key={"toolrow-button-p" + key}>
                     Tool ID:
-                    <br key={Math.random(100)} />
+                    <br key={"toolrow-button-br" + key} />
                     {key}
                   </p>
                 </div>
@@ -403,10 +412,18 @@ function ToolRow(props) {
   );
 
   if (!deleted) {
-    return <div className={styles["tool-row-wrap"]}>{output}</div>;
+    return (
+      <div
+        className={`${styles["tool-row-wrap"]} ${
+          styles["status-" + tool.status]
+        }`}
+      >
+        {output}
+      </div>
+    );
   } else {
     return (
-      <div key={Math.random()} className={styles.deleted}>
+      <div key={"deleted" + key} className={styles.deleted}>
         <h3 key={key + "9"}>This tool was deleted (ID: {key})</h3>
       </div>
     );

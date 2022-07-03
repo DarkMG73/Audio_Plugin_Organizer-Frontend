@@ -9,7 +9,6 @@ function ToolsRows(props) {
   const allTools = props.allTools;
   const allToolsCategories = [];
   const allToolsRows = {};
-  let allToolsCount = 0;
   const [openAll, setOpenAll] = useState(false);
 
   for (const k in allTools) {
@@ -19,7 +18,6 @@ function ToolsRows(props) {
       for (const key in allTools[k]) {
         // Add the row
         allToolsRows[k].push(key);
-        allToolsCount++;
       }
     }
   }
