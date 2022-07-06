@@ -76,6 +76,8 @@ function exportCSVFile(headers, items, fileTitle) {
           str = str.substring(1);
         }
         outputGroup[topic] = str.replaceAll(",", "/");
+      } else if (topic === "notes") {
+        outputGroup[topic] = JSON.stringify(encodeURI(group[topic]));
       } else if (group[topic].constructor === String) {
         outputGroup[topic] = group[topic].replaceAll(",", "/");
       } else {
@@ -125,7 +127,6 @@ function convertToCSV(objArray) {
 
     str += line + "\r\n";
   }
-
   return str;
 }
 

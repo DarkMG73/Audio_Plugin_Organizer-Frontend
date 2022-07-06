@@ -66,6 +66,14 @@ export const formInputData = {
     required: false,
     preFilledData: "",
   },
+  oversampling: {
+    title: "Oversampling",
+    name: "oversampling",
+    type: "radio",
+    options: ["true", "false"],
+    required: false,
+    preFilledData: "",
+  },
   favorite: {
     title: "Favorite",
     name: "favorite",

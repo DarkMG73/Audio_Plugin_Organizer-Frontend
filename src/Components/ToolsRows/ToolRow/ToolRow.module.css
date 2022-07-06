@@ -73,10 +73,19 @@
 .notes-wrap {
   flex-basis: 100%;
   justify-content: center;
-  min-width: max-content;
+  min-width: min-content;
   flex-grow: 1;
-  flex-direction: row;
   justify-content: left;
+  transition: 0.3s all ease;
+  transition-delay: 1s;
+}
+.notes-wrap:hover {
+  transform: scale(1.1) translateX(0%);
+  background: white;
+  color: black;
+  margin: 1em;
+  width: 100%;
+  padding-bottom: 2em;
 }
 
 .color {
@@ -182,7 +191,8 @@ button.edit {
 .photoURL {
   min-width: 100%;
 }
-.photoURL-title {
+.photoURL-title,
+.productURL-title {
   display: none;
 }
 .photoURL > div {
@@ -191,8 +201,19 @@ button.edit {
   margin: 0 auto;
 }
 
+.productURL {
+  align-items: center;
+  justify-content: space-evenly;
+  margin: auto;
+}
 .productURL-text {
   word-break: break-all;
+}
+
+.productURL a {
+  color: inherit;
+  font-style: oblique;
+  text-decoration: none;
 }
 
 .tool-row-wrap {
@@ -206,7 +227,6 @@ button.edit {
   width: 90%;
   transform: translate(-50%, -50%);
   max-width: 1200px;
-  opacity: 0.9;
   z-index: 90;
   display: flex;
 
@@ -246,11 +266,32 @@ button.edit {
   letter-spacing: 0.25em;
 }
 
-.status-Disabled > div > div {
+.status-Disabled {
   border: 7px solid var(--iq-color-foreground);
 }
-.status-Disabled {
-  opacity: 0.5;
+.status-Disabled > div > div {
+  /* background-color: gray; */
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10%,
+    rgb(123, 123, 123) 50%,
+    rgba(0, 0, 0, 0.497) 100%
+  );
+  color: black !important;
+}
+.status-Disabled a {
+  color: inherit;
+}
+.status-Disabled > div > div > div button {
+  color: inherit !important;
+  background: inherit !important;
+}
+.status-Disabled .button-container {
+  color: var(--iq-color-foreground) !important;
+  background: var(--iq-color-accent) !important;
+  font-size: 1.5em;
+  height: 3em;
 }
 
 .status-Disabled:after {

@@ -1,5 +1,6 @@
 import styles from "./FormInput.module.css";
 import React, { useState, useEffect, useRef, useMemo } from "react";
+import { toTitleCase } from "../../../Hooks/utility";
 
 const FormInput = (props) => {
   const [requiredError, setRequiredError] = useState(true);
@@ -170,7 +171,7 @@ const FormInput = (props) => {
           type="text"
           placeholder="If the item is not in the list, type a new one here."
           name={formNumber + "#" + input.name}
-          value={inputValue}
+          value={toTitleCase(inputValue)}
           ref={requiredTextInput}
           onChange={textInputOnChangeHandler}
           className={styles[requiredClass]}
@@ -240,6 +241,11 @@ const FormInput = (props) => {
           optionName.toLowerCase().trim() ||
           inputValue.includes(option))
       ) {
+        if (
+          optionName.toLowerCase() === "true" ||
+          optionName.toLowerCase() === "false"
+        )
+          optionName = toTitleCase(optionName.toLowerCase(), true);
         return (
           <div
             key={"form-input-a" + optionName}
@@ -271,6 +277,11 @@ const FormInput = (props) => {
           </div>
         );
       } else {
+        if (
+          optionName.toLowerCase() === "true" ||
+          optionName.toLowerCase() === "false"
+        )
+          optionName = toTitleCase(optionName.toLowerCase(), true);
         return (
           <div
             key={"form-input-a3" + i}

@@ -4,6 +4,7 @@ import Home from "./Pages/Home/Home";
 import GatherToolData from "./Hooks/GatherToolData";
 import { audioToolDataActions } from "./store/audioToolDataSlice";
 import { useSelector, useDispatch } from "react-redux";
+import BarLoader from "./UI/Loaders/BarLoader/BarLoader";
 
 const App = () => {
   const toolsData = useSelector((state) => state.toolsData);
@@ -16,7 +17,12 @@ const App = () => {
     });
   }, []);
 
-  return <div>{toolsData.allTools && <Home />}</div>;
+  return (
+    <div>
+      {!toolsData.allTools && <BarLoader />}
+      {toolsData.allTools && <Home />}
+    </div>
+  );
 };
 
 export default App;

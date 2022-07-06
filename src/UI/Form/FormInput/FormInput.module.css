@@ -224,7 +224,8 @@
 
 .input-favorite,
 .input-container.input-rating,
-.input-container.input-status {
+.input-container.input-status,
+.input-container.input-oversampling {
   width: 11em;
   flex-shrink: 1;
   max-width: 17em;
@@ -261,80 +262,108 @@
 }
 
 .Analyzers {
-  background: rgb(90, 0, 128);
+  background: rgb(218, 2, 2);
   color: #fefefe;
 }
+
 .Analyzers:before {
   content: "Analyzers";
 }
+
+.input-container .CombinationTools {
+  background: rgb(218, 142, 2);
+  color: #222222;
+}
+
+.CombinationTools:before {
+  content: "Combination Tools";
+}
+
 .input-container .Dynamics {
-  background: green;
-  color: #fefefe;
+  background: rgb(2, 218, 218);
+  color: #1e1e1e;
 }
 .Dynamics:before {
   content: "Dynamics";
 }
+
 .input-container .FrequencyControl {
-  background: rgb(0, 255, 251);
+  background: rgb(218, 182, 2);
   color: #1e1e1e;
 }
+
 .FrequencyControl:before {
   content: "Frequency Control";
 }
+
 .input-container .MIDI {
-  background: rgb(255, 255, 255);
-  color: #3d3d3d;
+  background: rgb(218, 2, 142);
+  color: #fefefe;
 }
+
 .MIDI:before {
   content: "MIDI";
 }
+
 .input-container .Modulation {
-  background: rgb(128, 109, 0);
-  color: #fefefe;
+  background: rgb(52, 218, 2);
+  color: #1e1e1e;
 }
+
 .Modulation:before {
   content: "Modulation";
 }
+
 .input-container .Multi-FunctionShaper {
-  background: rgb(128, 0, 115);
+  background: rgb(2, 150, 218);
   color: #fefefe;
 }
+
 .Multi-FunctionShaper:before {
   content: "Multi-Function Shaper";
 }
-tt .input-container .Saturation {
-  background: rgb(128, 30, 0);
+
+.input-container .Saturation {
+  background: rgb(218, 2, 2);
   color: #fefefe;
 }
+
 .Saturation:before {
   content: "Saturation";
 }
+
 .input-container .TimeandSpace {
-  background: rgb(0, 11, 128);
+  background: rgb(102, 102, 102);
   color: #fefefe;
 }
+
 .TimeandSpace:before {
   content: "Time and Space";
+}
+
+.input-container .Simulation {
+  background: rgb(168, 2, 218);
+  color: #fefefe;
+}
+
+.Simulation:before {
+  content: "Simulation";
 }
 
 .input-container .UserAdded {
   background: rgb(33, 33, 33);
   color: #fefefe;
 }
+
 .UserAdded:before {
   content: "User Added";
 }
-.input-container .CombinationTools {
-  background: rgb(247, 238, 206);
-  color: #222222;
-}
-.CombinationTools:before {
-  content: "Combination Tools";
-}
+
 .input-container .Tools {
-  background: rgb(165, 165, 165);
+  background: rgb(226, 224, 224);
   color: #222222;
 }
+
 .Tools:before {
   content: "Tools";
 }
@@ -356,6 +385,7 @@ tt .input-container .Saturation {
 }
 
 .input-container.input-container.input-functions {
+  flex-basis: 100%;
   justify-content: center;
 }
 

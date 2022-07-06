@@ -35,7 +35,8 @@ function AddAToolFormElms(props) {
     newFormInputData[0].forEach((group) => {
       // To make the flow of the options through the form clearer, we set fixed numbers and booleans as strings
       if (group.name === "rating") group.options = ["1", "2", "3", "4", "5"];
-      if (group.name === "favorite") group.options = ["True", "False"];
+      if (group.name === "favorite" || group.name === "oversampling")
+        group.options = ["True", "False"];
 
       // Format user added functions to match stock functions
       if (group.name === "functions") {
@@ -51,7 +52,7 @@ function AddAToolFormElms(props) {
     <Fragment key={"addtoolformelms-1"}>
       {formOpen &&
         newFormInputData.map((formDataGroup, index) => (
-          <Fragment key={"addtoolformelms-2"}>
+          <Fragment key={"addtoolformelms-2" + index}>
             <div
               key={"addtoolformelms-1"}
               className={styles["form-group-wrap"]}

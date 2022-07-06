@@ -7,12 +7,13 @@ import AddATool from "../../Components/AddATool/AddATool";
 import FilterTools from "../../Components/FilterTools/FilterTools";
 import ToolsRowsList from "../../Components/ToolsRows/ToolsRowsList/ToolsRowsList";
 import OutputControls from "../../Components/OutputControls/OutputControls";
-
+import BarLoader from "../../UI/Loaders/BarLoader/BarLoader";
 const Home = () => {
   const { allTools, toolsMetadata } = useSelector((state) => state.toolsData);
 
   return (
     <div className={styles["home-page"]}>
+      {!toolsMetadata && toolsMetadata._id.includes("error") && <BarLoader />}
       {toolsMetadata && !toolsMetadata._id.includes("error") && (
         <CardSecondary
           key={"FilterTools"}
@@ -37,6 +38,8 @@ const Home = () => {
           minWidth: "0",
           margin: "0",
           flexGrow: "1",
+          // backgroundImage:
+          //   "url(https://www.transparenttextures.com/patterns/brushed-alum.png)",
         }}
       >
         <ToolsRowsList />
@@ -48,6 +51,7 @@ const Home = () => {
           minWidth: "0",
           margin: "0",
           flexGrow: "1",
+          zIndex: "10",
         }}
       >
         <AddATool />
@@ -59,6 +63,7 @@ const Home = () => {
           minWidth: "0",
           margin: "0",
           flexGrow: "1",
+          zIndex: "10",
         }}
       >
         <OutputControls />

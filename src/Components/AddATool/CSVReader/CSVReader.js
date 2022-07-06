@@ -30,15 +30,23 @@ export default function CSVReader(props) {
     const pairedObjectsArray = createKeyValueObjectsArray(csvOutputArray);
     const duplicateFunctionOptions = [];
     const outputArray = [];
+
     pairedObjectsArray.forEach((row) => {
       const rowGroup = [];
       let assembledRow = {};
+
       formInputData.forEach((inputData, i) => {
         assembledRow = { ...inputData };
-        if (
-          (row.hasOwnProperty(inputData.name) &&
+        if (inputData.name === "notes") {
+          assembledRow.preFilledData = row[inputData.name]
+            ? decodeURI(row[inputData.name])
+            : "";
+        } else if (
+          (typeof row[inputData.name] != "undefined" &&
+            row.hasOwnProperty(inputData.name) &&
             row[inputData.name].constructor === Boolean) ||
-          (inputData.options.includes("true") &&
+          (typeof row[inputData.name] != "undefined" &&
+            inputData.options.includes("true") &&
             inputData.options.includes("false"))
         ) {
           if (row[inputData.name].toLowerCase() == false) {
@@ -155,6 +163,20 @@ export default function CSVReader(props) {
             }
           });
         } else {
+          console.log(
+            "%c --> %cline:167%cinputData.name",
+            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+            "color:#fff;background:rgb(95, 92, 51);padding:3px;border-radius:2px",
+            inputData.name
+          );
+          console.log(
+            "%c --> %cline:168%crow[inputData.name]",
+            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+            "color:#fff;background:rgb(17, 63, 61);padding:3px;border-radius:2px",
+            row[inputData.name]
+          );
           assembledRow.preFilledData = row[inputData.name]
             ? row[inputData.name]
             : "";
@@ -193,7 +215,7 @@ export default function CSVReader(props) {
               Remove
             </button>
           </div>
-          <ProgressBar className={styles["progress-bar-backgroundo-color"]} />
+          <ProgressBar className={styles["progress-bar-background-color"]} />
         </>
       )}
     </CSVReader>

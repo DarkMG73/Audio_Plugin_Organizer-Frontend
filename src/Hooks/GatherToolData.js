@@ -15,6 +15,24 @@ export default async function GatherToolData() {
   allToolsData.allTools = {};
 
   let allTools = await getData();
+  allTools = allTools.map((tool) => {
+    const output = {};
+    if (!Object.keys(tool).includes("oversampling")) {
+      Object.keys(tool).forEach((key) => (output[key] = tool[key]));
+      output["oversampling"] = "false";
+    } else {
+      for (const key in tool) {
+        if (key === "oversampling") {
+          if (tool[key] === true) output[key] = "true";
+          if (tool[key] === false || tool[key] === "") output[key] = "false";
+        } else {
+          output[key] = tool[key];
+        }
+      }
+    }
+    return output;
+  });
+
   if (allTools.length <= 0)
     allTools = [
       {

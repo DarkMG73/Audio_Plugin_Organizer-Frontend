@@ -53,12 +53,15 @@ function FilterTools(props) {
       );
 
       SetFilteredToolIdList();
-    } else if (e.target.dataset.data === "favorite") {
-      // Only one favorite selection can be selected at a time
+    } else if (
+      e.target.dataset.data === "oversampling" ||
+      e.target.dataset.data === "favorite"
+    ) {
+      // Only one boolean selection can be selected at a time
       dispatch(
         audioToolDataActions.removeFromToolFilters({
           type: e.target.dataset.data,
-          value: currentFilters.favorite,
+          value: currentFilters[e.target.dataset.data],
         })
       );
       if (e.target.checked) {
@@ -161,7 +164,7 @@ function FilterTools(props) {
               </div>
             );
           }
-          if (topic === "favorite") {
+          if (topic === "oversampling" || topic === "favorite") {
             return (
               <div
                 key={topic + "10"}
@@ -175,7 +178,7 @@ function FilterTools(props) {
                   key={topic + "20"}
                   className={styles["slide-button-inner-wrap-title"]}
                 >
-                  {topic}
+                  {topic === "oversampling" ? "O-sample" : topic}
                 </h3>
                 <form key={"tool-filter-form-1" + topic}>
                   {toolsMetadata[topic].map((entry) => {
@@ -189,7 +192,7 @@ function FilterTools(props) {
                         </label>
                         <input
                           key={entry + "3"}
-                          checked={currentFilters.favorite.length > 0}
+                          checked={currentFilters[topic].length > 0}
                           type="checkbox"
                           className={
                             ["radio-button"] +

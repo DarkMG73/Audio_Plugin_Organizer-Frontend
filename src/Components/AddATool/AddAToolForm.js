@@ -57,7 +57,7 @@ function AddAToolForm(props) {
     // Convert string lists to arrays
     const entriesRequiringArrays = ["functions", "precision", "color"];
     const entriesRequiringNumbers = ["rating"];
-    const entriesRequiringBoolean = ["favorite"];
+    const entriesRequiringBoolean = ["oversampling", "favorite"];
     const sortedDataEntries = [];
 
     let nameFieldsWithRequiredError = 0;
@@ -73,6 +73,8 @@ function AddAToolForm(props) {
         }
       } else if (!entriesRequiringArrays.includes(entry[0])) {
         sortedDataEntries.push(entry);
+      } else if (entry[0] === "notes") {
+        sortedDataEntries.push([entry[0], entry[1].replace(/[^\w\s]/gi, "")]);
       } else {
         const arrayOfStrings = entry[1].split(",");
         arrayOfStrings.forEach((value) => {
@@ -213,9 +215,11 @@ function AddAToolForm(props) {
     // For example, converting to upper case
     // data.set('username', data.get('username').toUpperCase());
 
+    let tripsThrough = [];
+
     for (const key in toolsGroomed) {
       const theData = toolsGroomed[key];
-
+      tripsThrough.push(key);
       if (userLoggedIn) {
         // addDocToDB(key, theData);
         // savePlugin({
@@ -231,7 +235,6 @@ function AddAToolForm(props) {
         if (props.saveOrUpdateData === "save")
           savePlugin(theData, true).then((res) => {
             if (res.status && res.status < 299) {
-              window.location.reload();
               // GatherToolData().then((data) => {
               //   console.log("🟣 | getData | questionsFromDB", data);
               //   dispatch(audioToolDataActions.initState(data));
@@ -251,7 +254,7 @@ function AddAToolForm(props) {
         if (props.saveOrUpdateData === "update")
           updateAPlugin(theData.id, theData, true).then((res) => {
             if (res.status < 299) {
-              window.location.reload();
+              // window.location.reload();
               // GatherToolData().then((data) => {
               //   console.log("🟣 | getData | questionsFromDB", data);
               //   dispatch(audioToolDataActions.initState(data));
@@ -279,6 +282,23 @@ function AddAToolForm(props) {
       // formEntries.forEach(item => {
       //     item.parentNode.removeChild(item);
       // })
+    }
+    const numberOfEntriestoAdd = Object.keys(toolsGroomed).length;
+    console.log(
+      "%c --> %cline:286%cnumberOfEntriestoAdd",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(60, 79, 57);padding:3px;border-radius:2px",
+      numberOfEntriestoAdd
+    );
+    if (numberOfEntriestoAdd <= tripsThrough.length) {
+      if (
+        window.confirm(
+          "Do you want to refresh to ensure all changes are loaded?"
+        )
+      ) {
+        window.location.reload();
+      }
     }
   }
 

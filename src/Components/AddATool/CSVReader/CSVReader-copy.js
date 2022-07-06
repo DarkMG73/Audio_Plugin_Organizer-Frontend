@@ -35,7 +35,10 @@ export default function CSVReader(props) {
       let assembledRow = {};
       formInputData.forEach((inputData, i) => {
         assembledRow = { ...inputData };
-        if (inputData.name === "favorite") {
+        if (
+          inputData.name === "favorite" ||
+          inputData.name === "oversampling"
+        ) {
           if (row[inputData.name]) {
             if (row[inputData.name].toLowerCase() == "true") {
               assembledRow.preFilledData = "true";

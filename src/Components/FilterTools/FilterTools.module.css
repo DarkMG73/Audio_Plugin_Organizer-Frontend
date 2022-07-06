@@ -61,15 +61,22 @@
 }
 
 .favorite-slide-button-inner-wrap,
-.rating-slide-button-inner-wrap {
+.rating-slide-button-inner-wrap,
+.oversampling-slide-button-inner-wrap {
   display: flex;
   justify-content: space-between;
   position: relative;
   overflow: visible;
 }
 
+.oversampling-slide-button-inner-wrap form input:nth-child(2),
+.oversampling-slide-button-inner-wrap label {
+  display: none;
+}
+
 .favorite-slide-button-inner-wrap .slide-button-inner-wrap-title,
-.rating-slide-button-inner-wrap .slide-button-inner-wrap-title {
+.rating-slide-button-inner-wrap .slide-button-inner-wrap-title,
+.oversampling-slide-button-inner-wrap .slide-button-inner-wrap-title {
   min-width: min-content;
 }
 

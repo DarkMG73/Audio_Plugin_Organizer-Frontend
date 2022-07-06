@@ -140,6 +140,19 @@ function ToolRow(props) {
         if (title === "photoURL") {
           // value = <img key={title + value} src={value} alt={title} />;
           value = <img key={title + value} src={value} alt={title} />;
+        } else if (title === "productURL") {
+          // value = <img key={title + value} src={value} alt={title} />;
+          value = (
+            <a
+              key={title + value}
+              href={value}
+              alt={title}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Webpage {"\u2B95"}
+            </a>
+          );
         } else {
           value = (
             <a
@@ -167,7 +180,8 @@ function ToolRow(props) {
           favoriteClass = "favorite-false";
         }
       }
-
+      if (title === "oversampling") {
+      }
       // Create the row
       rowHTML.push(
         <div

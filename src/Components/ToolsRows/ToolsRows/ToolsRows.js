@@ -22,6 +22,16 @@ function ToolsRows(props) {
     }
   }
 
+  // Set the order as alphabetical
+  let sortedAllTools = [];
+  for (const key in allTools) {
+    sortedAllTools.push([key, allTools[key].name]);
+  }
+  // Sort by name
+  sortedAllTools.sort(function (a, b) {
+    return a[1].toLowerCase().localeCompare(b[1].toLowerCase());
+  });
+
   const openAllButtonHandler = (e) => {
     setOpenAll(!openAll);
   };
@@ -59,7 +69,8 @@ function ToolsRows(props) {
       </div>
       <div key="toolsrows-1" className={styles["tools-rows-list-container"]}>
         {!allTools.hasOwnProperty("error") ? (
-          Object.keys(allTools).map((key) => {
+          sortedAllTools.map((tool) => {
+            const key = tool[0];
             return (
               <ToolRow
                 key={key}
