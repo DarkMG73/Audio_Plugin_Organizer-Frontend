@@ -1,3 +1,10 @@
+.section-subtitle {
+  font: var(--iq-font-subheading);
+  letter-spacing: var(--iq-spacing-heading);
+  text-align: center;
+  margin: 0 auto 3em;
+}
+
 .tool-row-list > h2 {
   /* color: var(--iq-color-accent); */
   text-align: center;
