@@ -58,9 +58,19 @@ function ToolsRowsList(props) {
       <h2 key="toolsrowsList-2" className="section-title">
         Plugins and other Tools
       </h2>
+      <h3
+        key="toolsrowsList-3"
+        className={`"section-subtitle" ${styles["section-subtitle"]}`}
+      >
+        There are{" "}
+        {filteredToolsIds.length > 0
+          ? filteredToolsIds.length
+          : Object.keys(allTools).length}{" "}
+        tools shown of the total {Object.keys(allTools).length}.
+      </h3>
 
       <ToolsRows
-        key="toolsrowsList-3"
+        key="toolsrowsList-4"
         allTools={toolsToDisplay}
         showLoader={props.showLoader}
         noQuestionsMessage={noQuestionsMessage}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./CSVReader.module.css";
 import { useCSVReader } from "react-papaparse";
 import GetPluginFormInputsWithOptions from "../../../Hooks/GetPluginFormInputsWithOptions";
+import BarLoader from "../../../UI/Loaders/BarLoader/BarLoader";
 
 export default function CSVReader(props) {
   const { CSVReader } = useCSVReader();
@@ -18,7 +19,9 @@ export default function CSVReader(props) {
     csvOutputArray.forEach((row) => {
       const assembledRow = {};
       row.forEach((value, i) => {
-        assembledRow[categoryTitles[i].trim()] = value.trim();
+        assembledRow[categoryTitles[i].trim()] = value
+          .replaceAll("^", ",")
+          .trim();
       });
       outputArray.push(assembledRow);
     });
@@ -38,9 +41,9 @@ export default function CSVReader(props) {
       formInputData.forEach((inputData, i) => {
         assembledRow = { ...inputData };
         if (inputData.name === "notes") {
-          assembledRow.preFilledData = row[inputData.name]
-            ? decodeURI(row[inputData.name])
-            : "";
+          let rowData = row[inputData.name];
+          rowData = decodeURI(rowData);
+          assembledRow.preFilledData = row[inputData.name] ? rowData : "";
         } else if (
           (typeof row[inputData.name] != "undefined" &&
             row.hasOwnProperty(inputData.name) &&
@@ -163,20 +166,6 @@ export default function CSVReader(props) {
             }
           });
         } else {
-          console.log(
-            "%c --> %cline:167%cinputData.name",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(95, 92, 51);padding:3px;border-radius:2px",
-            inputData.name
-          );
-          console.log(
-            "%c --> %cline:168%crow[inputData.name]",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(17, 63, 61);padding:3px;border-radius:2px",
-            row[inputData.name]
-          );
           assembledRow.preFilledData = row[inputData.name]
             ? row[inputData.name]
             : "";
@@ -209,13 +198,16 @@ export default function CSVReader(props) {
               Browse file
             </button>
             <div className={styles["accepted-file"]}>
+              <ProgressBar
+                key={"progress-bar"}
+                className={styles["progress-bar-background-color"]}
+              />
               {acceptedFile && acceptedFile.name}
             </div>
             <button {...getRemoveFileProps()} className={styles.remove}>
               Remove
             </button>
           </div>
-          <ProgressBar className={styles["progress-bar-background-color"]} />
         </>
       )}
     </CSVReader>

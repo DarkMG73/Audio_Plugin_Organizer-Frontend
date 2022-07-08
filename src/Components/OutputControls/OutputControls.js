@@ -4,7 +4,7 @@ import useExportData from "../../Hooks/useExportData";
 import { deleteAllPlugins } from "../../storage/MongoDb";
 
 function OutputControls(props) {
-  const exportData = useExportData({ type: "" });
+  const exportData = useExportData();
 
   function exportCVSButtonHandler() {
     exportData({ type: "cvs" });

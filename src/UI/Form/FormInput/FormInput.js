@@ -350,7 +350,7 @@ const FormInput = (props) => {
           <input
             key={"form-input-c3"}
             type="text"
-            placeholder="Type new additions here. Use commas to separate lists, like this:  Item 1, Item 2, Item 3"
+            placeholder="Type new additions here. Use forward-slashes to separate lists, like this:  Item 1 / Item 2 / Item 3"
             name={formNumber + "#" + input.name}
             value={checkboxTextInputValue}
             ref={requiredTextInput}

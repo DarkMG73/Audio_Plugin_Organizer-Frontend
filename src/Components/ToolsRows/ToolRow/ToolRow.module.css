@@ -76,8 +76,9 @@
   min-width: min-content;
   flex-grow: 1;
   justify-content: left;
+  font-weight: 700;
   transition: 0.3s all ease;
-  transition-delay: 1s;
+  transition-delay: 0.5s;
 }
 .notes-wrap:hover {
   transform: scale(1.1) translateX(0%);
@@ -86,6 +87,13 @@
   margin: 1em;
   width: 100%;
   padding-bottom: 2em;
+  transition-delay: 0s;
+}
+.notes-wrap:hover * {
+  font-family: Arial !important;
+  font-weight: 500 !important;
+  transition: 0.1s all ease;
+  transition-delay: 0s;
 }
 
 .color {

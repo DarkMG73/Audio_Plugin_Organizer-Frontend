@@ -1,6 +1,6 @@
 .csv-reader {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   margin-bottom: 10;
 }
 .browse-file {
@@ -17,6 +17,30 @@
   border-radius: 0;
   padding: 0 20px;
 }
-.progress-bar-background-color {
-  background-color: red;
+
+@keyframes rotateDisc {
+  0% {
+    transform: rotate(0deg), scale(0);
+  }
+  50% {
+    transform: rotate(180deg), scale(2);
+  }
+
+  100% {
+    transform: rotate(0deg), scale(0);
+  }
 }
+/* .progress-bar-background-color {
+  position: fixed;
+  top: 50%;
+  left: 48%;
+  padding: 2em;
+  width: 2em !important;
+  background-image: linear-gradient(
+    90deg,
+    var(--iq-color-foreground),
+    var(--iq-color-accent)
+  );
+  border-radius: 50% !important;
+  animation: rotateDisc 3s ease infinite 0.3s;
+} */

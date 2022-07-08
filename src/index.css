@@ -132,6 +132,10 @@ code {
   font: var(--iq--font-heading-2);
   letter-spacing: var(--iq-spacing-heading);
 }
+.section-subtitle {
+  font: var(--iq-font-subheading);
+  letter-spacing: var(--iq-spacing-heading);
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
