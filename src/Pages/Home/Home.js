@@ -4,6 +4,7 @@ import styles from "./Home.module.css";
 import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
 import CardSecondary from "../../UI/Cards/CardSecondary/CardSecondary";
 import AddATool from "../../Components/AddATool/AddATool";
+import RegistrationForm from "../../Components/RegistrationForm/Register";
 import FilterTools from "../../Components/FilterTools/FilterTools";
 import ToolsRowsList from "../../Components/ToolsRows/ToolsRowsList/ToolsRowsList";
 import OutputControls from "../../Components/OutputControls/OutputControls";
@@ -56,6 +57,7 @@ const Home = () => {
       >
         <AddATool />
       </CardSecondary>
+
       <CardPrimary
         key={"OuputControls"}
         styles={{
@@ -68,6 +70,18 @@ const Home = () => {
       >
         <OutputControls />
       </CardPrimary>
+      <CardSecondary
+        key={"RegistrationForm"}
+        styles={{
+          flexBasis: "calc(90% - 177px)",
+          minWidth: "0",
+          margin: "0",
+          flexGrow: "1",
+          zIndex: "10",
+        }}
+      >
+        <RegistrationForm />
+      </CardSecondary>
     </div>
   );
 };
