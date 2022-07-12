@@ -217,7 +217,11 @@
 
 .input-container.input-color,
 .input-container.input-precision {
-  flex-basis: 50%;
+  justify-content: center;
+}
+.input-container.input-color .input-wrap,
+.input-container.input-precision .input-wrap {
+  flex-basis: 33.3%;
 }
 
 .input-container.productURL,
@@ -264,112 +268,7 @@
   display: none;
 }
 
-.Analyzers {
-  background: rgb(218, 2, 2);
-  color: #fefefe;
-}
-
-.Analyzers:before {
-  content: "Analyzers";
-}
-
-.input-container .CombinationTools {
-  background: rgb(218, 142, 2);
-  color: #222222;
-}
-
-.CombinationTools:before {
-  content: "Combination Tools";
-}
-
-.input-container .Dynamics {
-  background: rgb(2, 218, 218);
-  color: #1e1e1e;
-}
-.Dynamics:before {
-  content: "Dynamics";
-}
-
-.input-container .FrequencyControl {
-  background: rgb(218, 182, 2);
-  color: #1e1e1e;
-}
-
-.FrequencyControl:before {
-  content: "Frequency Control";
-}
-
-.input-container .MIDI {
-  background: rgb(218, 2, 142);
-  color: #fefefe;
-}
-
-.MIDI:before {
-  content: "MIDI";
-}
-
-.input-container .Modulation {
-  background: rgb(52, 218, 2);
-  color: #1e1e1e;
-}
-
-.Modulation:before {
-  content: "Modulation";
-}
-
-.input-container .Multi-FunctionShaper {
-  background: rgb(2, 150, 218);
-  color: #fefefe;
-}
-
-.Multi-FunctionShaper:before {
-  content: "Multi-Function Shaper";
-}
-
-.input-container .Saturation {
-  background: rgb(218, 2, 2);
-  color: #fefefe;
-}
-
-.Saturation:before {
-  content: "Saturation";
-}
-
-.input-container .TimeandSpace {
-  background: rgb(102, 102, 102);
-  color: #fefefe;
-}
-
-.TimeandSpace:before {
-  content: "Time and Space";
-}
-
-.input-container .Simulation {
-  background: rgb(168, 2, 218);
-  color: #fefefe;
-}
-
-.Simulation:before {
-  content: "Simulation";
-}
-
-.input-container .UserAdded {
-  background: rgb(33, 33, 33);
-  color: #fefefe;
-}
-
-.UserAdded:before {
-  content: "User Added";
-}
-
-.input-container .Tools {
-  background: rgb(226, 224, 224);
-  color: #222222;
-}
-
-.Tools:before {
-  content: "Tools";
-}
+/* Special Styling for Functions */
 
 .input-container.input-container.input-functions .input-wrap {
   position: relative;
@@ -378,9 +277,9 @@
   flex-wrap: wrap;
   padding: 0.75em 2em;
   max-height: none;
-  width: auto;
+  width: 100%;
   min-width: min-content;
-  max-width: 14em;
+  max-width: 100%;
   box-shadow: inset 2px 2px 3px -2px black, inset -2px -2px 3px -2px white;
   overflow: visible;
   border-radius: 10px;
@@ -390,6 +289,12 @@
 .input-container.input-container.input-functions {
   flex-basis: 100%;
   justify-content: center;
+
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  /* grid-auto-flow: column; */
+  grid-auto-flow: column;
+  grid-gap: 10px;
 }
 
 .input-container.input-functions input[type="checkbox"] {
@@ -471,6 +376,16 @@ body .input-container.input-functions input[type="checkbox"]:hover {
   opacity: 0.8;
 }
 
+.input-container.input-functions label {
+  grid-row: 1;
+  grid-column: 1 / span 7;
+}
+
+.input-container.input-functions input {
+  grid-row: 2;
+  grid-column: 1 / span 7;
+}
+
 .input-container.input-functions input[type="checkbox"]:checked + label,
 .input-container.input-functions input[type="checkbox"]:hover + label {
   color: inherit;
@@ -486,3 +401,213 @@ body .input-container.input-functions input[type="checkbox"]:hover {
   margin-bottom: 0.5em;
   font-weight: 700;
 }
+
+[data-group^="SPACER"],
+[data-group^="SPACER"] * {
+  background: transparent;
+  color: transparent;
+  box-shadow: none;
+  text-align: center;
+  border: none !important;
+  border-radius: 0px !important;
+  width: 100%;
+  min-width: 100% !important;
+  pointer-events: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  align-items: center;
+}
+
+[data-group^="SPACER"] {
+  border: 1px inset !important;
+  box-shadow: inset 0 0 175px -50px wheat !important;
+  text-shadow: 0 0 3px wheat;
+  padding: 0.25em !important;
+}
+
+[data-group^="SPACER"] input:after {
+  background: transparent;
+  color: transparent;
+  box-shadow: none;
+  text-align: center;
+  border: 1px inset gray !important;
+  border-radius: inherit;
+  width: 100%;
+  min-width: 100% !important;
+  pointer-events: none !important;
+  box-shadow: inset -2px -2px 7px -5px white, inset 3px 3px 7px -5px black !important;
+}
+[data-group^="SPACER"] label {
+  font-size: 1.25em !important;
+}
+
+[data-group*="Category"] {
+  background: var(--iq-color-background-warm-gradient);
+  color: var(--iq-color-foreground);
+  grid-column: 1 / span 2;
+  /* grid-row: 2 / span3; */
+  min-width: 100% !important;
+}
+/* [data-group="SPACER-Category"] {
+  background: var(--iq-color-background-warm-gradient);
+  color: var(--iq-color-foreground);
+  grid-column: 1 / span 4;
+  grid-row: 1;
+} */
+
+[data-group*="Dynamics"] {
+  background: rgb(2, 218, 218);
+  color: #1e1e1e;
+  grid-column: 4;
+}
+
+[data-group*="FrequencyControl"] {
+  background: rgb(218, 182, 2);
+  color: #1e1e1e;
+  grid-column: 3;
+}
+
+[data-group*="Saturation"] {
+  background: rgb(218, 2, 2);
+  color: #fefefe;
+  grid-column: 3;
+}
+
+[data-group*="TimeandSpace"] {
+  background: rgb(102, 102, 102);
+  color: #fefefe;
+  grid-column: 5;
+}
+[data-group*="Modulation"] {
+  background: rgb(52, 218, 2);
+  color: #1e1e1e;
+  grid-column: 6;
+}
+
+[data-group*="Simulation"] {
+  background: rgb(168, 2, 218);
+  color: #fefefe;
+  grid-column: 7;
+}
+[data-group*="CombinationTools"] {
+  background: rgb(218, 142, 2);
+  color: #222222;
+  grid-column: 7;
+}
+
+[data-group*="Multi-FunctionShaper"] {
+  background: rgb(2, 150, 218);
+  color: #fefefe;
+  grid-column: 5;
+}
+
+[data-group*="Analyzers"] {
+  background: rgb(218, 2, 2);
+  color: #fefefe;
+  grid-column: 6;
+}
+
+/* .Category {
+  background: var(--iq-color-background-warm-gradient);
+  color: var(--iq-color-foreground);
+} */
+
+/* .Category:before {
+  content: "Category";
+} */
+
+/* .input-container .Dynamics {
+  background: rgb(2, 218, 218);
+  color: #1e1e1e;
+} */
+/* .Dynamics:before {
+  content: "Dynamics";
+} */
+/* .input-container .FrequencyControl {
+  background: rgb(218, 182, 2);
+  color: #1e1e1e;
+}
+.FrequencyControl:before {
+  content: "Frequency Control";
+} */
+/* .input-container .Saturation {
+  background: rgb(218, 2, 2);
+  color: #fefefe;
+}
+.Saturation:before {
+  content: "Saturation";
+} */
+/* .input-container .TimeandSpace {
+  background: rgb(102, 102, 102);
+  color: #fefefe;
+}
+.TimeandSpace:before {
+  content: "Time and Space";
+} */
+
+/* .Analyzers:before {
+  content: "Analyzers";
+} */
+
+/* .input-container .CombinationTools {
+  background: rgb(218, 142, 2);
+  color: #222222;
+}
+
+.CombinationTools:before {
+  content: "Combination Tools";
+} */
+
+.input-container .MIDI {
+  background: rgb(218, 2, 142);
+  color: #fefefe;
+}
+
+.MIDI:before {
+  content: "MIDI";
+}
+
+/* .input-container .Modulation {
+  background: rgb(52, 218, 2);
+  color: #1e1e1e;
+}
+
+.Modulation:before {
+  content: "Modulation";
+} */
+
+/* .input-container .Multi-FunctionShaper {
+  background: rgb(2, 150, 218);
+  color: #fefefe;
+}
+
+.Multi-FunctionShaper:before {
+  content: "Multi-Function Shaper";
+} */
+
+/* .input-container .Simulation {
+  background: rgb(168, 2, 218);
+  color: #fefefe;
+} */
+
+/* .Simulation:before {
+  content: "Simulation";
+} */
+
+.input-container .UserAdded {
+  background: rgb(33, 33, 33);
+  color: #fefefe;
+}
+
+.UserAdded:before {
+  content: "User Added";
+}
+
+/* .input-container .Tools {
+  background: rgb(226, 224, 224);
+  color: #222222;
+}
+
+.Tools:before {
+  content: "Tools";
+} */

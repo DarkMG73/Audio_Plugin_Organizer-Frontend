@@ -3,6 +3,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import FormInput from "../../UI/Form/FormInput/FormInput";
 import GetPluginFormInputsWithOptions from "../../Hooks/GetPluginFormInputsWithOptions";
 import { useSelector } from "react-redux";
+import { getAllFunctionOptions } from "../../Hooks/utility";
 
 function AddAToolFormElms(props) {
   const [formOpen, setFormOpen] = useState(true);
@@ -40,10 +41,7 @@ function AddAToolFormElms(props) {
 
       // Format user added functions to match stock functions
       if (group.name === "functions") {
-        group.options = group.options.map((option) => {
-          if (option.includes("~")) return option;
-          return "User Added ~ " + option;
-        });
+        group.options = getAllFunctionOptions(toolsMetadata);
       }
     });
   }

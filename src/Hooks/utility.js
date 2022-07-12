@@ -1,3 +1,5 @@
+import topicOptions from "../data/topicOptions";
+
 export function hyphenate(string, indexBreakPoint, separator) {
   const firstHalf = string.substring(0, indexBreakPoint);
   const secondHalf = string.substring(indexBreakPoint, string.length);
@@ -266,4 +268,29 @@ export const toTitleCase = (str, spaceAtCamelCase = false) => {
   return str.replace(/\w\S*/g, function (txt) {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
+};
+
+export const getAllFunctionOptions = (toolsMetaData) => {
+  const output = [...topicOptions.functions];
+  if (toolsMetaData.hasOwnProperty("functions")) {
+    const addedFunctions = [...toolsMetaData.functions];
+    const stockFunctions = [...topicOptions.functions];
+
+    for (const functionOption of stockFunctions) {
+      // break each function option down into part after the tilde (~)
+
+      if (functionOption.includes("~")) {
+        let [optionGroup, functionOptionName] = functionOption.split("~");
+        optionGroup = optionGroup.trim();
+        functionOptionName = functionOptionName.trim();
+
+        if (addedFunctions.includes(functionOptionName))
+          addedFunctions.splice(addedFunctions.indexOf(functionOptionName), 1);
+      }
+    }
+    addedFunctions.forEach((addedFunction) =>
+      output.push("User Added" + " ~ " + addedFunction)
+    );
+  }
+  return output;
 };

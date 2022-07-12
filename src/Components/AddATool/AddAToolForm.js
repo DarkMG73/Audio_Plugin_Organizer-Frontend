@@ -266,11 +266,20 @@ function AddAToolForm(props) {
         if (props.saveOrUpdateData === "update")
           updateAPlugin(theData.id, theData, true).then((res) => {
             if (res.status < 299) {
+              if (
+                window.confirm(
+                  "Do you want to refresh to ensure all changes are loaded?"
+                )
+              ) {
+                window.location.reload();
+              } else {
+                props.setFormParentOpen(false);
+              }
               // window.location.reload();
               // GatherToolData().then((data) => {
               //   console.log("🟣 | getData | questionsFromDB", data);
               //   dispatch(audioToolDataActions.initState(data));
-              //   props.setFormParentOpen(false);
+
               // });
             } else {
               alert(

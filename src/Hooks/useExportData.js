@@ -59,25 +59,10 @@ const useExportData = (props) => {
 };
 
 function exportCSVFile(headers, items, fileTitle) {
-  console.log(
-    "%c --> %cline:61%citems",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
-    items
-  );
-
   // Sort by name
   items.sort(function (a, b) {
     return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
   });
-  console.log(
-    "%c --> %cline:61%citems",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
-    items
-  );
 
   if (headers) {
     items.unshift(headers);

@@ -76,6 +76,7 @@ export default async function GatherToolData() {
   };
 
   allToolsData.toolsMetadata = gatherAllMetadata(allTools);
+  allToolsData.toolsSchema = pluginSchema.obj;
 
   const gatherFilters = (keysArray) => {
     const output = {};

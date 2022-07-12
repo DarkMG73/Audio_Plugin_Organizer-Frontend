@@ -6,6 +6,7 @@ const FormInput = (props) => {
   const [requiredError, setRequiredError] = useState(true);
   const [requiredClass, setRequiredClass] = useState("");
   const input = props.inputDataObj;
+
   const formNumber = props.formNumber;
   useEffect(() => {
     if (input.required == true) setRequiredClass("required-input");
@@ -188,11 +189,11 @@ const FormInput = (props) => {
     );
   } else if (input.type === "checkbox" || input.type === "radio") {
     // *** Checkboxes and Radio Buttons***
-    if (input.name === "functions") {
-      groomedOptions.sort(function (a, b) {
-        return a.toLowerCase().localeCompare(b.toLowerCase());
-      });
-    }
+    // if (input.name === "functions") {
+    //   groomedOptions.sort(function (a, b) {
+    //     return a.toLowerCase().localeCompare(b.toLowerCase());
+    //   });
+    // }
 
     const options = groomedOptions.map((option, i) => {
       let optionGroup = "";
