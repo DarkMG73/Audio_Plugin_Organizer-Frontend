@@ -26,7 +26,18 @@ const FormInput = (props) => {
   const [checkboxTextInputValue, setCheckboxTextInputValue] = useState();
 
   useEffect(() => {
-    if (inputValue.constructor === String) {
+    console.log(
+      "%c --> %cline:29%csetInputValue",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
+      setInputValue.hasOwnProperty("constructor")
+    );
+
+    if (
+      setInputValue.hasOwnProperty("constructor") &&
+      inputValue.constructor === String
+    ) {
       setInputValue(inputValue.replaceAll('"', ""));
     } else {
       setInputValue(inputValue);
@@ -60,7 +71,9 @@ const FormInput = (props) => {
     // setInputValue(e.target.value);
   };
 
-  const groomedOptions = input.options.map((option) => option.trim());
+  let groomedOptions;
+  if (input.hasOwnProperty("options"))
+    groomedOptions = input.options.map((option) => option.trim());
 
   if (input.type === "textarea") {
     outputJSX = (
@@ -78,7 +91,7 @@ const FormInput = (props) => {
           name={formNumber + "#" + input.name}
           defaultValue={inputValue}
           ref={requiredTextInput}
-          onChange={textInputOnChangeHandler}
+          onChange={props.onChange || textInputOnChangeHandler}
           className={styles[requiredClass]}
           style={{ height: "auto", width: "auto", minHeight: "0" }}
         ></textarea>
@@ -161,7 +174,7 @@ const FormInput = (props) => {
           name={formNumber + "#" + input.name}
           defaultValue={input.value}
           required={input.required}
-          onChange={textInputOnChangeHandler}
+          onChange={props.onChange || textInputOnChangeHandler}
         >
           {" "}
           {options.map((optionHTML) => optionHTML)}
@@ -174,7 +187,7 @@ const FormInput = (props) => {
           name={formNumber + "#" + input.name}
           value={toTitleCase(inputValue)}
           ref={requiredTextInput}
-          onChange={textInputOnChangeHandler}
+          onChange={props.onChange || textInputOnChangeHandler}
           className={styles[requiredClass]}
         />
         {requiredError && input.required == true && (
@@ -385,7 +398,7 @@ const FormInput = (props) => {
           name={formNumber + "#" + input.name}
           defaultValue={inputValue}
           ref={requiredTextInput}
-          onChange={textInputOnChangeHandler}
+          onChange={props.onChange || textInputOnChangeHandler}
           className={styles[requiredClass]}
         />
         {requiredError && input.required == true && (

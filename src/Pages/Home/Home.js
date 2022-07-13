@@ -4,7 +4,7 @@ import styles from "./Home.module.css";
 import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
 import CardSecondary from "../../UI/Cards/CardSecondary/CardSecondary";
 import AddATool from "../../Components/AddATool/AddATool";
-import RegistrationForm from "../../Components/RegistrationForm/Register";
+import Register from "../../Components/Register/Register";
 import FilterTools from "../../Components/FilterTools/FilterTools";
 import ToolsRowsList from "../../Components/ToolsRows/ToolsRowsList/ToolsRowsList";
 import OutputControls from "../../Components/OutputControls/OutputControls";
@@ -80,7 +80,7 @@ const Home = () => {
           zIndex: "10",
         }}
       >
-        <RegistrationForm />
+        <Register />
       </CardSecondary>
     </div>
   );

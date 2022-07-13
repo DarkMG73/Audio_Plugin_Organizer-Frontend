@@ -76,3 +76,18 @@ export async function getSchemaForAudioPlugin() {
 
   return output;
 }
+
+export async function registerAUser(user) {
+  const output = await axios
+    .post(`/api/users/auth/register`, user)
+    .then((res) => {
+      console.log("res", res);
+      return res.data.user;
+    })
+    .catch((err) => {
+      console.log("err", err);
+      console.log("errors", err.response.data.err.message);
+    });
+
+  return output;
+}
