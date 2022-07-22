@@ -26,14 +26,6 @@ const FormInput = (props) => {
   const [checkboxTextInputValue, setCheckboxTextInputValue] = useState();
 
   useEffect(() => {
-    console.log(
-      "%c --> %cline:29%csetInputValue",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
-      setInputValue.hasOwnProperty("constructor")
-    );
-
     if (
       setInputValue.hasOwnProperty("constructor") &&
       inputValue.constructor === String

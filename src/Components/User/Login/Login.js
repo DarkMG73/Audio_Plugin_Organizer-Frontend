@@ -1,20 +1,21 @@
 import styles from "./Login.module.css";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
-import FormInput from "../../UI/Form/FormInput/FormInput";
-import { sign_inAUser } from "../../storage/audioToolsDB";
-import PushButton from "../../UI/Buttons/PushButton/PushButton";
-import { authActions } from "../../store/authSlice";
+import FormInput from "../../../UI/Form/FormInput/FormInput";
+import { sign_inAUser, setUserCookie } from "../../../storage/userDB";
+import PushButton from "../../../UI/Buttons/PushButton/PushButton";
+import { authActions } from "../../../store/authSlice";
+import storage from "../../../storage/storage";
+import GatherToolData from "../../../Hooks/GatherToolData";
+import { audioToolDataActions } from "../../../store/audioToolDataSlice";
+
 const Login = (props) => {
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+  const [loginError, seLoginError] = useState(false);
   const dispatch = useDispatch();
-  // const user = { name: "Mike Glass", email: "email@something.com" };
-  useEffect(() => {}, [dispatch]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     const groomedName = name.split("#")[1];
@@ -24,25 +25,40 @@ const Login = (props) => {
     });
   };
   //register function
-  const egister = (e) => {
+  const submitLogin = (e) => {
     e.preventDefault();
 
     const { email, password } = user;
-    console.log(
-      "%c --> %cline:23%cuser",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(56, 13, 49);padding:3px;border-radius:2px",
-      user
-    );
+
     if (email && password) {
       // axios("http://localhost:8000/api/users/auth/register", user)
-      sign_inAUser(user).then((res) => {
-        console.log(res);
-        dispatch(authActions.logIn(res.data.user));
-      });
+      sign_inAUser(user)
+        .then((res) => {
+          if (res && res.hasOwnProperty("status") && res.status >= 400) {
+            seLoginError(res.data.message);
+          } else if (res && res.hasOwnProperty("data")) {
+            seLoginError(false);
+            // storage("add", res.data);
+
+            setUserCookie(res.data).then((res) => {});
+            dispatch(authActions.logIn(res.data));
+            GatherToolData(res.data).then((data) => {
+              console.log("🟣 | getData | questionsFromDB", data);
+              dispatch(audioToolDataActions.initState(data));
+            });
+          } else {
+            seLoginError(
+              "Unfortunately, something went wrong and we can not figure out what happened.  Please refresh and try again."
+            );
+          }
+        })
+        .catch((err) => {
+          seLoginError(err);
+        });
     } else {
-      alert("invalid input");
+      seLoginError(
+        "Either the email or password is not meeting the requirements. Please fix and try again."
+      );
     }
   };
   return (
@@ -103,15 +119,20 @@ const Login = (props) => {
               inputOrButton="button"
               id="create-entry-btn"
               colorType="primary"
-              value="Add a Question"
+              value="Login"
               data=""
               size="medium"
-              onClick={egister}
+              onClick={submitLogin}
             >
               Login
             </PushButton>
           </div>
         </form>
+        {loginError && (
+          <div className={styles["form-input-error"]}>
+            <p>{loginError}</p>
+          </div>
+        )}
       </div>
     </div>
   );

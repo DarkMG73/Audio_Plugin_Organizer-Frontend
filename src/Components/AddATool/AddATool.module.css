@@ -11,51 +11,8 @@
   padding: 0;
 }
 
-.add-a-tool-container .db-login-container {
-  box-shadow: 0 -30px 50px -50px white, 0 30px 50px -50px white;
-  padding: 1em;
-  margin: 2em;
-}
-
-.db-login-container p {
-  margin: 0 auto 0em;
-  padding: 0;
-}
-
-.add-a-tool-container .db-login-container button {
-  margin-top: 1em;
-}
-.db-login-status {
-  margin: 1em;
-}
-
-.db-login-status {
-  margin: 1em;
-}
-
-.login-text {
-  margin: 2em auto;
-  padding: 0 0.5em;
-  font-weight: 700;
-  font-size: 1.5em;
-  box-shadow: inset 1px 1px 3px -2px black, inset -1px -1px 3px -2px white;
-  border: 1px inset var(--iq-color-background-warm);
-  background: var(--iq-color-background-warm);
-  color: var(--iq-color-foreground);
-}
-
-.not-logged-in-text {
-  background-color: var(--iq-color-foreground);
-  color: var(--iq-color-background);
-  font-weight: 700;
-}
-
-.inner-wrap {
-  background: green;
-}
-
-.db-login-container,
-.button-container {
+.button-container,
+.not-logged-in-error {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -72,7 +29,8 @@
   flex-grow: 1;
 }
 
-.add-a-tool-intro {
+.add-a-tool-intro,
+.add-a-tool-container .not-logged-in-error {
   max-width: 800px;
 }
 
@@ -101,4 +59,18 @@
   font: var(--iq-font-body-text);
   font-size: 1em;
   font-weight: 700;
+}
+
+.form-container {
+  box-shadow: 3px 3px 10px -7px inset black, -3px -3px 10px -7px inset white;
+  width: 100%;
+  max-width: none;
+  padding: 1em;
+  border-radius: 10px;
+  margin: 1em;
+}
+
+.not-logged-in-error {
+  border: 2px inset var(--iq-color-accent);
+  margin: 2em auto;
 }

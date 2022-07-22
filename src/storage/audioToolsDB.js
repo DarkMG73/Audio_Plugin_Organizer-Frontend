@@ -1,13 +1,31 @@
 import axios from "axios";
 
-export const getData = async () => {
-  const res = await axios.get("/api/all-plugins/");
+export const getData = async (user) => {
+  let axiosConfig = null;
+
+  if (user) {
+    axiosConfig = {
+      headers: {
+        "Content-Type": "text/plain",
+        Authorization: "JWT " + user.token,
+      },
+    };
+  }
+
+  const res = await axios.post("/api/all-plugins/", user, axiosConfig);
   return res.data;
 };
 
-export async function savePlugin(dataObj) {
+export async function savePlugin(userAndDataObject) {
+  const axiosConfig = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "JWT " + userAndDataObject.user.token,
+    },
+  };
+
   const response = await axios
-    .get(`/api/all-plugins/add/`, { params: dataObj })
+    .post(`/api/all-plugins/add`, userAndDataObject, axiosConfig)
     .then((res) => {
       return res;
     })
@@ -68,21 +86,6 @@ export async function getSchemaForAudioPlugin() {
     .then((res) => {
       // console.log("res", res);
       return res.data.model;
-    })
-    .catch((err) => {
-      console.log("err", err);
-      console.log("errors", err.response.data.err.message);
-    });
-
-  return output;
-}
-
-export async function registerAUser(user) {
-  const output = await axios
-    .post(`/api/users/auth/register`, user)
-    .then((res) => {
-      console.log("res", res);
-      return res.data.user;
     })
     .catch((err) => {
       console.log("err", err);

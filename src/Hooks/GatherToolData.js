@@ -1,7 +1,7 @@
 import storage from "../storage/storage";
-import { getData, getSchemaForAudioPlugin } from "../storage/MongoDb";
+import { getData, getSchemaForAudioPlugin } from "../storage/audioToolsDB";
 
-export default async function GatherToolData() {
+export default async function GatherToolData(user) {
   const allToolsData = {};
   const dataFromStorage = storage("get");
   let pluginSchema = await getSchemaForAudioPlugin();
@@ -14,7 +14,7 @@ export default async function GatherToolData() {
 
   allToolsData.allTools = {};
 
-  let allTools = await getData();
+  let allTools = await getData(user);
   allTools = allTools.map((tool) => {
     const output = {};
     if (!Object.keys(tool).includes("oversampling")) {
@@ -52,19 +52,6 @@ export default async function GatherToolData() {
   ////////////
 
   allTools.forEach((toolData) => {
-    // const tags = [];
-    // if (toolData.hasOwnProperty("tags")) {
-    //   if (toolData.tags.constructor === String) {
-    //     toolData.tags = stringToArray(toolData.tags);
-    //   } else if (!toolData.tags.constructor === Array) {
-    //     console.log("ERROR: The tool tags are an incorrect format");
-    //     toolData.tags = [];
-    //   } else {
-    //     toolData.tags = toolData.tags.map((tag) => tag.replaceAll(" ", ""));
-    //   }
-    // } else {
-    //   toolData.tags = [];
-    // }
     allToolsData.allTools[toolData._id] = toolData;
   });
 

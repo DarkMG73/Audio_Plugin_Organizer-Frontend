@@ -20,13 +20,6 @@ function FilterTools(props) {
   } = allToolsData;
 
   useEffect(() => {
-    // console.log(
-    //   "%c --> %cline:30%ccurrentFilters",
-    //   "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    //   "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    //   "color:#fff;background:rgb(248, 147, 29);padding:3px;border-radius:2px",
-    //   currentFilters
-    // );
     dispatch(audioToolDataActions.clearToolFilterIds);
     const filteredToolIdList = SetFilteredToolIdList(allTools, currentFilters);
 

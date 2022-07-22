@@ -1,7 +1,7 @@
 import styles from "./OutputControls.module.css";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
 import useExportData from "../../Hooks/useExportData";
-import { deleteAllPlugins } from "../../storage/MongoDb";
+import { deleteAllPlugins } from "../../storage/audioToolsDB";
 
 function OutputControls(props) {
   const exportData = useExportData();

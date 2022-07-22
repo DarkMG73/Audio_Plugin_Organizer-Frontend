@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import audioToolDataReducer from "./audioToolDataSlice";
-import loginStatusReducer from "./loginStatusSlice";
+import authReducer from "./authSlice";
 
 export default configureStore({
   reducer: {
     toolsData: audioToolDataReducer,
-    loginStatus: loginStatusReducer,
+    auth: authReducer,
   },
 });

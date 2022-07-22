@@ -71,7 +71,9 @@
   flex-basis: 33.33%;
 } */
 
-.input-container input[type="text"] {
+.input-container input[type="text"],
+.input-container input[type="email"],
+.input-container input[type="password"] {
   flex-basis: 100%;
   flex-grow: 1;
   padding: 0.5em;

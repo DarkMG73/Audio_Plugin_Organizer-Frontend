@@ -1,4 +1,4 @@
-import { getSchemaForAudioPlugin } from "../storage/MongoDb";
+import { getSchemaForAudioPlugin } from "../storage/audioToolsDB";
 
 const useToolDisplayOrder = async () => {
   const pluginSchema = await getSchemaForAudioPlugin();

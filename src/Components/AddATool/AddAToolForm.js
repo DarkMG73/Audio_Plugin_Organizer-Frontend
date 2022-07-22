@@ -1,4 +1,5 @@
 import { useState, useEffect, Fragment } from "react";
+import { useSelector } from "react-redux";
 import styles from "./AddAToolForm.module.css";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
 import AddAToolFormElms from "./AddAToolFormElms";
@@ -8,8 +9,7 @@ import { savePlugin, updateAPlugin } from "../../storage/audioToolsDB";
 import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
 
 function AddAToolForm(props) {
-  // const userLoggedIn = useSelector((state) => state.auth.userLoggedIn);
-  var userLoggedIn = true;
+  const user = useSelector((state) => state.auth.user);
   const [requiredError, setRequiredError] = useState(false);
   const [formJSX, setFormJSX] = useState([
     <AddAToolFormElms
@@ -211,29 +211,14 @@ function AddAToolForm(props) {
         delete sortedDatedEntriesArray[i]._id;
     }
 
-    // Access FormData fields with `data.get(fieldName)`
-    // For example, converting to upper case
-    // data.set('username', data.get('username').toUpperCase());
-
     let tripsThrough = [];
 
     for (const key in toolsGroomed) {
       const theData = toolsGroomed[key];
 
-      if (userLoggedIn) {
-        // addDocToDB(key, theData);
-        // savePlugin({
-        //   name: "TEST 2",
-        //   company: "Kleinhelm",
-        //   useCategories: ["compressor", "saturation"],
-        //   color: ["vintage", "warm", "50's", "70's", "80's"],
-        //   favorite: true,
-        //   analog: true,
-        //   precise: false,
-        // });
-
+      if (user) {
         if (props.saveOrUpdateData === "save")
-          savePlugin(theData, true).then((res) => {
+          savePlugin({ user, theData }, true).then((res) => {
             if (res.status && res.status < 299) {
               tripsThrough.push(key);
               const numberOfEntriestoAdd = Object.keys(toolsGroomed).length;
@@ -247,11 +232,6 @@ function AddAToolForm(props) {
                   window.location.reload();
                 }
               }
-              // GatherToolData().then((data) => {
-              //   console.log("🟣 | getData | questionsFromDB", data);
-              //   dispatch(audioToolDataActions.initState(data));
-              //   props.setFormParentOpen(false);
-              // });
             } else if (res.response.status === 404) {
               alert(
                 "IS THE NAME UNIQUE? There was an error when trying to save the new entry. This was most likely caused by trying to add the entry with the same name as an existing tool. Make sure you do not already have this one saved. If it is a different tool that happens to have the same exact name as one you already have saved, please alter this name in some way. The name must be unique."
@@ -275,12 +255,6 @@ function AddAToolForm(props) {
               } else {
                 props.setFormParentOpen(false);
               }
-              // window.location.reload();
-              // GatherToolData().then((data) => {
-              //   console.log("🟣 | getData | questionsFromDB", data);
-              //   dispatch(audioToolDataActions.initState(data));
-
-              // });
             } else {
               alert(
                 "There was an error when trying to update this production tool. If the problem continues, please contact the website administrator. Here is the message from the server: ",

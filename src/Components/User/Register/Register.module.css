@@ -1,0 +1,49 @@
+.registration-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.registration-container h3 {
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.form {
+  display: flex;
+  position: relative;
+}
+
+.form input[type="text"],
+.form input[type="password"],
+.form input[type="email"] {
+  font-size: 1em;
+  padding: 0 0.5em;
+}
+
+.form label {
+  margin: 0;
+  line-height: 1em;
+  padding: 0;
+  justify-content: inherit;
+}
+
+.form-submit-button-wrap {
+  display: flex;
+  align-items: end;
+}
+
+.form-submit-button-wrap button {
+  margin: 0 auto 10px;
+}
+.registration-in-link {
+  margin-left: 1em;
+}
+
+.registration-question {
+  margin-top: 1em;
+}
+.registration-question button {
+  margin-left: 1em;
+  width: auto;
+}

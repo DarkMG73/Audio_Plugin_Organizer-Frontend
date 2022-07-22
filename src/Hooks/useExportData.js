@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { getSchemaForAudioPlugin } from "../storage/MongoDb";
+import { getSchemaForAudioPlugin } from "../storage/audioToolsDB";
 
 const useExportData = (props) => {
   const [pluginSchema, setPluginSchema] = useState(false);
