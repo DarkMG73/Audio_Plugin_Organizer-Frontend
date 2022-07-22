@@ -8,11 +8,30 @@ function ToolsRowsList(props) {
   const { allTools, filteredToolsIds, currentFilters } = useSelector(
     (state) => state.toolsData
   );
+  const user = useSelector((state) => state.auth.user);
   // const sessionResultsBox = useRef();
 
   // useEffect(() => {
   //   props.setScrollToToolsRowsList(sessionResultsBox);
   // }, []);
+  useEffect(() => {
+    console.log("_______________");
+    console.log(
+      "%c --> %cline:19%cuser",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
+      user
+    );
+    console.log(
+      "%c --> %cline:8%callTools",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
+      allTools
+    );
+    console.log("/_______________");
+  }, [user]);
 
   let toolsToDisplay = { ...allTools };
 
