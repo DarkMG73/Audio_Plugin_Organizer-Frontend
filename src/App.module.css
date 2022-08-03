@@ -1,33 +1,40 @@
-.App {
+.app-container {
   text-align: center;
+  background: linear-gradient(177deg, #5e5e5e 0%, #181818 1%);
+  color: var(--iq-color-background-warm);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
+/* .content-container {
+  display: grid;
+    grid-template-areas:
+        "filter toolsrows"
+        "filter toolsrows"
+        "g h i";
+} */
 /* Scroll bar style from my Codepen: https://codepen.io/DarkMG73/pen/LMXMaE?editors=0100 */
 /*
  *  STYLE 3
  */
 ::-webkit-scrollbar-track {
   background-color: #f6000014;
+  background: transparent;
   border-radius: 50px;
-  box-shadow: -3px -3px 5px -3px inset rgb(59 59 59),
-    -2px -3px 5px -3px inset rgb(255 255 255);
+  /* box-shadow: -3px -3px 5px -3px inset rgb(59 59 59),
+    -2px -3px 5px -3px inset rgb(255 255 255); */
+  margin-top: 50px;
 }
 
 ::-webkit-scrollbar {
   width: 33px;
   min-width: 8px;
-  border-radius: 0px;
-  background-color: black;
-  background: radial-gradient(
+  border-radius: 50px;
+  background-color: transparent;
+  /* background: radial-gradient(
     ellipse at center,
     rgb(87 87 87) 0%,
     rgb(9 9 9) 100%
-  );
+  ); */
+  background: transparent;
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0000', endColorstr='#000000',GradientType=1 );
 }
 
@@ -79,4 +86,29 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.content-container {
+  z-index: 1;
+}
+
+.admin-notice {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  max-width: 800px;
+  background: var(--iq-color-accent);
+  color: var(--iq-color-background-contrast);
+  padding: 0.25em;
+  text-align: center;
+  font: var(--iq--font-heading);
+  z-index: 2000;
+  border-radius: 0 0 50px 50px;
+  max-height: 2em;
+}
+
+.admin-notice h3 {
+  margin: 0;
 }

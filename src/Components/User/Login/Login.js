@@ -16,6 +16,8 @@ const Login = (props) => {
   });
   const [loginError, seLoginError] = useState(false);
   const dispatch = useDispatch();
+  const horizontalDisplay = props.horizontalDisplay ? "horizontal-display" : "";
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     const groomedName = name.split("#")[1];
@@ -62,7 +64,9 @@ const Login = (props) => {
     }
   };
   return (
-    <div className={styles["login-container"]}>
+    <div
+      className={styles["login-container"] + " " + styles[horizontalDisplay]}
+    >
       <div className={styles["login-title-wrap"]}>
         <h3 className={styles["login-title"]}>Login</h3>
       </div>
@@ -76,6 +80,7 @@ const Login = (props) => {
           data=""
           size="small"
           onClick={props.toggleSignupLoginButtonHandler}
+          styles={props.signUpButtonStyles}
         >
           Sign Up &#10140;
         </PushButton>

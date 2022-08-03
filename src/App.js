@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import styles from "./App.module.css";
 import Home from "./Pages/Home/Home";
+import Header from "./Components/Header/Header";
+import Admin from "./Components/Admin/Admin";
 import GatherToolData from "./Hooks/GatherToolData";
 import { audioToolDataActions } from "./store/audioToolDataSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,6 +13,7 @@ import { authActions } from "./store/authSlice";
 const App = () => {
   const [user, setUser] = useState(false);
   const toolsData = useSelector((state) => state.toolsData);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,9 +42,20 @@ const App = () => {
   }, [user]);
 
   return (
-    <div>
-      {!toolsData.allTools && <BarLoader />}
-      {toolsData.allTools && <Home />}
+    <div className={styles["app-container"]}>
+      <Header />
+      {user.isAdmin && (
+        <Fragment>
+          <div className={styles["admin-notice"]}>
+            <h3>GLOBAL ADMIN MODE</h3>
+          </div>
+          <Admin />
+        </Fragment>
+      )}
+      <div className={styles["content-container"]}>
+        {!toolsData.allTools && <BarLoader />}
+        {toolsData.allTools && <Home />}
+      </div>
     </div>
   );
 };

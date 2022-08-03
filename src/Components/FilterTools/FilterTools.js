@@ -1,7 +1,7 @@
 import { useEffect, Fragment } from "react";
 import styles from "./FilterTools.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import SlideButton from "../../UI/Buttons/Slide-Button/Slide-Button";
+import SlideButton from "../../UI/Buttons/SlideButton/SlideButton";
 import { escapeHtml } from "../../Hooks/utility";
 import SetFilteredToolIdList from "../../Hooks/SetFilteredToolList";
 import { audioToolDataActions } from "../../store/audioToolDataSlice";
@@ -10,6 +10,7 @@ import FormInput from "../../UI/Form/FormInput/FormInput";
 
 function FilterTools(props) {
   const allToolsData = useSelector((state) => state.toolsData);
+  const user = useSelector((state) => state.auth.user);
 
   const dispatch = useDispatch();
   const {
@@ -25,6 +26,10 @@ function FilterTools(props) {
 
     dispatch(audioToolDataActions.setToolFilterIds(filteredToolIdList));
   }, [currentFilters, allTools, dispatch]);
+
+  useEffect(() => {
+    dispatch(audioToolDataActions.clearToolFilterIds);
+  }, [user]);
 
   function filterButtonHandler(e) {
     const value = escapeHtml(e.target.value);
@@ -84,6 +89,7 @@ function FilterTools(props) {
       );
     }
 
+    dispatch(audioToolDataActions.goToToolRows());
     // FilterTools(allToolsData);
   }
 
@@ -258,6 +264,7 @@ function FilterTools(props) {
                       onClick={filterButtonHandler}
                       checked={currentFilters[topic].includes(entry)}
                       data={topic}
+                      user={user.email}
                     />
                   );
                 })}

@@ -244,7 +244,7 @@ function AddAToolForm(props) {
             }
           });
         if (props.saveOrUpdateData === "update")
-          updateAPlugin(theData.id, theData, true).then((res) => {
+          updateAPlugin(theData.id, theData, user).then((res) => {
             if (res.status < 299) {
               if (
                 window.confirm(
@@ -279,7 +279,27 @@ function AddAToolForm(props) {
       // })
     }
   }
+  const submitButtonStyles = {
+    position: "absolute",
+    top: "-14px",
+    left: "50%",
+    width: "80%",
+    transform: " translateX(-50%)",
+    background: "var(--iq-color-accent-gradient)",
+    borderRadius: "50px",
+    height: "3em",
+    font: "var(--iq-font-heading-2)",
+  };
 
+  const deleteButtonStyles = {
+    flexBasis: " 25%",
+    flexGrow: "1",
+    width: "90%",
+    maxWidth: " 93%",
+    fontSize: "1em",
+    color: "var( --iq-color-background-warm",
+    background: "var( --iq-color-foreground-gradient)",
+  };
   return (
     <form action="" id="add-quest-form" className={styles["inner-wrap form"]}>
       <div key={"addatoolform-4"} className={styles["inner-wrap"]}>
@@ -312,6 +332,7 @@ function AddAToolForm(props) {
                     onClick={submitButtonHandler}
                     styles={{
                       ...props.buttonStyles,
+                      ...submitButtonStyles,
                     }}
                   >
                     Submit
@@ -326,16 +347,7 @@ function AddAToolForm(props) {
                     data=""
                     size="small"
                     onClick={props.deleteToolButtonHandler}
-                    styles={{
-                      ...props.buttonStyles,
-                      flexBasis: " 25%",
-                      flexGrow: "1",
-                      width: "90%",
-                      maxWidth: " 93%",
-                      fontSize: "1em",
-                      color: "var( --iq-color-background-warm",
-                      background: "var( --iq-color-foreground-gradient)",
-                    }}
+                    styles={{ ...props.buttonStyles, ...deleteButtonStyles }}
                   >
                     Delete
                   </PushButton>
@@ -378,7 +390,10 @@ function AddAToolForm(props) {
               data=""
               size="large"
               onClick={submitButtonHandler}
-              styles={props.buttonStyles}
+              styles={{
+                ...props.buttonStyles,
+                ...submitButtonStyles,
+              }}
             >
               Submit
             </PushButton>

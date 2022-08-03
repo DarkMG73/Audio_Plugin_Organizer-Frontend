@@ -1,0 +1,34 @@
+.admin-download-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 30px;
+  overflow: hidden;
+  margin: 1em auto;
+}
+
+.admin-download-row span {
+  font-size: 10px;
+  background: white;
+  color: black;
+  transform: scale(1, 2);
+  width: max-content;
+  overflow: hidden;
+}
+
+.admin-download-row input[type="text"] {
+  min-width: 32em;
+  text-align: right;
+}
+
+.admin-download-row img {
+  max-height: 30px;
+  width: 50px;
+  margin: 0 1em;
+  border: 1px solid white;
+}
+
+.admin-download- input[type="checkbox"] {
+  height: 50px;
+  width: 31px;
+}

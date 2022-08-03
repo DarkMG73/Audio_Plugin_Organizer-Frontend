@@ -1,37 +1,32 @@
-import { useRef, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useState, useRef, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./ToolsRowsList.module.css";
 import ToolsRows from "../ToolsRows/ToolsRows";
 import CollapsibleElm from "../../../UI/CollapsibleElm/CollapsibleElm";
+import PushButton from "../../../UI//Buttons/PushButton/PushButton";
+import { audioToolDataActions } from "../../../store/audioToolDataSlice";
+import LoginStatus from "../../User/LoginStatus/LoginStatus";
 
 function ToolsRowsList(props) {
-  const { allTools, filteredToolsIds, currentFilters } = useSelector(
-    (state) => state.toolsData
-  );
+  const {
+    allTools,
+    filteredToolsIds,
+    currentFilters,
+    goToToolRows,
+  } = useSelector((state) => state.toolsData);
+
   const user = useSelector((state) => state.auth.user);
-  // const sessionResultsBox = useRef();
+  const toolListRef = useRef();
+  const dispatch = useDispatch;
+
+  useEffect(() => {
+    if (goToToolRows > 0)
+      toolListRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [goToToolRows]);
 
   // useEffect(() => {
   //   props.setScrollToToolsRowsList(sessionResultsBox);
   // }, []);
-  useEffect(() => {
-    console.log("_______________");
-    console.log(
-      "%c --> %cline:19%cuser",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
-      user
-    );
-    console.log(
-      "%c --> %cline:8%callTools",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
-      allTools
-    );
-    console.log("/_______________");
-  }, [user]);
 
   let toolsToDisplay = { ...allTools };
 
@@ -68,32 +63,49 @@ function ToolsRowsList(props) {
       );
     }
   }
+
+  const addAToolButtonHandler = () => {
+    dispatch(audioToolDataActions.goToAddATool());
+  };
+
   return (
     <div
       key="toolsrowsList-1"
       id="tool-row-list"
       className={styles["tool-row-list"]}
     >
-      <h2 key="toolsrowsList-2" className="section-title">
-        Plugins and other Tools
-      </h2>
-      <h3
-        key="toolsrowsList-3"
-        className={`"section-subtitle" ${styles["section-subtitle"]}`}
+      <div className={styles["header-container"]}>
+        <h2 key="home" className="section-title">
+          Production Tool List
+        </h2>
+      </div>
+      <div className={styles["add-a-tool-wrap"]}>
+        <LoginStatus
+          horizontalDisplay={false}
+          showAddAToolButton={true}
+          signUpButtonStyles={{
+            background:
+              "linear-gradient(rgb(255 135 0) 37%, rgba(0, 0, 0, 1) 100%)",
+            color: "var(--iq-color-foreground)",
+            textShadow: "0 0 3px wheat",
+            fontSize: "1em",
+          }}
+        />
+      </div>{" "}
+      <div
+        key={"tool-list-wrap-key"}
+        className={styles["tool-list-wrap"]}
+        ref={toolListRef}
       >
-        There are{" "}
-        {filteredToolsIds.length > 0
-          ? filteredToolsIds.length
-          : Object.keys(allTools).length}{" "}
-        tools shown of the total {Object.keys(allTools).length}.
-      </h3>
-
-      <ToolsRows
-        key="toolsrowsList-4"
-        allTools={toolsToDisplay}
-        showLoader={props.showLoader}
-        noQuestionsMessage={noQuestionsMessage}
-      />
+        <ToolsRows
+          key="toolsrowsList-4"
+          allTools={allTools}
+          toolsToDisplay={toolsToDisplay}
+          filteredToolsIds={filteredToolsIds}
+          showLoader={props.showLoader}
+          noQuestionsMessage={noQuestionsMessage}
+        />
+      </div>
     </div>
   );
 }

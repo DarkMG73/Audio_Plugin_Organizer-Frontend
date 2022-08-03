@@ -37,9 +37,15 @@ export async function savePlugin(userAndDataObject) {
   return response;
 }
 
-export async function updateAPlugin(id, dataObj) {
+export async function updateAPlugin(id, dataObj, user) {
+  const axiosConfig = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "JWT " + user.token,
+    },
+  };
   const response = await axios
-    .get(`/api/all-plugins/update/`, { params: dataObj })
+    .get(`/api/all-plugins/update/`, { params: dataObj, ...axiosConfig })
     .then((res) => {
       return res;
     })
@@ -52,9 +58,15 @@ export async function updateAPlugin(id, dataObj) {
   return response;
 }
 
-export async function deleteAPlugin(id) {
+export async function deleteAPlugin(id, user) {
+  const axiosConfig = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "JWT " + user.token,
+    },
+  };
   const response = await axios
-    .get(`/api/all-plugins/${id}/delete/`)
+    .get(`/api/all-plugins/${id}/delete/`, axiosConfig)
     .then((res) => {
       return res;
     })
@@ -66,9 +78,15 @@ export async function deleteAPlugin(id) {
   return response;
 }
 
-export async function deleteAllPlugins() {
+export async function deleteAllPlugins(user) {
+  const axiosConfig = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "JWT " + user.token,
+    },
+  };
   const response = await axios
-    .get(`/api/all-plugins/delete/`)
+    .get(`/api/all-plugins/deleteAll/`, axiosConfig)
     .then((res) => {
       return res;
     })

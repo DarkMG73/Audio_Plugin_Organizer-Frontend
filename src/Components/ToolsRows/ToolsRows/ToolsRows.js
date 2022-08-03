@@ -1,31 +1,34 @@
 import { useState, Fragment } from "react";
 import styles from "./ToolsRows.module.css";
 import ToolRow from "../ToolRow/ToolRow";
+import AudioPluginSelector from "../../AudioPluginSelector/AudioPluginSelector";
 import Card from "../../../UI/Cards/Card/Card";
 import BarLoader from "../../../UI/Loaders/BarLoader/BarLoader";
 import PushButton from "../../../UI/Buttons/PushButton/PushButton";
 
 function ToolsRows(props) {
   const allTools = props.allTools;
-  const allToolsCategories = [];
-  const allToolsRows = {};
+  const toolsToDisplay = props.toolsToDisplay;
+  const toolsToDisplayCategories = [];
+  const toolsToDisplayRows = {};
   const [openAll, setOpenAll] = useState(false);
+  const filteredToolsIds = props.filteredToolsIds;
 
-  for (const k in allTools) {
+  for (const k in toolsToDisplay) {
     if (k !== "stats") {
-      allToolsCategories.push(k);
-      allToolsRows[k] = [];
-      for (const key in allTools[k]) {
+      toolsToDisplayCategories.push(k);
+      toolsToDisplayRows[k] = [];
+      for (const key in toolsToDisplay[k]) {
         // Add the row
-        allToolsRows[k].push(key);
+        toolsToDisplayRows[k].push(key);
       }
     }
   }
 
   // Set the order as alphabetical
   let sortedAllTools = [];
-  for (const key in allTools) {
-    sortedAllTools.push([key, allTools[key].name]);
+  for (const key in toolsToDisplay) {
+    sortedAllTools.push([key, toolsToDisplay[key].name]);
   }
   // Sort by name
   sortedAllTools.sort(function (a, b) {
@@ -42,18 +45,19 @@ function ToolsRows(props) {
         key="open-all-button-wrap"
         className={styles["open-all-button-wrap"]}
       >
+        {" "}
         <PushButton
           key={"open-all-button"}
           inputOrButton="button"
           styles={{
-            width: "100%",
+            width: "75%",
             letterSpacing: "var(--iq-spacing-subheading)",
             fontVariant: "small-caps",
             textAlign: "center",
             display: "flex",
             justifyContent: "center",
             margin: "auto",
-            padding: "0.75em",
+            padding: "0.75em 1.5em",
             transform: "none",
             borderRadius: "50px",
           }}
@@ -64,17 +68,27 @@ function ToolsRows(props) {
           size=""
           onClick={openAllButtonHandler}
         >
-          Open All
+          Expand All Tools
         </PushButton>
       </div>
       <div key="toolsrows-1" className={styles["tools-rows-list-container"]}>
-        {!allTools.hasOwnProperty("error") ? (
+        <h3
+          key="toolsrowsList-3"
+          className={`"section-subtitle" ${styles["section-subtitle"]}`}
+        >
+          There are{" "}
+          {filteredToolsIds.length > 0
+            ? filteredToolsIds.length
+            : Object.keys(allTools).length}{" "}
+          tools shown of the total {Object.keys(allTools).length}.
+        </h3>
+        {!toolsToDisplay.hasOwnProperty("error") ? (
           sortedAllTools.map((tool) => {
             const key = tool[0];
             return (
               <ToolRow
                 key={key}
-                tool={allTools[key]}
+                tool={toolsToDisplay[key]}
                 keyOne={key}
                 openAll={openAll}
               />
@@ -87,8 +101,9 @@ function ToolsRows(props) {
           >
             {!props.showLoader && (
               <Fragment>
-                <h3>{allTools.error["Audio & Video Plugin Status"]}</h3>
-                <p>{allTools.error["What you can do"]}</p>
+                <h3>{toolsToDisplay.error["Audio & Video Plugin Status"]}</h3>
+                <p>{toolsToDisplay.error["What you can do"]}</p>{" "}
+                <AudioPluginSelector />
               </Fragment>
             )}
             {props.showLoader && <BarLoader />}

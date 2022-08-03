@@ -29,8 +29,8 @@
   font-size: 1rem;
 }
 .grid-item-child img {
-  max-width: 100%;
   height: 9em;
+  justify-self: center;
 }
 
 .grid-item-title::first-letter {
@@ -46,6 +46,9 @@
   position: relative;
   display: flex;
   align-items: center;
+}
+.photoURL .grid-item-child {
+  justify-content: center;
 }
 
 .list {

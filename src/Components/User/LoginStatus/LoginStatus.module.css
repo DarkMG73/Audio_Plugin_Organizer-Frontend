@@ -91,3 +91,57 @@
   font-size: 1em;
   font-weight: 700;
 }
+
+/* HORIZONTAL DISPLAY */
+.db-login-container.horizontal-display {
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+  padding: 0;
+  max-width: max-content;
+  font: inherit;
+  /* height: 30px; */
+}
+.db-login-container.horizontal-display * {
+  display: flex;
+  flex-direction: row;
+  height: inherit;
+  margin: 0 auto;
+  padding: 0;
+  max-width: max-content;
+  font: inherit;
+}
+.db-login-container.horizontal-display p {
+  margin: 0;
+}
+.db-login-container.horizontal-display .not-logged-in-text,
+.db-login-container.horizontal-display h4,
+.db-login-container.horizontal-display h3 {
+  display: none;
+}
+
+.db-login-container.horizontal-display .button-container,
+.db-login-container.horizontal-display .form-container {
+  margin: 0 auto;
+  padding: 0;
+  box-shadow: none;
+}
+
+.db-login-container.horizontal-display .not-logged-in-text {
+  display: none;
+}
+
+.db-login-container.horizontal-display .login-question {
+  margin-right: 3em;
+}
+
+.db-login-container.horizontal-display .login-text {
+  padding: 0 1em;
+  background: none;
+  color: inherit;
+  border: none;
+  box-shadow: none;
+  align-items: center;
+  max-width: max-content;
+  min-width: 10em;
+}

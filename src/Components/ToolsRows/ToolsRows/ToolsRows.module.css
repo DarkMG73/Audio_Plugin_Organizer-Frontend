@@ -40,7 +40,8 @@
 
 .open-all-button-wrap {
   position: sticky;
-  top: 0;
+  display: flex;
+  top: 50px;
   z-index: 50;
   transition: all 0.2s ease;
 }
@@ -54,4 +55,15 @@
   color: var(--iq-color-accent);
   text-shadow: 0 0 3px rgba(255, 255, 0, 0.504);
   transition: all 0.3s ease;
+}
+
+.section-subtitle {
+  font: var(--iq-font-subheading);
+  letter-spacing: var(--iq-spacing-heading);
+  text-align: center;
+  margin: 0 auto 3em;
+  flex-grow: 1;
+  min-width: fit-content;
+  margin-top: 79px;
+  min-width: 100%;
 }

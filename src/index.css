@@ -108,6 +108,8 @@ body {
 
 html {
   font-size: 10px;
+  background: var(--iq-color-foreground);
+  color: var(--iq-color-background-warm);
 }
 * {
   box-sizing: border-box;
@@ -118,6 +120,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: var(--iq-color-foreground-gradient);
+  background: linear-gradient(177deg, #5e5e5e 0%, #181818 1%);
+  color: var(--iq-color-background-warm);
+  min-height: 100vh;
 }
 a {
   color: var(--iq-color-accent);

@@ -7,6 +7,8 @@ function InitState() {
   initialState.toolsMetadata = null;
   initialState.toolsHistory = null;
   initialState.currentFilters = null;
+  initialState.goToAddATool = null;
+  initialState.goToToolRows = null;
   return initialState;
 }
 
@@ -21,6 +23,8 @@ export const audioToolDataSlice = createSlice({
       state.toolsMetadata = toolsData.toolsMetadata;
       state.toolsHistory = toolsData.toolsHistory;
       state.currentFilters = toolsData.currentFilters;
+      state.goToAddATool = 0;
+      state.goToToolRows = 0;
     },
 
     addToToolFilters: (state, action) => {
@@ -40,6 +44,14 @@ export const audioToolDataSlice = createSlice({
     },
     clearToolFilterIds: (state, action) => {
       state.filteredToolsIds = [];
+    },
+    goToAddATool: (state, action) => {
+      const goToAddAToolCount = state.goToAddATool;
+      state.goToAddATool = goToAddAToolCount + 1;
+    },
+    goToToolRows: (state, action) => {
+      const goToToolRowsCount = state.goToToolRows;
+      state.goToToolRows = goToToolRowsCount + 1;
     },
   },
 });

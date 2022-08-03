@@ -1,3 +1,7 @@
+.tool-list-wrap {
+  margin-top: 9em;
+}
+
 .section-subtitle {
   font: var(--iq-font-subheading);
   letter-spacing: var(--iq-spacing-heading);
@@ -12,4 +16,11 @@
   font: var(--iq--font-heading);
   letter-spacing: var(--iq-spacing-heading);
   font-weight: 700;
+}
+
+.add-a-tool-wrap div[class*="card"] {
+  /* border: 3px solid red;
+  max-width: 100%;
+  min-width: 0;
+  width: 100%; */
 }

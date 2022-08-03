@@ -6,6 +6,7 @@ import { isValidHttpUrl, groomFormOutput } from "../../../Hooks/utility";
 import CardSecondary from "../../../UI/Cards/CardSecondary/CardSecondary";
 import CollapsibleElm from "../../../UI/CollapsibleElm/CollapsibleElm";
 import AddAToolForm from "../..//AddATool/AddAToolForm";
+// import image from "../../../assets/images/Waves_WNS-Noise-Suppressor.png";
 // import { addDocToDB, deleteDocFromDb } from "../../storage/firebase.config";
 import {
   updateAPlugin as addDocToDB,
@@ -13,6 +14,7 @@ import {
 } from "../../../storage/audioToolsDB";
 import GetPluginFormInputsWithOptions from "../../../Hooks/GetPluginFormInputsWithOptions";
 import useToolDisplayOrder from "../../../Hooks/useToolDisplayOrder";
+import placeholderImage from "../../../assets/images/product-photo-placeholder-5.png";
 
 function ToolRow(props) {
   const toolsMetadata = useSelector((state) => state.toolsData.toolsMetadata);
@@ -21,6 +23,7 @@ function ToolRow(props) {
   const [deleted, setDeleted] = useState(false);
   const toolDisplayOrder = useToolDisplayOrder;
   const [formInputData, setFormInputData] = useState(false);
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     toolDisplayOrder().then((order) => {
@@ -63,11 +66,17 @@ function ToolRow(props) {
   const rowSaveButtonHandler = (e) => {
     // Use tempKey instead of key when in dev
     // const tempKey = "TESTTEST";
-
-    addDocToDB(key, editedTools.current.edits, true).then((res) => {
-      setInEditMode(!inEditMode);
-      return res;
-    });
+    // console.log(
+    //   "%c --> %cline:75%cuser",
+    //   "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+    //   "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+    //   "color:#fff;background:rgb(17, 63, 61);padding:3px;border-radius:2px",
+    //   user
+    // );
+    // addDocToDB(key, editedTools.current.edits, user).then((res) => {
+    //   setInEditMode(!inEditMode);
+    //   return res;
+    // });
   };
 
   const deleteToolButtonHandler = (e) => {
@@ -81,7 +90,7 @@ function ToolRow(props) {
           ")? This can not be undone. You might want to use the CVS download at the bottom of the page to backup your production tools first in case you want to restore this list as it is right now. Clicking CANCEL returns to the page as-is and clicking CONFIRM will delete this tool."
       )
     ) {
-      deleteDocFromDb(key)
+      deleteDocFromDb(key, user)
         .then((res) => {
           if (res.status < 299) {
             setDeleted(true);
@@ -136,10 +145,21 @@ function ToolRow(props) {
       // If link, add <a> tag
       const isValidLink = isValidHttpUrl(value);
 
-      if (isValidLink) {
-        if (title === "photoURL") {
+      if (isValidLink || title === "photoURL" || title === "productURL") {
+        if (title === "photoURL" && isValidLink) {
           // value = <img key={title + value} src={value} alt={title} />;
           value = <img key={title + value} src={value} alt={title} />;
+        } else if (title === "photoURL" && value !== undefined) {
+          const photoSrc =
+            value !== "" ? "./assets/images/" + value : placeholderImage;
+          value = (
+            <img
+              key={title + value}
+              src={photoSrc}
+              // src={image}
+              alt={title}
+            />
+          );
         } else if (title === "productURL") {
           // value = <img key={title + value} src={value} alt={title} />;
           value = (

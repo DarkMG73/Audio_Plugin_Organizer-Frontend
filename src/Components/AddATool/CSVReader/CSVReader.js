@@ -195,7 +195,7 @@ export default function CSVReader(props) {
               {...getRootProps()}
               className={styles["browse-file"]}
             >
-              Browse file
+              CSV Upload
             </button>
             <div className={styles["accepted-file"]}>
               <ProgressBar
@@ -204,9 +204,11 @@ export default function CSVReader(props) {
               />
               {acceptedFile && acceptedFile.name}
             </div>
-            <button {...getRemoveFileProps()} className={styles.remove}>
-              Remove
-            </button>
+            {false && (
+              <button {...getRemoveFileProps()} className={styles.remove}>
+                Remove
+              </button>
+            )}
           </div>
         </>
       )}

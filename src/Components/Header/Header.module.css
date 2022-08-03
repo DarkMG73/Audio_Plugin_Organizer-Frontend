@@ -1,0 +1,113 @@
+.header-container {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.fixed-header-container {
+  /* background: linear-gradient(177deg, #5e5e5e 0%, #181818 67%); */
+  background: var(--iq-color-foreground-gradient);
+  color: var(--iq-color-accent);
+  color: var(--iq-color-foreground);
+  overflow: hidden;
+  z-index: 0;
+}
+
+.navbar-container {
+  position: fixed;
+  display: flex;
+  align-items: normal;
+  justify-content: space-between;
+  background: var(--iq-color-foreground-gradient);
+  color: var(--iq-color-background-warm);
+  width: 100%;
+  height: 50px;
+  z-index: 100;
+  padding: 1em 2em;
+  font: var(--iq-font-body-text);
+}
+
+.navbar-container > * {
+  margin: 0 auto;
+}
+
+.navbar-container h1 {
+  font-size: calc(1rem + 0.25vw);
+  text-align: center;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-container button {
+  font-variant: small-caps;
+  font-size: calc(1rem + 0.25vw) !important;
+  letter-spacing: 0.25em;
+  /* text-transform: uppercase; */
+}
+
+.fixed-header-container h1 {
+  line-height: 2em;
+  width: 100%;
+  font-size: calc(1em + 2vw);
+  font-weight: 900;
+  transform: scale(1.5, 1);
+  z-index: 0;
+}
+
+/* .content-container {
+    margin-top: 3em;
+  } */
+
+/* .navbar-container div,
+.navbar-container p,
+.navbar-container span,
+.navbar-container h4,
+.navbar-container h1 {
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+  min-width: fit-content;
+  justify-content: left;
+  margin: 0;
+
+} */
+/* .navbar-container p,
+.navbar-container span {
+  font: var(--iq-font-body-text);
+}
+
+.navbar-container button,
+.navbar-container p,
+.navbar-container span {
+  min-width: fit-content;
+  height: 40px;
+  margin: 0 1em;
+} */
+
+@keyframes moveDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes moveUp {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+.hide-navbar {
+  animation: moveUp 0.3s ease forwards;
+}
+.show-navbar {
+  animation: moveDown 0.3s ease forwards;
+}

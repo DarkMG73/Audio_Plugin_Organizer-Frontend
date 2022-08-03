@@ -13,6 +13,7 @@
   padding-left: 10;
   width: 80%;
 }
+
 .remove {
   border-radius: 0;
   padding: 0 20px;
@@ -44,3 +45,16 @@
   border-radius: 50% !important;
   animation: rotateDisc 3s ease infinite 0.3s;
 } */
+
+/* App Customizations */
+.csv-reader {
+  flex-direction: row;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.csv-reader button {
+  margin: 0;
+  min-width: 100%;
+  min-height: 100%;
+}

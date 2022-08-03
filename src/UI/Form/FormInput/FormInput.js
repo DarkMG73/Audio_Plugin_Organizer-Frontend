@@ -392,6 +392,7 @@ const FormInput = (props) => {
           ref={requiredTextInput}
           onChange={props.onChange || textInputOnChangeHandler}
           className={styles[requiredClass]}
+          placeholder={input.placeholder}
         />
         {requiredError && input.required == true && (
           <span key={"form-input"} className={styles[requiredClass + "-text"]}>

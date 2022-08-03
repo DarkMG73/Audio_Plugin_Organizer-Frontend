@@ -66,3 +66,91 @@
 .form-input-error p {
   /* font-size: 2em; */
 }
+
+/* The placeholders available for HOC's that want to expose it */
+-webkit-input-placeholder {
+  /* WebKit browsers */
+  color: transparent;
+}
+
+/* HORIZONTAL DISPLAY */
+.login-container.horizontal-display {
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+  padding: 0;
+  max-width: max-content;
+  align-items: center;
+}
+
+.login-container.horizontal-display .login-question,
+.login-container.horizontal-display .button-container,
+.login-container.horizontal-display .login-form-wrap,
+.login-container.horizontal-display .form {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font: var(--iq-font-body-text);
+  max-width: fit-content;
+  font-size: 1em;
+}
+
+.login-container.horizontal-display .login-question {
+  margin: 0 7%;
+}
+
+.login-container.horizontal-display .form {
+  margin: 0 auto;
+  max-height: 100%;
+}
+.login-container.horizontal-display label {
+  display: none;
+}
+
+.login-container.horizontal-display .form input,
+.login-container.horizontal-display .form div {
+  align-items: normal;
+  font-size: 1em;
+  padding: 0;
+  margin: 0 auto;
+}
+.login-container.horizontal-display .form input {
+  margin: 0.25em 0;
+  box-shadow: inset 2px 2px 3px -2px black, inset -2px -2px 3px -2px white;
+  border: 1px inset #cecece;
+}
+
+.horizontal-display .form-submit-button-wrap button,
+.horizontal-display .login-question button {
+  width: 13em;
+  font-size: 1em;
+  margin: 0;
+  padding: 0;
+  min-width: 8em;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  height: max;
+}
+.horizontal-display .login-question {
+  text-align: right;
+}
+
+.horizontal-display .login-question button {
+  background: var(--iq-color-accent-gradient);
+  /* border-radius: 15px; */
+  color: var(--iq-color-foreground);
+  text-shadow: 0 0 3px wheat;
+  background: linear-gradient(rgb(255 135 0) 37%, rgba(0, 0, 0, 1) 100%);
+  margin-left: 1em;
+  margin-top: 0.3em;
+}
+
+.horizontal-display ::placeholder {
+  display: block !important;
+  opacity: 1;
+  color: #7f7f7f;
+  text-align: center;
+}

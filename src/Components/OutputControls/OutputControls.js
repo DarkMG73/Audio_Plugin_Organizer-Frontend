@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import styles from "./OutputControls.module.css";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
 import useExportData from "../../Hooks/useExportData";
@@ -5,7 +6,7 @@ import { deleteAllPlugins } from "../../storage/audioToolsDB";
 
 function OutputControls(props) {
   const exportData = useExportData();
-
+  const user = useSelector((state) => state.auth.user);
   function exportCVSButtonHandler() {
     exportData({ type: "cvs" });
   }
@@ -18,7 +19,7 @@ function OutputControls(props) {
       'Should we continue permanent erasing all production tools from the database? Clicking "Confirm" erases the database and clicking "Cancel" will not erase the database.'
     );
     if (confirmation)
-      deleteAllPlugins().then((res) => {
+      deleteAllPlugins(user).then((res) => {
         if (res.status < 299) {
           window.location.reload();
         } else {
