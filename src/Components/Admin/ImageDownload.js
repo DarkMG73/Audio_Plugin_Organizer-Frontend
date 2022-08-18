@@ -10,15 +10,7 @@ const ImageDownload = (props) => {
     console.log("Click", e.target);
   };
 
-  const btnOnClick = (e) => {
-    console.log(
-      "%c --> %cline:14%ce.target",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(161, 23, 21);padding:3px;border-radius:2px",
-      e.target
-    );
-  };
+  const btnOnClick = (e) => {};
   let count = 0;
   const newAllTools = {};
 
@@ -27,14 +19,6 @@ const ImageDownload = (props) => {
     count++;
     // if (count > 4) break;
   }
-
-  console.log(
-    "%c --> %cline:32%cnewAllTools",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(39, 72, 98);padding:3px;border-radius:2px",
-    newAllTools
-  );
 
   return (
     <div className={styles["image-download-container"]}>
@@ -46,13 +30,7 @@ const ImageDownload = (props) => {
 
       {Object.keys(newAllTools).map((key, i) => {
         const tool = newAllTools[key];
-        console.log(
-          "%c --> %cline:31%ctool",
-          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-          "color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px",
-          tool
-        );
+
         const imageSrc = tool.photoURL;
         const imageName =
           tool.company.replaceAll(" ", "-").replaceAll("_", "-") +

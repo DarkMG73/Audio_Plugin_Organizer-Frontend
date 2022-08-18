@@ -45,7 +45,7 @@ const Login = (props) => {
             setUserCookie(res.data).then((res) => {});
             dispatch(authActions.logIn(res.data));
             GatherToolData(res.data).then((data) => {
-              console.log("🟣 | getData | questionsFromDB", data);
+              // console.log("🟣 | getData | questionsFromDB", data);
               dispatch(audioToolDataActions.initState(data));
             });
           } else {

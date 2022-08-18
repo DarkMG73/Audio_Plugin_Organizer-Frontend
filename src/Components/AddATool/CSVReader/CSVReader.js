@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import styles from "./CSVReader.module.css";
 import { useCSVReader } from "react-papaparse";
 import GetPluginFormInputsWithOptions from "../../../Hooks/GetPluginFormInputsWithOptions";
 import BarLoader from "../../../UI/Loaders/BarLoader/BarLoader";
 
 export default function CSVReader(props) {
+  const toolsSchema = useSelector((state) => state.toolsData.toolsSchema);
   const { CSVReader } = useCSVReader();
   const [formInputData, setFormInputData] = useState(false);
   useEffect(() => {
-    GetPluginFormInputsWithOptions().then((res) => {
-      setFormInputData(res);
-    });
+    const res = GetPluginFormInputsWithOptions(toolsSchema);
+    setFormInputData(res);
   }, []);
 
   const createKeyValueObjectsArray = (csvOutputArray) => {

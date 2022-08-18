@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import BarLoader from "./UI/Loaders/BarLoader/BarLoader";
 import { getUserCookie, getUserUserByToken } from "./storage/userDB";
 import { authActions } from "./store/authSlice";
-
+import { ErrorBoundary } from "./Components/ErrorBoundary/ErrorBoundary";
 const App = () => {
   const [user, setUser] = useState(false);
   const toolsData = useSelector((state) => state.toolsData);
@@ -20,7 +20,7 @@ const App = () => {
     getUserCookie().then((res) => {
       if (res.status >= 400) {
         GatherToolData().then((data) => {
-          console.log("🟣 | getData | questionsFromDB", data);
+          // console.log("🟣 | getData | questionsFromDB", data);
           dispatch(audioToolDataActions.initState(data));
         });
       } else {
@@ -35,7 +35,7 @@ const App = () => {
     if (user) {
       dispatch(authActions.logIn(user));
       GatherToolData(user).then((data) => {
-        console.log("🟣 | getData | questionsFromDB", data);
+        // console.log("🟣 | getData | questionsFromDB", data);
         dispatch(audioToolDataActions.initState(data));
       });
     }
@@ -43,6 +43,12 @@ const App = () => {
 
   return (
     <div className={styles["app-container"]}>
+      <ErrorBoundary>
+        <h1>
+          This is a test
+          <input type="checkbox" value="the value" checked />
+        </h1>
+      </ErrorBoundary>
       <Header />
       {user.isAdmin && (
         <Fragment>
@@ -54,7 +60,9 @@ const App = () => {
       )}
       <div className={styles["content-container"]}>
         {!toolsData.allTools && <BarLoader />}
-        {toolsData.allTools && <Home />}
+        <ErrorBoundary specialProps={"Testing Props"}>
+          {toolsData.allTools && <Home />}
+        </ErrorBoundary>
       </div>
     </div>
   );

@@ -14,9 +14,10 @@ const Home = () => {
   const { allTools, toolsMetadata } = useSelector((state) => state.toolsData);
 
   const [toolListTopRef, setToolListTopRef] = useState();
-
+  const testVar = {};
   return (
     <div className={styles["home-page"]}>
+      {testVar.toUpperCase()}
       {!toolsMetadata && toolsMetadata._id.includes("error") && <BarLoader />}
       {toolsMetadata && !toolsMetadata._id.includes("error") && (
         <CardSecondary

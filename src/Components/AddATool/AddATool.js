@@ -40,6 +40,33 @@ function AddATool(props) {
     setShowAddFromLibrary(!showAddFromLibrary);
   }
 
+  const submitButtonStyles = {
+    position: "relative",
+    top: "-0",
+    left: "40%",
+    width: "80%",
+    transform: " translateX(-50%)",
+    background: "var(--iq-color-accent-gradient)",
+    borderRadius: "50px",
+    height: "3em",
+    font: "var(--iq-font-heading-2)",
+  };
+
+  const buttonStyles = {
+    width: "80%",
+    // background: "var(--iq-color-foreground-gradient)",
+    borderRadius: "50px",
+    height: "3em",
+    font: "var(--iq-font-heading-2)",
+    fontSize: "1.5em",
+    padding: "0",
+    textTransform: "uppercase",
+    fontWeight: "900",
+    letterSpacing: "0.25em",
+    textShadow:
+      "rgb(0 0 0 / 50%) -1px -1px 1px, rgb(255 255 255 / 50%) 1px 1px 1px, 0 0 22px wheat",
+  };
+
   return (
     <div
       id="add-a-tool-outer-wrap"
@@ -128,28 +155,16 @@ function AddATool(props) {
           {showAddQuestionForm && (
             <AddAToolForm
               saveOrUpdateData="save"
-              setFormParentOpen={setShowAddQuestionForm}
-              buttonStyles={{
-                width: "80%",
-                background: "var(--iq-color-accent-gradient)",
-                borderRadius: "50px",
-                height: "3em",
-                font: "var(--iq-font-heading-2)",
-                fontSize: "1.5em",
-                padding: "0",
-                textTransform: "uppercase",
-                fontWeight: "900",
-                letterSpacing: "0.25em",
-                textShadow:
-                  "rgb(0 0 0 / 50%) -1px -1px 1px, rgb(255 255 255 / 50%) 1px 1px 1px, 0 0 22px wheat",
-              }}
+              buttonStyles={buttonStyles}
+              submitButtonStyles={submitButtonStyles}
             />
           )}
           {fileUploadArray && (
             <AddAToolForm
               saveOrUpdateData="save"
               formData={fileUploadArray}
-              setFormParentOpen={setShowAddQuestionForm}
+              buttonStyles={buttonStyles}
+              submitButtonStyles={submitButtonStyles}
             />
           )}
         </div>

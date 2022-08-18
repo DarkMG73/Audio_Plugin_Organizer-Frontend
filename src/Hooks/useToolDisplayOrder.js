@@ -1,7 +1,5 @@
-import { getSchemaForAudioPlugin } from "../storage/audioToolsDB";
-
-const useToolDisplayOrder = async () => {
-  const pluginSchema = await getSchemaForAudioPlugin();
+const useToolDisplayOrder = (pluginSchema) => {
+  if (!pluginSchema) return [];
   const setOrder = [
     "name",
     "photoURL",
@@ -15,7 +13,7 @@ const useToolDisplayOrder = async () => {
 
   const orderSet = new Set();
   setOrder.map((topic) => orderSet.add(topic));
-  Object.keys(pluginSchema.obj).map((topic) => orderSet.add(topic));
+  Object.keys(pluginSchema).map((topic) => orderSet.add(topic));
 
   const order = Array.from(orderSet);
   return order;

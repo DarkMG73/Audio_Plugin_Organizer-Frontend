@@ -17,7 +17,9 @@ import useToolDisplayOrder from "../../../Hooks/useToolDisplayOrder";
 import placeholderImage from "../../../assets/images/product-photo-placeholder-5.png";
 
 function ToolRow(props) {
-  const toolsMetadata = useSelector((state) => state.toolsData.toolsMetadata);
+  const { toolsMetadata, toolsSchema } = useSelector(
+    (state) => state.toolsData
+  );
   const [inEditMode, setInEditMode] = useState(false);
   const [toolRowOrder, setToolRowOrder] = useState(false);
   const [deleted, setDeleted] = useState(false);
@@ -26,12 +28,10 @@ function ToolRow(props) {
   const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    toolDisplayOrder().then((order) => {
-      setToolRowOrder(order);
-    });
-    GetPluginFormInputsWithOptions(toolsMetadata).then((res) => {
-      setFormInputData(res);
-    });
+    const order = toolDisplayOrder(toolsSchema);
+    setToolRowOrder(order);
+    const res = GetPluginFormInputsWithOptions(toolsSchema, toolsMetadata);
+    setFormInputData(res);
   }, []);
   const editedTools = useRef({ edits: {} });
   const tool = props.tool;
@@ -410,6 +410,8 @@ function ToolRow(props) {
               setFormParentOpen={setInEditMode}
               styles={{ minHeight: "100%" }}
               buttonStyles={{
+                position: "relative",
+
                 height: "3em",
                 width: "100%",
                 left: "0",
@@ -422,6 +424,25 @@ function ToolRow(props) {
                 borderRadius: "50px ",
                 boxShadow: "0 0 20px -5px var(--iq-color-accent)",
                 textShadow: "0 0 3px var(--iq-color-accent)",
+              }}
+              submitButtonStyles={{
+                top: "-14px",
+                width: "80%",
+                background: "var(--iq-color-accent-gradient)",
+                borderRadius: "50px",
+                height: "3em",
+                font: "var(--iq-font-heading-2)",
+                zIndex: "1",
+              }}
+              deleteButtonStyles={{
+                flexBasis: " 25%",
+                flexGrow: "1",
+                top: "-14px",
+                width: "90%",
+                maxWidth: " 40%",
+                fontSize: "1em",
+                color: "var( --iq-color-background-warm",
+                background: "var( --iq-color-foreground-gradient)",
               }}
               cancelButtonStyles={{
                 position: "fixed",

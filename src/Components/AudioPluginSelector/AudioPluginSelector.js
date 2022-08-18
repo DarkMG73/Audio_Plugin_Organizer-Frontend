@@ -7,6 +7,8 @@ import SlideButton from "../../UI/Buttons/SlideButton/SlideButton";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
 import CardPrimaryLarge from "../../UI/Cards/CardPrimaryLarge/CardPrimaryLarge";
 import { savePlugin, updateAPlugin } from "../../storage/audioToolsDB";
+import { isValidHttpUrl, groomFormOutput } from "../../Hooks/utility";
+import placeholderImage from "../../assets/images/product-photo-placeholder-5.png";
 
 const AudioPluginSelector = () => {
   const [toolsFromLibrary, setToolsFromLibrary] = useState(false);
@@ -15,7 +17,7 @@ const AudioPluginSelector = () => {
 
   useEffect(() => {
     GatherToolData().then((data) => {
-      console.log("🟣 | getData | questionsFromDB", data);
+      // console.log("🟣 | getData | questionsFromDB", data);
 
       if (data.allTools.hasOwnProperty("error")) return;
 
@@ -31,13 +33,28 @@ const AudioPluginSelector = () => {
   }, []);
 
   const buttonChangeHandler = (e) => {
+    console.log(
+      "%c --> %cline:35%ce",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(114, 83, 52);padding:3px;border-radius:2px",
+      e.target
+    );
+    console.log(
+      "%c --> %cline:45%ce.target.value",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(254, 67, 101);padding:3px;border-radius:2px",
+      e.target.closest("button").value
+    );
     const newSelectedToolsArray = [...selectedTools];
+    const value = e.target.closest("button").value;
 
-    if (newSelectedToolsArray.includes(e.target.value)) {
-      newSelectedToolsArray.splice(selectedTools.indexOf(e.target.value), 1);
+    if (newSelectedToolsArray.includes(value)) {
+      newSelectedToolsArray.splice(selectedTools.indexOf(value), 1);
       setSelectedTools(newSelectedToolsArray);
     } else {
-      newSelectedToolsArray.push(e.target.value);
+      newSelectedToolsArray.push(value);
       setSelectedTools(newSelectedToolsArray);
     }
   };
@@ -63,12 +80,43 @@ const AudioPluginSelector = () => {
     });
   };
 
+  // Product Photo Logic
+  const createPhtoURLImage = (tool) => {
+    let output = "";
+    const title = tool.title;
+    const value = tool.photoURL;
+    const isValidLink = isValidHttpUrl(value);
+    if (isValidLink) {
+      // value = <img key={title + value} src={value} alt={title} />;
+      output = <img key={title + value} src={value} alt={title} />;
+    } else {
+      const photoSrc =
+        value !== "" && value !== undefined
+          ? "./assets/images/" + value
+          : placeholderImage;
+      output = (
+        <img
+          key={title + value}
+          src={photoSrc}
+          // src={image}
+          alt={title}
+        />
+      );
+    }
+
+    return output;
+  };
+
   return (
     <CardPrimaryLarge styles={{ maxWidth: "100%" }}>
       <div className={styles["audio-plugin-selector-container"]}>
-        <p>
-          If you wish to add audio plugins and tools from the library, click
-          below.{" "}
+        <h2 key="home" className="section-title">
+          Audio Plugin Library
+        </h2>
+        <p className={styles["welcome-text"]}>
+          Either move the slider or slick on the slider empty space to select
+          each tool you wish to add to your library. When you are finished,
+          click the "Submit" button at the top.
         </p>
         {toolsFromLibrary && (
           <PushButton
@@ -85,6 +133,9 @@ const AudioPluginSelector = () => {
               background: "var(--iq-color-accent-gradient)",
               position: "sticky",
               top: "50px",
+              maxWidth: "80%",
+              margin: "0 auto",
+              width: "100%",
             }}
           >
             Submit
@@ -96,17 +147,7 @@ const AudioPluginSelector = () => {
               return (
                 <li>
                   <li>
-                    <SlideButton
-                      containerStyles={{
-                        flexGrow: "0",
-                        maxWidth: " min-content",
-                        minWidth: "min-content",
-                        margin: "0",
-                      }}
-                      onClick={buttonChangeHandler}
-                      value={tool._id}
-                    />
-                    <span
+                    <button
                       id="line-inner-wrap"
                       className={
                         styles["line-inner-wrap"] +
@@ -114,6 +155,8 @@ const AudioPluginSelector = () => {
                         (selectedTools.includes(tool._id) &&
                           styles["selected-tool"])
                       }
+                      onClick={buttonChangeHandler}
+                      value={tool._id}
                     >
                       <span
                         id="line-text-inner-wrap"
@@ -150,6 +193,7 @@ const AudioPluginSelector = () => {
                                 href={tool.productURL}
                                 alt={tool.name + " by " + tool.company}
                                 target="_blank"
+                                rel="noreferrer"
                               >
                                 More detail
                               </a>
@@ -165,15 +209,18 @@ const AudioPluginSelector = () => {
                             styles["image-wrap"]
                           }
                         >
-                          <Fragment>
-                            <img
-                              src={tool.photoURL}
-                              alt={tool.name + " by " + tool.company}
-                            />
-                          </Fragment>
+                          <span
+                            className={
+                              styles[tool.name + " photoURL"] +
+                              " " +
+                              styles["image-inner-wrap"]
+                            }
+                          >
+                            <Fragment>{createPhtoURLImage(tool)}</Fragment>
+                          </span>
                         </span>
                       )}
-                    </span>
+                    </button>
                   </li>
                 </li>
               );

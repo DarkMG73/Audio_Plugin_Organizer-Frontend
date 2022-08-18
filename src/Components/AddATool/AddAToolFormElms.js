@@ -8,10 +8,12 @@ import { getAllFunctionOptions } from "../../Hooks/utility";
 function AddAToolFormElms(props) {
   const [formOpen, setFormOpen] = useState(true);
   const [formInputData, setFormInputData] = useState(false);
-  const toolsMetadata = useSelector((state) => state.toolsData.toolsMetadata);
+  const { toolsMetadata, toolsSchema } = useSelector(
+    (state) => state.toolsData
+  );
 
   useEffect(() => {
-    GetPluginFormInputsWithOptions(toolsMetadata).then((res) => {
+    GetPluginFormInputsWithOptions(toolsSchema, toolsMetadata).then((res) => {
       setFormInputData(res);
     });
   }, []);

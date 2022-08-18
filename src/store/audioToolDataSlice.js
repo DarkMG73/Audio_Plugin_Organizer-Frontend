@@ -7,6 +7,7 @@ function InitState() {
   initialState.toolsMetadata = null;
   initialState.toolsHistory = null;
   initialState.currentFilters = null;
+  initialState.toolsSchema = null;
   initialState.goToAddATool = null;
   initialState.goToToolRows = null;
   return initialState;
@@ -23,6 +24,7 @@ export const audioToolDataSlice = createSlice({
       state.toolsMetadata = toolsData.toolsMetadata;
       state.toolsHistory = toolsData.toolsHistory;
       state.currentFilters = toolsData.currentFilters;
+      state.toolsSchema = toolsData.toolsSchema;
       state.goToAddATool = 0;
       state.goToToolRows = 0;
     },

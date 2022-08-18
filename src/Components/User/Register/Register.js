@@ -44,7 +44,7 @@ const Register = (props) => {
                 seLoginError(false);
                 dispatch(authActions.logIn(res.data));
                 GatherToolData(res.data).then((data) => {
-                  console.log("🟣 | getData | questionsFromDB", data);
+                  // console.log("🟣 | getData | questionsFromDB", data);
                   dispatch(audioToolDataActions.initState(data));
                 });
               } else {

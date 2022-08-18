@@ -34,7 +34,7 @@ function LoginStatus(props) {
       deleteUserCookie();
       dispatch(authActions.logOut());
       GatherToolData().then((data) => {
-        console.log("🟣 | getData | questionsFromDB", data);
+        // console.log("🟣 | getData | questionsFromDB", data);
         dispatch(audioToolDataActions.initState(data));
       });
       setLoginError(false);

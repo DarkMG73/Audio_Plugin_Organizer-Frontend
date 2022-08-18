@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import styles from "./CSVReader.module.css";
 import { useCSVReader } from "react-papaparse";
 import GetPluginFormInputsWithOptions from "../../../Hooks/GetPluginFormInputsWithOptions";
@@ -6,8 +7,9 @@ import GetPluginFormInputsWithOptions from "../../../Hooks/GetPluginFormInputsWi
 export default function CSVReader(props) {
   const { CSVReader } = useCSVReader();
   const [formInputData, setFormInputData] = useState(false);
+  const toolsSchema = useSelector((state) => state.toolsData.toolsSchema);
   useEffect(() => {
-    GetPluginFormInputsWithOptions().then((res) => {
+    GetPluginFormInputsWithOptions(toolsSchema).then((res) => {
       setFormInputData(res);
     });
   }, []);

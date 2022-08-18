@@ -2,9 +2,9 @@ import { getSchemaForAudioPlugin } from "../storage/audioToolsDB";
 import { formInputData } from "../data/formInputData";
 import { toTitleCase } from "./utility";
 
-async function GetPluginFormInputsWithOptions(toolsMetadata) {
+function GetPluginFormInputsWithOptions(pluginSchema, toolsMetadata) {
+  if (!pluginSchema) return [];
   const output = [];
-  const pluginSchema = await getSchemaForAudioPlugin();
 
   const checkForInputData = (obj, key, subKey, toolsMetadata) => {
     if (obj.hasOwnProperty(key) && obj[key].hasOwnProperty(subKey)) {
@@ -13,7 +13,7 @@ async function GetPluginFormInputsWithOptions(toolsMetadata) {
     return false;
   };
 
-  for (const key in pluginSchema.obj) {
+  for (const key in pluginSchema) {
     // Set up options with defined options and user-added options
     const presetOptions = checkForInputData(
       formInputData,
@@ -47,7 +47,7 @@ async function GetPluginFormInputsWithOptions(toolsMetadata) {
       preFilledData: formInputData[key].preFilledData
         ? formInputData[key].preFilledData
         : "",
-      typeOfObject: pluginSchema.paths[key].instance,
+      typeOfObject: pluginSchema[key].instance,
     });
   }
 
