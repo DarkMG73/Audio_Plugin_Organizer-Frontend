@@ -7,6 +7,7 @@ import CSVReader from "./CSVReader/CSVReader";
 import Register from "../User/Register/Register";
 import LoginStatus from "../User/LoginStatus/LoginStatus";
 import AudioPluginSelector from "../AudioPluginSelector/AudioPluginSelector";
+import BarLoader from "../../UI/Loaders/BarLoader/BarLoader";
 
 function AddATool(props) {
   const { allTools, goToAddATool } = useSelector((state) => state.toolsData);
@@ -28,10 +29,10 @@ function AddATool(props) {
   }, [goToAddATool]);
 
   useEffect(() => {
-    if (Object.keys(allTools).includes("error")) {
+    if (allTools && Object.keys(allTools).includes("error")) {
       setShowAddQuestionForm(true);
     }
-  }, []);
+  }, [allTools]);
 
   function showNewQuestionFormButtonHandler() {
     setShowAddQuestionForm(!showAddQuestionForm);
@@ -75,7 +76,8 @@ function AddATool(props) {
     >
       <div id="add-a-tool-container" className={styles["add-a-tool-container"]}>
         {!doNotShowTitle && <h2 className="section-title">Add A Tool Here</h2>}
-        {!doNotShowWelcomeMessage && (
+        {!allTools && <BarLoader />}
+        {allTools && !doNotShowWelcomeMessage && (
           <p className={styles["add-a-tool-intro"]}>
             To add an item, simply click the <i>Show the Entry Form</i> button
             and fill out the small form. Feel free to click the "Add Another
@@ -85,7 +87,7 @@ function AddATool(props) {
           </p>
         )}
 
-        {!doNotShowLogin && (
+        {allTools && !doNotShowLogin && (
           <div
             id="db-login-container"
             className={`${styles["inner-wrap "]}  ${styles["db-login-container"]}`}
@@ -105,7 +107,7 @@ function AddATool(props) {
             )}
           </div>
         )}
-        {!doNotShowAddButtons && (
+        {allTools && !doNotShowAddButtons && (
           <div className={styles["button-section-container"]}>
             <div className={styles["button-container"]}>
               <PushButton

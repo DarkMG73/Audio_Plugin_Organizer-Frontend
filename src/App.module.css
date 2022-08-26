@@ -94,7 +94,7 @@
 
 .admin-notice {
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 50%;
@@ -105,10 +105,36 @@
   text-align: center;
   font: var(--iq--font-heading);
   z-index: 2000;
-  border-radius: 0 0 50px 50px;
+  border-radius: 50px 50px 0 0;
   max-height: 2em;
 }
 
 .admin-notice h3 {
   margin: 0;
+}
+
+.error-wrapper {
+  border-radius: 50px 50px 0 0;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 100%) scale(1, 0);
+  z-index: 100000;
+  transition: 0.3s all ease;
+  transform-origin: bottom;
+}
+
+.error-active {
+  transform: translate(-50%, 0) scale(1, 1);
+}
+
+.error-close-button {
+  position: absolute;
+  right: 24px;
+  top: 24px;
+  background: transparent;
+  border: none;
+  color: inherit;
+  text-shadow: 0 0 1px var(--iq-color-accent);
+  font-size: 18px;
 }

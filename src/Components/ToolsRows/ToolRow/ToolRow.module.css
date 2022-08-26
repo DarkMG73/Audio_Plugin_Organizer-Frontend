@@ -241,10 +241,8 @@ button.edit {
   max-width: 1200px;
   z-index: 90;
   display: flex;
-
-  max-height: 90%;
-
-  padding-bottom: 3em;
+  max-height: calc(95% - 60px);
+  margin: 30px auto;
 }
 
 .overlay {

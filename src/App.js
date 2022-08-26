@@ -10,10 +10,15 @@ import BarLoader from "./UI/Loaders/BarLoader/BarLoader";
 import { getUserCookie, getUserUserByToken } from "./storage/userDB";
 import { authActions } from "./store/authSlice";
 import { ErrorBoundary } from "./Components/ErrorHandling/ErrorBoundary/ErrorBoundary";
+import LocalErrorDisplay from "./Components/ErrorHandling/LocalErrorDisplay/LocalErrorDisplay";
 import CardPrimary from "./UI/Cards/CardPrimary/CardPrimary";
 
 const App = () => {
   const [user, setUser] = useState(false);
+  const [localError, setLocalError] = useState({
+    active: false,
+    message: null,
+  });
   const toolsData = useSelector((state) => state.toolsData);
 
   const dispatch = useDispatch();
@@ -23,7 +28,7 @@ const App = () => {
         if (res.status >= 400) {
           GatherToolData()
             .then((data) => {
-              console.log("🟣 | getData | questionsFromDB", data);
+              // console.log("🟣 | getData | questionsFromDB", data);
               dispatch(audioToolDataActions.initState(data));
             })
             .catch((err) => {
@@ -35,22 +40,24 @@ const App = () => {
                 err
               );
               if (err.status >= 500) {
-
-                const message = 
-                  " *** " +
+                setLocalError({
+                  active: true,
+                  message:
+                    " *** " +
                     err.statusText +
-                    " *** It looks like we can not make a connection. Here is the error we received: Please make sure there is an internet connection and refresh the browser. if the problem continues, please send a quick email so this can be looked into. Email Address: general@glassinteractive.com.com"
-                    error     ErrorElement(message)
-                
+                    " *** It looks like we can not make a connection. Here is the error we received: Please make sure there is an internet connection and refresh the browser. if the problem continues, please send a quick email so this can be looked into. Email Address: general@glassinteractive.com.com",
+                });
               } else {
-                alert(
-                  "Oh no! Something went wrong. Please try again or contact general@glassinteractive.com with the following information if the problem continues -->  " +
+                setLocalError({
+                  active: true,
+                  message:
+                    "Oh no! Something went wrong. Please try again or contact general@glassinteractive.com with the following information if the problem continues -->  " +
                     err.status +
                     " |" +
                     err.statusText +
                     " | " +
-                    err.request.responseURL
-                );
+                    err.request.responseURL,
+                });
               }
             });
         } else {
@@ -67,7 +74,10 @@ const App = () => {
           "color:#fff;background:rgb(254, 67, 101);padding:3px;border-radius:2px",
           err
         );
-        alert(" An error: ", err.toString());
+        setLocalError({
+          active: true,
+          message: " An error: " + err.toString(),
+        });
       });
   }, []);
 
@@ -76,7 +86,7 @@ const App = () => {
       dispatch(authActions.logIn(user));
       GatherToolData(user)
         .then((data) => {
-          console.log("🟣 | getData | questionsFromDB", data);
+          // console.log("🟣 | getData | questionsFromDB", data);
           dispatch(audioToolDataActions.initState(data));
         })
         .catch((err) => {
@@ -88,27 +98,52 @@ const App = () => {
             err
           );
           if (err.status >= 500) {
-            alert(
-              " *** " +
+            setLocalError({
+              active: true,
+              message:
+                " *** " +
                 err.statusText +
-                " *** It looks like we can not make a connection. Here is the error we received: Please make sure there is an internet connection and refresh the browser. if the problem continues, please send a quick email so this can be looked into. Email Address: general@glassinteractive.com.com"
-            );
+                " *** It looks like we can not make a connection. Here is the error we received: Please make sure there is an internet connection and refresh the browser. if the problem continues, please send a quick email so this can be looked into. Email Address: general@glassinteractive.com.com",
+            });
           } else {
-            alert(
-              "Oh no! Something went wrong. Please try again or contact general@glassinteractive.com if the problem continues. Here is the data: " +
+            setLocalError({
+              active: true,
+              message:
+                "Oh no! Something went wrong. Please try again or contact general@glassinteractive.com if the problem continues. Here is the data: " +
                 err.status +
                 " |" +
                 err.statusText +
                 " | " +
-                err.request.responseURL
-            );
+                err.request.responseURL,
+            });
           }
         });
     }
   }, [user]);
 
+  const localErrorButtonHandler = () => {
+    setLocalError({ active: !localError, message: localError.message });
+  };
+
   return (
     <div className={styles["app-container"]}>
+      <div
+        className={
+          styles["error-wrapper"] +
+          " " +
+          (localError.active && styles["error-active"])
+        }
+      >
+        <button
+          className={styles["error-close-button"]}
+          onClick={localErrorButtonHandler}
+        >
+          X
+        </button>
+        {localError.active && (
+          <LocalErrorDisplay message={localError.message} />
+        )}
+      </div>
       <ErrorBoundary>
         <Header />
       </ErrorBoundary>

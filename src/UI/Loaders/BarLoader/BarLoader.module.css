@@ -1,8 +1,8 @@
 .loader-wrap {
   position: relative;
   width: 100%;
-  min-width: 700px;
-  min-height: 110vh;
+  /* min-width: 700px;
+  min-height: 110vh; */
   max-height: 700px;
   display: flex;
   justify-content: center;
@@ -13,7 +13,7 @@
   border-radius: 10px;
   box-shadow: 0 0 50px -3px #ffffff, inset 2px 2px 10px -4px #ffffff47;
   box-shadow: inset 3px 3px 20px -7px #000000, inset -3px -3px 20px -7px white;
-  padding: 200px;
+  padding: 100px 30px;
   box-sizing: border-box;
   overflow: hidden;
   background: var(--iq-color-background-warm-gradient);
@@ -54,7 +54,7 @@
 
 .loader2 span {
   width: 20px;
-  height: 100px;
+  height: 80%;
   border-radius: 20px;
   position: absolute;
   top: 0;

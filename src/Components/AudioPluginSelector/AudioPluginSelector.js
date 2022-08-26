@@ -33,20 +33,6 @@ const AudioPluginSelector = () => {
   }, []);
 
   const buttonChangeHandler = (e) => {
-    console.log(
-      "%c --> %cline:35%ce",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(114, 83, 52);padding:3px;border-radius:2px",
-      e.target
-    );
-    console.log(
-      "%c --> %cline:45%ce.target.value",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(254, 67, 101);padding:3px;border-radius:2px",
-      e.target.closest("button").value
-    );
     const newSelectedToolsArray = [...selectedTools];
     const value = e.target.closest("button").value;
 

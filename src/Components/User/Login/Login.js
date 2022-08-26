@@ -37,12 +37,24 @@ const Login = (props) => {
       sign_inAUser(user)
         .then((res) => {
           if (res && res.hasOwnProperty("status") && res.status >= 400) {
-            seLoginError(res.data.message);
+            if (res.status === 404) {
+              seLoginError(
+                "There was a problem finding the user database. Make sure you are connected to the internet. Contact the site admin if the problem continues. Error: " +
+                  res.status +
+                  " | " +
+                  res.statusText
+              );
+            } else if (res.status >= 400) {
+              seLoginError(
+                res.data.message ? res.data.message : res.statusText
+              );
+            }
           } else if (res && res.hasOwnProperty("data")) {
             seLoginError(false);
             // storage("add", res.data);
 
             setUserCookie(res.data).then((res) => {});
+
             dispatch(authActions.logIn(res.data));
             GatherToolData(res.data).then((data) => {
               // console.log("🟣 | getData | questionsFromDB", data);

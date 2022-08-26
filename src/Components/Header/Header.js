@@ -32,6 +32,7 @@ const Header = () => {
 
   return (
     <Fragment>
+      {}
       <div
         className={styles["navbar-container"] + " " + styles[showNavbarClass]}
       >

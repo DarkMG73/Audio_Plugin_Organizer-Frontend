@@ -19,17 +19,39 @@ function OutputControls(props) {
       'Should we continue permanent erasing all production tools from the database? Clicking "Confirm" erases the database and clicking "Cancel" will not erase the database.'
     );
     if (confirmation)
-      deleteAllPlugins(user).then((res) => {
-        if (res.status < 299) {
-          window.location.reload();
-        } else {
-          alert(
-            "There was an error when trying reset the database. Please try again laterIf the problem continues, please contact the website administrator. Here is the message from the server: ",
-            res.response.data.message
+      deleteAllPlugins(user)
+        .then((res) => {
+          if (res.status < 299) {
+            window.location.reload();
+          } else {
+            console.log(
+              "%c --> %cline:29%cThere was an error when trying reset the database. Please try again later. If the problem continues, please contact the website administrator. Here is the message from the server: ",
+              res.response.data
+            );
+
+            alert(
+              "There was an error when trying reset the database. Please try again later. If the problem continues, please contact the website administrator. Here is the message from the server: " +
+                res.response.data.message
+            );
+          }
+        })
+        .catch((err) => {
+          console.log(
+            "%c --> %cline:47%cerr",
+            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+            "color:#fff;background:rgb(217, 104, 49);padding:3px;border-radius:2px",
+            err
           );
-        }
-      });
+          alert(
+            "There was an error when trying reset the database. Please try again later. If the problem continues, please contact the website administrator. Here is the message from the server: " +
+              err.response.status +
+              " | " +
+              err.response.data
+          );
+        });
   }
+
   return (
     <div id="output-controls" className={styles["output-controls"]}>
       <h2 className={styles["section-title"]}>Backup Controls</h2>

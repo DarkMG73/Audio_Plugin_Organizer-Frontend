@@ -5,6 +5,8 @@ export default async function GatherToolData(user) {
   const allToolsData = {};
   const dataFromStorage = storage("get");
   let pluginSchema = await getSchemaForAudioPlugin();
+
+  if (pluginSchema.hasOwnProperty("status")) throw pluginSchema;
   let historyDataFromStorage = null;
   let currentFilters = null;
   if (dataFromStorage) {
@@ -14,7 +16,13 @@ export default async function GatherToolData(user) {
 
   allToolsData.allTools = {};
 
-  let allTools = await getData(user);
+  let allTools;
+  try {
+    allTools = await getData(user);
+  } catch (err) {
+    throw err.response;
+  }
+
   allTools = allTools.map((tool) => {
     const output = {};
     if (!Object.keys(tool).includes("oversampling")) {

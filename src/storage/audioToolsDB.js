@@ -9,6 +9,7 @@ export const getData = async (user) => {
         "Content-Type": "text/plain",
         Authorization: "JWT " + user.token,
       },
+      timeout: 60000,
     };
   }
 
@@ -88,9 +89,23 @@ export async function deleteAllPlugins(user) {
   const response = await axios
     .get(`/api/all-plugins/deleteAll/`, axiosConfig)
     .then((res) => {
+      console.log(
+        "%c --> %cline:98%cres",
+        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+        "color:#fff;background:rgb(1, 77, 103);padding:3px;border-radius:2px",
+        res
+      );
       return res;
     })
     .catch((err) => {
+      console.log(
+        "%c --> %cline:102%cerr",
+        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+        "color:#fff;background:rgb(3, 38, 58);padding:3px;border-radius:2px",
+        err
+      );
       console.log("err", err);
       console.log("errors", err.response.data.err.message);
       return err;
@@ -107,7 +122,9 @@ export async function getSchemaForAudioPlugin() {
     })
     .catch((err) => {
       console.log("err", err);
-      console.log("errors", err.response.data.err.message);
+      console.log("errors", err.response);
+
+      return err.response;
     });
 
   return output;

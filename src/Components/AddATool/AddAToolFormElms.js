@@ -13,9 +13,12 @@ function AddAToolFormElms(props) {
   );
 
   useEffect(() => {
-    GetPluginFormInputsWithOptions(toolsSchema, toolsMetadata).then((res) => {
-      setFormInputData(res);
-    });
+    const pluginFormWithOptions = GetPluginFormInputsWithOptions(
+      toolsSchema,
+      toolsMetadata
+    );
+
+    setFormInputData(pluginFormWithOptions);
   }, []);
 
   // spreadsheet upload sends nested data groups, so blank form requests need to be nested here

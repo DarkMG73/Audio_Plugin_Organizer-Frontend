@@ -6,8 +6,10 @@ import CollapsibleElm from "../../../UI/CollapsibleElm/CollapsibleElm";
 import PushButton from "../../../UI//Buttons/PushButton/PushButton";
 import { audioToolDataActions } from "../../../store/audioToolDataSlice";
 import LoginStatus from "../../User/LoginStatus/LoginStatus";
+import BarLoader from "../../../UI/Loaders/BarLoader/BarLoader";
 
 function ToolsRowsList(props) {
+  const [toolsAreReady, setToolsAreReady] = useState(false);
   const {
     allTools,
     filteredToolsIds,
@@ -20,17 +22,25 @@ function ToolsRowsList(props) {
   const dispatch = useDispatch;
 
   useEffect(() => {
+    if (allTools) {
+      setToolsAreReady(true);
+    } else {
+      setToolsAreReady(false);
+    }
+  }, [allTools]);
+
+  useEffect(() => {
     if (goToToolRows > 0)
       toolListRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [goToToolRows]);
-
   // useEffect(() => {
   //   props.setScrollToToolsRowsList(sessionResultsBox);
   // }, []);
 
-  let toolsToDisplay = { ...allTools };
+  let toolsToDisplay = {};
+  if (toolsAreReady) toolsToDisplay = { ...allTools };
 
-  if (filteredToolsIds.length > 0) {
+  if (toolsAreReady && filteredToolsIds.length > 0) {
     toolsToDisplay = {};
     filteredToolsIds.forEach((id) => {
       toolsToDisplay[id] = allTools[id];
@@ -46,7 +56,7 @@ function ToolsRowsList(props) {
   );
 
   let filtersAreSet = false;
-  if (filteredToolsIds.length <= 0) {
+  if (toolsAreReady && filteredToolsIds.length <= 0) {
     Object.keys(currentFilters).forEach((filterName) => {
       if (currentFilters[filterName].length > 0) {
         toolsToDisplay = {};
@@ -80,31 +90,37 @@ function ToolsRowsList(props) {
         </h2>
       </div>
       <div className={styles["add-a-tool-wrap"]}>
-        <LoginStatus
-          horizontalDisplay={false}
-          showAddAToolButton={true}
-          signUpButtonStyles={{
-            background:
-              "linear-gradient(rgb(255 135 0) 37%, rgba(0, 0, 0, 1) 100%)",
-            color: "var(--iq-color-foreground)",
-            textShadow: "0 0 3px wheat",
-            fontSize: "1em",
-          }}
-        />
+        {!toolsAreReady && <BarLoader />}
+        {toolsAreReady && (
+          <LoginStatus
+            horizontalDisplay={false}
+            showAddAToolButton={true}
+            signUpButtonStyles={{
+              background:
+                "linear-gradient(rgb(255 135 0) 37%, rgba(0, 0, 0, 1) 100%)",
+              color: "var(--iq-color-foreground)",
+              textShadow: "0 0 3px wheat",
+              fontSize: "1em",
+            }}
+          />
+        )}
       </div>{" "}
       <div
         key={"tool-list-wrap-key"}
         className={styles["tool-list-wrap"]}
         ref={toolListRef}
       >
-        <ToolsRows
-          key="toolsrowsList-4"
-          allTools={allTools}
-          toolsToDisplay={toolsToDisplay}
-          filteredToolsIds={filteredToolsIds}
-          showLoader={props.showLoader}
-          noQuestionsMessage={noQuestionsMessage}
-        />
+        {!toolsAreReady && <BarLoader />}
+        {toolsAreReady && (
+          <ToolsRows
+            key="toolsrowsList-4"
+            allTools={allTools}
+            toolsToDisplay={toolsToDisplay}
+            filteredToolsIds={filteredToolsIds}
+            showLoader={props.showLoader}
+            noQuestionsMessage={noQuestionsMessage}
+          />
+        )}
       </div>
     </div>
   );

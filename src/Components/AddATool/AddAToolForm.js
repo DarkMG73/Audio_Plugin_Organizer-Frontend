@@ -290,7 +290,8 @@ function AddAToolForm(props) {
               styles={{
                 position: "relative",
                 maxHeight: "100%",
-                overflow: "scroll",
+                height: "inherit",
+                overflow: "visible",
                 display: "block",
                 background: "var(--iq-color-foreground)",
               }}
@@ -336,7 +337,7 @@ function AddAToolForm(props) {
                   </PushButton>
                 </div>
               )}
-              {formElms}
+              <div className={styles["scroll-wrap"]}>{formElms}</div>
             </CardPrimary>
           </Fragment>
         ))}

@@ -9,33 +9,32 @@ import FilterTools from "../../Components/FilterTools/FilterTools";
 import ToolsRowsList from "../../Components/ToolsRows/ToolsRowsList/ToolsRowsList";
 import OutputControls from "../../Components/OutputControls/OutputControls";
 import BarLoader from "../../UI/Loaders/BarLoader/BarLoader";
+import { ErrorBoundary } from "../../Components/ErrorHandling/ErrorBoundary/ErrorBoundary";
 
 const Home = () => {
   const { allTools, toolsMetadata } = useSelector((state) => state.toolsData);
 
   const [toolListTopRef, setToolListTopRef] = useState();
-  const testVar = {};
+
   return (
     <div className={styles["home-page"]}>
-      {testVar.toUpperCase()}
-      {!toolsMetadata && toolsMetadata._id.includes("error") && <BarLoader />}
-      {toolsMetadata && !toolsMetadata._id.includes("error") && (
-        <CardSecondary
-          key={"FilterTools"}
-          styles={{
-            flexBasis: "10%",
-            margin: " 0",
-            minWidth: "min-content",
-            width: "177px",
-            position: "sticky",
-            height: "100vh",
-            overflowY: "auto",
-            top: "0",
-          }}
-        >
+      <CardSecondary
+        key={"FilterTools"}
+        styles={{
+          flexBasis: "10%",
+          margin: " 0",
+          minWidth: "min-content",
+          width: "177px",
+          position: "sticky",
+          height: "100vh",
+          overflowY: "auto",
+          top: "0",
+        }}
+      >
+        <ErrorBoundary>
           <FilterTools />
-        </CardSecondary>
-      )}
+        </ErrorBoundary>
+      </CardSecondary>
 
       <CardPrimaryLarge
         key={"ToolsRowsList"}
@@ -49,7 +48,9 @@ const Home = () => {
           //   "url(https://www.transparenttextures.com/patterns/brushed-alum.png)",
         }}
       >
-        <ToolsRowsList setToolListTopRef={setToolListTopRef} />
+        <ErrorBoundary>
+          <ToolsRowsList setToolListTopRef={setToolListTopRef} />
+        </ErrorBoundary>
       </CardPrimaryLarge>
       <CardSecondary
         key={"AddATool"}
@@ -62,11 +63,13 @@ const Home = () => {
           zIndex: "1",
         }}
       >
-        <AddATool />
+        <ErrorBoundary>
+          <AddATool />
+        </ErrorBoundary>
       </CardSecondary>
 
       <CardPrimary
-        key={"OuputControls"}
+        key={"OutputControls"}
         styles={{
           flexBasis: "calc(90% - 177px)",
           minWidth: "0",
@@ -77,7 +80,9 @@ const Home = () => {
           zIndex: "1",
         }}
       >
-        <OutputControls />
+        <ErrorBoundary>
+          <OutputControls />
+        </ErrorBoundary>
       </CardPrimary>
     </div>
   );
