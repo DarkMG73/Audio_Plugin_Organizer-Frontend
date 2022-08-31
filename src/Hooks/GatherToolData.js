@@ -3,7 +3,7 @@ import { getData, getSchemaForAudioPlugin } from "../storage/audioToolsDB";
 
 export default async function GatherToolData(user) {
   const allToolsData = {};
-  const dataFromStorage = storage("get");
+  const dataFromStorage = storage("GET");
   let pluginSchema = await getSchemaForAudioPlugin();
 
   if (pluginSchema.hasOwnProperty("status")) throw pluginSchema;

@@ -5,7 +5,6 @@ import FormInput from "../../../UI/Form/FormInput/FormInput";
 import { sign_inAUser, setUserCookie } from "../../../storage/userDB";
 import PushButton from "../../../UI/Buttons/PushButton/PushButton";
 import { authActions } from "../../../store/authSlice";
-import storage from "../../../storage/storage";
 import GatherToolData from "../../../Hooks/GatherToolData";
 import { audioToolDataActions } from "../../../store/audioToolDataSlice";
 
@@ -75,6 +74,9 @@ const Login = (props) => {
       );
     }
   };
+
+  if (loginError) console.log("loginError", loginError);
+
   return (
     <div
       className={styles["login-container"] + " " + styles[horizontalDisplay]}
@@ -147,7 +149,7 @@ const Login = (props) => {
         </form>
         {loginError && (
           <div className={styles["form-input-error"]}>
-            <p>{loginError}</p>
+            <p></p>
           </div>
         )}
       </div>

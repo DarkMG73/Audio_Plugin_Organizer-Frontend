@@ -89,13 +89,6 @@ export async function deleteAllPlugins(user) {
   const response = await axios
     .get(`/api/all-plugins/deleteAll/`, axiosConfig)
     .then((res) => {
-      console.log(
-        "%c --> %cline:98%cres",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(1, 77, 103);padding:3px;border-radius:2px",
-        res
-      );
       return res;
     })
     .catch((err) => {
@@ -117,7 +110,6 @@ export async function getSchemaForAudioPlugin() {
   const output = await axios
     .get(`/api/all-plugins/model/`)
     .then((res) => {
-      // console.log("res", res);
       return res.data.model;
     })
     .catch((err) => {
