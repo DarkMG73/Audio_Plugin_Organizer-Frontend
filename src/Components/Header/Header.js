@@ -17,7 +17,7 @@ const Header = () => {
     function onScroll() {
       let currentPosition = window.pageYOffset; // or use document.documentElement.scrollTop;
 
-      if (currentPosition < 590) {
+      if (currentPosition < 470) {
         // downscroll code
         setScrolledUp(false);
       } else {
@@ -37,7 +37,7 @@ const Header = () => {
         className={styles["navbar-container"] + " " + styles[showNavbarClass]}
       >
         <h1 key="home" className="section-title">
-          Production Tool Organizer
+          AUdio Plugin Organizer
         </h1>
         <PushButton
           inputOrButton="button"
@@ -48,7 +48,7 @@ const Header = () => {
           size="small"
           onClick={addAToolButtonHandler}
         >
-          <span>Add a Production Tool</span>
+          <span>Add a Plugin or Tool</span>
         </PushButton>
         <LoginStatus horizontalDisplay={true} />
       </div>

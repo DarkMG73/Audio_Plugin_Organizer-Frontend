@@ -52,11 +52,24 @@ const Login = (props) => {
             seLoginError(false);
             // storage("add", res.data);
 
-            setUserCookie(res.data).then((res) => {});
+            setUserCookie(res.data).then((res) => {
+              console.log(
+                "%c --> %cline:55%cres",
+                "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                "color:#fff;background:rgb(89, 61, 67);padding:3px;border-radius:2px",
+                res
+              );
+            });
 
             dispatch(authActions.logIn(res.data));
             GatherToolData(res.data).then((data) => {
-              // console.log("🟣 | getData | questionsFromDB", data);
+              if (process.env.NODE_ENV !== "production")
+                console.log(
+                  "%c Getting tool data from DB:",
+                  "color:#fff;background:#028218;padding:14px;border-radius:0 25px 25px 0",
+                  data
+                );
               dispatch(audioToolDataActions.initState(data));
             });
           } else {

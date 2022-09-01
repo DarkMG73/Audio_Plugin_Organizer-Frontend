@@ -13,10 +13,7 @@ function storage(action, data, name) {
   }
 
   if (action === "DELETE") {
-    const shouldDelete = window.confirm(
-      "Are you sure you want to delete your question history? If you do, this will erase your question history from your local browser storage. This will not affect the question database."
-    );
-    if (shouldDelete) output = localStorage.removeItem(storageFileName);
+    output = localStorage.removeItem(storageFileName);
   }
 
   return output;
@@ -38,10 +35,7 @@ export function StorageForSession(action, data, name) {
   }
 
   if (action === "DELETE") {
-    const shouldDelete = window.confirm(
-      "Are you sure you want to delete your question history? If you do, this will erase your question history from your local browser storage. This will not affect the question database."
-    );
-    if (shouldDelete) output = sessionStorage.removeItem(storageFileName);
+    output = sessionStorage.removeItem(storageFileName);
   }
 
   return output;

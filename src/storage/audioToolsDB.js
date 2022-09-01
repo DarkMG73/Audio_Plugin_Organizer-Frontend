@@ -32,7 +32,7 @@ export async function savePlugin(userAndDataObject) {
     })
     .catch((err) => {
       console.log("err", err);
-      console.log("errors", err.response.data.err.message);
+      // console.log("errors", err.response.data.err.message);
       return err;
     });
   return response;
@@ -52,8 +52,8 @@ export async function updateAPlugin(id, dataObj, user) {
     })
     .catch((err) => {
       console.log("err", err);
-      console.log("errors", err.response.data.err.message);
-      return err;
+      // console.log("errors", err.response.data.err.message);
+      throw err;
     });
 
   return response;

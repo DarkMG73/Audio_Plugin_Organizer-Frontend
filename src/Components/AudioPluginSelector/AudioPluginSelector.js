@@ -1,5 +1,5 @@
 import { useState, useEffect, Fragment } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./AudioPluginSelector.module.css";
 import GatherToolData from "../../Hooks/GatherToolData";
 import { audioToolDataActions } from "../../store/audioToolDataSlice";
@@ -9,15 +9,71 @@ import CardPrimaryLarge from "../../UI/Cards/CardPrimaryLarge/CardPrimaryLarge";
 import { savePlugin, updateAPlugin } from "../../storage/audioToolsDB";
 import { isValidHttpUrl, groomFormOutput } from "../../Hooks/utility";
 import placeholderImage from "../../assets/images/product-photo-placeholder-5.png";
+import LocalErrorDisplay from "../../Components/ErrorHandling/LocalErrorDisplay/LocalErrorDisplay";
 
-const AudioPluginSelector = () => {
+const AudioPluginSelector = (props) => {
   const [toolsFromLibrary, setToolsFromLibrary] = useState(false);
   const [selectedTools, setSelectedTools] = useState([]);
   const user = useSelector((state) => state.auth.user);
+  const [localError, setLocalError] = useState({
+    active: false,
+    message: null,
+  });
+  const dispatch = useDispatch();
+  const runGatherToolData = (user) => {
+    GatherToolData(user)
+      .then((data) => {
+        if (process.env.NODE_ENV !== "production")
+          console.log(
+            "%c Getting tool data from DB:",
+            "color:#fff;background:#777;padding:14px;border-radius:0 25px 25px 0",
+            data
+          );
+        dispatch(audioToolDataActions.initState(data));
+      })
+      .catch((err) => {
+        console.log(
+          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px;padding:3px;border-radius:0 25px 25px 0",
+          err
+        );
+        if (err.hasOwnProperty("status") && err.status >= 500) {
+          setLocalError({
+            active: true,
+            message:
+              " *** " +
+              err.statusText +
+              " *** It looks like we can not make a connection. Here is the error we received: Please make sure there is an internet connection and refresh the browser. if the problem continues, please send a quick email so this can be looked into. Email Address: general@glassinteractive.com.com",
+          });
+        } else if (err.hasOwnProperty("status")) {
+          setLocalError({
+            active: true,
+            message:
+              "Oh no! Something went wrong. Please try again or contact general@glassinteractive.com with the following information if the problem continues -->  " +
+              err.status +
+              " |" +
+              err.statusText +
+              " | " +
+              err.request.responseURL,
+          });
+        } else {
+          setLocalError({
+            active: true,
+            message:
+              "Oh no! Something went wrong. Please try again or contact general@glassinteractive.com with the following information if the problem continues -->  " +
+              err,
+          });
+        }
+      });
+  };
 
   useEffect(() => {
     GatherToolData().then((data) => {
-      // console.log("🟣 | getData | questionsFromDB", data);
+      if (process.env.NODE_ENV !== "production")
+        console.log(
+          "%c Getting tool data from DB:",
+          "color:#fff;background:#028218;padding:14px;border-radius:0 25px 25px 0",
+          data
+        );
 
       if (data.allTools.hasOwnProperty("error")) return;
 
@@ -51,14 +107,14 @@ const AudioPluginSelector = () => {
         const theData = tool;
         savePlugin({ user, theData }, true).then((res) => {
           if (res.status && res.status < 299) {
+            runGatherToolData(user);
+            setSelectedTools([]);
           } else if (res.response.status === 404) {
-            alert(
-              "IS THE NAME UNIQUE? There was an error when trying to save the new entry. This was most likely caused by trying to add the entry with the same name as an existing tool. Make sure you do not already have this one saved. If it is a different tool that happens to have the same exact name as one you already have saved, please alter this name in some way. The name must be unique."
-            );
+            setSelectedTools([]);
           } else {
             alert(
-              "There was an error when trying to save the new entry. Here is the message from the server: ",
-              res.data.message
+              "There was an error when trying to save the new entry. Here is the message from the server: " +
+                res.message
             );
           }
         });
@@ -93,11 +149,33 @@ const AudioPluginSelector = () => {
     return output;
   };
 
+  const localErrorButtonHandler = () => {
+    setLocalError({ active: !localError, message: localError.message });
+  };
+
   return (
-    <CardPrimaryLarge styles={{ maxWidth: "100%" }}>
+    <CardPrimaryLarge key="outer-container" styles={{ maxWidth: "100%" }}>
       <div className={styles["audio-plugin-selector-container"]}>
+        {localError.active && (
+          <div
+            className={
+              styles["error-wrapper"] +
+              " " +
+              (localError.active && styles["error-active"])
+            }
+          >
+            <button
+              className={styles["error-close-button"]}
+              onClick={localErrorButtonHandler}
+            >
+              X
+            </button>
+
+            <LocalErrorDisplay message={localError.message} />
+          </div>
+        )}
         <h2 key="home" className="section-title">
-          Audio Plugin Library
+          Plugins & Tools Library
         </h2>
         <p className={styles["welcome-text"]}>
           Either move the slider or slick on the slider empty space to select
@@ -127,13 +205,14 @@ const AudioPluginSelector = () => {
             Submit
           </PushButton>
         )}
-        <ul className={styles["library-list"]}>
+        <ul key="library-list" className={styles["library-list"]}>
           {toolsFromLibrary &&
             toolsFromLibrary.map((tool) => {
               return (
-                <li>
-                  <li>
+                <li key={"item-li-" + tool._id}>
+                  <li key={"item-li-inner-" + tool._id}>
                     <button
+                      key={"item-button-" + tool._id}
                       id="line-inner-wrap"
                       className={
                         styles["line-inner-wrap"] +

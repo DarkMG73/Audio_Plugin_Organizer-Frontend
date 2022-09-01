@@ -55,7 +55,12 @@ const Register = (props) => {
                 seLoginError(false);
                 dispatch(authActions.logIn(res.data));
                 GatherToolData(res.data).then((data) => {
-                  // console.log("🟣 | getData | questionsFromDB", data);
+                  if (process.env.NODE_ENV !== "production")
+                    console.log(
+                      "%c Getting tool data from DB:",
+                      "color:#fff;background:#028218;padding:14px;border-radius:0 25px 25px 0",
+                      data
+                    );
                   dispatch(audioToolDataActions.initState(data));
                 });
               } else {

@@ -4,14 +4,18 @@ const SlideButton = (props) => {
   // Mat.random() is used below in the input to ensure a full re-render if any part of this component re-renders. This avoides the input appearing to be checked, but not no longer checked.
   return (
     <div
-      key={"slide-bitton-1" + props.label}
+      key={"slide-button-1" + props.label}
       className={styles["slide-button-container"]}
       style={props.containerStyles}
     >
-      <span key={"slide-bitton-2" + props.label} className={styles.title}>
+      <span
+        key={"slide-button-2" + props.label}
+        className={styles.title}
+        style={props.slideButtonTitleStyles}
+      >
         {props.label}
       </span>
-      <label key={"slide-bitton-3" + props.label} className={styles.switch}>
+      <label key={"slide-button-3" + props.label} className={styles.switch}>
         <input
           key={props.user + props.label + Math.random()}
           id={props.user + props.label + Math.random()}
@@ -24,7 +28,7 @@ const SlideButton = (props) => {
           data-data={props.data}
         />
         <span
-          key={"slide-bitton-4" + props.label}
+          key={"slide-button-4" + props.label}
           className={styles["slider"]}
         ></span>
       </label>

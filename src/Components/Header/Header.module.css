@@ -109,5 +109,5 @@
   animation: moveUp 0.3s ease forwards;
 }
 .show-navbar {
-  animation: moveDown 0.3s ease forwards;
+  animation: moveDown 0.15s ease forwards;
 }

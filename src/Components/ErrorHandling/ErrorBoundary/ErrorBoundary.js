@@ -67,7 +67,7 @@ export class ErrorBoundary extends Component {
               Click this link for a fully populated and ready-to-send email.
               <a
                 href={`mailto:general@glassinteractive.com.com?body=${encodeURIComponent(
-                  "Hello! an error has occured on the Audio Plugins Organizer: " +
+                  "Hello! an error has occured on the Production Tools Organizer: " +
                     this.state.error.toString() +
                     " ||| " +
                     this.state.errorInfo.componentStack

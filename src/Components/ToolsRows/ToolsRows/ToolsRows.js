@@ -46,42 +46,47 @@ function ToolsRows(props) {
         className={styles["open-all-button-wrap"]}
       >
         {" "}
-        <PushButton
-          key={"open-all-button"}
-          inputOrButton="button"
-          styles={{
-            width: "75%",
-            letterSpacing: "var(--iq-spacing-subheading)",
-            fontVariant: "small-caps",
-            textAlign: "center",
-            display: "flex",
-            justifyContent: "center",
-            margin: "auto",
-            padding: "0.75em 1.5em",
-            transform: "none",
-            borderRadius: "50px",
-          }}
-          id={"open-all-button"}
-          colorType="secondary"
-          value="Open All"
-          data=""
-          size=""
-          onClick={openAllButtonHandler}
-        >
-          Expand All Tools
-        </PushButton>
+        {!toolsToDisplay.hasOwnProperty("error") && (
+          <PushButton
+            key={"open-all-button"}
+            inputOrButton="button"
+            styles={{
+              width: "75%",
+              letterSpacing: "var(--iq-spacing-subheading)",
+              fontVariant: "small-caps",
+              textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
+              margin: "auto",
+              padding: "0.75em 1.5em",
+              transform: "none",
+              borderRadius: "50px",
+            }}
+            id={"open-all-button"}
+            colorType="secondary"
+            value="Open All"
+            data=""
+            size=""
+            onClick={openAllButtonHandler}
+          >
+            {!openAll && <Fragment>Expand All Tools</Fragment>}
+            {openAll && <Fragment>Collapse All Tools</Fragment>}
+          </PushButton>
+        )}
       </div>
       <div key="toolsrows-1" className={styles["tools-rows-list-container"]}>
-        <h3
-          key="toolsrowsList-3"
-          className={`"section-subtitle" ${styles["section-subtitle"]}`}
-        >
-          There are{" "}
-          {filteredToolsIds.length > 0
-            ? filteredToolsIds.length
-            : Object.keys(allTools).length}{" "}
-          tools shown of the total {Object.keys(allTools).length}.
-        </h3>
+        {!toolsToDisplay.hasOwnProperty("error") && (
+          <h3
+            key="toolsrowsList-3"
+            className={`"section-subtitle" ${styles["section-subtitle"]}`}
+          >
+            There are{" "}
+            {filteredToolsIds.length > 0
+              ? filteredToolsIds.length
+              : Object.keys(allTools).length}{" "}
+            tools shown of the total {Object.keys(allTools).length}.
+          </h3>
+        )}
         {!toolsToDisplay.hasOwnProperty("error") ? (
           sortedAllTools.map((tool) => {
             const key = tool[0];
@@ -101,9 +106,13 @@ function ToolsRows(props) {
           >
             {!props.showLoader && (
               <Fragment>
-                <h3>{toolsToDisplay.error["Audio & Video Plugin Status"]}</h3>
-                <p>{toolsToDisplay.error["What you can do"]}</p>{" "}
-                <AudioPluginSelector />
+                <h3 className={styles["no-plugin-title"]}>
+                  {toolsToDisplay.error["Audio & Video Plugin Status"]}
+                </h3>
+                <p className={styles["no-plugin-text"]}>
+                  {toolsToDisplay.error["What you can do"]}
+                </p>{" "}
+                <AudioPluginSelector key="audioPluginselector" />
               </Fragment>
             )}
             {props.showLoader && <BarLoader />}

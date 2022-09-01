@@ -1,5 +1,5 @@
 import { useState, useEffect, Fragment } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./AddAToolForm.module.css";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
 import AddAToolFormElms from "./AddAToolFormElms";
@@ -7,6 +7,9 @@ import { sha256 } from "js-sha256";
 // import { addDocToDB } from "../../storage/firebase.config";
 import { savePlugin, updateAPlugin } from "../../storage/audioToolsDB";
 import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
+import GatherToolData from "../../Hooks/GatherToolData";
+import { audioToolDataActions } from "../../store/audioToolDataSlice";
+import LocalErrorDisplay from "../../Components/ErrorHandling/LocalErrorDisplay/LocalErrorDisplay";
 
 function AddAToolForm(props) {
   const user = useSelector((state) => state.auth.user);
@@ -20,7 +23,56 @@ function AddAToolForm(props) {
       requiredError={props.requiredError}
     />,
   ]);
-
+  const dispatch = useDispatch();
+  const [localError, setLocalError] = useState({
+    active: false,
+    message: null,
+  });
+  const runGatherToolData = (user) => {
+    GatherToolData(user)
+      .then((data) => {
+        if (process.env.NODE_ENV !== "production")
+          console.log(
+            "%c Getting tool data from DB:",
+            "color:#fff;background:#777;padding:14px;border-radius:0 25px 25px 0",
+            data
+          );
+        dispatch(audioToolDataActions.initState(data));
+      })
+      .catch((err) => {
+        console.log(
+          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px;padding:3px;border-radius:0 25px 25px 0",
+          err
+        );
+        if (err.hasOwnProperty("status") && err.status >= 500) {
+          setLocalError({
+            active: true,
+            message:
+              " *** " +
+              err.statusText +
+              " *** It looks like we can not make a connection. Here is the error we received: Please make sure there is an internet connection and refresh the browser. if the problem continues, please send a quick email so this can be looked into. Email Address: general@glassinteractive.com.com",
+          });
+        } else if (err.hasOwnProperty("status")) {
+          setLocalError({
+            active: true,
+            message:
+              "Oh no! Something went wrong. Please try again or contact general@glassinteractive.com with the following information if the problem continues -->  " +
+              err.status +
+              " |" +
+              err.statusText +
+              " | " +
+              err.request.responseURL,
+          });
+        } else {
+          setLocalError({
+            active: true,
+            message:
+              "Oh no! Something went wrong. Please try again or contact general@glassinteractive.com with the following information if the problem continues -->  " +
+              err,
+          });
+        }
+      });
+  };
   useEffect(() => {
     setFormJSX([
       <AddAToolFormElms
@@ -244,28 +296,29 @@ function AddAToolForm(props) {
             }
           });
         if (props.saveOrUpdateData === "update")
-          updateAPlugin(theData.id, theData, user).then((res) => {
-            if (res.status < 299) {
-              if (
-                window.confirm(
-                  "Do you want to refresh to ensure all changes are loaded?"
-                )
-              ) {
-                window.location.reload();
-              } else {
+          updateAPlugin(theData.id, theData, user)
+            .then((res) => {
+              if (res.status < 299) {
+                runGatherToolData(user);
                 props.setFormParentOpen(false);
+              } else {
+                alert(
+                  "There was an error when trying to update this production tool. If the problem continues, please contact the website administrator. Here is the message from the server: ",
+                  res.data.message
+                );
               }
-            } else {
+            })
+            .catch((err) => {
+              console.log("Update Error: ", err);
               alert(
-                "There was an error when trying to update this production tool. If the problem continues, please contact the website administrator. Here is the message from the server: ",
-                res.data.message
+                "There was an error when trying to update this production tool. If the problem continues, please contact the website administrator. Here is the message from the server: " +
+                  err.message
               );
-            }
-          });
+            });
       } else {
         const questionAdminEmail = "general@glassinteractive.com";
         const subject =
-          "A New Plugin Request for the Production Tool Organizer";
+          "A New Plugin Request for the Production Tools Organizer";
         const body = `A new tool is being offered: ${JSON.stringify(theData)}`;
         window.open(
           `mailto:${questionAdminEmail}?subject=${subject}l&body=${body}`
@@ -283,6 +336,10 @@ function AddAToolForm(props) {
   return (
     <form action="" id="add-quest-form" className={styles["inner-wrap form"]}>
       <div key={"addatoolform-4"} className={styles["inner-wrap"]}>
+        {" "}
+        {localError.active && (
+          <LocalErrorDisplay message={localError.message} />
+        )}
         {formJSX.map((formElms, i) => (
           <Fragment key={"addatoolformcomponent-5"}>
             <CardPrimary

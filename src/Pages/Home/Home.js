@@ -21,10 +21,11 @@ const Home = () => {
       <CardSecondary
         key={"FilterTools"}
         styles={{
-          flexBasis: "10%",
+          flexBasis: "223px",
           margin: " 0",
-          minWidth: "min-content",
-          width: "177px",
+          minWidth: "223px",
+          maxWidth: "223px",
+          width: "223px",
           position: "sticky",
           height: "100vh",
           overflowY: "auto",
@@ -55,11 +56,11 @@ const Home = () => {
       <CardSecondary
         key={"AddATool"}
         styles={{
-          flexBasis: "calc(90% - 177px)",
+          flexBasis: "calc(100% - 223px)",
           minWidth: "0",
-          margin: "0",
+          maxWidth: "calc(100% - 223px)",
+          margin: "0 0 0 auto",
           flexGrow: "1",
-          marginLeft: "177px",
           zIndex: "1",
         }}
       >
@@ -71,12 +72,11 @@ const Home = () => {
       <CardPrimary
         key={"OutputControls"}
         styles={{
-          flexBasis: "calc(90% - 177px)",
+          flexBasis: "calc(100% - 223px)",
           minWidth: "0",
-          margin: "0",
+          maxWidth: "calc(100% - 223px)",
+          margin: "0 0 0 auto",
           flexGrow: "1",
-          zIndex: "10",
-          marginLeft: "177px",
           zIndex: "1",
         }}
       >

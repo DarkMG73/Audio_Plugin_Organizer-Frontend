@@ -82,28 +82,27 @@ function ToolRow(props) {
   const deleteToolButtonHandler = (e) => {
     // Use tempKey instead of key when in dev
     // const tempKey = "TESTTEST";
-
-    if (
-      window.confirm(
-        "Are you sure you want to delete this tool (ID: " +
-          key +
-          ")? This can not be undone. You might want to use the CVS download at the bottom of the page to backup your production tools first in case you want to restore this list as it is right now. Clicking CANCEL returns to the page as-is and clicking CONFIRM will delete this tool."
-      )
-    ) {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this tool (ID: " +
+        key +
+        ")? This can not be undone. You might want to use the CVS download at the bottom of the page to backup your production tools first in case you want to restore this list as it is right now. Clicking CANCEL returns to the page as-is and clicking CONFIRM will delete this tool."
+    );
+    if (confirmDelete) {
       deleteDocFromDb(key, user)
         .then((res) => {
           if (res.status < 299) {
             setDeleted(true);
           } else {
             alert(
-              "There was an error when trying to delete the production tool. Here is the message from the server: ",
-              res.response.data.message
+              "There was an error when trying to delete this production tool. Here is the message from the server: " +
+                res.response.data.message +
+                ". Be sure you have an internet connections and try again. If all else fails, please notify the administrator."
             );
           }
         })
         .catch((err) => {
           alert(
-            "There was an error when trying to delete the entry. Contact the website administrator."
+            "There was an error when trying to delete this entry. Be sure you have an internet connections and try again. If all else fails, please notify the administrator."
           );
         });
     }

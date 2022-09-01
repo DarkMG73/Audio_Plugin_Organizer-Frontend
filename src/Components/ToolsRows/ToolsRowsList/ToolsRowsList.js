@@ -86,7 +86,7 @@ function ToolsRowsList(props) {
     >
       <div className={styles["header-container"]}>
         <h2 key="home" className="section-title">
-          Production Tool List
+          Production Plugins & Tools List
         </h2>
       </div>
       <div className={styles["add-a-tool-wrap"]}>

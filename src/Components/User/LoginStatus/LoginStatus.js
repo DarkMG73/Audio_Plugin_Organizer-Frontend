@@ -30,11 +30,25 @@ function LoginStatus(props) {
   };
 
   const logOutButtonHandler = async () => {
+    const shouldDelete = window.confirm("Are you sure you want to do this?");
+    console.log(
+      "%c --> %cline:33%cshouldDelete",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
+      shouldDelete
+    );
+    if (!shouldDelete) return;
     try {
       deleteUserCookie();
       dispatch(authActions.logOut());
       GatherToolData().then((data) => {
-        // console.log("🟣 | getData | questionsFromDB", data);
+        if (process.env.NODE_ENV !== "production")
+          console.log(
+            "%c Getting tool data from DB:",
+            "color:#fff;background:#028218;padding:14px;border-radius:0 25px 25px 0",
+            data
+          );
         dispatch(audioToolDataActions.initState(data));
       });
       setLoginError(false);
@@ -135,7 +149,7 @@ function LoginStatus(props) {
             borderRadius: "50px",
           }}
         >
-          <span>Add a Production Tool</span>
+          <span>Add a Plugin or Tool</span>
         </PushButton>
       )}
     </div>

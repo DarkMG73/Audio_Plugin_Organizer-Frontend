@@ -17,7 +17,7 @@ const LocalErrorDisplay = (props) => {
             if the problem continues, please send a quick email:
             <a
               href={`mailto:general@glassinteractive.com.com?body=${encodeURIComponent(
-                "Hello! an error has occured on the Audio Plugins Organizer: " +
+                "Hello! an error has occured on the Production Tools Organizer: " +
                   props.message
               )}`}
             >

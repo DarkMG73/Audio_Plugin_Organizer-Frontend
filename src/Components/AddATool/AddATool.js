@@ -28,12 +28,6 @@ function AddATool(props) {
     setRenderCount(renderCount + 1);
   }, [goToAddATool]);
 
-  useEffect(() => {
-    if (allTools && Object.keys(allTools).includes("error")) {
-      setShowAddQuestionForm(true);
-    }
-  }, [allTools]);
-
   function showNewQuestionFormButtonHandler() {
     setShowAddQuestionForm(!showAddQuestionForm);
   }
@@ -67,6 +61,12 @@ function AddATool(props) {
     textShadow:
       "rgb(0 0 0 / 50%) -1px -1px 1px, rgb(255 255 255 / 50%) 1px 1px 1px, 0 0 22px wheat",
   };
+
+  let audioPluginLibraryButtonStyles = {};
+  if (showAddFromLibrary)
+    audioPluginLibraryButtonStyles = {
+      boxShadow: "inset 0 0 47px -7px var(--iq-color-accent)",
+    };
 
   return (
     <div
@@ -118,13 +118,17 @@ function AddATool(props) {
                 data=""
                 size="medium"
                 onClick={showAudioPluginSelectorButtonHandler}
+                styles={audioPluginLibraryButtonStyles}
               >
                 {showAddFromLibrary && (
                   <span>
-                    <b>Cancel</b> the Library Selector
+                    <b>CLOSE</b> <br />
+                    the Library
                   </span>
                 )}
-                {!showAddFromLibrary && <span>Add from the Library</span>}
+                {!showAddFromLibrary && (
+                  <span>Add from the Plugins & Tools Library</span>
+                )}
               </PushButton>
             </div>
             <div className={styles["button-container"]}>
@@ -153,7 +157,9 @@ function AddATool(props) {
           </div>
         )}
         <div className={styles["inputs-container"]}>
-          {showAddFromLibrary && <AudioPluginSelector />}
+          {showAddFromLibrary && (
+            <AudioPluginSelector showAddFromLibrary={showAddFromLibrary} />
+          )}
           {showAddQuestionForm && (
             <AddAToolForm
               saveOrUpdateData="save"

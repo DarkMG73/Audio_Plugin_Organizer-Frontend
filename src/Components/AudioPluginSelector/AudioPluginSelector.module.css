@@ -95,3 +95,29 @@ line-inner-wrap * {
     inset 0 0 12px 0px var(--iq-color-accent);
   border-radius: 10px;
 }
+
+.error-wrapper {
+  border-radius: 50px 50px 0 0;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 100%) scale(1, 0);
+  z-index: 100000;
+  transition: 0.3s all ease;
+  transform-origin: bottom;
+}
+
+.error-active {
+  transform: translate(-50%, 0) scale(1, 1);
+}
+
+.error-close-button {
+  position: absolute;
+  right: 24px;
+  top: 24px;
+  background: transparent;
+  border: none;
+  color: inherit;
+  text-shadow: 0 0 1px var(--iq-color-accent);
+  font-size: 18px;
+}
