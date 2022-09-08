@@ -111,3 +111,38 @@
 .show-navbar {
   animation: moveDown 0.15s ease forwards;
 }
+
+.login-slide-panel {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  max-width: 100%;
+  max-height: calc(100vh - 50px);
+  min-width: 100%;
+  background: var(--iq-color-foreground-gradient);
+  height: 100vh;
+  z-index: 10;
+  transition: all 0.2s ease;
+  padding: 1em;
+}
+.login-button-wrap {
+  min-width: fit-content;
+}
+.show-on-small-screens {
+  display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .fixed-header-container .h1 {
+    font-size: 12px;
+  }
+  .navbar-container {
+    padding: 1em 0.5em;
+  }
+  .show-on-small-screens {
+    display: block;
+  }
+  .hide-on-small-screens {
+    display: none;
+  }
+}

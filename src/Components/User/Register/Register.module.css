@@ -12,6 +12,7 @@
 .form {
   display: flex;
   position: relative;
+  flex-wrap: wrap;
 }
 
 .form input[type="text"],
@@ -28,9 +29,10 @@
   justify-content: inherit;
 }
 
-.form-submit-button-wrap {
+.form .form-submit-button-wrap {
   display: flex;
   align-items: end;
+  flex-grow: 1;
 }
 
 .form-submit-button-wrap button {
@@ -46,4 +48,8 @@
 .registration-question button {
   margin-left: 1em;
   width: auto;
+}
+
+.form-input-container {
+  flex-grow: 1;
 }

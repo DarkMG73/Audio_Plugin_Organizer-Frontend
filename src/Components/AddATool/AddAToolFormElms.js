@@ -53,41 +53,47 @@ function AddAToolFormElms(props) {
 
   return (
     <Fragment key={"addtoolformelms-1"}>
-      {formOpen &&
-        newFormInputData.map((formDataGroup, index) => (
-          <Fragment key={"addtoolformelms-2" + index}>
-            <div
-              key={"addtoolformelms-1"}
-              className={styles["form-group-wrap"]}
-            >
-              {/* This hidden input separates input groups */}
-              <input
-                key={"addtoolformelms-3"}
-                name="NEWGROUP"
-                defaultValue="NEWGROUP"
-                hidden
-              />
-              {formDataGroup.map((inputData, i) => {
-                return (
-                  <FormInput
-                    key={"addtoolformelms-4" + i}
-                    formNumber={index}
-                    inputDataObj={inputData}
-                    requiredError={props.requiredError}
-                  />
-                );
-              })}
-            </div>
-            <button
-              key={"addtoolformelms-5"}
-              className={styles["close-question-form-button"]}
-              onClick={cancelQuestionFormButtonHandler}
-              style={props.cancelButtonStyles}
-            >
-              X
-            </button>
-          </Fragment>
-        ))}
+      {formOpen && (
+        <div
+          key={"addtoolformelms-scrollswrap"}
+          className={styles["scroll-wrap"]}
+        >
+          {newFormInputData.map((formDataGroup, index) => (
+            <Fragment key={"addtoolformelms-2" + index}>
+              <div
+                key={"addtoolformelms-1"}
+                className={styles["form-group-wrap"]}
+              >
+                {/* This hidden input separates input groups */}
+                <input
+                  key={"addtoolformelms-3"}
+                  name="NEWGROUP"
+                  defaultValue="NEWGROUP"
+                  hidden
+                />
+                {formDataGroup.map((inputData, i) => {
+                  return (
+                    <FormInput
+                      key={"addtoolformelms-4" + i}
+                      formNumber={index}
+                      inputDataObj={inputData}
+                      requiredError={props.requiredError}
+                    />
+                  );
+                })}
+              </div>
+              <button
+                key={"addtoolformelms-5"}
+                className={styles["close-question-form-button"]}
+                onClick={cancelQuestionFormButtonHandler}
+                style={props.cancelButtonStyles}
+              >
+                CLOSE
+              </button>
+            </Fragment>
+          ))}
+        </div>
+      )}
     </Fragment>
   );
 }

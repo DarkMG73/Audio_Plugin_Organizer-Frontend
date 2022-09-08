@@ -316,13 +316,20 @@ function AddAToolForm(props) {
               );
             });
       } else {
-        const questionAdminEmail = "general@glassinteractive.com";
-        const subject =
-          "A New Plugin Request for the Production Tools Organizer";
-        const body = `A new tool is being offered: ${JSON.stringify(theData)}`;
-        window.open(
-          `mailto:${questionAdminEmail}?subject=${subject}l&body=${body}`
+        const emailTheEntry = window.confirm(
+          'Hello! If you wish to add this to the general plugin library, thank you!. Just click the "OK" button below and a pre-filled emil will open up in your email client. If you actually wanted to add this to your personal library in your account, click "Cancel" and return to the page, scroll up a bit and use the login form. If you do not have a personal account, sign up there for free!'
         );
+        if (emailTheEntry) {
+          const questionAdminEmail = "general@glassinteractive.com";
+          const subject =
+            "A New Plugin Request for the Production Tools Organizer";
+          const body = `A new tool is being offered: ${JSON.stringify(
+            theData
+          )}`;
+          window.open(
+            `mailto:${questionAdminEmail}?subject=${subject}l&body=${body}`
+          );
+        }
       }
 
       //  TODO: Clear the form
@@ -351,6 +358,8 @@ function AddAToolForm(props) {
                 overflow: "visible",
                 display: "block",
                 background: "var(--iq-color-foreground)",
+                padding: 0,
+                boxShadow: " 15px 15px 30px -15px black",
               }}
             >
               {props.removeAddMoreButton && (
@@ -394,7 +403,7 @@ function AddAToolForm(props) {
                   </PushButton>
                 </div>
               )}
-              <div className={styles["scroll-wrap"]}>{formElms}</div>
+              {formElms}
             </CardPrimary>
           </Fragment>
         ))}

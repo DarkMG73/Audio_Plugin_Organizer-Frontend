@@ -67,7 +67,7 @@ function LoginStatus(props) {
     >
       <h4>Database login status:</h4>
 
-      <p>
+      <p className={styles["db-login-status-container"]}>
         <span id="db-login-status" className={styles["db-login-status"]}>
           {user ? (
             <span className={styles["login-text"]}>

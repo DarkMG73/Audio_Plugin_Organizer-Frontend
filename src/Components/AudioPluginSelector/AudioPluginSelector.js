@@ -6,14 +6,19 @@ import { audioToolDataActions } from "../../store/audioToolDataSlice";
 import SlideButton from "../../UI/Buttons/SlideButton/SlideButton";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
 import CardPrimaryLarge from "../../UI/Cards/CardPrimaryLarge/CardPrimaryLarge";
+import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
+import CardSecondary from "../../UI/Cards/CardSecondary/CardSecondary";
 import { savePlugin, updateAPlugin } from "../../storage/audioToolsDB";
 import { isValidHttpUrl, groomFormOutput } from "../../Hooks/utility";
 import placeholderImage from "../../assets/images/product-photo-placeholder-5.png";
-import LocalErrorDisplay from "../../Components/ErrorHandling/LocalErrorDisplay/LocalErrorDisplay";
+import LocalErrorDisplay from "../ErrorHandling/LocalErrorDisplay/LocalErrorDisplay";
+import LoginStatus from "../User/LoginStatus/LoginStatus";
 
 const AudioPluginSelector = (props) => {
   const [toolsFromLibrary, setToolsFromLibrary] = useState(false);
+  const [refreshList, setRefreshList] = useState(false);
   const [selectedTools, setSelectedTools] = useState([]);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const [localError, setLocalError] = useState({
     active: false,
@@ -77,16 +82,31 @@ const AudioPluginSelector = (props) => {
 
       if (data.allTools.hasOwnProperty("error")) return;
 
-      const output = [];
+      GatherToolData(user).then((userData) => {
+        if (process.env.NODE_ENV !== "production")
+          console.log(
+            "%c Getting * USER's * tool data from DB:",
+            "color:#fff;background:#028218;padding:14px;border-radius:0 25px 25px 0",
+            data
+          );
 
-      for (const key in data.allTools) {
-        output.push(data.allTools[key]);
-      }
+        const usersIDArray = Object.keys(userData.allTools);
+        const output = [];
 
-      setToolsFromLibrary(output);
-      // dispatch(audioToolDataActions.initState(data));
+        for (const key in data.allTools) {
+          if (!usersIDArray.includes(key)) output.push(data.allTools[key]);
+        }
+
+        if (output.length <= 0) {
+          for (const key in data.allTools) {
+            output.push(data.allTools[key]);
+          }
+        }
+        setToolsFromLibrary(output);
+        // dispatch(audioToolDataActions.initState(data));
+      });
     });
-  }, []);
+  }, [refreshList]);
 
   const buttonChangeHandler = (e) => {
     const newSelectedToolsArray = [...selectedTools];
@@ -109,8 +129,11 @@ const AudioPluginSelector = (props) => {
           if (res.status && res.status < 299) {
             runGatherToolData(user);
             setSelectedTools([]);
+            setRefreshList(!refreshList);
           } else if (res.response.status === 404) {
             setSelectedTools([]);
+          } else if (res.response.status === 401) {
+            setShowLoginModal(true);
           } else {
             alert(
               "There was an error when trying to save the new entry. Here is the message from the server: " +
@@ -152,9 +175,59 @@ const AudioPluginSelector = (props) => {
   const localErrorButtonHandler = () => {
     setLocalError({ active: !localError, message: localError.message });
   };
-
+  const loginModalCloseButtonHandler = () => {
+    console.log("Click");
+    setShowLoginModal(false);
+  };
+  console.log(
+    "%c --> %cline:229%ctoolsFromLibrary",
+    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+    "color:#fff;background:rgb(178, 190, 126);padding:3px;border-radius:2px",
+    toolsFromLibrary
+  );
   return (
     <CardPrimaryLarge key="outer-container" styles={{ maxWidth: "100%" }}>
+      {" "}
+      {showLoginModal && (
+        <div className={styles["login-modal-container"]}>
+          <CardPrimaryLarge
+            key="login-container"
+            styles={{ maxWidth: "800px" }}
+          >
+            <CardSecondary
+              key="login-container"
+              styles={{ maxWidth: "100%", padding: "2em 4em" }}
+            >
+              <p>
+                It is necessary to be logged in before adding any items from the
+                library. If you do not yet have an account, it is quick and easy
+                to make one. Login and Signup forms are avilable below.
+              </p>
+            </CardSecondary>
+            <LoginStatus />
+            <PushButton
+              key={"addatoolform-9"}
+              inputOrButton="input"
+              type="button"
+              id="quest-submit-btn"
+              colorType="secondary"
+              value="Cancel and return ->"
+              data=""
+              size="large"
+              onClick={loginModalCloseButtonHandler}
+              styles={{
+                maxWidth: "80%",
+                margin: "0 auto",
+                width: "100%",
+                borderRadius: "inherit",
+                boxShadow: "0 0 20px var(--iq-color-accent)",
+                padding: "1em",
+              }}
+            />
+          </CardPrimaryLarge>
+        </div>
+      )}
       <div className={styles["audio-plugin-selector-container"]}>
         {localError.active && (
           <div
@@ -182,6 +255,13 @@ const AudioPluginSelector = (props) => {
           each tool you wish to add to your library. When you are finished,
           click the "Submit" button at the top.
         </p>
+        <p>
+          <b>
+            To search for a name or company, use the browser's finder tool by
+            clicking CTRL+F (PC) or CMD+F (MAC)
+          </b>
+        </p>
+        <br />
         {toolsFromLibrary && (
           <PushButton
             key={"addatoolform-9"}

@@ -410,7 +410,6 @@ function ToolRow(props) {
               styles={{ minHeight: "100%" }}
               buttonStyles={{
                 position: "relative",
-
                 height: "3em",
                 width: "100%",
                 left: "0",
@@ -446,17 +445,19 @@ function ToolRow(props) {
               cancelButtonStyles={{
                 position: "fixed",
                 top: "30px",
-                left: "calc(100% - 50px)",
+                left: "calc(100% - 121px)",
                 maxWidth: "fit-content",
                 zIndex: "100",
                 color: "var(--iq-color-background-warm)",
                 padding: "0.25em 0",
                 borderRadius: "50%",
-                fontSize: "3rem",
-                transform: "scale(0.8, 1) translateX(-21.5%)",
+                fontSize: "12px",
+                transform: "scale(1.25, 1) ",
                 fontWeight: "900",
+                letterSpacing: "0.25em",
                 textShadow:
                   "rgb(255 135 0) 0px 0px 2px, rgb(0 0 0) 2px 2px 4px, rgb(255 135 0) 0px 0px 15px, rgb(255 135 0) 0px 0px 30px",
+                transition: "all 0.2s ease",
               }}
             />
           </div>

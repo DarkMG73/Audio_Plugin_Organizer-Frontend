@@ -50,7 +50,7 @@ function ToolsRowsList(props) {
   let noQuestionsMessage = (
     <p>
       You do not have a history yet on this browser. Answer a few questions and
-      they will be saved tot his browser's memory. This history will remain
+      they will be saved to this browser's memory. This history will remain
       available until you decide to erase it.
     </p>
   );

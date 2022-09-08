@@ -26,6 +26,7 @@
 
 ::-webkit-scrollbar {
   width: 33px;
+  height: 100%;
   min-width: 8px;
   border-radius: 50px;
   background-color: transparent;

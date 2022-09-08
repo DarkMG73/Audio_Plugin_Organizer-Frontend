@@ -133,6 +133,7 @@ export const groomFormOutput = (formOutputArray, passFormInputData) => {
         row[inputData.name].constructor === Boolean
       ) {
         if (row[inputData.name] == false) assembledRow.preFilledData = "false";
+        if (row[inputData.name] == true) assembledRow.preFilledData = "true";
       } else if (inputData.name === "functions") {
         // See if row[inputData.name], which is an array, has an item that is equal to any of the set options. To do this, we need to compare the option item after the tilde ( ~) )
 

@@ -20,14 +20,15 @@
 
 .close-question-form-button {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 30px;
+  left: 4em;
   background: transparent;
   color: inherit;
   border: none;
-  font-size: 2.5em;
+  font-size: 12px;
   font-weight: 700;
-  transform: translate(25%, 75%);
+  transform: scale(1.25, 1);
+  transition: all 0.2s ease;
 }
 
 .close-question-form-button:after {
@@ -48,7 +49,7 @@
   transform-origin: 1em 1em;
 }
 .close-question-form-button:hover:after {
-  content: "Cancel this Form?";
+  /* content: "Cancel this Form?";
   position: absolute;
   top: 1em;
   left: 1.25em;
@@ -60,5 +61,18 @@
   background: var(--iq-color-background-warm);
   color: var(--iq-color-foreground);
   transform: scale(0.5) translate(-17%, -48%);
-  transition: 0.2s all ease;
+  transition: 0.2s all ease; */
+}
+
+.close-question-form-button:hover {
+  transform: scale(1.5) !important;
+}
+.scroll-wrap {
+  overflow: scroll;
+  max-height: calc(93% - 72px);
+  position: relative;
+  padding: 0 0 0 2em;
+  margin: 0 auto 2%;
+  box-shadow: 0px 25px 30px -25px #494949;
+  border-radius: 50px;
 }

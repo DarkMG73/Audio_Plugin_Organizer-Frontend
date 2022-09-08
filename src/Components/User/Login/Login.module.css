@@ -12,6 +12,8 @@
 .form {
   display: flex;
   position: relative;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .form input[type="text"],
@@ -95,6 +97,7 @@
   font: var(--iq-font-body-text);
   max-width: fit-content;
   font-size: 1em;
+  flex-wrap: nowrap;
 }
 
 .login-container.horizontal-display .login-question {
@@ -115,6 +118,7 @@
   font-size: 1em;
   padding: 0;
   margin: 0 auto;
+  height: 30px;
 }
 .login-container.horizontal-display .form input {
   margin: 0.25em 0;
@@ -132,7 +136,8 @@
   min-height: 100%;
   margin: 0;
   padding: 0;
-  height: max;
+  margin-top: auto;
+  height: 30px;
 }
 .horizontal-display .login-question {
   text-align: right;
@@ -145,7 +150,8 @@
   text-shadow: 0 0 3px wheat;
   background: linear-gradient(rgb(255 135 0) 37%, rgba(0, 0, 0, 1) 100%);
   margin-left: 1em;
-  margin-top: 0.3em;
+  margin-top: auto;
+  height: 30px;
 }
 
 .horizontal-display ::placeholder {
@@ -153,4 +159,11 @@
   opacity: 1;
   color: #7f7f7f;
   text-align: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .form {
+    max-width: 100%;
+    overflow: hidden;
+  }
 }

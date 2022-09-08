@@ -90,7 +90,7 @@ function AddATool(props) {
         {allTools && !doNotShowLogin && (
           <div
             id="db-login-container"
-            className={`${styles["inner-wrap "]}  ${styles["db-login-container"]}`}
+            className={`${styles["inner-wrap "]}  ${styles["db-login-status-container"]}`}
           >
             <LoginStatus />
             {!user && (

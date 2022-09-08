@@ -236,13 +236,17 @@ button.edit {
   top: 50%;
   left: 50%;
   height: 100%;
-  width: 90%;
+  width: 100%;
   transform: translate(-50%, -50%);
   max-width: 1200px;
   z-index: 90;
   display: flex;
-  max-height: calc(95% - 60px);
-  margin: 30px auto;
+  max-height: calc(100% - 71px);
+  margin: 20px auto;
+}
+
+.tool-row-wrap .editing-fields-wrap {
+  border: none;
 }
 
 .overlay {
