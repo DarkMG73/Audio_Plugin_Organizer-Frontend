@@ -53,3 +53,63 @@
 .form-input-container {
   flex-grow: 1;
 }
+
+.inner-form-input-container {
+  position: relative;
+  display: flex;
+  max-height: 100%;
+  height: fit-content;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: left;
+  padding: 1em;
+  flex-basis: fit-content;
+  height: 100%;
+  max-width: 100%;
+  flex-wrap: wrap;
+  width: min-content;
+  width: min-content;
+  min-width: min-content;
+}
+
+.horizontal-display .captcha-wrap {
+  position: relative;
+  display: flex;
+  max-height: 100%;
+  height: fit-content;
+}
+
+.captcha-wrap > div {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+.captcha-wrap > label {
+  flex-basis: 100%;
+  font-variant: small-caps;
+  margin: 0 auto 0.5em;
+  font-size: 1.6rem;
+  letter-spacing: var(--iq-spacing-heading);
+}
+
+.captcha-wrap div button,
+.captcha-wrap input {
+  height: 100% !important;
+  min-height: 100% !important;
+  margin: auto !important;
+  display: flex !important;
+  height: auto !important;
+  max-height: none !important;
+}
+
+.horizontal-display .form-input-error {
+  position: absolute;
+  bottom: -2.5em;
+  padding: 0.5em 2em 1em !important;
+  background: var(--iq-color-foreground-gradient);
+  color: var(--iq-color-background-warm);
+  left: 50%;
+  border-radius: 0 0 25px 25px;
+}

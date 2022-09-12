@@ -16,6 +16,31 @@ const Login = (props) => {
   const [loginError, seLoginError] = useState(false);
   const dispatch = useDispatch();
   const horizontalDisplay = props.horizontalDisplay ? "horizontal-display" : "";
+  const completeSignInProcedures = (res) => {
+    seLoginError(false);
+    // storage("add", res.data);
+
+    setUserCookie(res.data).then((res) => {
+      console.log(
+        "%c --> %cline:55%cres",
+        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+        "color:#fff;background:rgb(89, 61, 67);padding:3px;border-radius:2px",
+        res
+      );
+    });
+
+    dispatch(authActions.logIn(res.data));
+    GatherToolData(res.data).then((data) => {
+      if (process.env.NODE_ENV !== "production")
+        console.log(
+          "%c Getting tool data from DB:",
+          "color:#fff;background:#028218;padding:14px;border-radius:0 25px 25px 0",
+          data
+        );
+      dispatch(audioToolDataActions.initState(data));
+    });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,6 +50,7 @@ const Login = (props) => {
       [groomedName]: value,
     });
   };
+
   //register function
   const submitLogin = (e) => {
     e.preventDefault();
@@ -35,8 +61,10 @@ const Login = (props) => {
       // axios("http://localhost:8000/api/users/auth/register", user)
       sign_inAUser(user)
         .then((res) => {
-          if (res && res.hasOwnProperty("status") && res.status >= 400) {
-            if (res.status === 404) {
+          if (res && res.hasOwnProperty("status")) {
+            if (res.status >= 200 && res.status < 400) {
+              completeSignInProcedures(res);
+            } else if (res.status === 404) {
               seLoginError(
                 "There was a problem finding the user database. Make sure you are connected to the internet. Contact the site admin if the problem continues. Error: " +
                   res.status +
@@ -49,29 +77,7 @@ const Login = (props) => {
               );
             }
           } else if (res && res.hasOwnProperty("data")) {
-            seLoginError(false);
-            // storage("add", res.data);
-
-            setUserCookie(res.data).then((res) => {
-              console.log(
-                "%c --> %cline:55%cres",
-                "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                "color:#fff;background:rgb(89, 61, 67);padding:3px;border-radius:2px",
-                res
-              );
-            });
-
-            dispatch(authActions.logIn(res.data));
-            GatherToolData(res.data).then((data) => {
-              if (process.env.NODE_ENV !== "production")
-                console.log(
-                  "%c Getting tool data from DB:",
-                  "color:#fff;background:#028218;padding:14px;border-radius:0 25px 25px 0",
-                  data
-                );
-              dispatch(audioToolDataActions.initState(data));
-            });
+            completeSignInProcedures(res);
           } else {
             seLoginError(
               "Unfortunately, something went wrong and we can not figure out what happened.  Please refresh and try again."
@@ -162,7 +168,7 @@ const Login = (props) => {
         </form>
         {loginError && (
           <div className={styles["form-input-error"]}>
-            <p></p>
+            <p>{loginError}</p>
           </div>
         )}
       </div>

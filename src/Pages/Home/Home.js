@@ -64,15 +64,7 @@ const Home = () => {
         </div>
       </div>
       <div className={`${styles["column"]} ${styles["column-two"]} `}>
-        <CardPrimaryLarge
-          key={"ToolsRowsList"}
-          styles={
-            {
-              // backgroundImage:
-              //   "url(https://www.transparenttextures.com/patterns/brushed-alum.png)",
-            }
-          }
-        >
+        <CardPrimaryLarge key={"ToolsRowsList"}>
           <ErrorBoundary>
             <ToolsRowsList setToolListTopRef={setToolListTopRef} />
           </ErrorBoundary>

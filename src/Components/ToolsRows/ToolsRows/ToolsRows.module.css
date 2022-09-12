@@ -24,7 +24,6 @@
 .tools-rows-list-container > div {
   width: 100%;
   max-width: 100%;
-  min-width: min-content;
   min-height: max-content;
   margin: 0;
   flex-basis: 23%;

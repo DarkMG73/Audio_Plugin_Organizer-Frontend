@@ -6,7 +6,6 @@ const FormInput = (props) => {
   const [requiredError, setRequiredError] = useState(true);
   const [requiredClass, setRequiredClass] = useState("");
   const input = props.inputDataObj;
-
   const formNumber = props.formNumber;
   useEffect(() => {
     if (input.required == true) setRequiredClass("required-input");
@@ -181,6 +180,7 @@ const FormInput = (props) => {
           ref={requiredTextInput}
           onChange={props.onChange || textInputOnChangeHandler}
           className={styles[requiredClass]}
+          required={props.inputRequired}
         />
         {requiredError && input.required == true && (
           <span
@@ -230,6 +230,7 @@ const FormInput = (props) => {
               value={option}
               checked={"true"}
               onChange={checkboxInputOnChangeHandler}
+              required={props.inputRequired}
             />
             <label
               key={"form-input-3" + i}
@@ -273,6 +274,7 @@ const FormInput = (props) => {
               value={optionName}
               defaultChecked={"true"}
               onChange={checkboxInputOnChangeHandler}
+              required={props.inputRequired}
             />{" "}
             <label
               key={"form-input-a2"}
@@ -308,6 +310,7 @@ const FormInput = (props) => {
               name={formNumber + "#" + input.name}
               defaultValue={optionName}
               onChange={checkboxInputOnChangeHandler}
+              required={props.inputRequired}
             />{" "}
             <label
               key={"form-input-a5"}
@@ -362,6 +365,7 @@ const FormInput = (props) => {
             ref={requiredTextInput}
             onChange={checkboxTextInputOnChangeHandler}
             className={styles[requiredClass]}
+            required={props.inputRequired}
           />
           {requiredError && input.required == true && (
             <span
@@ -393,6 +397,7 @@ const FormInput = (props) => {
           onChange={props.onChange || textInputOnChangeHandler}
           className={styles[requiredClass]}
           placeholder={input.placeholder}
+          required={props.inputRequired}
         />
         {requiredError && input.required == true && (
           <span key={"form-input"} className={styles[requiredClass + "-text"]}>

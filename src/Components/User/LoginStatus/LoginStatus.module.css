@@ -107,18 +107,31 @@
 .db-login-container.horizontal-display * {
   display: flex;
   flex-direction: row;
-  height: inherit;
   margin: 0 auto;
   padding: 0;
   max-width: max-content;
   font: inherit;
-  height: 30px;
+  /* height: 30px; */
+  min-height: fit-content;
+  max-width: 100%;
+}
+
+.db-login-container.horizontal-display form input,
+.db-login-container.horizontal-display form button {
+  min-height: 30px;
+  height: 100%;
+  max-height: none;
 }
 
 .db-login-container.horizontal-display span {
   display: flex;
   align-items: center;
 }
+
+.db-login-container.horizontal-display span * {
+  min-height: 30px;
+}
+
 .db-login-container.horizontal-display span button {
   margin-left: 1em;
   color: var(--iq-color-foreground);
