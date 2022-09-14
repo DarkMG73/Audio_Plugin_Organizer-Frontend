@@ -14,6 +14,7 @@ const Login = (props) => {
     password: "",
   });
   const [loginError, seLoginError] = useState(false);
+  const [showLoginError, setShowLoginError] = useState(true);
   const dispatch = useDispatch();
   const horizontalDisplay = props.horizontalDisplay ? "horizontal-display" : "";
   const completeSignInProcedures = (res) => {
@@ -51,6 +52,10 @@ const Login = (props) => {
     });
   };
 
+  const errorDisplayButtonHandler = () => {
+    setShowLoginError(!showLoginError);
+  };
+
   //register function
   const submitLogin = (e) => {
     e.preventDefault();
@@ -71,10 +76,12 @@ const Login = (props) => {
                   " | " +
                   res.statusText
               );
+              setShowLoginError(true);
             } else if (res.status >= 400) {
               seLoginError(
                 res.data.message ? res.data.message : res.statusText
               );
+              setShowLoginError(true);
             }
           } else if (res && res.hasOwnProperty("data")) {
             completeSignInProcedures(res);
@@ -82,15 +89,18 @@ const Login = (props) => {
             seLoginError(
               "Unfortunately, something went wrong and we can not figure out what happened.  Please refresh and try again."
             );
+            setShowLoginError(true);
           }
         })
         .catch((err) => {
           seLoginError(err);
+          setShowLoginError(true);
         });
     } else {
       seLoginError(
         "Either the email or password is not meeting the requirements. Please fix and try again."
       );
+      setShowLoginError(true);
     }
   };
 
@@ -166,8 +176,14 @@ const Login = (props) => {
             </PushButton>
           </div>
         </form>
-        {loginError && (
+        {loginError && showLoginError && (
           <div className={styles["form-input-error"]}>
+            <button
+              className={styles["form-input-error-close-button"]}
+              onClick={errorDisplayButtonHandler}
+            >
+              X
+            </button>
             <p>{loginError}</p>
           </div>
         )}

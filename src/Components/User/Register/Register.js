@@ -27,6 +27,7 @@ const Register = (props) => {
     password: "",
   });
   const [loginError, setLoginError] = useState(false);
+  const [showLoginError, setShowLoginError] = useState(true);
   const handleChange = (e) => {
     const { name, value } = e.target;
     const groomedName = name.split("#")[1];
@@ -40,14 +41,17 @@ const Register = (props) => {
     console.log("Captcha matched!");
     setCaptchaVerified(true);
     setLoginError("CAPTCHA test is now correct!");
+    setShowLoginError(true);
   };
   const handleCAPTCHAFailure = () => {
     console.log("Captcha does not match");
     setLoginError("CAPTCHA test is not correct yet.");
+    setShowLoginError(true);
     setCaptchaVerified(false);
   };
   const horizontalDisplay = props.horizontalDisplay ? "horizontal-display" : "";
   const passwordValidator = usePasswordValidator();
+
   const inputsValidate = (inputNameObject) => {
     /////////////////
     //INPUT CRITERIA
@@ -55,13 +59,6 @@ const Register = (props) => {
     const validEmailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
     for (const key in inputNameObject) {
-      console.log(
-        "%c --> %cline:57%ckey",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(17, 63, 61);padding:3px;border-radius:2px",
-        key
-      );
       if (
         !inputNameObject[key].constructor === String ||
         !inputNameObject[key].length > 0
@@ -77,40 +74,53 @@ const Register = (props) => {
         key === "email" &&
         !inputNameObject[key].match(validEmailRegex)
       ) {
-        setLoginError();
         return {
           valid: false,
           message:
             "The email address is not a valid email format. Please use a standard email address.",
         };
+      } else if (key === "email" && !inputNameObject[key].includes(".")) {
+        // If not period, ask if that was intended
+        if (!inputNameObject[key].includes(".")) {
+          const confirmPeriod = window.confirm(
+            'There does not appear to be period "." in the email address. If there is no period in this email address, click "OK" to submit the form. \n\nMost email addresses have a period and a suffix like ".com" or ".net". If this email address should have a period, then click "CANCEL" to return to the registration form'
+          );
+          if (!confirmPeriod) return;
+        }
       } else if (key === "password") {
-        console.log(
-          "%c --> %cline:86%ckey === password",
-          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-          "color:#fff;background:rgb(3, 22, 52);padding:3px;border-radius:2px",
-          key === "password"
+        const passwordValidCheck = passwordValidator(
+          inputNameObject[key],
+          true
         );
-        const passwordValidCheck = passwordValidator(inputNameObject[key]);
-        console.log(
-          "%c --> %cline:82%cpasswordValidCheck",
-          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-          "color:#fff;background:rgb(3, 101, 100);padding:3px;border-radius:2px",
-          passwordValidCheck
-        );
-        if (!passwordValidCheck)
+
+        if (!passwordValidCheck.isValid) {
+          console.log(
+            "%c --> %cline:117%cpasswordTestResults",
+            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+            "color:#fff;background:rgb(3, 101, 100);padding:3px;border-radius:2px",
+            passwordValidCheck
+          );
           return {
             valid: false,
-            message:
-              "The password does not meet the requirements. It failed with these errors: " +
-              passwordRequirements.toString +
-              ". " +
-              passwordRequirements,
+            message: `The password does not meet the requirements. It failed with these errors:\n\n${passwordValidCheck.details
+              .map((error, i) => {
+                const groomedMessage = error.message
+                  .replace("string", "password")
+                  .replace("digit", "number");
+                return "   " + (i + 1) + ": " + groomedMessage + ". ";
+              })
+              .join(
+                "\n"
+              )}\n\nHere are all of the password requirements: ${passwordRequirements}`,
           };
+        }
       }
     }
-    return true;
+    return {
+      valid: true,
+      message: "Everything checked out OK",
+    };
   };
 
   const completeSignInProcedures = (res) => {
@@ -139,7 +149,6 @@ const Register = (props) => {
     });
   };
 
-  //register function
   const egister = (e) => {
     e.preventDefault();
 
@@ -156,6 +165,19 @@ const Register = (props) => {
       if (inputsValidCheck.valid) {
         // axios("http://localhost:8000/api/users/auth/register", user)
         registerAUser(user).then((res) => {
+          console.log(
+            "%c --> %cline:198%cres",
+            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+            "color:#fff;background:rgb(3, 22, 52);padding:3px;border-radius:2px",
+            res
+          );
+          if (res && res.status >= 400) {
+            alert(
+              `There was an error trying to complete the registration process. ${res.message}`
+            );
+          }
+
           sign_inAUser(user)
             .then((res) => {
               console.log(
@@ -175,6 +197,7 @@ const Register = (props) => {
                       " | " +
                       res.statusText
                   );
+                  setShowLoginError(true);
                 } else if (res.status >= 400) {
                   console.log(
                     "%c --> %cline:70%cres",
@@ -186,6 +209,7 @@ const Register = (props) => {
                   setLoginError(
                     res.data.message ? res.data.message : res.statusText
                   );
+                  setShowLoginError(true);
                 }
               } else if (res && res.hasOwnProperty("data")) {
                 console.log(
@@ -216,10 +240,12 @@ const Register = (props) => {
                 setLoginError(
                   "Unfortunately, something went wrong and we can not figure out what happened.  Please refresh and try again."
                 );
+                setShowLoginError(true);
               }
             })
             .catch((err) => {
               setLoginError(err);
+              setShowLoginError(true);
               console.log(
                 "%c --> %cline:46%cerr",
                 "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
@@ -238,6 +264,7 @@ const Register = (props) => {
           inputsValidCheck
         );
         setLoginError(inputsValidCheck.message);
+        setShowLoginError(true);
         alert("Invalid Input Error: " + inputsValidCheck.message);
       }
     } else {
@@ -246,6 +273,17 @@ const Register = (props) => {
       );
     }
   };
+
+  ////////////////////////////////////////////////////////////////////////
+  // BUTTON HANDLERS
+  ////////////////////////////////////////////////////////////////////////
+  const errorDisplayButtonHandler = () => {
+    setShowLoginError(!showLoginError);
+  };
+
+  ////////////////////////////////////////////////////////////////////////
+  // Return
+  ////////////////////////////////////////////////////////////////////////
   return (
     <div
       className={`${styles["registration-container"]}   ${styles[horizontalDisplay]}`}
@@ -317,7 +355,9 @@ const Register = (props) => {
             />
           </div>
 
-          <div className={`${styles["form-input-container"]}`}>
+          <div
+            className={`${styles["form-input-container"]} ${styles["captcha-container"]}`}
+          >
             <div
               className={`${styles["inner-form-input-container"]} ${styles["captcha-wrap"]}`}
             >
@@ -347,9 +387,17 @@ const Register = (props) => {
             </button>
           </div>
         </form>
-        <div className={styles["form-input-error"]}>
-          <p>{loginError}</p>
-        </div>
+        {loginError && showLoginError && (
+          <div className={styles["form-input-error"]}>
+            <button
+              className={styles["form-input-error-close-button"]}
+              onClick={errorDisplayButtonHandler}
+            >
+              X
+            </button>
+            <p>{loginError}</p>
+          </div>
+        )}
       </div>
     </div>
   );

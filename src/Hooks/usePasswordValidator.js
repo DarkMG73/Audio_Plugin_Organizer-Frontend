@@ -1,12 +1,19 @@
 import passwordValidator from "password-validator";
 
 export const passwordRequirements =
-  'The password must be at between 7 and 14 characters and inlcude at least one of each of the following: uppercase letter, lowercase letter and a number. It can not contain any spaces and can not be an unssafe password like "password123"';
+  'The password must be at between 7 and 14 characters and include at least one of each of the following: uppercase letter, lowercase letter and a number. It can not contain any spaces and can not be an unsafe password like "password123".';
 
 // Add properties to it
-const usePasswordValidator = () => {
-  // Create a schema
-  const outputFunction = () => {
+const usePasswordValidator = (passwordToCheck, returnList) => {
+  const outputFunction = (passwordToCheck, returnList) => {
+    console.log(
+      "%c --> %cline:8%creturnList",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(20, 68, 106);padding:3px;border-radius:2px",
+      returnList
+    );
+    // Create a schema
     const schema = new passwordValidator();
     schema
       .is()
@@ -25,7 +32,11 @@ const usePasswordValidator = () => {
       .is()
       .not()
       .oneOf(["Passw0rd", "Password123"]); // Blacklist these values}
-    return schema;
+
+    return {
+      isValid: schema.validate(passwordToCheck),
+      details: schema.validate(passwordToCheck, { details: returnList }),
+    };
   };
   return outputFunction;
 };

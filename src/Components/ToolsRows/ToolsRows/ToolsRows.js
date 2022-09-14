@@ -1,4 +1,5 @@
-import { useState, Fragment } from "react";
+import { useState, useEffect, Fragment } from "react";
+import { useSelector } from "react-redux";
 import styles from "./ToolsRows.module.css";
 import ToolRow from "../ToolRow/ToolRow";
 import AudioPluginSelector from "../../AudioPluginSelector/AudioPluginSelector";
@@ -13,6 +14,24 @@ function ToolsRows(props) {
   const toolsToDisplayRows = {};
   const [openAll, setOpenAll] = useState(false);
   const filteredToolsIds = props.filteredToolsIds;
+  const headerPosition = useSelector((state) => state.elementDimensions.header);
+
+  useEffect(() => {
+    console.log(
+      "%c --> %cline:19%cheaderPosition",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(130, 57, 53);padding:3px;border-radius:2px",
+      headerPosition
+    );
+    console.log(
+      "%c --> %cline:59%cheaderPosition.bottom",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(89, 61, 67);padding:3px;border-radius:2px",
+      headerPosition.bottom
+    );
+  }, [headerPosition]);
 
   for (const k in toolsToDisplay) {
     if (k !== "stats") {
@@ -44,6 +63,7 @@ function ToolsRows(props) {
       <div
         key="open-all-button-wrap"
         className={styles["open-all-button-wrap"]}
+        style={{ top: headerPosition.bottom + "px" }}
       >
         {" "}
         {!toolsToDisplay.hasOwnProperty("error") && (
