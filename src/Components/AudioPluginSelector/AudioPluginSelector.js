@@ -3,18 +3,16 @@ import { useSelector, useDispatch } from "react-redux";
 import styles from "./AudioPluginSelector.module.css";
 import GatherToolData from "../../Hooks/GatherToolData";
 import { audioToolDataActions } from "../../store/audioToolDataSlice";
-import SlideButton from "../../UI/Buttons/SlideButton/SlideButton";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
 import CardPrimaryLarge from "../../UI/Cards/CardPrimaryLarge/CardPrimaryLarge";
-import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
 import CardSecondary from "../../UI/Cards/CardSecondary/CardSecondary";
-import { savePlugin, updateAPlugin } from "../../storage/audioToolsDB";
-import { isValidHttpUrl, groomFormOutput } from "../../Hooks/utility";
+import { savePlugin } from "../../storage/audioToolsDB";
+import { isValidHttpUrl } from "../../Hooks/utility";
 import placeholderImage from "../../assets/images/product-photo-placeholder-5.png";
 import LocalErrorDisplay from "../ErrorHandling/LocalErrorDisplay/LocalErrorDisplay";
 import LoginStatus from "../User/LoginStatus/LoginStatus";
 
-const AudioPluginSelector = (props) => {
+const AudioPluginSelector = () => {
   const [toolsFromLibrary, setToolsFromLibrary] = useState(false);
   const [refreshList, setRefreshList] = useState(false);
   const [selectedTools, setSelectedTools] = useState([]);

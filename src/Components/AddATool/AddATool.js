@@ -22,12 +22,18 @@ function AddATool(props) {
   const [renderCount, setRenderCount] = useState(0);
   const addAToolRef = useRef();
 
+  ///////////////////////////////////////////////////////////////////////
+  /// Effects
+  ///////////////////////////////////////////////////////////////////////
   useEffect(() => {
     if (renderCount > 0)
       addAToolRef.current?.scrollIntoView({ behavior: "smooth" });
     setRenderCount(renderCount + 1);
   }, [goToAddATool]);
 
+  ///////////////////////////////////////////////////////////////////////
+  /// Handlers
+  ///////////////////////////////////////////////////////////////////////
   function showNewQuestionFormButtonHandler() {
     setShowAddQuestionForm(!showAddQuestionForm);
   }
@@ -35,6 +41,9 @@ function AddATool(props) {
     setShowAddFromLibrary(!showAddFromLibrary);
   }
 
+  ///////////////////////////////////////////////////////////////////////
+  /// Styles
+  ///////////////////////////////////////////////////////////////////////
   const submitButtonStyles = {
     position: "relative",
     top: "-0",
@@ -49,7 +58,6 @@ function AddATool(props) {
 
   const buttonStyles = {
     width: "80%",
-    // background: "var(--iq-color-foreground-gradient)",
     borderRadius: "50px",
     height: "3em",
     font: "var(--iq-font-heading-2)",
@@ -68,6 +76,9 @@ function AddATool(props) {
       boxShadow: "inset 0 0 47px -7px var(--iq-color-accent)",
     };
 
+  ///////////////////////////////////////////////////////////////////////
+  /// Output
+  ///////////////////////////////////////////////////////////////////////
   return (
     <div
       id="add-a-tool-outer-wrap"
