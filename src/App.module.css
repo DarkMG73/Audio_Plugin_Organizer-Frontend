@@ -123,6 +123,7 @@
   z-index: 100000;
   transition: 0.3s all ease;
   transform-origin: bottom;
+  transition-timing-function: cubic-bezier(0.02, 1.03, 0.36, 5);
 }
 
 .error-active {

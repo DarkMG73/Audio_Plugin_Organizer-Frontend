@@ -3,17 +3,23 @@ import { useSelector } from "react-redux";
 import styles from "./CSVReader.module.css";
 import { useCSVReader } from "react-papaparse";
 import GetPluginFormInputsWithOptions from "../../../Hooks/GetPluginFormInputsWithOptions";
-import BarLoader from "../../../UI/Loaders/BarLoader/BarLoader";
 
 export default function CSVReader(props) {
   const toolsSchema = useSelector((state) => state.toolsData.toolsSchema);
   const { CSVReader } = useCSVReader();
   const [formInputData, setFormInputData] = useState(false);
+
+  ////////////////////////////////////////
+  /// EFFECTS
+  ////////////////////////////////////////
   useEffect(() => {
     const res = GetPluginFormInputsWithOptions(toolsSchema);
     setFormInputData(res);
   }, []);
 
+  ////////////////////////////////////////
+  /// HELPER FUNCTIONS
+  ////////////////////////////////////////
   const createKeyValueObjectsArray = (csvOutputArray) => {
     const outputArray = [];
     const categoryTitles = csvOutputArray[0];
@@ -62,7 +68,6 @@ export default function CSVReader(props) {
           }
         } else if (inputData.name === "functions") {
           // See if row[inputData.name], which is an array, has an item that is equal to any of the set options. To do this, we need to compare the option item after the tilde ( ~) )
-
           if (!row[inputData.name] && row[inputData.name] != "") return;
           const tempFunctionOptionsArray = row[inputData.name]
             .split("/")
@@ -138,6 +143,7 @@ export default function CSVReader(props) {
             let [optionOneGroup, optionOneName] = optionOne.split("~");
             optionOneGroup = optionOneGroup.trim();
             optionOneName = optionOneName.trim();
+
             // Remove any blanks
             if (optionOneName === "" || optionOneName === " ") {
               assembledRow.options.splice(
@@ -146,6 +152,7 @@ export default function CSVReader(props) {
               );
               return;
             }
+
             // Loop through assembledRow.options and remove any user-added duplicates
             if (optionOneGroup === "User Added") {
               let foundCount = 0;
@@ -181,6 +188,9 @@ export default function CSVReader(props) {
     return outputArray;
   };
 
+  ////////////////////////////////////////
+  /// OUTPUT
+  ////////////////////////////////////////
   return (
     <CSVReader
       onUploadAccepted={(results) => {

@@ -6,21 +6,16 @@ import { escapeHtml } from "../../Hooks/utility";
 import SetFilteredToolIdList from "../../Hooks/SetFilteredToolList";
 import { audioToolDataActions } from "../../store/audioToolDataSlice";
 import CollapsibleElm from "../../UI/CollapsibleElm/CollapsibleElm";
-import FormInput from "../../UI/Form/FormInput/FormInput";
-import BarLoader from "../../UI/Loaders/BarLoader/BarLoader";
 
 function FilterTools(props) {
   const allToolsData = useSelector((state) => state.toolsData);
   const user = useSelector((state) => state.auth.user);
-
   const dispatch = useDispatch();
-  const {
-    filteredToolsIds,
-    currentFilters,
-    allTools,
-    toolsMetadata,
-  } = allToolsData;
+  const { currentFilters, allTools, toolsMetadata } = allToolsData;
 
+  ////////////////////////////////////////
+  /// EFFECTS
+  ////////////////////////////////////////
   useEffect(() => {
     dispatch(audioToolDataActions.clearToolFilterIds);
     const filteredToolIdList = SetFilteredToolIdList(allTools, currentFilters);
@@ -32,6 +27,9 @@ function FilterTools(props) {
     dispatch(audioToolDataActions.clearToolFilterIds);
   }, [user]);
 
+  ////////////////////////////////////////
+  /// HANDLERS
+  ////////////////////////////////////////
   function filterButtonHandler(e) {
     const value = escapeHtml(e.target.value);
 
@@ -94,8 +92,9 @@ function FilterTools(props) {
     // FilterTools(allToolsData);
   }
 
-  // return <div>Filter</div>;
-
+  ////////////////////////////////////////
+  /// OUTPUT
+  ////////////////////////////////////////
   return (
     <div key={"tool-filter-1"} id="tool-filter" className={styles.outerwrap}>
       <h2 key={"tool-filter-2"} className="section-title">

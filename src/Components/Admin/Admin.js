@@ -3,13 +3,13 @@ import { useState } from "react";
 import ImageDownload from "./ImageDownload";
 import SetImageURLS from "./SetImageURLS";
 
-const Admin = (props) => {
+const Admin = () => {
   const [showImageDownload, setShowImageDownload] = useState(false);
   const [setImageURLS, setSetImageURLS] = useState(false);
 
-  ///////////////////////////////////////////////////////////////////////
-  /// Handlers
-  ///////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////
+  /// HANDLERS
+  ////////////////////////////////////////
   const downloadPicsButtonHandler = () => {
     setShowImageDownload(!showImageDownload);
   };
@@ -18,9 +18,9 @@ const Admin = (props) => {
     setSetImageURLS(!setImageURLS);
   };
 
-  ///////////////////////////////////////////////////////////////////////
-  /// Output
-  ///////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////
+  /// OUTPUT
+  ////////////////////////////////////////
   return (
     <div className={styles["admin-container"]}>
       <h2 key="home" className="section-title">

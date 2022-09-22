@@ -1,5 +1,6 @@
 import axios from "axios";
 
+////////////////////////////////////////
 export const getData = async (user) => {
   let axiosConfig = null;
 
@@ -17,6 +18,7 @@ export const getData = async (user) => {
   return res.data;
 };
 
+////////////////////////////////////////
 export async function savePlugin(userAndDataObject) {
   const axiosConfig = {
     headers: {
@@ -38,6 +40,7 @@ export async function savePlugin(userAndDataObject) {
   return response;
 }
 
+////////////////////////////////////////
 export async function updateAPlugin(id, dataObj, user) {
   const axiosConfig = {
     headers: {
@@ -59,6 +62,7 @@ export async function updateAPlugin(id, dataObj, user) {
   return response;
 }
 
+////////////////////////////////////////
 export async function deleteAPlugin(id, user) {
   const axiosConfig = {
     headers: {
@@ -79,6 +83,7 @@ export async function deleteAPlugin(id, user) {
   return response;
 }
 
+////////////////////////////////////////
 export async function deleteAllPlugins(user) {
   const axiosConfig = {
     headers: {
@@ -106,6 +111,7 @@ export async function deleteAllPlugins(user) {
   return response;
 }
 
+////////////////////////////////////////
 export async function getSchemaForAudioPlugin() {
   const output = await axios
     .get(`/api/all-plugins/model/`)
