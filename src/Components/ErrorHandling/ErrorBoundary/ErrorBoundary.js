@@ -5,17 +5,32 @@ import CardPrimary from "../../../UI/Cards/CardPrimary/CardPrimary";
 export class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false, error: "", errorInfo: "" };
+    this.state = { hasError: false, error: "sdvszdvasdvsdv", errorInfo: "" };
   }
 
   static getDerivedStateFromError(error) {
     return {
       hasError: true,
-      error: error,
+      error: "something",
     };
   }
 
   componentDidCatch(error, errorInfo) {
+    console.log(
+      "%c --> %cline:19%cerror",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
+      error
+    );
+    console.log(
+      "%c --> %cline:19%cerrorInfo",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(38, 157, 128);padding:3px;border-radius:2px",
+      errorInfo
+    );
+
     this.setState({
       hasError: true,
       error: error,

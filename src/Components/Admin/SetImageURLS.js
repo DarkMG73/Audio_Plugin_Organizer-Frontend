@@ -1,18 +1,17 @@
 import styles from "./SetImageURLS.module.css";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 import { audioToolDataActions } from "../../store/audioToolDataSlice";
 
-const SetImageURLS = () => {
+const SetImageURLS = (props) => {
   const toolsData = useSelector((state) => state.toolsData);
   const allTools = toolsData.allTools;
   const dispatch = useDispatch();
+  const downloadPicsButtonHandler = (e) => {};
 
-  ////////////////////////////////////////
-  /// HANDLERS
-  ////////////////////////////////////////
   const setImageURLSButtonHandler = (e) => {
     const newAllTools = {};
-
     for (const key in allTools) {
       const tool = allTools[key];
       const imageName =
@@ -35,9 +34,6 @@ const SetImageURLS = () => {
     dispatch(audioToolDataActions.initState(newToolsData));
   };
 
-  ////////////////////////////////////////
-  /// OUTPUT
-  ////////////////////////////////////////
   return (
     <div className={styles["image-download-container"]}>
       <h2 key="home" className="section-title">

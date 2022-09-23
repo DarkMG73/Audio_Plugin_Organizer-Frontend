@@ -11,15 +11,11 @@ const Header = () => {
   const [scrolledUp, setScrolledUp] = useState(false);
   const [loginSlidePanelOpen, setLoginSlidePanelOpen] = useState(false);
   const [navbarHeight, setNavbarHeight] = useState(null);
-  const navbarRef = useRef(null); // unused now, but leaving for a planned change
+  const navbarRef = useRef(null);
   const user = useSelector((state) => state.auth.user);
   const showNavbarClass = scrolledUp ? "show-navbar" : "hide-navbar";
   const dispatch = useDispatch();
 
-  ////////////////////////////////////////
-  /// HANDLERS
-  ////////////////////////////////////////
-  // unused now, but leaving for a planned change
   const addAToolButtonHandler = () => {
     dispatch(audioToolDataActions.goToAddATool());
   };
@@ -28,9 +24,6 @@ const Header = () => {
     setLoginSlidePanelOpen(!loginSlidePanelOpen);
   };
 
-  ////////////////////////////////////////
-  /// EFFECTS
-  ////////////////////////////////////////
   useEffect(() => {
     function onScroll() {
       let currentPosition = window.pageYOffset; // or use document.documentElement.scrollTop;
@@ -59,9 +52,6 @@ const Header = () => {
     );
   }, [navbarHeight]);
 
-  ////////////////////////////////////////
-  /// OUTPUT
-  ////////////////////////////////////////
   return (
     <Fragment>
       <Measure

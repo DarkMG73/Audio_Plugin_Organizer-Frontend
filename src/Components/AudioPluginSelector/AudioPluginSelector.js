@@ -3,17 +3,18 @@ import { useSelector, useDispatch } from "react-redux";
 import styles from "./AudioPluginSelector.module.css";
 import GatherToolData from "../../Hooks/GatherToolData";
 import { audioToolDataActions } from "../../store/audioToolDataSlice";
+import SlideButton from "../../UI/Buttons/SlideButton/SlideButton";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
 import CardPrimaryLarge from "../../UI/Cards/CardPrimaryLarge/CardPrimaryLarge";
+import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
 import CardSecondary from "../../UI/Cards/CardSecondary/CardSecondary";
-import { savePlugin } from "../../storage/audioToolsDB";
-import { isValidHttpUrl } from "../../Hooks/utility";
+import { savePlugin, updateAPlugin } from "../../storage/audioToolsDB";
+import { isValidHttpUrl, groomFormOutput } from "../../Hooks/utility";
 import placeholderImage from "../../assets/images/product-photo-placeholder-5.png";
 import LocalErrorDisplay from "../ErrorHandling/LocalErrorDisplay/LocalErrorDisplay";
 import LoginStatus from "../User/LoginStatus/LoginStatus";
 
-const AudioPluginSelector = () => {
-  const dispatch = useDispatch();
+const AudioPluginSelector = (props) => {
   const [toolsFromLibrary, setToolsFromLibrary] = useState(false);
   const [refreshList, setRefreshList] = useState(false);
   const [selectedTools, setSelectedTools] = useState([]);
@@ -23,10 +24,7 @@ const AudioPluginSelector = () => {
     active: false,
     message: null,
   });
-
-  ////////////////////////////////////////
-  /// HELPER FUNCTIONS
-  ////////////////////////////////////////
+  const dispatch = useDispatch();
   const runGatherToolData = (user) => {
     GatherToolData(user)
       .then((data) => {
@@ -73,84 +71,6 @@ const AudioPluginSelector = () => {
       });
   };
 
-  // Product Photo Logic
-  const createPhtoURLImage = (tool) => {
-    let output = "";
-    const title = tool.title;
-    const value = tool.photoURL;
-    const isValidLink = isValidHttpUrl(value);
-    if (isValidLink) {
-      output = <img key={title + value} src={value} alt={title} />;
-    } else {
-      const photoSrc =
-        value !== "" && value !== undefined
-          ? "./assets/images/" + value
-          : placeholderImage;
-      output = (
-        <img
-          key={title + value}
-          src={photoSrc}
-          // src={image}
-          alt={title}
-        />
-      );
-    }
-
-    return output;
-  };
-
-  ////////////////////////////////////////
-  /// HANDLERS
-  ////////////////////////////////////////
-  const buttonChangeHandler = (e) => {
-    const newSelectedToolsArray = [...selectedTools];
-    const value = e.target.closest("button").value;
-
-    if (newSelectedToolsArray.includes(value)) {
-      newSelectedToolsArray.splice(selectedTools.indexOf(value), 1);
-      setSelectedTools(newSelectedToolsArray);
-    } else {
-      newSelectedToolsArray.push(value);
-      setSelectedTools(newSelectedToolsArray);
-    }
-  };
-
-  const submitButtonHandler = () => {
-    toolsFromLibrary.forEach((tool) => {
-      if (selectedTools.includes(tool._id)) {
-        const theData = tool;
-        savePlugin({ user, theData }, true).then((res) => {
-          if (res.status && res.status < 299) {
-            runGatherToolData(user);
-            setSelectedTools([]);
-            setRefreshList(!refreshList);
-          } else if (res.response.status === 404) {
-            setSelectedTools([]);
-          } else if (res.response.status === 401) {
-            setShowLoginModal(true);
-          } else {
-            alert(
-              "There was an error when trying to save the new entry. Here is the message from the server: " +
-                res.message
-            );
-          }
-        });
-      }
-    });
-  };
-
-  const localErrorButtonHandler = () => {
-    setLocalError({ active: !localError, message: localError.message });
-  };
-
-  const loginModalCloseButtonHandler = () => {
-    console.log("Click");
-    setShowLoginModal(false);
-  };
-
-  ////////////////////////////////////////
-  /// EFFECTS
-  ////////////////////////////////////////
   useEffect(() => {
     GatherToolData().then((data) => {
       if (process.env.NODE_ENV !== "production")
@@ -188,9 +108,84 @@ const AudioPluginSelector = () => {
     });
   }, [refreshList]);
 
-  ////////////////////////////////////////
-  /// OUTPUT
-  ////////////////////////////////////////
+  const buttonChangeHandler = (e) => {
+    const newSelectedToolsArray = [...selectedTools];
+    const value = e.target.closest("button").value;
+
+    if (newSelectedToolsArray.includes(value)) {
+      newSelectedToolsArray.splice(selectedTools.indexOf(value), 1);
+      setSelectedTools(newSelectedToolsArray);
+    } else {
+      newSelectedToolsArray.push(value);
+      setSelectedTools(newSelectedToolsArray);
+    }
+  };
+
+  const submitButtonHandler = () => {
+    toolsFromLibrary.forEach((tool) => {
+      if (selectedTools.includes(tool._id)) {
+        const theData = tool;
+        savePlugin({ user, theData }, true).then((res) => {
+          if (res.status && res.status < 299) {
+            runGatherToolData(user);
+            setSelectedTools([]);
+            setRefreshList(!refreshList);
+          } else if (res.response.status === 404) {
+            setSelectedTools([]);
+          } else if (res.response.status === 401) {
+            setShowLoginModal(true);
+          } else {
+            alert(
+              "There was an error when trying to save the new entry. Here is the message from the server: " +
+                res.message
+            );
+          }
+        });
+      }
+    });
+  };
+
+  // Product Photo Logic
+  const createPhtoURLImage = (tool) => {
+    let output = "";
+    const title = tool.title;
+    const value = tool.photoURL;
+    const isValidLink = isValidHttpUrl(value);
+    if (isValidLink) {
+      // value = <img key={title + value} src={value} alt={title} />;
+      output = <img key={title + value} src={value} alt={title} />;
+    } else {
+      const photoSrc =
+        value !== "" && value !== undefined
+          ? "./assets/images/" + value
+          : placeholderImage;
+      output = (
+        <img
+          key={title + value}
+          src={photoSrc}
+          // src={image}
+          alt={title}
+        />
+      );
+    }
+
+    return output;
+  };
+
+  const localErrorButtonHandler = () => {
+    setLocalError({ active: !localError, message: localError.message });
+  };
+  const loginModalCloseButtonHandler = () => {
+    console.log("Click");
+    setShowLoginModal(false);
+  };
+  console.log(
+    "%c --> %cline:229%ctoolsFromLibrary",
+    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+    "color:#fff;background:rgb(178, 190, 126);padding:3px;border-radius:2px",
+    toolsFromLibrary
+  );
   return (
     <CardPrimaryLarge key="outer-container" styles={{ maxWidth: "100%" }}>
       {" "}

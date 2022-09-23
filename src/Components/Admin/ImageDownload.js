@@ -1,13 +1,14 @@
 import styles from "./ImageDownload.module.css";
-import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 
 const ImageDownload = (props) => {
   const allTools = useSelector((state) => state.toolsData.allTools);
 
-  ////////////////////////////////////////
-  /// HANDLERS
-  ////////////////////////////////////////
-  const downloadPicsButtonHandler = (e) => {};
+  const downloadPicsButtonHandler = (e) => {
+    console.log("Click", e.target);
+  };
 
   const btnOnClick = (e) => {};
   let count = 0;
@@ -19,9 +20,6 @@ const ImageDownload = (props) => {
     // if (count > 4) break;
   }
 
-  ////////////////////////////////////////
-  /// OUTPUT
-  ////////////////////////////////////////
   return (
     <div className={styles["image-download-container"]}>
       <h2 key="home" className="section-title">

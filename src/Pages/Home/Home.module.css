@@ -25,7 +25,7 @@
   z-index: 0;
 }
 
-.column-two .bottom-navbar-wrap {
+.bottom-navbar-wrap {
   position: sticky;
   bottom: 0;
   left: 0;

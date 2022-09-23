@@ -7,15 +7,11 @@ import { getAllFunctionOptions } from "../../Hooks/utility";
 
 function AddAToolFormElms(props) {
   const [formOpen, setFormOpen] = useState(true);
-  const formRefresh = props.formRefresh ? props.formRefresh : true;
   const [formInputData, setFormInputData] = useState(false);
   const { toolsMetadata, toolsSchema } = useSelector(
     (state) => state.toolsData
   );
 
-  ////////////////////////////////////////
-  /// EFFECTS
-  ////////////////////////////////////////
   useEffect(() => {
     const pluginFormWithOptions = GetPluginFormInputsWithOptions(
       toolsSchema,
@@ -25,14 +21,8 @@ function AddAToolFormElms(props) {
     setFormInputData(pluginFormWithOptions);
   }, []);
 
-  ////////////////////////////////////////
-  /// Additional Functionality
-  ////////////////////////////////////////
-  // spreadsheet upload sends
-  // nested data groups, so blank
-  // form requests need to be nested here
+  // spreadsheet upload sends nested data groups, so blank form requests need to be nested here
   let newFormInputData = [];
-
   if (formInputData)
     newFormInputData = props.formData ? props.formData : [formInputData];
 
@@ -61,11 +51,8 @@ function AddAToolFormElms(props) {
     });
   }
 
-  ////////////////////////////////////////
-  /// OUTPUT
-  ////////////////////////////////////////
   return (
-    <Fragment key={"addtoolformelms-1" + formRefresh}>
+    <Fragment key={"addtoolformelms-1"}>
       {formOpen && (
         <div
           key={"addtoolformelms-scrollswrap"}

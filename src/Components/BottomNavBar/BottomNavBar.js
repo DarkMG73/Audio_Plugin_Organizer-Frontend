@@ -1,15 +1,13 @@
-import { Fragment } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect, Fragment } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./BottomNavBar.module.css";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
+import LoginStatus from "../User/LoginStatus/LoginStatus";
 import { audioToolDataActions } from "../../store/audioToolDataSlice";
 
 const BottomNavBar = () => {
   const dispatch = useDispatch();
 
-  ////////////////////////////////////////
-  /// HANDLERS
-  ////////////////////////////////////////
   const addAToolButtonHandler = () => {
     dispatch(audioToolDataActions.goToAddATool());
   };
@@ -26,9 +24,6 @@ const BottomNavBar = () => {
     });
   };
 
-  ////////////////////////////////////////
-  /// OUTPUT
-  ////////////////////////////////////////
   return (
     <Fragment>
       {}

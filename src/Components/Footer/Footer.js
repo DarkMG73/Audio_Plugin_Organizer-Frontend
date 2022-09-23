@@ -1,6 +1,5 @@
 import styles from "./Footer.module.css";
 import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
-
 const Footer = () => {
   return (
     <div className={styles["footer-container"]}>
