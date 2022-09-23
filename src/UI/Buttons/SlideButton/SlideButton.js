@@ -1,7 +1,7 @@
 import styles from "./SlideButton.module.css";
 
 const SlideButton = (props) => {
-  // Mat.random() is used below in the input to ensure a full re-render if any part of this component re-renders. This avoides the input appearing to be checked, but not no longer checked.
+  // Mat.random() is used below in the input to ensure a full re-render if any part of this component re-renders. This avoids the input appearing to be checked, when no longer checked.
   return (
     <div
       key={"slide-button-1" + props.label}
