@@ -1,5 +1,6 @@
 import styles from "./LocalErrorDisplay.module.css";
 import CardPrimary from "../../../UI/Cards/CardPrimary/CardPrimary";
+
 const LocalErrorDisplay = (props) => {
   return (
     <CardPrimary
@@ -17,7 +18,7 @@ const LocalErrorDisplay = (props) => {
             if the problem continues, please send a quick email:
             <a
               href={`mailto:general@glassinteractive.com.com?body=${encodeURIComponent(
-                "Hello! an error has occured on the Production Tools Organizer: " +
+                "Hello! an error has occurred on the Production Tools Organizer: " +
                   props.message
               )}`}
             >

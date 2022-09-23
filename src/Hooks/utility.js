@@ -1,11 +1,14 @@
 import topicOptions from "../data/topicOptions";
 
+/// Add hyphens /////////////////////////////
 export function hyphenate(string, indexBreakPoint, separator) {
   const firstHalf = string.substring(0, indexBreakPoint);
   const secondHalf = string.substring(indexBreakPoint, string.length);
+
   return firstHalf + separator + secondHalf;
 }
 
+/// Turn numbers to text number names /////////////////////////////
 export function numberToText(number) {
   const ones = [
     "",
@@ -45,6 +48,7 @@ export function numberToText(number) {
   if (number < 20) return ones[number];
 }
 
+/// Check URL Validity /////////////////////////////
 export function isValidHttpUrl(string) {
   let url;
 
@@ -57,6 +61,7 @@ export function isValidHttpUrl(string) {
   return url.protocol === "http:" || url.protocol === "https:";
 }
 
+/// Refresh Tokens /////////////////////////////
 export const refreshTokenSetup = (res) => {
   // Timing to renew access token
   let refreshTiming = (res.tokenObj.expires_in || 3600 - 5 * 60) * 1000;
@@ -64,6 +69,7 @@ export const refreshTokenSetup = (res) => {
   const refreshToken = async () => {
     const newAuthRes = await res.reloadAuthResponse();
     refreshTiming = (newAuthRes.expires_in || 3600 - 5 * 60) * 1000;
+
     // saveUserToken(newAuthRes.access_token);  <-- save new token
     localStorage.setItem("authToken", newAuthRes.id_token);
 
@@ -75,6 +81,7 @@ export const refreshTokenSetup = (res) => {
   setTimeout(refreshToken, refreshTiming);
 };
 
+/// Escape HTML Stings /////////////////////////////
 export function escapeHtml(string) {
   var entityMap = {
     "&": "&",
@@ -92,6 +99,7 @@ export function escapeHtml(string) {
   });
 }
 
+/// Turn an Array into key-value pairs /////////////////////////////
 const createKeyValueObjectsArray = (formOutputArray) => {
   const outputArray = [];
   const categoryTitles = formOutputArray[0];
@@ -106,6 +114,7 @@ const createKeyValueObjectsArray = (formOutputArray) => {
   return outputArray;
 };
 
+/// Groom form output data /////////////////////////////
 export const groomFormOutput = (formOutputArray, passFormInputData) => {
   const pairedObjectsArray = formOutputArray;
   const duplicateFunctionOptions = [];
@@ -236,11 +245,6 @@ export const groomFormOutput = (formOutputArray, passFormInputData) => {
             });
           }
         });
-
-        // Remove any duplicates
-        // const optionsSet = new Set();
-        // assembledRow.options.forEach((option) => optionsSet.add(option));
-        // assembledRow.options = Array.from(optionsSet);
       } else {
         assembledRow.preFilledData = row[inputData.name]
           ? row[inputData.name]
@@ -255,6 +259,7 @@ export const groomFormOutput = (formOutputArray, passFormInputData) => {
   return outputArray;
 };
 
+/// Convert string to title case /////////////////////////////
 export const toTitleCase = (str, spaceAtCamelCase = false) => {
   if (spaceAtCamelCase) {
     str = [...str].map((character) => {
@@ -271,6 +276,7 @@ export const toTitleCase = (str, spaceAtCamelCase = false) => {
   });
 };
 
+/// Grab all options from the functions property /////////////
 export const getAllFunctionOptions = (toolsMetaData) => {
   const output = [...topicOptions.functions];
   if (toolsMetaData.hasOwnProperty("functions")) {

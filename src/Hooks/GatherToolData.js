@@ -111,21 +111,12 @@ function objectExtractAllValuesPerKey(
     for (let key in objectToLoop[i]) {
       const keyBeforeTrim = key;
       key = key.trim();
+
       // Check if we are meant to include that item & the value is valid
       if (
         !itemsToExclude.includes(key) &&
         !valuesToExclude.includes(objectToLoop[i][key])
       ) {
-        // TODO: If the value is a list, separate at the comma
-
-        // Convert booleans & numbers to strings for more standardized processing
-        // if (
-        //   typeof objectToLoop[i][key] === "boolean" ||
-        //   typeof objectToLoop[i][key] === "number"
-        // ) {
-        //   objectToLoop[i][key] = '"' + objectToLoop[i][key] + '"';
-        // }
-
         if (typeof objectToLoop[i][key] === "boolean") {
           if (outputObject.hasOwnProperty(key)) {
             // No need to log false Booloens
@@ -133,6 +124,7 @@ function objectExtractAllValuesPerKey(
               outputObject[key].add(objectToLoop[i][key]);
           } else {
             outputObject[key] = new Set();
+
             // No need to log false Booloens
             if (objectToLoop[i][key] === true)
               outputObject[key].add(objectToLoop[i][key]);
@@ -159,7 +151,9 @@ function objectExtractAllValuesPerKey(
               outputObject[key].add(value);
             }
           });
-        } // Since the value is not a string list, if the value is not an array, just add it as-is to the key Set
+        }
+
+        // Since the value is not a string list, if the value is not an array, just add it as-is to the key Set
         else if (objectToLoop[i][key].constructor !== Array) {
           const value = objectToLoop[i][key].trim().toString();
 
@@ -169,7 +163,9 @@ function objectExtractAllValuesPerKey(
             outputObject[key] = new Set();
             outputObject[key].add(value);
           }
-        } // Since the value is an array, loop to add it
+        }
+
+        // Since the value is an array, loop to add it
         else if (objectToLoop[i][key].constructor === Array) {
           if (objectToLoop[i][key].length > 0) {
             objectToLoop[i][key].forEach((rawValue) => {

@@ -6,13 +6,6 @@ export const passwordRequirements =
 // Add properties to it
 const usePasswordValidator = (passwordToCheck, returnList) => {
   const outputFunction = (passwordToCheck, returnList) => {
-    console.log(
-      "%c --> %cline:8%creturnList",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(20, 68, 106);padding:3px;border-radius:2px",
-      returnList
-    );
     // Create a schema
     const schema = new passwordValidator();
     schema

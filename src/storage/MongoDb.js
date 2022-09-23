@@ -1,10 +1,12 @@
 import axios from "axios";
 
+/// GET DATA /////////////////////////////
 export const getData = async () => {
   const res = await axios.get("/api/all-plugins/");
   return res.data;
 };
 
+/// SAVE  /////////////////////////////
 export async function savePlugin(dataObj) {
   const response = await axios
     .get(`/api/all-plugins/add/`, { params: dataObj })
@@ -19,6 +21,7 @@ export async function savePlugin(dataObj) {
   return response;
 }
 
+/// UPDATE /////////////////////////////
 export async function updateAPlugin(id, dataObj) {
   const response = await axios
     .get(`/api/all-plugins/update/`, { params: dataObj })
@@ -34,6 +37,7 @@ export async function updateAPlugin(id, dataObj) {
   return response;
 }
 
+/// DELETE /////////////////////////////
 export async function deleteAPlugin(id) {
   const response = await axios
     .get(`/api/all-plugins/${id}/delete/`)
@@ -62,6 +66,7 @@ export async function deleteAllPlugins() {
   return response;
 }
 
+/// GET PLUGIN SCHEMA /////////////////////////////
 export async function getSchemaForAudioPlugin() {
   const output = await axios
     .get(`/api/all-plugins/model/`)

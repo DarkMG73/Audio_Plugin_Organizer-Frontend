@@ -3,18 +3,17 @@ import { useSelector, useDispatch } from "react-redux";
 import styles from "./AudioPluginSelector.module.css";
 import GatherToolData from "../../Hooks/GatherToolData";
 import { audioToolDataActions } from "../../store/audioToolDataSlice";
-import SlideButton from "../../UI/Buttons/SlideButton/SlideButton";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
 import CardPrimaryLarge from "../../UI/Cards/CardPrimaryLarge/CardPrimaryLarge";
-import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
 import CardSecondary from "../../UI/Cards/CardSecondary/CardSecondary";
-import { savePlugin, updateAPlugin } from "../../storage/audioToolsDB";
-import { isValidHttpUrl, groomFormOutput } from "../../Hooks/utility";
+import { savePlugin } from "../../storage/audioToolsDB";
+import { isValidHttpUrl } from "../../Hooks/utility";
 import placeholderImage from "../../assets/images/product-photo-placeholder-5.png";
 import LocalErrorDisplay from "../ErrorHandling/LocalErrorDisplay/LocalErrorDisplay";
 import LoginStatus from "../User/LoginStatus/LoginStatus";
 
-const AudioPluginSelector = (props) => {
+const AudioPluginSelector = () => {
+  const dispatch = useDispatch();
   const [toolsFromLibrary, setToolsFromLibrary] = useState(false);
   const [refreshList, setRefreshList] = useState(false);
   const [selectedTools, setSelectedTools] = useState([]);
@@ -24,7 +23,10 @@ const AudioPluginSelector = (props) => {
     active: false,
     message: null,
   });
-  const dispatch = useDispatch();
+
+  ////////////////////////////////////////
+  /// HELPER FUNCTIONS
+  ////////////////////////////////////////
   const runGatherToolData = (user) => {
     GatherToolData(user)
       .then((data) => {
@@ -71,43 +73,35 @@ const AudioPluginSelector = (props) => {
       });
   };
 
-  useEffect(() => {
-    GatherToolData().then((data) => {
-      if (process.env.NODE_ENV !== "production")
-        console.log(
-          "%c Getting tool data from DB:",
-          "color:#fff;background:#028218;padding:14px;border-radius:0 25px 25px 0",
-          data
-        );
+  // Product Photo Logic
+  const createPhtoURLImage = (tool) => {
+    let output = "";
+    const title = tool.title;
+    const value = tool.photoURL;
+    const isValidLink = isValidHttpUrl(value);
+    if (isValidLink) {
+      output = <img key={title + value} src={value} alt={title} />;
+    } else {
+      const photoSrc =
+        value !== "" && value !== undefined
+          ? "./assets/images/" + value
+          : placeholderImage;
+      output = (
+        <img
+          key={title + value}
+          src={photoSrc}
+          // src={image}
+          alt={title}
+        />
+      );
+    }
 
-      if (data.allTools.hasOwnProperty("error")) return;
+    return output;
+  };
 
-      GatherToolData(user).then((userData) => {
-        if (process.env.NODE_ENV !== "production")
-          console.log(
-            "%c Getting * USER's * tool data from DB:",
-            "color:#fff;background:#028218;padding:14px;border-radius:0 25px 25px 0",
-            data
-          );
-
-        const usersIDArray = Object.keys(userData.allTools);
-        const output = [];
-
-        for (const key in data.allTools) {
-          if (!usersIDArray.includes(key)) output.push(data.allTools[key]);
-        }
-
-        if (output.length <= 0) {
-          for (const key in data.allTools) {
-            output.push(data.allTools[key]);
-          }
-        }
-        setToolsFromLibrary(output);
-        // dispatch(audioToolDataActions.initState(data));
-      });
-    });
-  }, [refreshList]);
-
+  ////////////////////////////////////////
+  /// HANDLERS
+  ////////////////////////////////////////
   const buttonChangeHandler = (e) => {
     const newSelectedToolsArray = [...selectedTools];
     const value = e.target.closest("button").value;
@@ -145,47 +139,58 @@ const AudioPluginSelector = (props) => {
     });
   };
 
-  // Product Photo Logic
-  const createPhtoURLImage = (tool) => {
-    let output = "";
-    const title = tool.title;
-    const value = tool.photoURL;
-    const isValidLink = isValidHttpUrl(value);
-    if (isValidLink) {
-      // value = <img key={title + value} src={value} alt={title} />;
-      output = <img key={title + value} src={value} alt={title} />;
-    } else {
-      const photoSrc =
-        value !== "" && value !== undefined
-          ? "./assets/images/" + value
-          : placeholderImage;
-      output = (
-        <img
-          key={title + value}
-          src={photoSrc}
-          // src={image}
-          alt={title}
-        />
-      );
-    }
-
-    return output;
-  };
-
   const localErrorButtonHandler = () => {
     setLocalError({ active: !localError, message: localError.message });
   };
+
   const loginModalCloseButtonHandler = () => {
     console.log("Click");
     setShowLoginModal(false);
   };
-  console.log(
-    "%c --> %cline:229%ctoolsFromLibrary",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(178, 190, 126);padding:3px;border-radius:2px",
-    toolsFromLibrary
-  );
+
+  ////////////////////////////////////////
+  /// EFFECTS
+  ////////////////////////////////////////
+  useEffect(() => {
+    GatherToolData().then((data) => {
+      if (process.env.NODE_ENV !== "production")
+        console.log(
+          "%c Getting tool data from DB:",
+          "color:#fff;background:#028218;padding:14px;border-radius:0 25px 25px 0",
+          data
+        );
+
+      if (data.allTools.hasOwnProperty("error")) return;
+
+      GatherToolData(user).then((userData) => {
+        if (process.env.NODE_ENV !== "production")
+          console.log(
+            "%c Getting * USER's * tool data from DB:",
+            "color:#fff;background:#028218;padding:14px;border-radius:0 25px 25px 0",
+            data
+          );
+
+        const usersIDArray = Object.keys(userData.allTools);
+        const output = [];
+
+        for (const key in data.allTools) {
+          if (!usersIDArray.includes(key)) output.push(data.allTools[key]);
+        }
+
+        if (output.length <= 0) {
+          for (const key in data.allTools) {
+            output.push(data.allTools[key]);
+          }
+        }
+        setToolsFromLibrary(output);
+        // dispatch(audioToolDataActions.initState(data));
+      });
+    });
+  }, [refreshList]);
+
+  ////////////////////////////////////////
+  /// OUTPUT
+  ////////////////////////////////////////
   return (
     <CardPrimaryLarge key="outer-container" styles={{ maxWidth: "100%" }}>
       {" "}

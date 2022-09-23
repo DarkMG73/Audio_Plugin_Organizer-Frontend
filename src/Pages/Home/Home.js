@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 import styles from "./Home.module.css";
 import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
 import CardPrimaryLarge from "../../UI/Cards/CardPrimaryLarge/CardPrimaryLarge";
@@ -10,13 +9,12 @@ import ToolsRowsList from "../../Components/ToolsRows/ToolsRowsList/ToolsRowsLis
 import OutputControls from "../../Components/OutputControls/OutputControls";
 import Footer from "../../Components/Footer/Footer";
 import BottomNavBar from "../../Components/BottomNavBar/BottomNavBar";
-import BarLoader from "../../UI/Loaders/BarLoader/BarLoader";
 import { ErrorBoundary } from "../../Components/ErrorHandling/ErrorBoundary/ErrorBoundary";
 import MobileSlideContainer from "../../UI/MobileSlideContainer/MobileSlideContainer";
 
 const Home = () => {
-  const { allTools, toolsMetadata } = useSelector((state) => state.toolsData);
   const [toolListTopRef, setToolListTopRef] = useState();
+
   return (
     <div className={styles["home-page"]}>
       <div className={`${styles["column"]} ${styles["column-one"]} `}>

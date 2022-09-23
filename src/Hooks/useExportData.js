@@ -2,15 +2,22 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { getSchemaForAudioPlugin } from "../storage/audioToolsDB";
 
-const useExportData = (props) => {
+const useExportData = () => {
   const [pluginSchema, setPluginSchema] = useState(false);
   const { allTools, filteredToolsIds } = useSelector(
     (state) => state.toolsData
   );
+
+  ////////////////////////////////////////
+  /// EFFECTS
+  ////////////////////////////////////////
   useEffect(() => {
     getSchemaForAudioPlugin().then((data) => setPluginSchema(data));
   }, []);
 
+  ////////////////////////////////////////
+  /// Functionality
+  ////////////////////////////////////////
   if (!filteredToolsIds) return null;
 
   const generateExport = function (props) {
@@ -41,14 +48,7 @@ const useExportData = (props) => {
 
         return itemsFormatted;
       }
-      // {
-      //   level: item.level || "-",
-      //   topic: item.topic || "-",
-      //   title: JSON.stringify(item.title) || "-",
-      //   tool: item.tool.replace(/,/g, "") || "-", // remove commas to avoid errors,
-      //   answer: JSON.stringify(item.answer.replace(/,/g, "")) || "-",
-      //   time: item.time,
-      // }
+
       const fileName = prompt("What would you like to name the file?");
       let exportFileName = fileName || "interview_tools_list.json";
       exportCSVFile(headers, itemsReadyForCVS, exportFileName); // call the exportCSVFile() function to process the JSON and trigger the download
@@ -68,9 +68,8 @@ function exportCSVFile(headers, items, fileTitle) {
     items.unshift(headers);
   }
 
-  // Convert Object to JSON
+  // Convert Object to JSON -for testing
   // var jsonObject = JSON.stringify(items);
-
   const groomedItems = items.map((group) => {
     const outputGroup = {};
 

@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import styles from "./AddATool.module.css";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
 import AddAToolForm from "./AddAToolForm";
 import CSVReader from "./CSVReader/CSVReader";
-import Register from "../User/Register/Register";
 import LoginStatus from "../User/LoginStatus/LoginStatus";
 import AudioPluginSelector from "../AudioPluginSelector/AudioPluginSelector";
 import BarLoader from "../../UI/Loaders/BarLoader/BarLoader";
@@ -22,12 +21,18 @@ function AddATool(props) {
   const [renderCount, setRenderCount] = useState(0);
   const addAToolRef = useRef();
 
+  ////////////////////////////////////////
+  /// EFFECTS
+  ////////////////////////////////////////
   useEffect(() => {
     if (renderCount > 0)
       addAToolRef.current?.scrollIntoView({ behavior: "smooth" });
     setRenderCount(renderCount + 1);
   }, [goToAddATool]);
 
+  ////////////////////////////////////////
+  /// HANDLERS
+  ////////////////////////////////////////
   function showNewQuestionFormButtonHandler() {
     setShowAddQuestionForm(!showAddQuestionForm);
   }
@@ -35,6 +40,9 @@ function AddATool(props) {
     setShowAddFromLibrary(!showAddFromLibrary);
   }
 
+  ////////////////////////////////////////
+  /// Styles
+  ////////////////////////////////////////
   const submitButtonStyles = {
     position: "relative",
     top: "-0",
@@ -49,7 +57,6 @@ function AddATool(props) {
 
   const buttonStyles = {
     width: "80%",
-    // background: "var(--iq-color-foreground-gradient)",
     borderRadius: "50px",
     height: "3em",
     font: "var(--iq-font-heading-2)",
@@ -68,6 +75,9 @@ function AddATool(props) {
       boxShadow: "inset 0 0 47px -7px var(--iq-color-accent)",
     };
 
+  ////////////////////////////////////////
+  /// OUTPUT
+  ////////////////////////////////////////
   return (
     <div
       id="add-a-tool-outer-wrap"
