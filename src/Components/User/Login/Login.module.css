@@ -3,10 +3,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 2em;
 }
 .login-container h3 {
   padding: 0;
   margin-bottom: 0;
+  font: var(--iq-font-subheading);
 }
 
 .form {
@@ -18,9 +20,12 @@
 
 .form input[type="text"],
 .form input[type="password"],
-.form input[type="email"] {
+.form input[type="email"],
+.form button {
   font-size: 1em;
-  padding: 0 0.5em;
+  border-radius: 50px;
+  padding: 0px 2em;
+  margin: 0;
 }
 
 .form label {
@@ -28,6 +33,16 @@
   line-height: 1em;
   padding: 0;
   justify-content: inherit;
+  display: none;
+}
+.form > div > div {
+  padding: 0;
+  margin: 0 auto;
+  height: 2em;
+}
+
+.form button {
+  height: 2em;
 }
 
 .login-form-wrap {
@@ -35,6 +50,7 @@
   flex-direction: column;
   position: relative;
   align-items: center;
+  margin: 1em;
 }
 .form-submit-button-wrap {
   display: flex;

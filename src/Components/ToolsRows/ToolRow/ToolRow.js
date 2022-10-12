@@ -42,6 +42,9 @@ function ToolRow(props) {
   const editButtonWidth = inEditMode ? "max-content" : "5em";
   let groomedFormInputData;
 
+  ////////////////////////////////////////
+  /// EFFECTS
+  ////////////////////////////////////////
   useEffect(() => {
     const toolFormDataArray = [tool];
     if (formInputData)
@@ -51,6 +54,10 @@ function ToolRow(props) {
         toolRowOrder
       );
   }, [tool, formInputData, toolRowOrder]);
+
+  ////////////////////////////////////////
+  /// FUNCTIONALITY
+  ////////////////////////////////////////
   const toolFormDataArray = [tool];
   if (formInputData)
     groomedFormInputData = groomFormOutput(
@@ -59,6 +66,9 @@ function ToolRow(props) {
       toolRowOrder
     );
 
+  ////////////////////////////////////////
+  /// HANDLERS
+  ////////////////////////////////////////
   const rowEditButtonHandler = (e, setElmOpen) => {
     setInEditMode(!inEditMode);
   };
@@ -108,6 +118,9 @@ function ToolRow(props) {
     }
   };
 
+  ////////////////////////////////////////
+  /// OUTPUT
+  ////////////////////////////////////////
   function AssembleInnerRow(tool, key, passedCategoryNamesArray) {
     const categoryNamesArray = passedCategoryNamesArray
       ? passedCategoryNamesArray
@@ -466,6 +479,9 @@ function ToolRow(props) {
     </div>
   );
 
+  ////////////////////////////////////////
+  /// OUTPUT
+  ////////////////////////////////////////
   if (!deleted) {
     return (
       <div

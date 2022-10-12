@@ -119,10 +119,16 @@ export async function getSchemaForAudioPlugin() {
       return res.data.model;
     })
     .catch((err) => {
+      const output = { response: { request: {} } };
       console.log("err", err);
-      console.log("errors", err.response);
+      console.log("output", output);
 
-      return err.response;
+      if (err.code && err.code === "ERR_NETWORK") {
+        output.response.status = 500;
+        output.response.statusText = err.message;
+        output.response.request.responseURL = err.config.baseURL;
+      }
+      return output.response;
     });
 
   return output;

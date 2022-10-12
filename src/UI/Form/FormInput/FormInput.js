@@ -7,6 +7,14 @@ const FormInput = (props) => {
   const [requiredClass, setRequiredClass] = useState("");
   const input = props.inputDataObj;
   const formNumber = props.formNumber;
+  const [inputValue, setInputValue] = useState(input.preFilledData);
+  const [checkboxTextInputValue, setCheckboxTextInputValue] = useState();
+  const requiredTextInput = useRef();
+  let outputJSX;
+
+  ///////////////////////////////////////
+  /// EFFECTS
+  ////////////////////////////////////////
   useEffect(() => {
     if (input.required == true) setRequiredClass("required-input");
   }, []);
@@ -20,10 +28,6 @@ const FormInput = (props) => {
     }
   }, [requiredError]);
 
-  const [inputValue, setInputValue] = useState(input.preFilledData);
-
-  const [checkboxTextInputValue, setCheckboxTextInputValue] = useState();
-
   useEffect(() => {
     if (
       setInputValue.hasOwnProperty("constructor") &&
@@ -34,19 +38,10 @@ const FormInput = (props) => {
       setInputValue(inputValue);
     }
   }, [inputValue]);
-  // useEffect(() => {
-  //   console.log(
-  //     "%c --> %cline:21%cprops.requiredError",
-  //     "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-  //     "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-  //     "color:#fff;background:rgb(34, 8, 7);padding:3px;border-radius:2px",
-  //     props.requiredError
-  //   );
-  //   setRequiredError(props.requiredError);
-  // }, [props.requiredError]);
-  const requiredTextInput = useRef();
-  let outputJSX;
 
+  ///////////////////////////////////////
+  /// HANDLERS
+  ////////////////////////////////////////
   const textInputOnChangeHandler = (e) => {
     setInputValue(e.target.value);
     if (input.required == true && requiredTextInput.current.value.length <= 0) {
@@ -55,13 +50,18 @@ const FormInput = (props) => {
       setRequiredError(false);
     }
   };
+
   const checkboxTextInputOnChangeHandler = (e) => {
     setCheckboxTextInputValue(e.target.value);
   };
+
   const checkboxInputOnChangeHandler = (e) => {
     // setInputValue(e.target.value);
   };
 
+  ///////////////////////////////////////
+  /// FUNCTIONALITY
+  ////////////////////////////////////////
   let groomedOptions;
   if (input.hasOwnProperty("options"))
     groomedOptions = input.options.map((option) => option.trim());

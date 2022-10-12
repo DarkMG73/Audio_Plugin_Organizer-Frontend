@@ -77,13 +77,6 @@ export async function setUserCookie(user) {
   // SessionStorage used while hosting API on Heroku
   const output = new Promise((resolve, reject) => {
     const cookie = StorageForSession("ADD", user, "giProductionTool");
-    console.log(
-      "%c --> %cline:23%ccookie",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(118, 77, 57);padding:3px;border-radius:2px",
-      cookie
-    );
     let status = 400;
     if (cookie) status = 202;
 
@@ -114,13 +107,6 @@ export async function deleteUserCookie(user) {
   // SessionStorage used while hosting API on Heroku
   const output = new Promise((resolve, reject) => {
     const cookie = StorageForSession("DELETE", {}, "giProductionTool");
-    console.log(
-      "%c --> %cline:23%ccookie",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(118, 77, 57);padding:3px;border-radius:2px",
-      cookie
-    );
     let status = 400;
     if (cookie) status = 202;
 

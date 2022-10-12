@@ -7,6 +7,7 @@
 .db-login-container h4 {
   margin: 0 auto 0.5em;
   padding: 0;
+  font: var(--iq-font-subheading);
 }
 
 .db-login-container,
@@ -16,7 +17,6 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  font: var(--iq-font-subheading);
   width: 100%;
   margin: 0 0 1em;
 }
@@ -51,29 +51,45 @@
 .login-text {
   display: inline-block;
   margin: 0 auto;
-  padding: 0 0.5em;
+  padding: 0.25em 2em;
   font-weight: 700;
-  font-size: 1.5em;
+  width: 100%;
   box-shadow: inset 1px 1px 3px -2px black, inset -1px -1px 3px -2px white;
   border: 1px inset var(--iq-color-background-warm);
   background: var(--iq-color-background-warm);
   color: var(--iq-color-foreground);
+  border-radius: 50px;
 }
 
 .not-logged-in-text {
   background-color: var(--iq-color-foreground);
   color: var(--iq-color-background);
+  font-size: 1.25em;
   font-weight: 700;
   border: 2px inset var(--iq-color-accent);
+  padding: 0.5em 1em;
+  margin-top: 1em;
 }
 
 .form-container {
   box-shadow: 3px 3px 10px -7px inset black, -3px -3px 10px -7px inset white;
   width: 100%;
   max-width: none;
-  padding: 1em;
   border-radius: 10px;
-  margin: 1em;
+  margin: 0px auto;
+}
+
+body .form-container label {
+  font-size: 1em;
+}
+
+body .form-container input[type="text"],
+body .form-container input[type="email"],
+body .form-container input[type="password"] {
+  font-size: 1em;
+  padding: 0px 2em;
+  margin: 0;
+  height: 2em;
 }
 
 .button-container button {

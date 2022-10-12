@@ -38,13 +38,11 @@ const Register = (props) => {
   };
   const [captchaVerified, setCaptchaVerified] = useState();
   const handleCAPTCHASuccess = () => {
-    console.log("Captcha matched!");
     setCaptchaVerified(true);
     setLoginError("CAPTCHA test is now correct!");
     setShowLoginError(true);
   };
   const handleCAPTCHAFailure = () => {
-    console.log("Captcha does not match");
     setLoginError("CAPTCHA test is not correct yet.");
     setShowLoginError(true);
     setCaptchaVerified(false);
@@ -127,15 +125,16 @@ const Register = (props) => {
     setLoginError(false);
     // storage("add", res.data);
 
-    setUserCookie(res.data).then((res) => {
-      console.log(
-        "%c --> %cline:55%cres",
-        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-        "color:#fff;background:rgb(89, 61, 67);padding:3px;border-radius:2px",
-        res
-      );
-    });
+    // For Dev use
+    // setUserCookie(res.data).then((res) => {
+    //   console.log(
+    //     "%c --> %cline:55%cres",
+    //     "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+    //     "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+    //     "color:#fff;background:rgb(89, 61, 67);padding:3px;border-radius:2px",
+    //     res
+    //   );
+    // });
 
     dispatch(authActions.logIn(res.data));
     GatherToolData(res.data).then((data) => {
@@ -153,25 +152,12 @@ const Register = (props) => {
     e.preventDefault();
 
     const { userName, email, password } = user;
-    console.log(
-      "%c --> %cline:47%cuser",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
-      user
-    );
+
     if (captchaVerified) {
       const inputsValidCheck = inputsValidate({ userName, email, password });
       if (inputsValidCheck.valid) {
         // axios("http://localhost:8000/api/users/auth/register", user)
         registerAUser(user).then((res) => {
-          console.log(
-            "%c --> %cline:198%cres",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(3, 22, 52);padding:3px;border-radius:2px",
-            res
-          );
           if (res && res.status >= 400) {
             alert(
               `There was an error trying to complete the registration process. ${res.message}`
@@ -180,13 +166,6 @@ const Register = (props) => {
 
           sign_inAUser(user)
             .then((res) => {
-              console.log(
-                "%c --> %cline:60%cres",
-                "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                "color:#fff;background:rgb(118, 77, 57);padding:3px;border-radius:2px",
-                res
-              );
               if (res && res.hasOwnProperty("status")) {
                 if (res.status >= 200 && res.status < 400) {
                   completeSignInProcedures(res);
@@ -199,26 +178,12 @@ const Register = (props) => {
                   );
                   setShowLoginError(true);
                 } else if (res.status >= 400) {
-                  console.log(
-                    "%c --> %cline:70%cres",
-                    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                    "color:#fff;background:rgb(38, 157, 128);padding:3px;border-radius:2px",
-                    res
-                  );
                   setLoginError(
                     res.data.message ? res.data.message : res.statusText
                   );
                   setShowLoginError(true);
                 }
               } else if (res && res.hasOwnProperty("data")) {
-                console.log(
-                  "%c --> %cline:76%cres",
-                  "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                  "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                  "color:#fff;background:rgb(227, 160, 93);padding:3px;border-radius:2px",
-                  res
-                );
                 setLoginError(false);
                 dispatch(authActions.logIn(res.data));
                 GatherToolData(res.data).then((data) => {
@@ -231,12 +196,6 @@ const Register = (props) => {
                   dispatch(audioToolDataActions.initState(data));
                 });
               } else {
-                console.log(
-                  "%c --> %cline:89%celse",
-                  "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                  "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                  "color:#fff;background:rgb(161, 23, 21);padding:3px;border-radius:2px"
-                );
                 setLoginError(
                   "Unfortunately, something went wrong and we can not figure out what happened.  Please refresh and try again."
                 );
@@ -246,23 +205,9 @@ const Register = (props) => {
             .catch((err) => {
               setLoginError(err);
               setShowLoginError(true);
-              console.log(
-                "%c --> %cline:46%cerr",
-                "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
-                err
-              );
             });
         });
       } else {
-        console.log(
-          "%c --> %cline:210%cinputsValidCheck",
-          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-          "color:#fff;background:rgb(227, 160, 93);padding:3px;border-radius:2px",
-          inputsValidCheck
-        );
         setLoginError(inputsValidCheck.message);
         setShowLoginError(true);
         alert("Invalid Input Error: " + inputsValidCheck.message);
@@ -301,6 +246,7 @@ const Register = (props) => {
           data=""
           size="small"
           onClick={props.toggleSignupLoginButtonHandler}
+          styles={{ borderRadius: "50px", height: "2em", padding: "0 2em" }}
         >
           &#x21e6;Login
         </PushButton>
@@ -361,7 +307,7 @@ const Register = (props) => {
             <div
               className={`${styles["inner-form-input-container"]} ${styles["captcha-wrap"]}`}
             >
-              <label>Test for Human</label>
+              <label>Separate Bots from Humans</label>
               <ReactCaptcha
                 key={"captcha" + horizontalDisplay}
                 charset="un"

@@ -64,13 +64,6 @@ function AddAToolForm(props) {
   /// EFFECTS
   ////////////////////////////////////////
   useEffect(() => {
-    console.log(
-      "%c --> %cline:76%cformOpen",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(248, 214, 110);padding:3px;border-radius:2px",
-      formOpen
-    );
     setFormJSX([
       <AddAToolFormElms
         key={"addatoolformcomponent-2"}

@@ -6,6 +6,7 @@ import LoginStatus from "../User/LoginStatus/LoginStatus";
 import { audioToolDataActions } from "../../store/audioToolDataSlice";
 import { headerDimensionsActions } from "../../store/elementDimensionsSlice";
 import Measure from "react-measure";
+import { ReactComponent as Logo } from "../../assets/logos/PTO_Logo-192x192.svg";
 
 const Header = () => {
   const [scrolledUp, setScrolledUp] = useState(false);
@@ -15,6 +16,7 @@ const Header = () => {
   const user = useSelector((state) => state.auth.user);
   const showNavbarClass = scrolledUp ? "show-navbar" : "hide-navbar";
   const dispatch = useDispatch();
+  const scrollPositionToAtivateNavbar = 95;
 
   ////////////////////////////////////////
   /// HANDLERS
@@ -34,8 +36,7 @@ const Header = () => {
   useEffect(() => {
     function onScroll() {
       let currentPosition = window.pageYOffset; // or use document.documentElement.scrollTop;
-
-      if (currentPosition < 470) {
+      if (currentPosition < scrollPositionToAtivateNavbar) {
         // downscroll code
         setScrolledUp(false);
       } else {
@@ -50,13 +51,6 @@ const Header = () => {
 
   useEffect(() => {
     dispatch(headerDimensionsActions.updateHeaderDimensions(navbarHeight));
-    console.log(
-      "%c --> %cline:59%cnavbarHeight",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(229, 187, 129);padding:3px;border-radius:2px",
-      navbarHeight
-    );
   }, [navbarHeight]);
 
   ////////////////////////////////////////
@@ -67,13 +61,6 @@ const Header = () => {
       <Measure
         bounds
         onResize={(contentRect) => {
-          console.log(
-            "%c --> %cline:57%ccontentRect",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(17, 63, 61);padding:3px;border-radius:2px",
-            contentRect
-          );
           setNavbarHeight(contentRect.bounds);
         }}
       >
@@ -84,10 +71,15 @@ const Header = () => {
               styles["navbar-container"] + " " + styles[showNavbarClass]
             }
           >
-            <h1 key="home" className="section-title">
-              Production Tool Organizer
-            </h1>
-
+            <a href="#">
+              <h1 key="home" className="section-title">
+                {" "}
+                <span className={styles["logo-wrap"]}>
+                  <Logo />
+                </span>
+                Production Tool Organizer
+              </h1>
+            </a>
             <div
               className={`${styles["login-button-wrap"]} ${styles["show-on-small-screens"]}`}
             >
@@ -127,7 +119,9 @@ const Header = () => {
                 </div>
               )}
             </div>
-            <div className={styles["hide-on-small-screens"]}>
+            <div
+              className={`${styles["navbar-login-wrap"]} ${styles["hide-on-small-screens"]}`}
+            >
               {" "}
               <LoginStatus horizontalDisplay={true} />
             </div>
@@ -137,6 +131,10 @@ const Header = () => {
       <div className={styles["header-container"]}>
         <div className={styles["fixed-header-container"]}>
           <h1 key="home" className="section-title">
+            {" "}
+            <span className={styles["logo-wrap"]}>
+              <Logo />
+            </span>
             Production Tool Organizer
           </h1>
         </div>

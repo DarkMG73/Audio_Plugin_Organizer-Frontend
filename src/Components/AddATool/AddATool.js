@@ -18,16 +18,14 @@ function AddATool(props) {
   const doNotShowWelcomeMessage = props.doNotShowWelcomeMessage;
   const doNotShowAddButtons = props.doNotShowAddButtons;
   const doNotShowLogin = props.doNotShowLogin;
-  const [renderCount, setRenderCount] = useState(0);
   const addAToolRef = useRef();
 
   ////////////////////////////////////////
   /// EFFECTS
   ////////////////////////////////////////
   useEffect(() => {
-    if (renderCount > 0)
+    if (goToAddATool && goToAddATool > 0)
       addAToolRef.current?.scrollIntoView({ behavior: "smooth" });
-    setRenderCount(renderCount + 1);
   }, [goToAddATool]);
 
   ////////////////////////////////////////
@@ -80,13 +78,18 @@ function AddATool(props) {
   ////////////////////////////////////////
   return (
     <div
+      key="add-a-tool"
       id="add-a-tool-outer-wrap"
       className={styles["add-a-tool-outer-wrap"]}
       ref={addAToolRef}
     >
-      <div id="add-a-tool-container" className={styles["add-a-tool-container"]}>
+      <div
+        key="add-a-tool-container"
+        id="add-a-tool-container"
+        className={styles["add-a-tool-container"]}
+      >
         {!doNotShowTitle && <h2 className="section-title">Add A Tool Here</h2>}
-        {!allTools && <BarLoader />}
+        {!allTools && <BarLoader key="bar-loader" />}
         {allTools && !doNotShowWelcomeMessage && (
           <p className={styles["add-a-tool-intro"]}>
             To add an item, simply click the <i>Show the Entry Form</i> button
@@ -99,12 +102,14 @@ function AddATool(props) {
 
         {allTools && !doNotShowLogin && (
           <div
+            key="add-a-tool-db-login-container"
             id="db-login-container"
             className={`${styles["inner-wrap "]}  ${styles["db-login-status-container"]}`}
           >
-            <LoginStatus />
+            <LoginStatus key="login-status" />
             {!user && (
               <div
+                key="add-a-tool-form-container"
                 className={`${styles["not-logged-in-error"]} ${styles["form-container"]}`}
               >
                 <p>
@@ -118,9 +123,16 @@ function AddATool(props) {
           </div>
         )}
         {allTools && !doNotShowAddButtons && (
-          <div className={styles["button-section-container"]}>
-            <div className={styles["button-container"]}>
+          <div
+            key="add-a-tool-section-container"
+            className={styles["button-section-container"]}
+          >
+            <div
+              key="add-a-tool-button-container 1"
+              className={styles["button-container"]}
+            >
               <PushButton
+                key="add-a-tool-form-library-button"
                 inputOrButton="button"
                 id="create-entry-btn"
                 colorType="secondary"
@@ -141,7 +153,10 @@ function AddATool(props) {
                 )}
               </PushButton>
             </div>
-            <div className={styles["button-container"]}>
+            <div
+              key="add-a-tool-button-container 2"
+              className={styles["button-container"]}
+            >
               <PushButton
                 inputOrButton="button"
                 id="create-entry-btn"
@@ -159,33 +174,50 @@ function AddATool(props) {
                 {!showAddQuestionForm && <span>Manual Entry Form</span>}
               </PushButton>
             </div>{" "}
-            <div className={styles["button-container"]}>
+            <div
+              key="add-a-tool-button-container 3"
+              className={styles["button-container"]}
+            >
               <div className={styles["cvs-buttons-container"]}>
                 <CSVReader setFileUploadArray={setFileUploadArray} />
               </div>
             </div>
           </div>
         )}
-        <div className={styles["inputs-container"]}>
-          {showAddFromLibrary && (
+
+        {showAddFromLibrary && (
+          <div
+            key="add-a-tool-inputs-container 1"
+            className={styles["inputs-container"]}
+          >
             <AudioPluginSelector showAddFromLibrary={showAddFromLibrary} />
-          )}
-          {showAddQuestionForm && (
+          </div>
+        )}
+        {showAddQuestionForm && (
+          <div
+            key="add-a-tool-inputs-container 2"
+            className={styles["inputs-container"]}
+          >
             <AddAToolForm
               saveOrUpdateData="save"
               buttonStyles={buttonStyles}
               submitButtonStyles={submitButtonStyles}
             />
-          )}
-          {fileUploadArray && (
+          </div>
+        )}
+        {fileUploadArray && (
+          <div
+            key="add-a-tool-inputs-container 3"
+            className={styles["inputs-container"]}
+          >
             <AddAToolForm
               saveOrUpdateData="save"
               formData={fileUploadArray}
               buttonStyles={buttonStyles}
               submitButtonStyles={submitButtonStyles}
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -60,10 +60,9 @@
   font: var(--iq-font-subheading);
   letter-spacing: var(--iq-spacing-heading);
   text-align: center;
-  margin: 0 auto 3em;
+  margin: 1.5em auto;
   flex-grow: 1;
-  min-width: fit-content;
-  margin-top: 79px;
+  min-width: min-content;
   min-width: 100%;
 }
 

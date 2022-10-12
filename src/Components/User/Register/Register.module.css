@@ -120,6 +120,7 @@
 
 .captcha-wrap {
   min-width: 100%;
+  margin: 0 auto;
 }
 
 .horizontal-display .captcha-wrap {

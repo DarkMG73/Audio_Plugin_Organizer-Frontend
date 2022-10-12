@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, Fragment, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./AudioPluginSelector.module.css";
 import GatherToolData from "../../Hooks/GatherToolData";
@@ -19,6 +19,9 @@ const AudioPluginSelector = () => {
   const [selectedTools, setSelectedTools] = useState([]);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const user = useSelector((state) => state.auth.user);
+  const [listOpen, setListOpen] = useState([]);
+  const listHeightRef = useRef();
+  const headerPosition = useSelector((state) => state.elementDimensions.header);
   const [localError, setLocalError] = useState({
     active: false,
     message: null,
@@ -49,7 +52,7 @@ const AudioPluginSelector = () => {
             message:
               " *** " +
               err.statusText +
-              " *** It looks like we can not make a connection. Here is the error we received: Please make sure there is an internet connection and refresh the browser. if the problem continues, please send a quick email so this can be looked into. Email Address: general@glassinteractive.com.com",
+              " *** It looks like we can not make a connection. Please refresh the browser plus make sure there is an internet connection and  nothing like a firewall of some sort blocking this request. Please contact us if you find you are online and yet still receiving this error.",
           });
         } else if (err.hasOwnProperty("status")) {
           setLocalError({
@@ -74,7 +77,7 @@ const AudioPluginSelector = () => {
   };
 
   // Product Photo Logic
-  const createPhtoURLImage = (tool) => {
+  const createPhotoURLImage = (tool) => {
     let output = "";
     const title = tool.title;
     const value = tool.photoURL;
@@ -99,9 +102,40 @@ const AudioPluginSelector = () => {
     return output;
   };
 
+  const getCompanyNamesArray = (toolsListArray) => {
+    const output = new Set();
+    toolsListArray.forEach((tool) => {
+      output.add(tool.company);
+    });
+
+    return Array.from(output);
+  };
+
+  const sortToolsList = (toolsListArray, sortArray) => {
+    const output = [];
+    sortArray.forEach((topic) => {
+      output.push({
+        [topic]: toolsListArray.filter((item) => item.company === topic),
+      });
+    });
+    return output;
+  };
+
   ////////////////////////////////////////
   /// HANDLERS
   ////////////////////////////////////////
+  const sectionToggleButtonHandler = (e) => {
+    const listID = e.target.getAttribute("data-ID");
+
+    if (listOpen.includes(listID)) {
+      const newArray = listOpen.slice();
+      newArray.splice(newArray.indexOf(listID), 1);
+      setListOpen(newArray);
+      return;
+    }
+    setListOpen([listID, ...listOpen]);
+  };
+
   const buttonChangeHandler = (e) => {
     const newSelectedToolsArray = [...selectedTools];
     const value = e.target.closest("button").value;
@@ -116,26 +150,32 @@ const AudioPluginSelector = () => {
   };
 
   const submitButtonHandler = () => {
-    toolsFromLibrary.forEach((tool) => {
-      if (selectedTools.includes(tool._id)) {
-        const theData = tool;
-        savePlugin({ user, theData }, true).then((res) => {
-          if (res.status && res.status < 299) {
-            runGatherToolData(user);
-            setSelectedTools([]);
-            setRefreshList(!refreshList);
-          } else if (res.response.status === 404) {
-            setSelectedTools([]);
-          } else if (res.response.status === 401) {
-            setShowLoginModal(true);
-          } else {
-            alert(
-              "There was an error when trying to save the new entry. Here is the message from the server: " +
-                res.message
-            );
+    toolsFromLibrary.forEach((toolGroupObj) => {
+      Object.keys(toolGroupObj).forEach((key) => {
+        const toolgroup = toolGroupObj[key];
+
+        toolgroup.forEach((tool) => {
+          if (selectedTools.includes(tool._id)) {
+            const theData = tool;
+            savePlugin({ user, theData }, true).then((res) => {
+              if (res.status && res.status < 299) {
+                runGatherToolData(user);
+                setSelectedTools([]);
+                setRefreshList(!refreshList);
+              } else if (res.response.status === 404) {
+                setSelectedTools([]);
+              } else if (res.response.status === 401) {
+                setShowLoginModal(true);
+              } else {
+                alert(
+                  "There was an error when trying to save the new entry. Here is the message from the server: " +
+                    res.message
+                );
+              }
+            });
           }
         });
-      }
+      });
     });
   };
 
@@ -144,7 +184,6 @@ const AudioPluginSelector = () => {
   };
 
   const loginModalCloseButtonHandler = () => {
-    console.log("Click");
     setShowLoginModal(false);
   };
 
@@ -182,7 +221,24 @@ const AudioPluginSelector = () => {
             output.push(data.allTools[key]);
           }
         }
-        setToolsFromLibrary(output);
+        const sortedToolsList = sortToolsList(
+          output,
+          getCompanyNamesArray(output)
+        ).sort((a, b) => {
+          if (
+            Object.keys(a)[0].toLowerCase() < Object.keys(b)[0].toLowerCase()
+          ) {
+            return -1;
+          }
+          if (
+            Object.keys(a)[0].toLowerCase() > Object.keys(b)[0].toLowerCase()
+          ) {
+            return 1;
+          }
+          return 0;
+        });
+
+        setToolsFromLibrary(sortedToolsList);
         // dispatch(audioToolDataActions.initState(data));
       });
     });
@@ -192,7 +248,10 @@ const AudioPluginSelector = () => {
   /// OUTPUT
   ////////////////////////////////////////
   return (
-    <CardPrimaryLarge key="outer-container" styles={{ maxWidth: "100%" }}>
+    <CardPrimaryLarge
+      key="outer-container"
+      styles={{ width: "100%", maxWidth: "100%" }}
+    >
       {" "}
       {showLoginModal && (
         <div className={styles["login-modal-container"]}>
@@ -268,111 +327,170 @@ const AudioPluginSelector = () => {
         </p>
         <br />
         {toolsFromLibrary && (
-          <PushButton
-            key={"addatoolform-9"}
-            inputOrButton="input"
-            type="submit"
-            id="quest-submit-btn"
-            colorType="primary"
-            value="Submit"
-            data=""
-            size="large"
-            onClick={submitButtonHandler}
-            styles={{
-              background: "var(--iq-color-accent-gradient)",
+          <div
+            style={{
               position: "sticky",
-              top: "50px",
-              maxWidth: "80%",
-              margin: "0 auto",
-              width: "100%",
+              top: headerPosition.bottom - 3 + "px",
             }}
           >
-            Submit
-          </PushButton>
+            <PushButton
+              key={"addatoolform-9"}
+              inputOrButton="input"
+              type="submit"
+              id="quest-submit-btn"
+              colorType="primary"
+              value="Submit"
+              data=""
+              size="large"
+              onClick={submitButtonHandler}
+              styles={{
+                background: "var(--iq-color-accent-gradient)",
+                maxWidth: "80%",
+                margin: "0 auto",
+                width: "100%",
+              }}
+            >
+              Submit
+            </PushButton>
+          </div>
         )}
-        <ul key="library-list" className={styles["library-list"]}>
+        <ul key="library-list" className={styles["library-list-container"]}>
           {toolsFromLibrary &&
-            toolsFromLibrary.map((tool) => {
+            toolsFromLibrary.map((companyListObject) => {
+              const companyName = Object.keys(companyListObject)[0];
+              const sectionTitle =
+                companyName !== "" ? companyName : "* Company Unknown *";
               return (
-                <li key={"item-li-" + tool._id}>
-                  <li key={"item-li-inner-" + tool._id}>
+                <Fragment>
+                  {" "}
+                  <div
+                    style={{
+                      position: "sticky",
+                      top: headerPosition.bottom + 38 + "px",
+                    }}
+                  >
                     <button
-                      key={"item-button-" + tool._id}
-                      id="line-inner-wrap"
-                      className={
-                        styles["line-inner-wrap"] +
-                        " " +
-                        (selectedTools.includes(tool._id) &&
-                          styles["selected-tool"])
-                      }
-                      onClick={buttonChangeHandler}
-                      value={tool._id}
+                      className={styles["section-toggle-button"]}
+                      onClick={sectionToggleButtonHandler}
+                      data-ID={companyName}
                     >
-                      <span
-                        id="line-text-inner-wrap"
-                        className={styles["line-text-inner-wrap"]}
-                      >
-                        <span
-                          className={
-                            styles[tool.name + " name"] +
-                            " " +
-                            styles["item-title"]
-                          }
-                        >
-                          {tool.name}
-                        </span>
-                        {tool.company && (
-                          <span className={styles[tool.name + " company"]}>
-                            <Fragment>
-                              <span>By </span> {tool.company}
-                            </Fragment>
-                          </span>
-                        )}
-                        {(tool.functions && tool.functions.length) > 0 && (
-                          <span className={styles[tool.name + " functions"]}>
-                            <Fragment>
-                              <span>Functions: </span>{" "}
-                              {tool.functions.toString()}
-                            </Fragment>
-                          </span>
-                        )}
-                        {tool.productURL && (
-                          <span className={styles[tool.name + " productURL"]}>
-                            <Fragment>
-                              <a
-                                href={tool.productURL}
-                                alt={tool.name + " by " + tool.company}
-                                target="_blank"
-                                rel="noreferrer"
-                              >
-                                More detail
-                              </a>
-                            </Fragment>
-                          </span>
-                        )}
-                      </span>
-                      {tool.photoURL && (
-                        <span
-                          className={
-                            styles[tool.name + " photoURL"] +
-                            " " +
-                            styles["image-wrap"]
-                          }
-                        >
-                          <span
-                            className={
-                              styles[tool.name + " photoURL"] +
-                              " " +
-                              styles["image-inner-wrap"]
-                            }
-                          >
-                            <Fragment>{createPhtoURLImage(tool)}</Fragment>
-                          </span>
-                        </span>
-                      )}
+                      <h3>{sectionTitle}</h3>
                     </button>
-                  </li>
-                </li>
+                  </div>
+                  <div
+                    className={`${styles["library-list-outer-wrap"]}`}
+                    style={{
+                      height: listHeightRef.current
+                        ? listHeightRef.current.height
+                        : "TEST",
+                    }}
+                    ref={listHeightRef}
+                  >
+                    {listOpen.includes(companyName) && (
+                      <div className={`${styles["library-list"]}`}>
+                        {companyListObject[companyName].map((tool) => {
+                          return (
+                            <li key={"item-li-" + tool._id}>
+                              <li key={"item-li-inner-" + tool._id}>
+                                <button
+                                  key={"item-button-" + tool._id}
+                                  id="line-inner-wrap"
+                                  className={
+                                    styles["line-inner-wrap"] +
+                                    " " +
+                                    (selectedTools.includes(tool._id) &&
+                                      styles["selected-tool"])
+                                  }
+                                  onClick={buttonChangeHandler}
+                                  value={tool._id}
+                                >
+                                  <span
+                                    id="line-text-inner-wrap"
+                                    className={styles["line-text-inner-wrap"]}
+                                  >
+                                    <span
+                                      className={` ${
+                                        styles[tool.name + " name"]
+                                      } ${styles["item-title"]}`}
+                                    >
+                                      {tool.name}
+                                    </span>
+                                    {tool.photoURL && (
+                                      <span
+                                        className={
+                                          styles[tool.name + " photoURL"] +
+                                          " " +
+                                          styles["image-wrap"]
+                                        }
+                                      >
+                                        <span
+                                          className={
+                                            styles[tool.name + " photoURL"] +
+                                            " " +
+                                            styles["image-inner-wrap"]
+                                          }
+                                        >
+                                          <Fragment>
+                                            {createPhotoURLImage(tool)}
+                                          </Fragment>
+                                        </span>
+                                      </span>
+                                    )}
+
+                                    {tool.company && (
+                                      <span
+                                        className={`${
+                                          styles[tool.name + "-company"]
+                                        } ${styles["item-company"]}`}
+                                      >
+                                        <Fragment>
+                                          <span>By </span> {tool.company}
+                                        </Fragment>
+                                      </span>
+                                    )}
+                                    {(tool.functions && tool.functions.length) >
+                                      0 && (
+                                      <span
+                                        className={`${
+                                          styles[tool.name + "-functions"]
+                                        } ${styles["item-functions"]}}`}
+                                      >
+                                        <Fragment>
+                                          <span>Functions: </span>{" "}
+                                          {tool.functions.toString()}
+                                        </Fragment>
+                                      </span>
+                                    )}
+                                    {tool.productURL && (
+                                      <span
+                                        className={`${
+                                          styles[tool.name + "-productURL"]
+                                        } ${styles["item-productURL"]}`}
+                                      >
+                                        <Fragment>
+                                          <a
+                                            href={tool.productURL}
+                                            alt={
+                                              tool.name + " by " + tool.company
+                                            }
+                                            target="_blank"
+                                            rel="noreferrer"
+                                          >
+                                            More detail
+                                          </a>
+                                        </Fragment>
+                                      </span>
+                                    )}
+                                  </span>
+                                </button>
+                              </li>
+                            </li>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                </Fragment>
               );
             })}
         </ul>

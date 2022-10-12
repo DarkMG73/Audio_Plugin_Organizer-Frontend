@@ -16,23 +16,11 @@ function ToolsRows(props) {
   const filteredToolsIds = props.filteredToolsIds;
   const headerPosition = useSelector((state) => state.elementDimensions.header);
 
-  useEffect(() => {
-    console.log(
-      "%c --> %cline:19%cheaderPosition",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(130, 57, 53);padding:3px;border-radius:2px",
-      headerPosition
-    );
-    console.log(
-      "%c --> %cline:59%cheaderPosition.bottom",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(89, 61, 67);padding:3px;border-radius:2px",
-      headerPosition.bottom
-    );
-  }, [headerPosition]);
+  if (!headerPosition.hasOwnProperty("bottom")) headerPosition.bottom = 0;
 
+  ////////////////////////////////////////
+  /// FUNCTIONALITY
+  ////////////////////////////////////////
   for (const k in toolsToDisplay) {
     if (k !== "stats") {
       toolsToDisplayCategories.push(k);
@@ -54,10 +42,16 @@ function ToolsRows(props) {
     return a[1].toLowerCase().localeCompare(b[1].toLowerCase());
   });
 
+  ////////////////////////////////////////
+  /// HANDLERS
+  ////////////////////////////////////////
   const openAllButtonHandler = (e) => {
     setOpenAll(!openAll);
   };
 
+  ////////////////////////////////////////
+  /// OUTPUT
+  ////////////////////////////////////////
   return (
     <>
       <div
@@ -73,12 +67,13 @@ function ToolsRows(props) {
             styles={{
               width: "75%",
               letterSpacing: "var(--iq-spacing-subheading)",
-              fontVariant: "small-caps",
+              fontSize: "calc(0.8rem + 0.2vw)",
+              fontVariant: "all-small-caps",
               textAlign: "center",
               display: "flex",
               justifyContent: "center",
               margin: "auto",
-              padding: "0.75em 1.5em",
+              padding: "calc(0.25em + 0.4vh)  1.5em",
               transform: "none",
               borderRadius: "50px",
             }}

@@ -69,7 +69,7 @@ body {
   --iq--font-heading-2: small-caps normal 700 18px "Kodchasan", sans-serif;
   --iq-spacing-heading: 0.25em;
   --iq-spacing-subheading: 0.375em;
-  --iq-font-subheading: small-caps normal 700 16px "Kodchasan", sans-serif;
+  --iq-font-subheading: small-caps normal 700 14px "Kodchasan", sans-serif;
   --iq-font-body-text: normal 500 12px "Kodchasan", sans-serif;
 }
 
@@ -99,11 +99,11 @@ body {
   --iq-color-background-warm: #c3c3c3;
   --iq-color-background-cool: #c7cfd1;
   --iq-color-background-contrast: #003647;
-  --iq--font-heading: small-caps normal 700 32px "Kodchasan", sans-serif;
-  --iq--font-heading-2: small-caps normal 700 24px "Kodchasan", sans-serif;
+  --iq--font-heading: small-caps normal 700 24px "Kodchasan", sans-serif;
+  --iq--font-heading-2: small-caps normal 700 18px "Kodchasan", sans-serif;
   --iq-spacing-heading: 0.25em;
   --iq-spacing-subheading: 0.375em;
-  --iq-font-subheading: small-caps normal 700 16px "Kodchasan", sans-serif;
+  --iq-font-subheading: small-caps normal 700 12px "Kodchasan", sans-serif;
   --iq-font-body-text: normal 500 12px "Kodchasan", sans-serif;
 }
 

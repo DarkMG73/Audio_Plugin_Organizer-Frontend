@@ -98,6 +98,7 @@
 }
 
 .inputs-container {
+  width: 100%;
   max-width: 100%;
   padding: 1em;
   box-shadow: 7px 7px 10px -7px black inset, -7px -7px 10px -7px #b8b8b8 inset;

@@ -16,9 +16,15 @@ const Home = () => {
   const [toolListTopRef, setToolListTopRef] = useState();
 
   return (
-    <div className={styles["home-page"]}>
-      <div className={`${styles["column"]} ${styles["column-one"]} `}>
-        <div className={styles["show-on-small-screens"]}>
+    <div key="home-page" className={styles["home-page"]}>
+      <div
+        key="column-one"
+        className={`${styles["column"]} ${styles["column-one"]} `}
+      >
+        <div
+          key="show-on-small-screens-1"
+          className={styles["show-on-small-screens"]}
+        >
           <MobileSlideContainer name="Filters">
             <CardSecondary
               key={"FilterTools"}
@@ -40,7 +46,10 @@ const Home = () => {
             </CardSecondary>
           </MobileSlideContainer>
         </div>
-        <div className={styles["hide-on-small-screens"]}>
+        <div
+          key="hide-on-small-screens-1"
+          className={styles["hide-on-small-screens"]}
+        >
           <CardSecondary
             key={"FilterTools"}
             styles={{
@@ -52,7 +61,7 @@ const Home = () => {
               position: "sticky",
               height: "100vh",
               overflowY: "auto",
-              top: "0",
+              top: "30px",
             }}
           >
             <ErrorBoundary>
@@ -61,13 +70,16 @@ const Home = () => {
           </CardSecondary>
         </div>
       </div>
-      <div className={`${styles["column"]} ${styles["column-two"]} `}>
+      <div
+        key="column-two"
+        className={`${styles["column"]} ${styles["column-two"]} `}
+      >
         <CardPrimaryLarge key={"ToolsRowsList"}>
           <ErrorBoundary>
             <ToolsRowsList setToolListTopRef={setToolListTopRef} />
           </ErrorBoundary>
         </CardPrimaryLarge>
-        <CardSecondary key={"AddATool"} styles={{}}>
+        <CardSecondary key={"AddATool-1"} styles={{}}>
           <ErrorBoundary>
             <AddATool />
           </ErrorBoundary>
@@ -77,7 +89,7 @@ const Home = () => {
             <OutputControls />
           </ErrorBoundary>
         </CardPrimary>
-        <CardSecondary key={"AddATool"} styles={{}}>
+        <CardSecondary key={"AddATool-2"} styles={{}}>
           <ErrorBoundary>
             <Footer />
           </ErrorBoundary>

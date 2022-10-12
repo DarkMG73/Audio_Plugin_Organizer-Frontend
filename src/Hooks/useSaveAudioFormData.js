@@ -55,7 +55,7 @@ const useSaveAudioFormData = () => {
             });
       } else {
         const emailTheEntry = window.confirm(
-          'Hello! If you wish to add this to the general plugin library, thank you! Just click the "OK" button below and a pre-filled email will open up in your email client. If, instead, you actually wanted to add this to your personal library in your account, click "Cancel" and return to the page, scroll up a bit and use the login form. If you do not have a personal account, sign up there for free!'
+          'Hello! If you wish to add this to the general plugin library, thank you! Just click the "OK" button below and a pre-filled email will open up in your email client.\n\nIf, instead, you actually wanted to add this to your personal library in your account, click "CANCEL" and return to the page, scroll up a bit and use the login form. If you do not have a personal account, sign up there for free!'
         );
         if (emailTheEntry) {
           const questionAdminEmail = "general@glassinteractive.com";

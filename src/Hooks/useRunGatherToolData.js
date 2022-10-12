@@ -26,7 +26,7 @@ const useSaveAudioFormData = () => {
             message:
               " *** " +
               err.statusText +
-              " *** It looks like we can not make a connection. Here is the error we received: Please make sure there is an internet connection and refresh the browser. if the problem continues, please send a quick email so this can be looked into. Email Address: general@glassinteractive.com.com",
+              " *** It looks like we can not make a connection. Please refresh the browser plus make sure there is an internet connection and  nothing like a firewall of some sort blocking this request. Please contact us if you find you are online and yet still receiving this error.",
           });
         } else if (err.hasOwnProperty("status")) {
           setLocalError({

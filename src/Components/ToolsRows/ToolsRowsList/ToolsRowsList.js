@@ -2,8 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./ToolsRowsList.module.css";
 import ToolsRows from "../ToolsRows/ToolsRows";
-import CollapsibleElm from "../../../UI/CollapsibleElm/CollapsibleElm";
-import PushButton from "../../../UI//Buttons/PushButton/PushButton";
 import { audioToolDataActions } from "../../../store/audioToolDataSlice";
 import LoginStatus from "../../User/LoginStatus/LoginStatus";
 import BarLoader from "../../../UI/Loaders/BarLoader/BarLoader";
@@ -21,6 +19,9 @@ function ToolsRowsList(props) {
   const toolListRef = useRef();
   const dispatch = useDispatch;
 
+  ////////////////////////////////////////
+  /// EFFECTS
+  ////////////////////////////////////////
   useEffect(() => {
     if (allTools) {
       setToolsAreReady(true);
@@ -37,6 +38,9 @@ function ToolsRowsList(props) {
   //   props.setScrollToToolsRowsList(sessionResultsBox);
   // }, []);
 
+  ////////////////////////////////////////
+  /// FUNCTIONALITY
+  ////////////////////////////////////////
   let toolsToDisplay = {};
   if (toolsAreReady) toolsToDisplay = { ...allTools };
 
@@ -74,10 +78,16 @@ function ToolsRowsList(props) {
     }
   }
 
+  ////////////////////////////////////////
+  /// FUNCTIONALITY
+  ////////////////////////////////////////
   const addAToolButtonHandler = () => {
     dispatch(audioToolDataActions.goToAddATool());
   };
 
+  ////////////////////////////////////////
+  /// OUTPUT
+  ////////////////////////////////////////
   return (
     <div
       key="toolsrowsList-1"
@@ -94,13 +104,16 @@ function ToolsRowsList(props) {
         {toolsAreReady && (
           <LoginStatus
             horizontalDisplay={false}
-            showAddAToolButton={true}
+            showAddAToolButton={false}
             signUpButtonStyles={{
               background:
                 "linear-gradient(rgb(255 135 0) 37%, rgba(0, 0, 0, 1) 100%)",
               color: "var(--iq-color-foreground)",
               textShadow: "0 0 3px wheat",
               fontSize: "1em",
+              borderRadius: "50px",
+              height: "2em",
+              padding: "0 2em",
             }}
           />
         )}

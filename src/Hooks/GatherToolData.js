@@ -6,7 +6,7 @@ export default async function GatherToolData(user) {
   const dataFromStorage = storage("GET");
   let pluginSchema = await getSchemaForAudioPlugin();
 
-  if (pluginSchema.hasOwnProperty("status")) throw pluginSchema;
+  if (pluginSchema && pluginSchema.hasOwnProperty("status")) throw pluginSchema;
   let historyDataFromStorage = null;
   let currentFilters = null;
   if (dataFromStorage) {

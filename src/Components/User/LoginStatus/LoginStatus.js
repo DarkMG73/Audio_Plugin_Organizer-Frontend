@@ -31,13 +31,7 @@ function LoginStatus(props) {
 
   const logOutButtonHandler = async () => {
     const shouldDelete = window.confirm("Are you sure you want to do this?");
-    console.log(
-      "%c --> %cline:33%cshouldDelete",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
-      shouldDelete
-    );
+
     if (!shouldDelete) return;
     try {
       deleteUserCookie();
@@ -143,7 +137,7 @@ function LoginStatus(props) {
             textAlign: "center",
             display: "flex",
             justifyContent: "center",
-            margin: "auto",
+            margin: "1.5em auto",
             padding: "0.75em",
             transform: "none",
             borderRadius: "50px",
