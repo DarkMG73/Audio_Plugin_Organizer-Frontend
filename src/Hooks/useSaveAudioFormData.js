@@ -39,6 +39,7 @@ const useSaveAudioFormData = () => {
             );
           }
         });
+
       if (saveOrUpdateData === "update")
         updateAPlugin(theData[0].id, theData[0], user)
           .then((res) => {
