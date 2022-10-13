@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { audioToolDataActions } from "../store/audioToolDataSlice";
 
-const useSaveAudioFormData = () => {
+const useRunGatherToolData = () => {
   const dispatch = useDispatch();
 
   const outputFunction = (user, setLocalError, GatherToolData) => {
@@ -52,4 +52,4 @@ const useSaveAudioFormData = () => {
   return outputFunction;
 };
 
-export default useSaveAudioFormData;
+export default useRunGatherToolData;

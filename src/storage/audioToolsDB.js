@@ -18,8 +18,15 @@ export const getData = async (user) => {
   return res.data;
 };
 
-/// SAVE /////////////////////////////////////
+/// SAVE ONE /////////////////////////////////////
 export async function savePlugin(userAndDataObject) {
+  console.log(
+    "%c --> %cline:22%cuserAndDataObject",
+    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+    "color:#fff;background:rgb(96, 143, 159);padding:3px;border-radius:2px",
+    userAndDataObject
+  );
   const axiosConfig = {
     headers: {
       "Content-Type": "application/json",
@@ -29,6 +36,28 @@ export async function savePlugin(userAndDataObject) {
 
   const response = await axios
     .post(`/api/all-plugins/add`, userAndDataObject, axiosConfig)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      console.log("err", err);
+      // console.log("errors", err.response.data.err.message);
+      return err;
+    });
+  return response;
+}
+
+/// SAVE MANY /////////////////////////////////
+export async function saveManyPlugins(userAndDataObject) {
+  const axiosConfig = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "JWT " + userAndDataObject.user.token,
+    },
+  };
+
+  const response = await axios
+    .post(`/api/all-plugins/add-many`, userAndDataObject, axiosConfig)
     .then((res) => {
       return res;
     })
