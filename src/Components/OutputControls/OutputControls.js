@@ -1,3 +1,4 @@
+import {Fragment} from 'react';
 import { useSelector } from "react-redux";
 import styles from "./OutputControls.module.css";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
@@ -51,7 +52,24 @@ function OutputControls(props) {
           );
         });
   }
-
+ <Fragment>  <h2 className={styles["section-title"]}>Clear Database</h2>
+      <div
+        className={`${styles["inner-wrap"]} 
+      ${styles["button-wrap"]} `}
+      >
+        <PushButton
+          inputOrButton="button"
+          id="export-cvs-btn"
+          colorType="secondary"
+          value="session-record"
+          data-value="export-cvs"
+          size="medium"
+          onClick={resetDatabaseButtonHandler}
+        >
+          Clear the Database (Reset)
+        </PushButton>
+      </div>
+      </Fragment>
   return (
     <div id="output-controls" className={styles["output-controls"]}>
       <h2 className={styles["section-title"]}>Backup Controls</h2>
@@ -85,6 +103,7 @@ function OutputControls(props) {
         <br></br>
         <br></br>
       </div>
+       
       <h2 className={styles["section-title"]}>Clear Database</h2>
       <div
         className={`${styles["inner-wrap"]} 

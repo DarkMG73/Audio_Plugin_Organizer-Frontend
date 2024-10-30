@@ -19,7 +19,7 @@ function FilterTools(toolData) {
   // Set the filter ID Array
 
   for (const key in filteredTools) {
-    filteredToolsIds.push(filteredTools[key].id);
+    filteredToolsIds.push(filteredTools[key].identifier);
   }
 
   return filteredToolsIds;
