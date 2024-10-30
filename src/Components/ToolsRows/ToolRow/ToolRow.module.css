@@ -21,6 +21,7 @@
   font: var(--iq-font-subheading);
   font-size: 1rem;
   flex-grow: 1;
+  min-width: min-content;
 }
 
 .grid-item-title {
@@ -29,7 +30,7 @@
   font-size: 1rem;
 }
 .grid-item-child img {
-  height: 7em;
+  height: calc(7em + 3vw);
   justify-self: center;
 }
 
@@ -59,7 +60,9 @@
 }
 
 ._id,
-.title-title {
+.title-title,
+.identifier,
+.masterLibraryID {
   display: none;
 }
 
@@ -84,6 +87,20 @@
   transition: 0.3s all ease;
   transition-delay: 0.5s;
 }
+
+.name-wrap {
+  font: var(--iq--font-heading-2);
+  font-size: 1.5em;
+  letter-spacing: 0.2em;
+}
+
+.name-wrap div {
+  width: 100%;
+  justify-content: center;
+  /* font-weight: 700; */
+  font-variant: all-small-caps;
+}
+
 .notes-wrap:hover {
   transform: scale(1.1) translateX(0%);
   background: white;
@@ -91,7 +108,7 @@
   margin: 1em;
   width: 100%;
   padding-bottom: 2em;
-  transition-delay: 0s;
+  transition-delay: 0.75s;
 }
 .notes-wrap:hover * {
   font-family: Arial !important;

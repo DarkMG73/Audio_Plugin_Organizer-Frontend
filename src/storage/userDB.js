@@ -5,7 +5,7 @@ axios.defaults.withCredentials = true;
 
 export async function registerAUser(user) {
   const output = await axios
-    .post(`/api/users/auth/register`, user)
+    .post(`/api/users/auth/register/`, user)
     .then((res) => {
       return res;
     })
@@ -66,8 +66,10 @@ export async function registerAUser(user) {
           }
         }
       }
+
       console.log("error", error);
-      console.log("errors", error.data.message);
+      if (error.hasOwnProperty("data") && error.data.hasOwnProperty("message"))
+        console.log("errors", error.data.message);
     });
 
   return output;
@@ -164,14 +166,15 @@ export async function getUserCookie(user) {
 
 export async function sign_inAUser(token) {
   const output = await axios
-    .post(`/api/users/auth/sign_in`, token)
+    .post(`/api/users/auth/sign_in/`, token)
     .then((res) => {
       return res;
     })
-    .catch((err) => {
-      console.log("err", err);
-      console.log("errors", err.response.data.message);
-      return err.response;
+    .catch((error) => {
+      console.log("error", error);
+      if (error.hasOwnProperty("data") && error.data.hasOwnProperty("message"))
+        console.log("errors", error.response.data.message);
+      return error.response;
     });
 
   return output;
@@ -179,7 +182,7 @@ export async function sign_inAUser(token) {
 
 export async function getUserUserByToken(token) {
   const output = await axios
-    .get(`/api/users/auth/get_user_by_token`, {
+    .get(`/api/users/auth/get_user_by_token/`, {
       headers: {
         Authorization: "JWT " + token,
         "Content-Type": "application/x-www-form-urlencoded",
@@ -190,7 +193,15 @@ export async function getUserUserByToken(token) {
     })
     .catch((err) => {
       console.log("err", err);
+      console.log(
+        "%c --> %cline:196%cresponse",
+        "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+        "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+        "color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px",
+        err.response
+      );
       return err.response;
+
       // console.log("errors", err.response.data.err.message);
     });
 

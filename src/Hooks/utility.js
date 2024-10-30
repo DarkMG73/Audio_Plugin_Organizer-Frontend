@@ -121,6 +121,15 @@ export const groomFormOutput = (formOutputArray, passFormInputData) => {
   // The _id field must remain to allow the ID to be passed on DB item updates.
   const idData = {
     title: "Tool ID",
+    name: "id",
+    type: "textarea",
+    options: [],
+    required: "false",
+    preFilledData: "",
+  };
+
+  const dbIdData = {
+    title: "Database ID",
     name: "_id",
     type: "textarea",
     options: [],
@@ -128,7 +137,7 @@ export const groomFormOutput = (formOutputArray, passFormInputData) => {
     preFilledData: "",
   };
 
-  const formInputData = [...passFormInputData, idData];
+  const formInputData = [...passFormInputData, idData, dbIdData];
   const outputArray = [];
   pairedObjectsArray.forEach((row) => {
     const rowGroup = [];

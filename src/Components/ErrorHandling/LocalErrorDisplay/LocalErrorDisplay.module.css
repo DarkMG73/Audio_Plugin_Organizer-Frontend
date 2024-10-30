@@ -5,3 +5,7 @@
 .error-text-container {
   max-width: 800px;
 }
+
+.error-text-container p {
+  white-space: break-spaces;
+}

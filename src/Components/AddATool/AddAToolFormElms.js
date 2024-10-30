@@ -38,7 +38,7 @@ function AddAToolFormElms(props) {
 
   function cancelQuestionFormButtonHandler() {
     const close = window.confirm(
-      "Are you sure you want to cancel this specific question? Any data input for this question will be lost (other questions in this Question Entry Form will not be affected)? "
+      "Are you sure you want to cancel this specific item? Any data input for this item will be lost (other items in this Question Entry Form will not be affected)? "
     );
 
     if (close) {

@@ -1,5 +1,5 @@
 import { useState, useEffect, Fragment } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./AddAToolForm.module.css";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
 import AddAToolFormElms from "./AddAToolFormElms";
@@ -9,20 +9,35 @@ import useSaveAudioFormData from "../../Hooks/useSaveAudioFormData";
 import useRunGatherToolData from "../../Hooks/useRunGatherToolData";
 import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
 import LocalErrorDisplay from "../../Components/ErrorHandling/LocalErrorDisplay/LocalErrorDisplay";
+import { loadingRequestsActions } from "../../store/loadingRequestsSlice";
 
 function AddAToolForm(props) {
   const user = useSelector((state) => state.auth.user);
   const [requiredError, setRequiredError] = useState(false);
   const [formOpen, setFormOpen] = useState(null);
   const [formRefresh, setFormRefresh] = useState(Math.random(10000));
-  const runGatherToolData = useRunGatherToolData();
+  const [submitData, setSubmitData] = useState(null);
   const groomAudioFormData = useGroomAudioFormData();
   const saveAudioFormData = useSaveAudioFormData();
+  const getRunGatherToolData = useRunGatherToolData();
+  const runGatherToolData = function (user, setLocalError, GatherToolData) {
+    makeLoadingRequest();
+    getRunGatherToolData(user, setLocalError, GatherToolData);
+    removeLoadingRequest();
+  };
+  const dispatch = useDispatch();
+  const makeLoadingRequest = function () {
+    return dispatch(loadingRequestsActions.addToLoadRequest());
+  };
+  const removeLoadingRequest = function () {
+    dispatch(loadingRequestsActions.removeFromLoadRequest());
+  };
+
   const [localError, setLocalError] = useState({
     active: false,
     message: null,
   });
-  // JSX si stored in state as this can
+  // JSX is stored in state as this can
   // change based on input and use.
   const [formJSX, setFormJSX] = useState([
     <AddAToolFormElms
@@ -35,6 +50,19 @@ function AddAToolForm(props) {
       formRefresh={formRefresh}
     />,
   ]);
+  const successCallback = () => {
+    runGatherToolData(user, setLocalError, GatherToolData);
+    if (props.saveOrUpdateData === "update") {
+      alert(
+        "The item was successfully updated in your library!\n\nChanges will be reflected after you close this notice. If not, please refresh the browser."
+      );
+    } else {
+      alert(
+        "The items were successfully added to your library\n\nChanges will be reflected in your library area after you close this notice. If not, please refresh the browser."
+      );
+    }
+    setFormRefresh(Math.random(10000));
+  };
 
   ////////////////////////////////////////
   /// HANDLERS
@@ -43,21 +71,11 @@ function AddAToolForm(props) {
     e.preventDefault();
     const data = new FormData(e.target.closest("form#add-quest-form"));
     let dataEntries = [...data.entries()];
-    const groomedToolsData = groomAudioFormData(dataEntries);
-    const successCallback = () => {
-      runGatherToolData(user, setLocalError, GatherToolData);
-      alert(
-        "Save to your library was successful! Changes should already be reflected in your library. If not, please refresh the browser."
-      );
-      setFormRefresh(Math.random(10000));
-    };
-
-    saveAudioFormData(
-      groomedToolsData,
-      user,
-      props.saveOrUpdateData,
-      successCallback
+    const groomedToolsData = groomAudioFormData(
+      dataEntries,
+      props.saveOrUpdateData
     );
+    setSubmitData(groomedToolsData);
   }
 
   ////////////////////////////////////////
@@ -76,6 +94,18 @@ function AddAToolForm(props) {
       />,
     ]);
   }, [requiredError, formRefresh]);
+
+  useEffect(() => {
+    if (submitData) {
+      if (props.setFormParentOpen) props.setFormParentOpen(false);
+      saveAudioFormData(
+        submitData,
+        user,
+        props.saveOrUpdateData,
+        successCallback
+      );
+    }
+  }, [submitData]);
 
   function addAnotherQuestionFormButtonHandler(e) {
     e.preventDefault();

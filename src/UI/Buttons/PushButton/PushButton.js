@@ -19,7 +19,7 @@ function PushButton(props) {
             syles[props.selected]
           }
           style={props.styles}
-          id={props.id}
+          id={props.identifier}
           value={props.value}
           data-data={props.data}
           onClick={props.onClick}

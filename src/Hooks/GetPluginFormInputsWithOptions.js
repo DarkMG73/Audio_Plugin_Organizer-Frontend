@@ -43,9 +43,10 @@ function GetPluginFormInputsWithOptions(pluginSchema, toolsMetadata) {
       required: checkForInputData(formInputData, key, "required")
         ? checkForInputData(formInputData, key, "required")
         : false,
-      preFilledData: formInputData[key].preFilledData
-        ? formInputData[key].preFilledData
-        : "",
+      preFilledData:
+        formInputData[key] && formInputData[key].preFilledData
+          ? formInputData[key].preFilledData
+          : "",
       typeOfObject: pluginSchema[key].instance,
     });
   }

@@ -287,7 +287,10 @@ function ToolRow(props) {
   // Add the edit button
   const output = (
     <div key={key + "1"} id={key} className="tool-result-container">
-      <CardSecondary key={key + "1"} styles={{ position: "relative" }}>
+      <CardSecondary
+        key={key + "1"}
+        styles={{ position: "relative", minWidth: "214px" }}
+      >
         <CollapsibleElm
           key={key + "2"}
           id={key + "-collapsible-elm"}

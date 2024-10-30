@@ -22,7 +22,6 @@
   max-width: 100%;
   margin: 0 0 0 auto;
   flex-grow: 1;
-  z-index: 0;
 }
 
 .column-two .bottom-navbar-wrap {

@@ -62,6 +62,7 @@ const Home = () => {
               height: "100vh",
               overflowY: "auto",
               top: "30px",
+              paddingbottom: "75px",
             }}
           >
             <ErrorBoundary>

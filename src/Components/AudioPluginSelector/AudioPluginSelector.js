@@ -6,7 +6,7 @@ import { audioToolDataActions } from "../../store/audioToolDataSlice";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
 import CardPrimaryLarge from "../../UI/Cards/CardPrimaryLarge/CardPrimaryLarge";
 import CardSecondary from "../../UI/Cards/CardSecondary/CardSecondary";
-import { savePlugin } from "../../storage/audioToolsDB";
+import { saveManyPlugins } from "../../storage/audioToolsDB";
 import { isValidHttpUrl } from "../../Hooks/utility";
 import placeholderImage from "../../assets/images/product-photo-placeholder-5.png";
 import LocalErrorDisplay from "../ErrorHandling/LocalErrorDisplay/LocalErrorDisplay";
@@ -26,6 +26,12 @@ const AudioPluginSelector = () => {
     active: false,
     message: null,
   });
+  const successCallback = () => {
+    runGatherToolData(user, setLocalError, GatherToolData);
+    alert(
+      "The items were successfully added to your library! Changes should already be reflected in your library area (above). In addition, the items added should have been removed from the selector tool. If not, please refresh the browser."
+    );
+  };
 
   ////////////////////////////////////////
   /// HELPER FUNCTIONS
@@ -33,7 +39,7 @@ const AudioPluginSelector = () => {
   const runGatherToolData = (user) => {
     GatherToolData(user)
       .then((data) => {
-        if (process.env.NODE_ENV !== "production")
+        if (process.env.NODE_ENV === "development")
           console.log(
             "%c Getting tool data from DB:",
             "color:#fff;background:#777;padding:14px;border-radius:0 25px 25px 0",
@@ -52,7 +58,7 @@ const AudioPluginSelector = () => {
             message:
               " *** " +
               err.statusText +
-              " *** It looks like we can not make a connection. Please refresh the browser plus make sure there is an internet connection and  nothing like a firewall of some sort blocking this request. Please contact us if you find you are online and yet still receiving this error.",
+              `***\n\nIt looks like we can not make a connection. Please refresh the browser plus make sure there is an internet connection and  nothing like a firewall of some sort blocking this request.\n\nIt is also possible that the server's security software detected abnormally high traffic between this IP address and the server.  This is nothing anyone did wrong, just a rare occurrence with a highly-secured server. This will clear itself sometime within the next thirty minutes or so.\n\nPlease contact us if you find you are online and this error does not clear within an hour.\n\nSorry for the trouble. 😢`,
           });
         } else if (err.hasOwnProperty("status")) {
           setLocalError({
@@ -150,32 +156,58 @@ const AudioPluginSelector = () => {
   };
 
   const submitButtonHandler = () => {
-    toolsFromLibrary.forEach((toolGroupObj) => {
-      Object.keys(toolGroupObj).forEach((key) => {
-        const toolgroup = toolGroupObj[key];
+    const tempToolsLibraryArray = [];
+    const flattenedToolsLibraryArray = [];
+    toolsFromLibrary.forEach((toolGroup) =>
+      Object.keys(toolGroup).forEach((key) => {
+        tempToolsLibraryArray.push(toolGroup[key]);
+      })
+    );
+    tempToolsLibraryArray.forEach((toolGroupArray) =>
+      toolGroupArray.forEach((tool) => {
+        flattenedToolsLibraryArray.push(tool);
+      })
+    );
 
-        toolgroup.forEach((tool) => {
-          if (selectedTools.includes(tool._id)) {
-            const theData = tool;
-            savePlugin({ user, theData }, true).then((res) => {
-              if (res.status && res.status < 299) {
-                runGatherToolData(user);
-                setSelectedTools([]);
-                setRefreshList(!refreshList);
-              } else if (res.response.status === 404) {
-                setSelectedTools([]);
-              } else if (res.response.status === 401) {
-                setShowLoginModal(true);
-              } else {
-                alert(
-                  "There was an error when trying to save the new entry. Here is the message from the server: " +
-                    res.message
-                );
-              }
-            });
+    const theData = [];
+
+    selectedTools.forEach((selectedID) =>
+      flattenedToolsLibraryArray.forEach((toolObj) => {
+        if (toolObj.identifier === selectedID) {
+          if (toolObj.hasOwnProperty("_id")) {
+            toolObj.masterLibraryID = toolObj._id;
+            delete toolObj._id;
           }
-        });
-      });
+          theData.push(toolObj);
+        }
+      })
+    );
+
+    saveManyPlugins({ user, theData }, true).then((res) => {
+      if (res.status && res.status < 299) {
+        runGatherToolData(user);
+        setSelectedTools([]);
+        setRefreshList(!refreshList);
+        successCallback();
+      } else if (res.response.status === 404) {
+        const failedIdsAndNames = res.response.data.err.writeErrors.map(
+          (item) => ({ id: item.op._id, name: item.op.name })
+        );
+        const failedNames = failedIdsAndNames.map((item) => item.name);
+        const runSuccessCallback = window.confirm(
+          `The following were skipped because they were already in your database:\n\n${failedNames.join(
+            "\n"
+          )}\n\nAny not listed above were entered successfully.\n\n Click "OK" to finish or "CANCEL" to return to the form.\n\nIf you intended to add a different tool that happens to have the exact same name as one you already have saved, please add it again, but alter the name in some way. The name must be unique.`
+        );
+        if (runSuccessCallback) successCallback();
+      } else if (res.response.status === 401) {
+        setShowLoginModal(true);
+      } else {
+        alert(
+          "There was an error when trying to save the new entry. Here is the message from the server: " +
+            res.message
+        );
+      }
     });
   };
 
@@ -192,7 +224,7 @@ const AudioPluginSelector = () => {
   ////////////////////////////////////////
   useEffect(() => {
     GatherToolData().then((data) => {
-      if (process.env.NODE_ENV !== "production")
+      if (process.env.NODE_ENV === "development")
         console.log(
           "%c Getting tool data from DB:",
           "color:#fff;background:#028218;padding:14px;border-radius:0 25px 25px 0",
@@ -202,18 +234,23 @@ const AudioPluginSelector = () => {
       if (data.allTools.hasOwnProperty("error")) return;
 
       GatherToolData(user).then((userData) => {
-        if (process.env.NODE_ENV !== "production")
+        if (process.env.NODE_ENV === "development")
           console.log(
             "%c Getting * USER's * tool data from DB:",
             "color:#fff;background:#028218;padding:14px;border-radius:0 25px 25px 0",
             data
           );
 
-        const usersIDArray = Object.keys(userData.allTools);
+        const usersIDArray = Object.keys(userData.allTools).map(
+          (key) => userData.allTools[key].identifier
+        );
+
         const output = [];
 
         for (const key in data.allTools) {
-          if (!usersIDArray.includes(key)) output.push(data.allTools[key]);
+          if (!usersIDArray.includes(data.allTools[key].identifier)) {
+            output.push(data.allTools[key]);
+          }
         }
 
         if (output.length <= 0) {
@@ -242,7 +279,7 @@ const AudioPluginSelector = () => {
         // dispatch(audioToolDataActions.initState(data));
       });
     });
-  }, [refreshList]);
+  }, [refreshList, user]);
 
   ////////////////////////////////////////
   /// OUTPUT
@@ -266,7 +303,7 @@ const AudioPluginSelector = () => {
               <p>
                 It is necessary to be logged in before adding any items from the
                 library. If you do not yet have an account, it is quick and easy
-                to make one. Login and Signup forms are avilable below.
+                to make one. Login and Signup forms are available below.
               </p>
             </CardSecondary>
             <LoginStatus />
@@ -390,19 +427,19 @@ const AudioPluginSelector = () => {
                       <div className={`${styles["library-list"]}`}>
                         {companyListObject[companyName].map((tool) => {
                           return (
-                            <li key={"item-li-" + tool._id}>
-                              <li key={"item-li-inner-" + tool._id}>
+                            <li key={"item-li-" + tool.identifier}>
+                              <li key={"item-li-inner-" + tool.identifier}>
                                 <button
-                                  key={"item-button-" + tool._id}
+                                  key={"item-button-" + tool.identifier}
                                   id="line-inner-wrap"
                                   className={
                                     styles["line-inner-wrap"] +
                                     " " +
-                                    (selectedTools.includes(tool._id) &&
+                                    (selectedTools.includes(tool.identifier) &&
                                       styles["selected-tool"])
                                   }
                                   onClick={buttonChangeHandler}
-                                  value={tool._id}
+                                  value={tool.identifier}
                                 >
                                   <span
                                     id="line-text-inner-wrap"
