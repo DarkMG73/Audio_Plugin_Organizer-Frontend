@@ -1,0 +1,23 @@
+.plugin-finder-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-height: 100%;
+    margin: auto;
+    z-index: 200;
+    background: #000000f7;
+    overflow: auto;
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.plugin-finder-container ul {
+    position: relative;
+    max-width: 80%;
+    max-height: 100%;
+    list-style: none;
+}

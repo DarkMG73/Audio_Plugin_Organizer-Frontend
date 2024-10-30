@@ -25,13 +25,7 @@ const Login = (props) => {
     "https://api-organizer.glassinteractive.com/api/users/auth/forgot_password?";
   if (process.env.NODE_ENV === "development")
     forgotPasswordURL = "http://localhost:8000/api/users/auth/forgot_password?";
-  console.log(
-    "%c --> %cline:25%cforgotPasswordURL",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(178, 190, 126);padding:3px;border-radius:2px",
-    forgotPasswordURL
-  );
+
   // This is kept for reference, but teh URL encoded version is used.
   let forgotPWPlaceholder = (
     <div

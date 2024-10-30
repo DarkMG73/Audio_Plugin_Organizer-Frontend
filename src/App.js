@@ -248,7 +248,6 @@ const App = (props) => {
   ////////////////////////////////////////
   return (
     <div className={styles["app-container"]}>
-         <PluginFinder/>
       <div
         key="error-wrapper"
         className={
@@ -285,6 +284,7 @@ const App = (props) => {
       )}
       <div key="content-container" className={styles["content-container"]}>
         {/* !toolsData.allTools && <BarLoader />*/}
+         <PluginFinder/>
         <ErrorBoundary key="home-error-boundary">
           {pendingLoadRequests > 0 && (
             <div key="loader" className={styles["loader-wrap"]}>
