@@ -5,6 +5,7 @@ import axios from "axios";
 import Home from "./Pages/Home/Home";
 import Header from "./Components/Header/Header";
 import Admin from "./Components/Admin/Admin";
+import PluginFinder from "./Components/PluginFinder/PluginFinder";
 import GatherToolData from "./Hooks/GatherToolData";
 
 import { getUserCookie, getUserUserByToken } from "./storage/userDB";
@@ -247,6 +248,7 @@ const App = (props) => {
   ////////////////////////////////////////
   return (
     <div className={styles["app-container"]}>
+         <PluginFinder/>
       <div
         key="error-wrapper"
         className={

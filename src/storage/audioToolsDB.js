@@ -41,6 +41,25 @@ export const getPluginBy_Id = async (user, tool_Id) => {
   return res.data;
 };
 
+/// GET LOCAL PLUGINS/////////////////////////////
+export const getLocalPluginData = async (user) => {
+  let axiosConfig = null;
+
+  if (user) {
+    axiosConfig = {
+      headers: {
+        "Content-Type": "text/plain",
+        Authorization: "JWT " + user.token,
+      },
+      timeout: 60000,
+    };
+  }
+
+  const res = await axios.get("/api/all-plugins/get-local-plugins/", user, axiosConfig);
+
+  return res.data;
+};
+
 /// SAVE ONE /////////////////////////////////////
 export async function savePlugin(userAndDataObject) {
   const axiosConfig = {
