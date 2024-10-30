@@ -95,7 +95,7 @@ function AddATool(props) {
             To add an item, simply click the <i>Show the Entry Form</i> button
             and fill out the small form. Feel free to click the "Add Another
             Form" button to create as many forms as needed to add multiple
-            question at once. When they are all ready, click the <i>Submit</i>{" "}
+            items at once. When they are all ready, click the <i>Submit</i>{" "}
             button.
           </p>
         )}
@@ -202,6 +202,7 @@ function AddATool(props) {
               saveOrUpdateData="save"
               buttonStyles={buttonStyles}
               submitButtonStyles={submitButtonStyles}
+              setFormParentOpen={setShowAddQuestionForm}
             />
           </div>
         )}
@@ -215,6 +216,7 @@ function AddATool(props) {
               formData={fileUploadArray}
               buttonStyles={buttonStyles}
               submitButtonStyles={submitButtonStyles}
+              setFormParentOpen={setShowAddQuestionForm}
             />
           </div>
         )}

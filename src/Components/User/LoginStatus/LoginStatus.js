@@ -37,7 +37,7 @@ function LoginStatus(props) {
       deleteUserCookie();
       dispatch(authActions.logOut());
       GatherToolData().then((data) => {
-        if (process.env.NODE_ENV !== "production")
+        if (process.env.NODE_ENV === "development")
           console.log(
             "%c Getting tool data from DB:",
             "color:#fff;background:#028218;padding:14px;border-radius:0 25px 25px 0",

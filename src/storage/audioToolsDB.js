@@ -15,18 +15,34 @@ export const getData = async (user) => {
   }
 
   const res = await axios.post("/api/all-plugins/", user, axiosConfig);
+
+  return res.data;
+};
+
+/// GET ONE PLUGIN /////////////////////////////
+export const getPluginBy_Id = async (user, tool_Id) => {
+  let axiosConfig = null;
+
+  if (user) {
+    axiosConfig = {
+      headers: {
+        "Content-Type": "text/plain",
+        Authorization: "JWT " + user.token,
+      },
+      timeout: 60000,
+    };
+  }
+
+  const res = await axios.post(
+    "/api/all-plugins/" + tool_Id,
+    user,
+    axiosConfig
+  );
   return res.data;
 };
 
 /// SAVE ONE /////////////////////////////////////
 export async function savePlugin(userAndDataObject) {
-  console.log(
-    "%c --> %cline:22%cuserAndDataObject",
-    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-    "color:#fff;background:rgb(96, 143, 159);padding:3px;border-radius:2px",
-    userAndDataObject
-  );
   const axiosConfig = {
     headers: {
       "Content-Type": "application/json",
@@ -35,7 +51,7 @@ export async function savePlugin(userAndDataObject) {
   };
 
   const response = await axios
-    .post(`/api/all-plugins/add`, userAndDataObject, axiosConfig)
+    .post(`/api/all-plugins/add/`, userAndDataObject, axiosConfig)
     .then((res) => {
       return res;
     })
@@ -57,7 +73,7 @@ export async function saveManyPlugins(userAndDataObject) {
   };
 
   const response = await axios
-    .post(`/api/all-plugins/add-many`, userAndDataObject, axiosConfig)
+    .post(`/api/all-plugins/add-many/`, userAndDataObject, axiosConfig)
     .then((res) => {
       return res;
     })
@@ -77,17 +93,17 @@ export async function updateAPlugin(id, dataObj, user) {
       Authorization: "JWT " + user.token,
     },
   };
+
   const response = await axios
-    .get(`/api/all-plugins/update/`, { params: dataObj, ...axiosConfig })
+    .post(`/api/all-plugins/update/`, { dataObj }, axiosConfig)
     .then((res) => {
       return res;
     })
     .catch((err) => {
       console.log("err", err);
       // console.log("errors", err.response.data.err.message);
-      throw err;
+      return err;
     });
-
   return response;
 }
 
@@ -142,8 +158,14 @@ export async function deleteAllPlugins(user) {
 
 /// GET AUDIO PLUGIN SCHEMA //////////////
 export async function getSchemaForAudioPlugin() {
+  const axiosConfig = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
   const output = await axios
-    .get(`/api/all-plugins/model/`)
+    .get(`/api/all-plugins/model/`, axiosConfig)
     .then((res) => {
       return res.data.model;
     })

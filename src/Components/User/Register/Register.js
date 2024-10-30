@@ -92,13 +92,14 @@ const Register = (props) => {
         );
 
         if (!passwordValidCheck.isValid) {
-          console.log(
-            "%c --> %cline:117%cpasswordTestResults",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(3, 101, 100);padding:3px;border-radius:2px",
-            passwordValidCheck
-          );
+          if (process.env.NODE_ENV === "development")
+            console.log(
+              "%c --> %cline:117%cpasswordTestResults",
+              "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+              "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+              "color:#fff;background:rgb(3, 101, 100);padding:3px;border-radius:2px",
+              passwordValidCheck
+            );
           return {
             valid: false,
             message: `The password does not meet the requirements. It failed with these errors:\n\n${passwordValidCheck.details
@@ -138,7 +139,7 @@ const Register = (props) => {
 
     dispatch(authActions.logIn(res.data));
     GatherToolData(res.data).then((data) => {
-      if (process.env.NODE_ENV !== "production")
+      if (process.env.NODE_ENV === "development")
         console.log(
           "%c Getting tool data from DB:",
           "color:#fff;background:#028218;padding:14px;border-radius:0 25px 25px 0",
@@ -187,7 +188,7 @@ const Register = (props) => {
                 setLoginError(false);
                 dispatch(authActions.logIn(res.data));
                 GatherToolData(res.data).then((data) => {
-                  if (process.env.NODE_ENV !== "production")
+                  if (process.env.NODE_ENV === "development")
                     console.log(
                       "%c Getting tool data from DB:",
                       "color:#fff;background:#028218;padding:14px;border-radius:0 25px 25px 0",

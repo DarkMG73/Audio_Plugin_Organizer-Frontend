@@ -27,7 +27,9 @@ console.log(
   "color:#fff;background:rgb(96, 143, 159);padding:3px;border-radius:2px",
   inDevelopment
 );
-axios.defaults.baseURL = "https://api-audio-plugin-organizer.herokuapp.com/";
+// axios.defaults.baseURL = "https://api-audio-plugin-organizer.herokuapp.com/";
+axios.defaults.baseURL = "https://api-organizer.glassinteractive.com/";
+
 console.log(
   "%c --> %cline:16%caxios.defaults.baseURL",
   "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
@@ -37,6 +39,7 @@ console.log(
 );
 
 if (inDevelopment) {
+  // axios.defaults.baseURL = "https://api-organizer.glassinteractive.com/";
   axios.defaults.baseURL = "http://localhost:8000";
   console.log(
     "%cRunning in DEV MODE with the base URL:",
@@ -50,11 +53,13 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 
 axios.interceptors.request.use(
   (request) => {
-    if (inDevelopment) console.log(request);
+    // alert("In REQ");
+    if (inDevelopment) console.log("request", request);
     // Edit request config
     return request;
   },
   (error) => {
+    // alert("In REQ Error");
     if (inDevelopment) console.log(error);
     return Promise.reject(error);
   }
@@ -62,10 +67,12 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   (response) => {
-    if (inDevelopment) console.log(response);
+    // alert("In Res");
+    if (inDevelopment) console.log("RESPONSE---> ", response);
 
     return response;
   },
+
   (error) => {
     if (inDevelopment) console.log(error);
     return Promise.reject(error);

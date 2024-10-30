@@ -14,6 +14,7 @@ const useGroomAudioFormData = () => {
     let nameFieldsWithRequiredError = 0;
     dataEntries.forEach((entry) => {
       entry[0] = entry[0].substring(entry[0].indexOf("#") + 1);
+
       if (entriesRequiringNumbers.includes(entry[0])) {
         sortedDataEntries.push([entry[0], parseInt(entry[1])]);
       } else if (entriesRequiringBoolean.includes(entry[0])) {
@@ -27,10 +28,14 @@ const useGroomAudioFormData = () => {
       } else if (entry[0] === "notes") {
         sortedDataEntries.push([entry[0], entry[1].replace(/[^\w\s]/gi, "")]);
       } else {
-        const arrayOfStrings = entry[1].split("/");
-        arrayOfStrings.forEach((value) => {
-          sortedDataEntries.push([entry[0], value.replace("~", "")]);
-        });
+        if (entry[1].length === 0) {
+          sortedDataEntries.push([entry[0], []]);
+        } else {
+          const arrayOfStrings = entry[1].split("/");
+          arrayOfStrings.forEach((value) => {
+            sortedDataEntries.push([entry[0], value.replace("~", "")]);
+          });
+        }
       }
     });
 
@@ -152,14 +157,17 @@ const useGroomAudioFormData = () => {
       const d = new Date();
       let year = d.getFullYear();
       const hasId = sha256(JSON.stringify(sortedDatedEntriesArray[i]));
-      const newId = sortedDatedEntriesArray[i]._id
-        ? sortedDatedEntriesArray[i]._id
+      const newId = sortedDatedEntriesArray[i].identifier
+        ? sortedDatedEntriesArray[i].identifier
         : year + "-" + hasId;
-      toolsGroomed[newId] = sortedDatedEntriesArray[i];
-      toolsGroomed[newId].id = newId;
 
-      if (sortedDatedEntriesArray[i].hasOwnProperty("_id"))
+      toolsGroomed[newId] = sortedDatedEntriesArray[i];
+      toolsGroomed[newId].identifier = newId;
+
+      if (sortedDatedEntriesArray[i].hasOwnProperty("_id")) {
+        sortedDatedEntriesArray[i].dbID = sortedDatedEntriesArray[i]._id;
         delete sortedDatedEntriesArray[i]._id;
+      }
     }
 
     return toolsGroomed;

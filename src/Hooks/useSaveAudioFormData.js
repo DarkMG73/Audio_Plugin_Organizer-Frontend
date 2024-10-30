@@ -41,7 +41,7 @@ const useSaveAudioFormData = () => {
         });
 
       if (saveOrUpdateData === "update")
-        updateAPlugin(theData[0].id, theData[0], user)
+        updateAPlugin(theData[0].identifier, theData[0], user)
           .then((res) => {
             if (res.status < 299) {
               successCallback();
