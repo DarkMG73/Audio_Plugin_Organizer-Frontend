@@ -35,16 +35,17 @@ useEffect(()=>{
             const groomedList = []
             // Remove existing plugin names
             for ( const name of  acceptedPluginNames ) {
-
-              console.log('%c⚪️►►►► %cline:33%cvalue', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px', name, matchedNames)
-
+             
                 if(!matchedNames.includes(name)){
                   for (const value of  Object.values(allTools)) {
-                    if(name.replaceAll(' ','').includes(value.name.replaceAll(' ',''))) {
+                    const referenceID = value.masterID || value.name
+                    console.log('%c⚪️►►►► %cline:41%creferenceID', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(237, 222, 139);padding:3px;border-radius:2px', referenceID)
+                    if(name.replaceAll(' ','').includes(referenceID.replaceAll(' ',''))) {
                       matchedNames.push(name)
                       break
                     }               
-                }}
+                }
+              }
               
               if(!matchedNames.includes(name)) { 
                 groomedList.push(name) 
