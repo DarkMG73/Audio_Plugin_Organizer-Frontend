@@ -30,26 +30,28 @@ useEffect(()=>{
 
 
             console.log('%c⚪️►►►► %cline:35%cacceptedPluginNames', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px', acceptedPluginNames)
-            const matchedNames = new Set()
+            const matchedNames = []
             const groomedList = []
             // Remove existing plugin names
             for ( const name of  acceptedPluginNames ) {
 
               console.log('%c⚪️►►►► %cline:33%cvalue', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px', name)
               if(!matchedNames.includes(name)) 
-                {    for (const value of  Object.values(allTools)) {
-                          if(name.replaceAll(' ','').includes(value.name.replaceAll(' ',''))) {
-                            matchedNames.add(name)
-                            break
-                          } else {
+                {    
+                  for (const value of  Object.values(allTools)) {
+                    if(name.replaceAll(' ','').includes(value.name.replaceAll(' ',''))) {
+                      matchedNames.push(name)
+                      break
+                    } else {
 
-                          console.log('%c⚪️►►►► %cline:35%cname', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(3, 38, 58);padding:3px;border-radius:2px', name.replaceAll(' ','') + ' | ' + value.name.replaceAll(' ',''))
+                    console.log('%c⚪️►►►► %cline:35%cname', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(3, 38, 58);padding:3px;border-radius:2px', name.replaceAll(' ','') + ' | ' + value.name.replaceAll(' ',''))
 
-                          groomedList.push(name)    
-                        }                 
-                      }}
+                    groomedList.push(name)    
+                  }                 
+                }
+              }
             }
-          
+          console.log('%c⚪️►►►► %cline:39%cmatchedNames', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(20, 68, 106);padding:3px;border-radius:2px', matchedNames)
           console.log('%c⚪️►►►► %cline:41%cgroomedList', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px', groomedList)
 
           setFileNames(groomedList)
