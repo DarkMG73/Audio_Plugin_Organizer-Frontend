@@ -220,7 +220,7 @@ const FormInput = (props) => {
           <div
             key={"form-input" + i}
             className={
-              styles["input-wrap"] + " " + styles["input-option" + option]
+              styles["input-wrap"] + " 1 " + styles["input-option" + option]
             }
           >
             <input
@@ -258,7 +258,7 @@ const FormInput = (props) => {
             key={"form-input-a" + optionName}
             className={
               styles["input-wrap"] +
-              " " +
+              " 2 " +
               styles["input-option" + optionName] +
               " " +
               styles["display-row"] +
@@ -295,14 +295,14 @@ const FormInput = (props) => {
             key={"form-input-a3" + i}
             className={
               styles["input-wrap"] +
-              " " +
-              styles["input-option" + optionName] +
+              " 3 " + optionName.toLowerCase().replace(/[^A-Z0-9]+/ig, "_") + ' ' +
+              styles["input-option-" + optionName.toLowerCase().replace(/[^A-Z0-9]+/ig, "_")] +
               " " +
               styles["display-row"] +
               " " +
-              styles[optionGroup.replaceAll(" ", "")]
+              styles[optionGroup.replaceAll(' ', '')]
             }
-            data-group={optionGroup.replaceAll(" ", "")}
+            data-group={optionGroup.replaceAll(' ', '')}
           >
             <input
               key={"form-inputa4"}
@@ -311,7 +311,7 @@ const FormInput = (props) => {
               defaultValue={optionName}
               onChange={checkboxInputOnChangeHandler}
               required={props.inputRequired}
-            />{" "}
+            />
             <label
               key={"form-input-a5"}
               htmlFor={formNumber + "#" + input.name}
