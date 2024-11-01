@@ -76,7 +76,7 @@ const useGroomAudioFormData = () => {
         // Mark begining of new group in companySelections
         companySelections.push("NEWGROUP");
 
-        // Reset group used term log for each NEWGROUP element in usedValues
+      // Reset group used term log for each NEWGROUP element in usedValues
         usedValues = { indexesToRemove: [...usedValues.indexesToRemove] };
       } else if (entry[0] === "company") {
         companySelections.push(entry[2]);
@@ -164,6 +164,9 @@ const useGroomAudioFormData = () => {
       toolsGroomed[newId] = sortedDatedEntriesArray[i];
       toolsGroomed[newId].identifier = newId;
 
+      if(!Object.keys(toolsGroomed[newId]).includes('masterLibraryID') || !toolsGroomed[newId].masterLibraryID ) {
+        toolsGroomed[newId].masterLibraryID = toolsGroomed[newId].name.replaceAll(' ', '')
+      }
       if (sortedDatedEntriesArray[i].hasOwnProperty("_id")) {
         sortedDatedEntriesArray[i].dbID = sortedDatedEntriesArray[i]._id;
         delete sortedDatedEntriesArray[i]._id;

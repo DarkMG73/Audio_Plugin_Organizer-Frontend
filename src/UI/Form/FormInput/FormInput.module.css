@@ -274,13 +274,17 @@
 
 .input-container._id,
 .input-container.identifier,
-.input-container.masterLibraryID,
 .input-container.id {
   opacity: 0.5;
   transition: 0.3s all ease;
   transition-delay: 0.5s;
   pointer-events: none;
   flex-basis: 25%;
+}
+
+
+.input-container.masterLibraryID:after {
+  content: '*** This is used to match the title of the plugin file (VST or AU). Change only if it does not match.***'
 }
 
 /* Special Styling for Functions */
