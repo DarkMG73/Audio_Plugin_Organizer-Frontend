@@ -21,3 +21,39 @@
     max-height: 100%;
     list-style: none;
 }
+
+.loader-wrap {
+  position: fixed;
+  top: 37%;
+  right: 0;
+  width: 250px;
+  height: 55px;
+  z-index: 110;
+  border-radius: 50px 0 0 50px;
+  background: var(--iq-color-foreground);
+  color: var(--iq-color-background-warm);
+  box-shadow: inset 3px 3px 11px -7px, 7px 7px 10px -7px black;
+}
+
+.loader-wrap div {
+  max-height: 100%;
+  top: 50%;
+  min-height: 100%;
+  transform: translateY(-50%);
+  border-radius: 0;
+  position: relative;
+  padding: 0;
+  margin: 0 auto;
+  height: 100%;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.loader-wrap div span {
+  max-height: 100%;
+  height: 20px;
+  top: calc(50% - 10px);
+  display: flex;
+  background: var(--iq-color-background-warm-gradient);
+}

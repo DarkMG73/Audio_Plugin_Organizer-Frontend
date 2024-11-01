@@ -2,18 +2,23 @@ import React, { useState, useEffect } from 'react';
 import {useSelector} from 'react-redux'
 import Styles from "./PluginFinder.module.css"
 import {getLocalPluginData} from '../../storage/audioToolsDB'
+import BarLoader from "../../UI/Loaders/BarLoader/BarLoader";
 
 const PluginFinder = () => {
   const {allTools} = useSelector((state) => state.toolsData);
   console.log('%c⚪️►►►► %cline:7%callTools', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(217, 104, 49);padding:3px;border-radius:2px', allTools)
   const acceptedPluginWrappers = ['vst','vst3','component']
   const [fileNames, setFileNames] = useState([]);
+  const [currentNameInSearch, setCurrentNameInSearch] = useState(true)
   const [findNewPlugins, setFindNewPlugins] = useState(false);
   const handleFindNewPluginsBUtton = (e)=>{
     setFindNewPlugins(!findNewPlugins)
   }
 useEffect(()=>{
-  if(findNewPlugins) getLocalPluginData().then(
+  if(findNewPlugins) {
+    
+    setCurrentNameInSearch(true)
+    getLocalPluginData().then(
         data=>{
             console.log('plugin names---->',data)
 
@@ -39,7 +44,7 @@ useEffect(()=>{
                 if(!matchedNames.includes(name)){
                   for (const value of  Object.values(allTools)) {
                     const referenceID = value.masterLibraryID || value.name
-                    console.log('%c⚪️►►►► %cline:41%creferenceID', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(237, 222, 139);padding:3px;border-radius:2px', referenceID)
+                    
                     if(name.replaceAll(' ','').includes(referenceID.replaceAll(' ',''))) {
                       matchedNames.push(name)
                       break
@@ -49,6 +54,7 @@ useEffect(()=>{
               
               if(!matchedNames.includes(name)) { 
                 groomedList.push(name) 
+               
               }
             }
 
@@ -57,11 +63,12 @@ useEffect(()=>{
           console.log('%c⚪️►►►► %cline:41%cgroomedList', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px', groomedList)
 
           setFileNames(groomedList)
-
+          setCurrentNameInSearch(false)
         }
     ).catch(err=>{
+          setCurrentNameInSearch(false)
         console.log('err->', err)
-      })
+      })}
       
 }, [findNewPlugins])
 
@@ -71,7 +78,13 @@ useEffect(()=>{
    <button onClick={handleFindNewPluginsBUtton}>Find New Plugins</button>
       <ul>
         {findNewPlugins &&
-        <div><h3>{fileNames.length}</h3>
+        <div>
+         {currentNameInSearch &&
+              <div key="loader" className={Styles["loader-wrap"]}>
+              <BarLoader />
+            </div>
+          }
+         {fileNames.length > 0 && <h3>{fileNames.length}</h3>}
         {fileNames.map((fileName, index) => (
           <li key={index}>{fileName}</li>
         ))}
