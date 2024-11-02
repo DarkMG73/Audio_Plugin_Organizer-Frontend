@@ -133,9 +133,10 @@
   font-weight: 700;
   border: none;
   padding: 0.75em 0.5em 0.75em 0.5em;
-  margin: 0 auto 0 -0.4em;
-  min-width: fit-content;
+  margin: auto;
+  min-width: min-content;
   z-index: 2;
+  text-align: center;
 }
 .input-container input[type="checkbox"] {
   position: relative;
@@ -294,7 +295,7 @@
   min-height: -moz-fit-content;
   min-height: fit-content;
   flex-wrap: wrap;
-  padding: 0.75em 2em;
+  padding: 0.75 0;
   max-height: none;
   width: 100%;
   min-width: min-content;
@@ -305,11 +306,12 @@
   flex-basis: 18%;
   font-size: 10px;
   min-height: 100% !important;
-    height: min-content;
-    max-height: 100% !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  height: min-content;
+  max-height: 100% !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0;
 }
 
 .input-container.input-container.input-functions {
@@ -398,7 +400,7 @@ body .input-container.input-functions input[type="checkbox"]:hover {
   /* font-size: 1.25em; */
   z-index: 10;
   pointer-events: none;
-  color: wheat;
+  color: white;
   opacity: 0.8;
 }
 
@@ -482,30 +484,31 @@ body .input-container.input-functions input[type="checkbox"]:hover {
 } */
 
 [data-group*="Dynamics"] {
-  background: rgb(2, 218, 218);
+  background: #00A8FF;
   color: #1e1e1e;
   grid-column: 3;
 }
 
 [data-group*="FrequencyControl"] {
-  background: rgb(218, 182, 2);
+  background: #8F00FF;
   color: #1e1e1e;
   grid-column: 2;
 }
 
 [data-group*="Saturation"] {
-  background: rgb(218, 2, 2);
+  background: #FF8700;
   color: #fefefe;
-  grid-column: 2;
+  grid-column: 3;
 }
 
 [data-group*="TimeandSpace"] {
-  background: rgb(102, 102, 102);
+  background: #00FF7F;
   color: #fefefe;
   grid-column: 4;
 }
+
 [data-group*="Modulation"] {
-  background: rgb(52, 218, 2);
+  background: #FF007F;
   color: #1e1e1e;
   grid-column: 5;
 }
@@ -521,7 +524,7 @@ body .input-container.input-functions input[type="checkbox"]:hover {
 }
 
 [data-group*="Simulation"] {
-  background: rgb(168, 2, 218);
+  background: #FFD700;
   color: #fefefe;
   grid-column: 1;
 }
@@ -532,16 +535,17 @@ body .input-container.input-functions input[type="checkbox"]:hover {
 }
 
 [data-group*="Multi-FunctionShaper"] {
-  background: rgb(2, 150, 218);
+  background: #00D7FF;
+  color: #fefefe;
+  grid-column: 2;
+}
+
+[data-group*="Analyzers"] {
+  background: #FF1493;
   color: #fefefe;
   grid-column: 4;
 }
 
-[data-group*="Analyzers"] {
-  background: rgb(218, 2, 2);
-  color: #fefefe;
-  grid-column: 5;
-}
 
 /* .Category {
   background: var(--iq-color-background-warm-gradient);
@@ -633,6 +637,7 @@ body .input-container.input-functions input[type="checkbox"]:hover {
 .input-container .UserAdded {
   background: rgb(33, 33, 33);
   color: #fefefe;
+  grid-column: 5;
 }
 
 .UserAdded:before {
