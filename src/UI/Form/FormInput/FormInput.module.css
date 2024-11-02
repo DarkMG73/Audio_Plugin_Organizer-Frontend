@@ -304,17 +304,23 @@
   border-radius: 10px;
   flex-basis: 18%;
   font-size: 10px;
+  min-height: 100% !important;
+    height: min-content;
+    max-height: 100% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .input-container.input-container.input-functions {
   flex-basis: 100%;
   justify-content: center;
-
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(5, 20%);
   /* grid-auto-flow: column; */
   grid-auto-flow: column;
-  grid-gap: 10px;
+  grid-auto-rows: 3em;
+  grid-gap: 0.5em;
 }
 
 .input-container.input-functions input[type="checkbox"] {
@@ -398,12 +404,12 @@ body .input-container.input-functions input[type="checkbox"]:hover {
 
 .input-container.input-functions label {
   grid-row: 1;
-  grid-column: 1 / span 7;
+  grid-column: 1 / span 5;
 }
 
 .input-container.input-functions input {
   grid-row: 2;
-  grid-column: 1 / span 7;
+  grid-column: 1 / span 5;
 }
 
 .input-container.input-functions input[type="checkbox"]:checked + label,
@@ -464,7 +470,7 @@ body .input-container.input-functions input[type="checkbox"]:hover {
 [data-group*="Category"] {
   background: var(--iq-color-background-warm-gradient);
   color: var(--iq-color-foreground);
-  grid-column: 1 / span 2;
+  grid-column: 1 / span 1;
   /* grid-row: 2 / span3; */
   min-width: 100% !important;
 }
@@ -478,37 +484,38 @@ body .input-container.input-functions input[type="checkbox"]:hover {
 [data-group*="Dynamics"] {
   background: rgb(2, 218, 218);
   color: #1e1e1e;
-  grid-column: 4;
+  grid-column: 3;
 }
 
 [data-group*="FrequencyControl"] {
   background: rgb(218, 182, 2);
   color: #1e1e1e;
-  grid-column: 3;
+  grid-column: 2;
 }
 
 [data-group*="Saturation"] {
   background: rgb(218, 2, 2);
   color: #fefefe;
-  grid-column: 3;
+  grid-column: 2;
 }
 
 [data-group*="TimeandSpace"] {
   background: rgb(102, 102, 102);
   color: #fefefe;
-  grid-column: 5;
+  grid-column: 4;
 }
 [data-group*="Modulation"] {
   background: rgb(52, 218, 2);
   color: #1e1e1e;
-  grid-column: 6;
+  grid-column: 5;
 }
 
 .input-option-chorus_flanger_phaser_tremolo,
-.input-option-pan_stereo_mono,
-.input-option-glitch_stutter_and_granular_fx,
 .input-option-vocal_specific_processing,
-.input-option-frequency_shifter_pitch_shifter
+.input-option-glitch_stutter_and_granular_fx,
+.input-option-frequency_shifter_pitch_shifter,
+.UserAdded,
+.input-container [data-group^="SPACER"]
  {
     grid-row-end: span 2;
 }
@@ -516,24 +523,24 @@ body .input-container.input-functions input[type="checkbox"]:hover {
 [data-group*="Simulation"] {
   background: rgb(168, 2, 218);
   color: #fefefe;
-  grid-column: 7;
+  grid-column: 1;
 }
 [data-group*="CombinationTools"] {
   background: rgb(218, 142, 2);
   color: #222222;
-  grid-column: 7;
+  grid-column: 2;
 }
 
 [data-group*="Multi-FunctionShaper"] {
   background: rgb(2, 150, 218);
   color: #fefefe;
-  grid-column: 5;
+  grid-column: 4;
 }
 
 [data-group*="Analyzers"] {
   background: rgb(218, 2, 2);
   color: #fefefe;
-  grid-column: 6;
+  grid-column: 5;
 }
 
 /* .Category {
