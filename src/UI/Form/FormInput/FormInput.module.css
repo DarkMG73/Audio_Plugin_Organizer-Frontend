@@ -400,6 +400,7 @@ body .input-container.input-functions input[type="checkbox"]:hover {
   pointer-events: none;
   color: inherit;
   opacity: 0.8;
+  text-transform: uppercase;
 }
 
 .input-container.input-functions label {
@@ -419,15 +420,17 @@ body .input-container.input-functions input[type="checkbox"]:hover {
 }
 
 .input-container.input-functions .input-wrap:before {
-  width: 100%;
-  flex-basis: 100%;
-  font-size: 0.9em;
-  opacity: 0.5;
-  letter-spacing: 0.25em;
-  margin-bottom: 0.5em;
-  font-weight: 700;
-  margin: auto;
-  text-align: center;
+    width: 100%;
+    flex-basis: 100%;
+    font-size: 0.9em;
+    /* opacity: 0.5; */
+    letter-spacing: 0.25em;
+    margin-bottom: 0.5em;
+    font-weight: 700;
+    margin: 0;
+    text-align: center;
+    position: absolute;
+    top: 2em;
 }
 
 [data-group^="SPACER"],
@@ -689,13 +692,14 @@ body .input-container.input-functions input[type="checkbox"]:hover {
 } */
 
 .input-container .UserAdded {
-  background: rgb(33, 33, 33);
-  color: #fefefe;
+    background: #ff007f;
+    color: #fefefe;
   grid-column: 5;
 }
 
 .UserAdded:before {
   content: "User Added";
+  font-variant: small-caps;
 }
 
 /* .input-container .Tools {
