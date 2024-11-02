@@ -174,9 +174,7 @@
   text-shadow: 0 0 5px var(--iq-color-foreground);
 }
 
-.input-container input[type="checkbox"]:after {
-  /* content: "\2714"; */
-  content: "";
+/* .input-container input[type="checkbox"]:after {
   font-size: 28px;
   position: absolute;
   font-weight: 900;
@@ -189,10 +187,9 @@
   background: var(--iq-color-foreground-gradient);
   text-shadow: 0 0 1px #000000, 0 0 3px #ffffff;
   transform: translateY(-50%);
-  /* color: black; */
   box-shadow: inset -2px -2px 7px -5px black, inset 3px 3px 7px -5px white;
-  background: rgba(0, 0, 0, 0.206);
-}
+  background: transparent;
+} */
 /****************/
 
 /* *** App-Specific Fields *** */
@@ -301,6 +298,7 @@
   min-width: min-content;
   max-width: 100%;
   box-shadow: inset 2px 2px 3px -2px black, inset -2px -2px 3px -2px white;
+  box-shadow: inset 5px 5px 5px -5px rgb(255 255 255 / 50%), inset -5px -5px 5px -4px hsl(0deg 0% 0% / 50%);
   overflow: visible;
   border-radius: 10px;
   flex-basis: 18%;
@@ -331,7 +329,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgb(24 24 24 / 50%);
+  background: transparent;
+  color: inherit;
   /* background: linear-gradient(
     0deg,
     rgb(0 0 0 / 30%) 0%,
@@ -341,15 +340,13 @@
     #fafafa8f 99%,
     #000000b3 100%
   ); */
-  border: 2px outset #4d4d4d;
+  /* border: 2px outset #4d4d4d; */
+  border: none;
   left: 50%;
   top: 50%;
   margin: 10px;
   transform: translate(calc(-50% - 10px), calc(-50% - 10px));
   border-radius: inherit;
-  box-shadow: inset 5px 5px 5px -5px rgb(255 255 255 / 50%),
-    inset -5px -5px 5px -4px hsl(0deg 0% 0% / 50%),
-    3px 3px 7px -4px hsl(0deg 0% 0% / 50%);
 }
 
 .input-container.input-functions input[type="checkbox"]:checked,
@@ -400,7 +397,7 @@ body .input-container.input-functions input[type="checkbox"]:hover {
   /* font-size: 1.25em; */
   z-index: 10;
   pointer-events: none;
-  color: white;
+  color: inherit;
   opacity: 0.8;
 }
 
@@ -470,8 +467,8 @@ body .input-container.input-functions input[type="checkbox"]:hover {
 }
 
 [data-group*="Category"] {
-  background: var(--iq-color-background-warm-gradient);
-  color: var(--iq-color-foreground);
+  color:  #1A1A1D;
+  background: #FFFFFF;
   grid-column: 1 / span 1;
   /* grid-row: 2 / span3; */
   min-width: 100% !important;
@@ -482,10 +479,20 @@ body .input-container.input-functions input[type="checkbox"]:hover {
   grid-column: 1 / span 4;
   grid-row: 1;
 } */
+[data-group*="SPACER-Category"] {
+  background:  #1A1A1D;
+  color: #FFFFFF;
+}
 
 [data-group*="Dynamics"] {
   background: #00A8FF;
   color: #1e1e1e;
+  grid-column: 3;
+}
+
+[data-group*="SPACER-Dynamics"] {
+  color: #00A8FF;
+  background: #1e1e1e;
   grid-column: 3;
 }
 
@@ -494,10 +501,20 @@ body .input-container.input-functions input[type="checkbox"]:hover {
   color: #1e1e1e;
   grid-column: 2;
 }
+[data-group*="SPACER-FrequencyControl"] {
+  color: #8F00FF;
+  background: #1e1e1e;
+  grid-column: 2;
+}
 
 [data-group*="Saturation"] {
   background: #FF8700;
   color: #fefefe;
+  grid-column: 3;
+}
+[data-group*="SPACER-Saturation"] {
+  color: #FF8700;
+  background: #1e1e1e;
   grid-column: 3;
 }
 
@@ -506,10 +523,20 @@ body .input-container.input-functions input[type="checkbox"]:hover {
   color: #fefefe;
   grid-column: 4;
 }
+[data-group*="SPACER-TimeandSpace"] {
+  color: #00FF7F;
+  background: #1e1e1e;
+  grid-column: 4;
+}
 
 [data-group*="Modulation"] {
   background: #FF007F;
   color: #1e1e1e;
+  grid-column: 5;
+}
+[data-group*="SPACER-Modulation"] {
+  color: #FF007F;
+  background: #1e1e1e;
   grid-column: 5;
 }
 
@@ -528,9 +555,20 @@ body .input-container.input-functions input[type="checkbox"]:hover {
   color: #fefefe;
   grid-column: 1;
 }
+[data-group*="SPACER-Simulation"] {
+  color: #FFD700;
+  background: #1e1e1e;
+  grid-column: 1;
+}
+
 [data-group*="CombinationTools"] {
   background: rgb(218, 142, 2);
   color: #222222;
+  grid-column: 2;
+}
+[data-group*="SPACER-CombinationTools"] {
+  color: rgb(218, 142, 2);
+  background: #1e1e1e;
   grid-column: 2;
 }
 
@@ -539,10 +577,20 @@ body .input-container.input-functions input[type="checkbox"]:hover {
   color: #fefefe;
   grid-column: 2;
 }
+[data-group*="SPACER-Multi-FunctionShaper"] {
+  color: #00D7FF;
+  background: #1e1e1e;
+  grid-column: 2;
+}
 
 [data-group*="Analyzers"] {
   background: #FF1493;
   color: #fefefe;
+  grid-column: 4;
+}
+[data-group*="SPACER-Analyzers"] {
+  color: #FF1493;
+  background: #1e1e1e;
   grid-column: 4;
 }
 
