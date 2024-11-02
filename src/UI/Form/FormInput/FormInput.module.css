@@ -81,6 +81,7 @@
   font-weight: 700;
   border: none;
   margin-bottom: 0.25em;
+  border-radius: 50px;
 }
 
 .input-container select,
@@ -309,7 +310,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 0;
+  border-radius: 50px;
 }
 
 .input-container.input-container.input-functions {
@@ -425,6 +426,8 @@ body .input-container.input-functions input[type="checkbox"]:hover {
   letter-spacing: 0.25em;
   margin-bottom: 0.5em;
   font-weight: 700;
+  margin: auto;
+  text-align: center;
 }
 
 [data-group^="SPACER"],
@@ -444,10 +447,12 @@ body .input-container.input-functions input[type="checkbox"]:hover {
 }
 
 [data-group^="SPACER"] {
-  border: 1px inset !important;
-  box-shadow: inset 0 0 175px -50px wheat !important;
-  text-shadow: 0 0 3px wheat;
-  padding: 0.25em !important;
+  /* border: 1px inset !important; */
+    box-shadow: inset 0 0 10px 0 !important;
+    text-shadow: 0 0 3px;
+    padding: 0.25em !important;
+    border-radius: 50px !important;
+    box-shadow: none !important;
 }
 
 [data-group^="SPACER"] input:after {
@@ -463,7 +468,8 @@ body .input-container.input-functions input[type="checkbox"]:hover {
   box-shadow: inset -2px -2px 7px -5px white, inset 3px 3px 7px -5px black !important;
 }
 [data-group^="SPACER"] label {
-  font-size: 1.25em !important;
+  font-size: 1.5em !important;
+  text-shadow: 0 0 10px;
 }
 
 [data-group*="Category"] {
@@ -498,29 +504,29 @@ body .input-container.input-functions input[type="checkbox"]:hover {
 
 [data-group*="FrequencyControl"] {
   background: #8F00FF;
-  color: #1e1e1e;
+  color: white;
   grid-column: 2;
 }
 [data-group*="SPACER-FrequencyControl"] {
-  color: #8F00FF;
+  color: #be6cff;
   background: #1e1e1e;
   grid-column: 2;
 }
 
 [data-group*="Saturation"] {
-  background: #FF8700;
-  color: #fefefe;
+  background: #FF007F;
+  color: #1e1e1e;
   grid-column: 3;
 }
 [data-group*="SPACER-Saturation"] {
-  color: #FF8700;
+  color: #FF007F;
   background: #1e1e1e;
   grid-column: 3;
 }
 
 [data-group*="TimeandSpace"] {
   background: #00FF7F;
-  color: #fefefe;
+  color: #1e1e1e;
   grid-column: 4;
 }
 [data-group*="SPACER-TimeandSpace"] {
@@ -530,12 +536,12 @@ body .input-container.input-functions input[type="checkbox"]:hover {
 }
 
 [data-group*="Modulation"] {
-  background: #FF007F;
+  background: #FF8700;
   color: #1e1e1e;
   grid-column: 5;
 }
 [data-group*="SPACER-Modulation"] {
-  color: #FF007F;
+  color: #FF8700;
   background: #1e1e1e;
   grid-column: 5;
 }
@@ -552,7 +558,7 @@ body .input-container.input-functions input[type="checkbox"]:hover {
 
 [data-group*="Simulation"] {
   background: #FFD700;
-  color: #fefefe;
+  color: #1e1e1e;
   grid-column: 1;
 }
 [data-group*="SPACER-Simulation"] {
@@ -574,7 +580,7 @@ body .input-container.input-functions input[type="checkbox"]:hover {
 
 [data-group*="Multi-FunctionShaper"] {
   background: #00D7FF;
-  color: #fefefe;
+  color: #1e1e1e;
   grid-column: 2;
 }
 [data-group*="SPACER-Multi-FunctionShaper"] {
@@ -585,7 +591,7 @@ body .input-container.input-functions input[type="checkbox"]:hover {
 
 [data-group*="Analyzers"] {
   background: #FF1493;
-  color: #fefefe;
+  color: #1e1e1e;
   grid-column: 4;
 }
 [data-group*="SPACER-Analyzers"] {
