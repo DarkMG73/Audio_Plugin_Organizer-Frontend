@@ -51,16 +51,16 @@
   letter-spacing: var(--iq-spacing-heading);
 }
 .input-container .input-wrap {
-  display: flex;
-  width: 100%;
-  min-height: 100%;
-  text-align: left;
-  max-width: 16em;
-  max-height: 3em;
-  min-width: fit-content;
-  width: fit-content;
-  overflow: hidden;
-  font-size: 1.4rem;
+    display: flex;
+    width: 100%;
+    min-height: 100%;
+    text-align: left;
+    max-width: 16em;
+    max-height: 3em;
+    min-width: min-content;
+    width: fit-content;
+    overflow: hidden;
+    font-size: 1.4rem;
 }
 
 .required-input-error-text {
