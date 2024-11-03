@@ -46,7 +46,7 @@
 .input-container > label {
   flex-basis: 100%;
   font-variant: small-caps;
-  margin: 0 auto 0.5em;
+  margin: auto;
   font-size: 1.6rem;
   letter-spacing: var(--iq-spacing-heading);
 }
@@ -258,6 +258,8 @@
 
 .input-container.input-status input {
   text-align: center;
+  /* Not allowing status direct entry at this time */
+  display: none;
 }
 
 .input-favorite > .input-wrap {
@@ -268,7 +270,17 @@
 .input-rating .input-wrap {
   width: fit-content;
   margin: 0 auto;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: center;
 }
+
+.input-oversampling .input-wrap, .input-favorite .input-wrap {
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+
 .input-container.notes {
   flex-basis: 100%;
   min-height: 100%;
