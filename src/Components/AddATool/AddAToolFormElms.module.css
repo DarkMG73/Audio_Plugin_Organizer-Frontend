@@ -19,22 +19,19 @@ display: grid;
     padding: 1em 0em 3em;
     width: 100%;
     grid-columns: (auto, 1fr);
-    grid-template-columns: 100%;
+    grid-template-columns: 25% 25% 25% 25%;
     grid-template-areas:
-        'name'
-        'functions'
-        'precision'
-        'color'
-        'company'
-        'productURL'
-        'photoURL'
-        'oversampling'
-        'favorite'
-        'rating'
-        'status'
-        'notes'
-        'identifier'
-        'masterLibraryID';
+        'name name name name'
+        'functions functions functions functions'
+        'precision precision precision precision'
+        'color color color color'
+        'company company company company'
+        'productURL productURL productURL productURL'
+        'photoURL photoURL photoURL photoURL'
+        'status rating oversampling favorite' 
+        'notes notes notes notes'
+        'identifier identifier identifier identifier'
+        'masterLibraryID masterLibraryID masterLibraryID masterLibraryID';
 }
 
 [class*='FormInput_name'] {
@@ -83,9 +80,9 @@ display: grid;
 [class*='FormInput_masterLibraryID'] {
   grid-area: masterLibraryID;
 }
-.form-group-wrap > * > *:not(label) {
+/* .form-group-wrap > * > *:not(label) {
   min-height: 100%;
-}
+} */
 
 .form-question-container,
 .form-answer-container {

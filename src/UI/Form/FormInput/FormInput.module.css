@@ -53,7 +53,7 @@
 .input-container .input-wrap {
     display: flex;
     width: 100%;
-    min-height: 100%;
+    min-height: min-content;
     text-align: left;
     max-width: 16em;
     max-height: 3em;
@@ -76,6 +76,7 @@
 .input-container input[type="password"] {
   flex-basis: 100%;
   flex-grow: 1;
+  min-height: min-content;
   padding: 0.5em;
   font-size: 12px;
   font-weight: 700;
@@ -109,6 +110,10 @@
   border: 5px solid var(--iq-color-accent) !important;
 }
 
+.input-container  textarea, .input-container  select, .input-container  input {
+    border-radius: 50px;
+}
+
 .input-container textarea {
   min-width: 100%;
   max-height: 100%;
@@ -119,6 +124,7 @@
 .input-container input[type="url"] {
   height: 3em;
   width: 100%;
+  border-radius: 50px;
 }
 
 ::placeholder {
@@ -216,8 +222,9 @@
 
 .input-container.input-company select {
   text-align: center;
-  font-size: 2em;
+  font-size: 1em;
   width: 100%;
+  min-height: min-content;
 }
 
 .input-container.input-color,
