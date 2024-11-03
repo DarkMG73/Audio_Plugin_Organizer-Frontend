@@ -39,8 +39,8 @@
   max-width: 100%;
   flex-wrap: wrap;
   width: min-content;
-  width: min-content;
   min-width: min-content;
+  width: 100%;
 }
 
 .input-container > label {
