@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import {useSelector} from 'react-redux'
 import Styles from "./PluginFinder.module.css"
 import {getLocalPluginData} from '../../storage/audioToolsDB'
@@ -9,6 +9,7 @@ const PluginFinder = () => {
   console.log('%c⚪️►►►► %cline:7%callTools', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(217, 104, 49);padding:3px;border-radius:2px', allTools)
   const acceptedPluginWrappers = ['vst','vst3','component']
   const [fileNames, setFileNames] = useState([]);
+  const [addToLibrary, setAddToLibrary] = useState([])
   const [currentNameInSearch, setCurrentNameInSearch] = useState(true)
   const [findNewPlugins, setFindNewPlugins] = useState(false);
   const handleFindNewPluginsBUtton = (e)=>{
@@ -72,6 +73,36 @@ useEffect(()=>{
       
 }, [findNewPlugins])
 
+useEffect(()=>{
+  console.log('%c⚪️►►►► %cline:77%caddToLibrary', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(38, 157, 128);padding:3px;border-radius:2px', addToLibrary)
+},[addToLibrary])
+
+////// HANDLERS////////////////////////////////////
+const handleCheckBox = (e) => {
+  e.preventDefault();
+  const name = e.target.dataset.fileName
+  if(addToLibrary.includes(name) ) {
+    setAddToLibrary(prevState=>{
+      const oldState = [...prevState]
+      const newState = oldState.filter(item=>item!==name)
+      return newState
+    })
+  }
+    else {
+      setAddToLibrary(prevState=>[...prevState, name])
+    }
+}
+
+const handleToggleAllCheckBox = (e) => {
+  e.preventDefault();
+  if(addToLibrary.length>0) {
+    setAddToLibrary([])
+  }
+    else {
+      setAddToLibrary([...fileNames])
+    }
+}
+
 
   return (
     <div className={Styles['plugin-finder-container']}>
@@ -82,18 +113,20 @@ useEffect(()=>{
               <BarLoader />
             </div>
           }
-             
+         
+            <label htmlFor="select-all" onClick={handleToggleAllCheckBox}>   <input type="checkbox" name="select-all" />Select All</label>
         {findNewPlugins &&
-        <span>
+        <Fragment>
           {fileNames.length > 0 && <h3>{fileNames.length}</h3>}
           {fileNames.map((fileName, index) => (
               <li key={index}>
-                <input type="checkbox" name={fileName} />
-                <label for={fileName} >{fileName}</label>
+
+                <label htmlFor={fileName} onClick={handleCheckBox} data-file-name={fileName} >                <input type="checkbox" name={fileName}  data-file-name={fileName} defaultChecked={addToLibrary.includes(fileName)} checked={addToLibrary.includes(fileName)}/>
+                {fileName}</label>
               </li>
             ))
           }
-    </span>
+    </Fragment>
         }
       </ul>
     </div>

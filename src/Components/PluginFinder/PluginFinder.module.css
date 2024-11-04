@@ -57,3 +57,7 @@
   display: flex;
   background: var(--iq-color-background-warm-gradient);
 }
+
+.plugin-finder-container input[type="checkbox"] {
+    pointer-events: none;
+}
