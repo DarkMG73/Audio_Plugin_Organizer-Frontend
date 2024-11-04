@@ -98,7 +98,7 @@
 }
 
 .required-input-error {
-  border: 14px inset var(--iq-color-accent) !important;
+  border: 3px inset var(--iq-color-accent) !important;
   color: var(--iq-color-accent) !important;
 }
 .required-input-error-text {
@@ -338,11 +338,11 @@
 }
 
 .input-container.input-container.input-color .input-wrap {
-    min-height: auto !important;
+  flex-basis: 25%;
+  min-height: 4em !important;
 }
 
-.input-container.input-container.input-functions,
-.input-container.input-container.input-color {
+.input-container.input-container.input-functions {
   flex-basis: 100%;
   justify-content: center;
   display: grid;
@@ -351,6 +351,12 @@
   grid-auto-flow: column;
   grid-auto-rows: 3em;
   grid-gap: 0.5em;
+}
+
+.input-container.input-container.input-color {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .input-container.input-functions input[type="checkbox"],
@@ -452,6 +458,7 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
   color: inherit;
   opacity: 0.8;
   text-transform: uppercase;
+  z-index: auto;
 }
 
 .input-container.input-functions label,
@@ -538,6 +545,16 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
   /* grid-row: 2 / span3; */
   min-width: 100% !important;
 }
+
+.input-color [class*='european'] {
+  color:  #1A1A1D;
+  background: #FFFFFF;
+}
+.input-color [class*='modern'] {
+    color: #ffffff;
+    background: #ff1515;
+}
+
 /* [data-group="SPACER-Category"] {
   background: var(--iq-color-background-warm-gradient);
   color: var(--iq-color-foreground);
@@ -549,9 +566,9 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
   color: #FFFFFF;
 }
 
-[data-group*="Dynamics"] {
+[data-group*="Dynamics"], .input-color [class*='sci_fi'] {
   background: #00A8FF;
-  color: #1e1e1e;
+  color: #ffffff;
   grid-column: 3;
 }
 
@@ -561,7 +578,7 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
   grid-column: 3;
 }
 
-[data-group*="FrequencyControl"] {
+[data-group*="FrequencyControl"],.input-color [class*=asian] {
   background: #8F00FF;
   color: white;
   grid-column: 2;
@@ -572,7 +589,7 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
   grid-column: 2;
 }
 
-[data-group*="Saturation"] {
+[data-group*="Saturation"],.input-color [class*=extreme] {
   background: #FF007F;
   color: #1e1e1e;
   grid-column: 3;
@@ -583,7 +600,7 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
   grid-column: 3;
 }
 
-[data-group*="TimeandSpace"] {
+[data-group*="TimeandSpace"],.input-color [class*=tribal] {
   background: #00FF7F;
   color: #1e1e1e;
   grid-column: 4;
@@ -594,7 +611,7 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
   grid-column: 4;
 }
 
-[data-group*="Modulation"] {
+[data-group*="Modulation"], .input-color [class*='80_s'] {
   background: #FF8700;
   color: #1e1e1e;
   grid-column: 5;
@@ -615,7 +632,7 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
     grid-row-end: span 2;
 }
 
-[data-group*="Simulation"] {
+[data-group*="Simulation"],.input-color [class*='70_s'] {
   background: #FFD700;
   color: #1e1e1e;
   grid-column: 1;
@@ -626,9 +643,9 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
   grid-column: 1;
 }
 
-[data-group*="CombinationTools"] {
+[data-group*="CombinationTools"], .input-color [class*='vintage'] {
   background: rgb(218, 142, 2);
-  color: #222222;
+  color: #ffffff;
   grid-column: 2;
 }
 [data-group*="SPACER-CombinationTools"] {
@@ -637,7 +654,7 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
   grid-column: 2;
 }
 
-[data-group*="Multi-FunctionShaper"] {
+[data-group*="Multi-FunctionShaper"], .input-color [class*='light_atmosphere'] {
   background: #00D7FF;
   color: #1e1e1e;
   grid-column: 2;
@@ -648,7 +665,7 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
   grid-column: 2;
 }
 
-[data-group*="Analyzers"] {
+[data-group*="Analyzers"], .input-color [class*='latin'] {
   background: #FF1493;
   color: #1e1e1e;
   grid-column: 4;

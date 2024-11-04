@@ -14,8 +14,8 @@ display: grid;
     justify-content: space-evenly;
     border-radius: inherit;
     overflow: hidden;
-    margin: 1em;
-    box-shadow: inset -3px -3px 10px -7px white, inset 3px 3px 10px -7px black;
+    margin: auto;
+    /* box-shadow: inset -3px -3px 10px -7px white, inset 3px 3px 10px -7px black; */
     padding: 1em 0em 3em;
     width: 100%;
     grid-columns: (auto, 1fr);
