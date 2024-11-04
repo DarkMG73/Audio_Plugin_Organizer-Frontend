@@ -107,6 +107,22 @@ body {
   --iq-font-body-text: normal 500 12px "Kodchasan", sans-serif;
 }
 
+
+/* COLOR GROUPS FOR BUTTONS */
+:root {
+  --color-group-one-1: #A4B7B9;
+  --color-group-one-2: #738089;
+  --color-group-one-3: #A26B7F;
+  --color-group-one-4: #F78888;
+  --color-group-one-5: #F8B3A4;
+  --color-group-one-6: #FCDAB9;
+  --color-group-one-7: #1A1A1D;
+  --color-group-one-7: #1A1A1D;
+  --color-group-one-white: #1A1A1D;
+  --color-group-one-black: #1A1A1D;
+}
+/* ////////////////////////// */
+
 html {
   font-size: 10px;
   background: var(--iq-color-foreground);

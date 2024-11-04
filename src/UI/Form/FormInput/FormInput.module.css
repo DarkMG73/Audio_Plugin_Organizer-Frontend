@@ -567,13 +567,13 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
 }
 
 [data-group*="Dynamics"], .input-color [class*='sci_fi'] {
-  background: #00A8FF;
+  background: var( --color-group-one-2);
   color: #ffffff;
   grid-column: 3;
 }
 
 [data-group*="SPACER-Dynamics"] {
-  color: #00A8FF;
+  color: var( --color-group-one-2);
   background: #1e1e1e;
   grid-column: 3;
 }
