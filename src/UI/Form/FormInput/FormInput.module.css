@@ -540,7 +540,7 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
 
 [data-group*="Category"] {
   color:  #1A1A1D;
-  background: #FFFFFF;
+  background: var( --color-group-one-white);
   grid-column: 1 / span 1;
   /* grid-row: 2 / span3; */
   min-width: 100% !important;
@@ -548,10 +548,10 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
 
 .input-color [class*='european'] {
   color:  #1A1A1D;
-  background: #FFFFFF;
+  background: var( --color-group-one-white);
 }
 .input-color [class*='modern'] {
-    color: #ffffff;
+    color: var( --color-group-one-white);
     background: #ff1515;
 }
 
@@ -563,62 +563,62 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
 } */
 [data-group*="SPACER-Category"] {
   background:  #1A1A1D;
-  color: #FFFFFF;
+  color: var( --color-group-one-white);
 }
 
 [data-group*="Dynamics"], .input-color [class*='sci_fi'] {
   background: var( --color-group-one-2);
-  color: #ffffff;
+  color: var(--color-group-one-2-text);;
   grid-column: 3;
 }
 
 [data-group*="SPACER-Dynamics"] {
   color: var( --color-group-one-2);
-  background: #1e1e1e;
+  background: var( --color-group-one-black);
   grid-column: 3;
 }
 
 [data-group*="FrequencyControl"],.input-color [class*=asian] {
-  background: #8F00FF;
-  color: white;
+  background: var( --color-group-one-1);
+  color: var(--color-group-one-1-text);
   grid-column: 2;
 }
 [data-group*="SPACER-FrequencyControl"] {
-  color: #be6cff;
-  background: #1e1e1e;
+  color: var( --color-group-one-1);
+  background: var( --color-group-one-black);
   grid-column: 2;
 }
 
 [data-group*="Saturation"],.input-color [class*=extreme] {
-  background: #FF007F;
-  color: #1e1e1e;
+  background: var( --color-group-one-3);
+  color: var(--color-group-one-3-text);;
   grid-column: 3;
 }
 [data-group*="SPACER-Saturation"] {
-  color: #FF007F;
-  background: #1e1e1e;
+  color: var( --color-group-one-3);
+  background: var( --color-group-one-black);
   grid-column: 3;
 }
 
 [data-group*="TimeandSpace"],.input-color [class*=tribal] {
-  background: #00FF7F;
-  color: #1e1e1e;
+  background: var( --color-group-one-4);
+  color: var( --color-group-one-4-text);
   grid-column: 4;
 }
 [data-group*="SPACER-TimeandSpace"] {
-  color: #00FF7F;
-  background: #1e1e1e;
+  color: var( --color-group-one-4);
+  background: var( --color-group-one-black);
   grid-column: 4;
 }
 
 [data-group*="Modulation"], .input-color [class*='80_s'] {
-  background: #FF8700;
-  color: #1e1e1e;
+  background: var( --color-group-one-5);
+  color: var( --color-group-one-5-text);
   grid-column: 5;
 }
 [data-group*="SPACER-Modulation"] {
-  color: #FF8700;
-  background: #1e1e1e;
+  color: var( --color-group-one-5);
+  background: var( --color-group-one-black);
   grid-column: 5;
 }
 
@@ -633,46 +633,46 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
 }
 
 [data-group*="Simulation"],.input-color [class*='70_s'] {
-  background: #FFD700;
-  color: #1e1e1e;
+  background: var( --color-group-one-6);
+  color: var( --color-group-one-6-text);
   grid-column: 1;
 }
 [data-group*="SPACER-Simulation"] {
-  color: #FFD700;
-  background: #1e1e1e;
+  color: var( --color-group-one-6);
+  background: var( --color-group-one-black);
   grid-column: 1;
 }
 
 [data-group*="CombinationTools"], .input-color [class*='vintage'] {
-  background: rgb(218, 142, 2);
-  color: #ffffff;
+  background: var( --color-group-one-7);
+  color: var( --color-group-one-7-text);
   grid-column: 2;
 }
 [data-group*="SPACER-CombinationTools"] {
-  color: rgb(218, 142, 2);
-  background: #1e1e1e;
+  color: var( --color-group-one-7);
+  background: var( --color-group-one-black);
   grid-column: 2;
 }
 
 [data-group*="Multi-FunctionShaper"], .input-color [class*='light_atmosphere'] {
-  background: #00D7FF;
-  color: #1e1e1e;
+  background: var( --color-group-one-8);
+  color: var( --color-group-one-8-text);
   grid-column: 2;
 }
 [data-group*="SPACER-Multi-FunctionShaper"] {
-  color: #00D7FF;
-  background: #1e1e1e;
+  color: var( --color-group-one-8);
+  background: var( --color-group-one-black);
   grid-column: 2;
 }
 
 [data-group*="Analyzers"], .input-color [class*='latin'] {
-  background: #FF1493;
-  color: #1e1e1e;
+  background: var( --color-group-one-9);
+  color: var( --color-group-one-9-text);
   grid-column: 4;
 }
 [data-group*="SPACER-Analyzers"] {
-  color: #FF1493;
-  background: #1e1e1e;
+  color: var( --color-group-one-9);
+  background: var( --color-group-one-black);
   grid-column: 4;
 }
 
@@ -765,8 +765,8 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
 } */
 
 .input-container .UserAdded {
-    background: #ff007f;
-    color: #fefefe;
+  background: var( --color-group-one-10);
+  color: var(--color-group-one-10-text);;
   grid-column: 5;
 }
 

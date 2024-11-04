@@ -110,16 +110,29 @@ body {
 
 /* COLOR GROUPS FOR BUTTONS */
 :root {
-  --color-group-one-1: #A4B7B9;
-  --color-group-one-2: #738089;
-  --color-group-one-3: #A26B7F;
-  --color-group-one-4: #F78888;
-  --color-group-one-5: #F8B3A4;
-  --color-group-one-6: #FCDAB9;
-  --color-group-one-7: #1A1A1D;
-  --color-group-one-7: #1A1A1D;
-  --color-group-one-white: #1A1A1D;
+  --color-group-one-white: #ffffff;
   --color-group-one-black: #1A1A1D;
+  --color-group-one-1: #5680E9;
+  --color-group-one-1-text: var(--color-group-one-white);
+  --color-group-one-2: #ff700a;
+  --color-group-one-2-text: var(--color-group-one-black);;
+  --color-group-one-3: #ff0a0a;
+  --color-group-one-3-text:  var(--color-group-one-black);
+  --color-group-one-4: #C1C8E4;
+  --color-group-one-4-text:  var(--color-group-one-black);
+  --color-group-one-5: #0aff99;
+  --color-group-one-5-text:  var(--color-group-one-black);
+  --color-group-one-6: #84CEEB;
+  --color-group-one-6-text:  var(--color-group-one-black);
+  --color-group-one-7: #5AB9EA;
+  --color-group-one-7-text:  var(--color-group-one-black);
+  --color-group-one-8: #e3bd26;
+  --color-group-one-8-text:  var(--color-group-one-black);
+  --color-group-one-9: #da2fc3;
+  --color-group-one-9-text:  var(--color-group-one-white);
+  --color-group-one-10: #8860D0;
+  --color-group-one-10-text:  var(--color-group-one-white);
+
 }
 /* ////////////////////////// */
 

@@ -106,6 +106,8 @@ const topicOptions = {
     "Analyzers ~ Meter",
     "Analyzers ~ Spectral Analysis",
     "Analyzers ~ Plugin Analysis",
+
+    "SPACER-User Added ~ User Added",
   ],
   precision: ["Vibey Analog", "Analog Mastering", "Digital Precision"],
   color: [
