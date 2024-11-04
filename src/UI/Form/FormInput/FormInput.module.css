@@ -309,9 +309,10 @@
   content: '*** This is used to match the title of the plugin file (VST or AU). Change only if it does not match.***'
 }
 
-/* Special Styling for Functions */
+/* Special Styling for Functions & Color */
 
-.input-container.input-container.input-functions .input-wrap {
+.input-container.input-container.input-functions .input-wrap,
+.input-container.input-container.input-color .input-wrap  {
   position: relative;
   min-height: -moz-fit-content;
   min-height: fit-content;
@@ -336,7 +337,12 @@
   border-radius: 50px;
 }
 
-.input-container.input-container.input-functions {
+.input-container.input-container.input-color .input-wrap {
+    min-height: auto !important;
+}
+
+.input-container.input-container.input-functions,
+.input-container.input-container.input-color {
   flex-basis: 100%;
   justify-content: center;
   display: grid;
@@ -347,7 +353,8 @@
   grid-gap: 0.5em;
 }
 
-.input-container.input-functions input[type="checkbox"] {
+.input-container.input-functions input[type="checkbox"],
+.input-container.input-color input[type="checkbox"] {
   position: absolute;
   top: 0;
   left: 0;
@@ -375,7 +382,8 @@
 
 
 
-body .input-container.input-functions input[type="checkbox"]:after {
+body .input-container.input-functions input[type="checkbox"]:after,
+body .input-container.input-color input[type="checkbox"]:after  {
     content: '';
     background: #00000040;
     background: hsl(0deg 0% 0% / 14%);
@@ -389,7 +397,8 @@ body .input-container.input-functions input[type="checkbox"]:after {
 
 
 
-body .input-container.input-functions input[type="checkbox"]:hover:after, body .input-container.input-functions input[type="checkbox"]:checked:hover:after  {
+body .input-container.input-functions input[type="checkbox"]:hover:after, body .input-container.input-functions input[type="checkbox"]:checked:hover:after,
+body .input-container.input-color input[type="checkbox"]:hover:after, body .input-container.input-color input[type="checkbox"]:checked:hover:after  {
     border: none;
     box-shadow: inset 0 0 69px -30px hsl(0deg 0% 100%), 0 0 21px -3px #ffffff94;
     background: radial-gradient(#ffffff, transparent);
@@ -399,10 +408,12 @@ body .input-container.input-functions input[type="checkbox"]:hover:after, body .
     min-height: auto;
 }
 
-body .input-container.input-functions [data-group^="SPACER"] input:after {
+body .input-container.input-functions [data-group^="SPACER"] input:after,
+body .input-container.input-color [data-group^="SPACER"] input:after  {
     content: none !important;
 }
- .input-container.input-functions input[type="checkbox"]:checked { 
+ .input-container.input-functions input[type="checkbox"]:checked,
+  .input-container.input-color input[type="checkbox"]:checked { 
     box-shadow: none;
     min-width: 0;
     min-height: 0;
@@ -411,11 +422,13 @@ body .input-container.input-functions [data-group^="SPACER"] input:after {
     transition: 0s all ease;
 } 
 
-.input-container.input-functions  input[type="checkbox"]:checked + label {
+.input-container.input-functions  input[type="checkbox"]:checked + label,
+.input-container.input-color  input[type="checkbox"]:checked + label {
     color: #858585 !important;
 }
 
-.input-container.input-functions input[type="checkbox"]:checked:after {
+.input-container.input-functions input[type="checkbox"]:checked:after,
+.input-container.input-color input[type="checkbox"]:checked:after {
     background: none;
     box-shadow: none;
     transform: none;
@@ -424,12 +437,14 @@ body .input-container.input-functions [data-group^="SPACER"] input:after {
   }
 
 
-body .input-container.input-functions input[type="checkbox"]:hover + label {
+body .input-container.input-functions input[type="checkbox"]:hover + label,
+body .input-container.input-color input[type="checkbox"]:hover + label {
   color: #00000069 !important;
   transform: scale(1, 1.125);
 }
 
-.input-container.input-functions input[type="checkbox"] + label {
+.input-container.input-functions input[type="checkbox"] + label,
+.input-container.input-color input[type="checkbox"] + label  {
   padding: 0;
   /* font-size: 1.25em; */
   z-index: 10;
@@ -439,23 +454,28 @@ body .input-container.input-functions input[type="checkbox"]:hover + label {
   text-transform: uppercase;
 }
 
-.input-container.input-functions label {
+.input-container.input-functions label,
+.input-container.input-color label {
   grid-row: 1;
   grid-column: 1 / span 5;
 }
 
-.input-container.input-functions input {
+.input-container.input-functions input,
+.input-container.input-color input {
   grid-row: 2;
   grid-column: 1 / span 5;
 }
 
 .input-container.input-functions input[type="checkbox"]:checked + label,
-.input-container.input-functions input[type="checkbox"]:hover + label {
+.input-container.input-functions input[type="checkbox"]:hover + label,
+.input-container.input-color input[type="checkbox"]:checked + label,
+.input-container.input-color input[type="checkbox"]:hover + label  {
   color: inherit;
   opacity: 1;
 }
 
-.input-container.input-functions .input-wrap:before {
+.input-container.input-functions .input-wrap:before,
+.input-container.input-color .input-wrap:before  {
     width: 100%;
     flex-basis: 100%;
     font-size: 0.9em;
