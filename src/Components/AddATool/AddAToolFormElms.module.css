@@ -39,19 +39,15 @@ display: grid;
 }
 [class*='FormInput_input-functions'] {
   grid-area: functions;
-  border:3px solid red !important;
 }
 [class*='FormInput_input-precision'] {
   grid-area: precision;
-  border:3px solid blue !important;
 }
 [class*='FormInput_input-color'] {
   grid-area: color;
-  border:3px solid green !important;
 }
 [class*='FormInput_input-company'] {
   grid-area: company;
-  border:3px solid orange !important;
 }
 [class*='FormInput_notes'] {
   grid-area: notes;
