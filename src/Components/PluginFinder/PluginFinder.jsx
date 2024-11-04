@@ -77,18 +77,23 @@ useEffect(()=>{
     <div className={Styles['plugin-finder-container']}>
    <button onClick={handleFindNewPluginsBUtton}>Find New Plugins</button>
       <ul>
-        {findNewPlugins &&
-        <div>
          {currentNameInSearch &&
-              <div key="loader" className={Styles["loader-wrap"]}>
+            <div key="loader" className={Styles["loader-wrap"]}>
               <BarLoader />
             </div>
           }
-         {fileNames.length > 0 && <h3>{fileNames.length}</h3>}
-        {fileNames.map((fileName, index) => (
-          <li key={index}>{fileName}</li>
-        ))}
-        </div>
+             
+        {findNewPlugins &&
+        <span>
+          {fileNames.length > 0 && <h3>{fileNames.length}</h3>}
+          {fileNames.map((fileName, index) => (
+              <li key={index}>
+                <input type="checkbox" name={fileName} />
+                <label for={fileName} >{fileName}</label>
+              </li>
+            ))
+          }
+    </span>
         }
       </ul>
     </div>
