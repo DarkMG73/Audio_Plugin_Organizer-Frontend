@@ -5,6 +5,8 @@ import {getLocalPluginData} from '../../storage/audioToolsDB'
 import BarLoader from "../../UI/Loaders/BarLoader/BarLoader";
 import AddAToolForm from "../AddATool/AddAToolForm";
 import useGroomDataForToolForm from "../../Hooks/useGroomDataForToolForm";
+import GetPluginFormInputsWithOptions from "../../Hooks/GetPluginFormInputsWithOptions";
+
 
 const PluginFinder = () => {
   const {allTools} = useSelector((state) => state.toolsData);
@@ -13,128 +15,153 @@ const PluginFinder = () => {
   const [fileNames, setFileNames] = useState([]);
   const [addToLibrary, setAddToLibrary] = useState([])
   const [userFilesToGroomArray, setUserFilesToGroomArray] = useState(false)
+  const [sendToLibrary, setSendToLibrary] = useState(false)
   const [currentNameInSearch, setCurrentNameInSearch] = useState(true)
   const [findNewPlugins, setFindNewPlugins] = useState(false);
   const groomDataForToolForm = useGroomDataForToolForm()
+  const [formInputData, setFormInputData] = useState(false);
   const toolsSchema = useSelector((state) => state.toolsData.toolsSchema);
 
-useEffect(()=>{
-  if(findNewPlugins) {
+  ////////////////////////////////////////
+  /// EFFECTS
+  ////////////////////////////////////////
+  useEffect(() => { 
+      console.log('%c⚪️►►►►>>>>>>>>>>>>>>>>>>>>>> %cline:12%ctoolsSchema', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(237, 222, 139);padding:3px;border-radius:2px', toolsSchema)
+        
+      const res = GetPluginFormInputsWithOptions(toolsSchema);
+
+      console.log('%c⚪️►►►► %cline:12%cres', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(248, 214, 110);padding:3px;border-radius:2px', res)
+     
+      setFormInputData(res);
+    }, []);
     
-    setCurrentNameInSearch(true)
-    getLocalPluginData().then(
-        data=>{
-            console.log('plugin names---->',data)
+  useEffect(()=>{
+    if(findNewPlugins) {
+      
+      setCurrentNameInSearch(true)
+      getLocalPluginData().then(
+          data=>{
+              console.log('plugin names---->',data)
 
-            const acceptedPluginNames = new Set()
-            
-            data.forEach(name=>{
-              const nameArray =  name.split('.') 
+              const acceptedPluginNames = new Set()
+              
+              data.forEach(name=>{
+                const nameArray =  name.split('.') 
 
-              const isValid =  acceptedPluginWrappers.includes(nameArray[name.split('.').length-1] )
+                const isValid =  acceptedPluginWrappers.includes(nameArray[name.split('.').length-1] )
 
-              if(isValid) acceptedPluginNames.add(nameArray[0])
-              }
-            ) 
+                if(isValid) acceptedPluginNames.add(nameArray[0])
+                }
+              ) 
 
 
-            console.log('%c⚪️►►►► %cline:35%cacceptedPluginNames', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px', acceptedPluginNames)
-            
-            const matchedNames = []
-            const groomedList = []
-            // Remove existing plugin names
-            for ( const name of  acceptedPluginNames ) {
-             
-                if(!matchedNames.includes(name)){
-                  for (const value of  Object.values(allTools)) {
-                    const referenceID = value.masterLibraryID || value.name
-                    
-                    if(name.replaceAll(' ','').includes(referenceID.replaceAll(' ',''))) {
-                      matchedNames.push(name)
-                      break
-                    }               
+              console.log('%c⚪️►►►► %cline:35%cacceptedPluginNames', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px', acceptedPluginNames)
+              
+              const matchedNames = []
+              const groomedList = []
+              // Remove existing plugin names
+              for ( const name of  acceptedPluginNames ) {
+              
+                  if(!matchedNames.includes(name)){
+                    for (const value of  Object.values(allTools)) {
+                      const referenceID = value.masterLibraryID || value.name
+                      
+                      if(name.replaceAll(' ','').includes(referenceID.replaceAll(' ',''))) {
+                        matchedNames.push(name)
+                        break
+                      }               
+                  }
+                }
+                
+                if(!matchedNames.includes(name)) { 
+                  groomedList.push(name) 
                 }
               }
-              
-              if(!matchedNames.includes(name)) { 
-                groomedList.push(name) 
-              }
-            }
 
-          console.log('%c⚪️►►►► %cline:39%cmatchedNames', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(20, 68, 106);padding:3px;border-radius:2px', matchedNames)
+            console.log('%c⚪️►►►► %cline:39%cmatchedNames', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(20, 68, 106);padding:3px;border-radius:2px', matchedNames)
 
-          console.log('%c⚪️►►►► %cline:41%cgroomedList', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px', groomedList)
+            console.log('%c⚪️►►►► %cline:41%cgroomedList', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px', groomedList)
 
-          setFileNames(groomedList)
-          setCurrentNameInSearch(false)
-        }
-    ).catch(err=>{
-          setCurrentNameInSearch(false)
-        console.log('err->', err)
-      })}
-}, [findNewPlugins])
+            setFileNames(groomedList)
+            setCurrentNameInSearch(false)
+          }
+      ).catch(err=>{
+            setCurrentNameInSearch(false)
+          console.log('err->', err)
+        })}
+  }, [findNewPlugins])
 
 
-useEffect(()=>{
-  console.log('%c⚪️►►►► %cline:77%caddToLibrary', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(38, 157, 128);padding:3px;border-radius:2px', addToLibrary)
-},[addToLibrary])
+  useEffect(()=>{
+    console.log('%c⚪️►►►► %cline:77%caddToLibrary', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(38, 157, 128);padding:3px;border-radius:2px', addToLibrary)
+  },[addToLibrary])
 
-////// HANDLERS////////////////////////////////////
-const handleCheckBox = (e) => {
-  e.preventDefault();
-  const name = e.target.dataset.fileName
-  if(addToLibrary.includes(name) ) {
-    setAddToLibrary(prevState=>{
-      const oldState = [...prevState]
-      const newState = oldState.filter(item=>item!==name)
-      return newState
-    })
+  useEffect(()=>{
+    if(sendToLibrary) {
+      console.log('%c⚪️►►►► %cline:111%caddToLibrary', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(56, 13, 49);padding:3px;border-radius:2px', addToLibrary)
+      //   [
+      //     "name",
+      //     "functions",
+      //     "color",
+      //     "precision",
+      //     "company",
+      //     "productURL",
+      //     "photoURL",
+      //     "oversampling",
+      //     "favorite",
+      //     "rating",
+      //     "status",
+      //     "notes"
+      // ]
+      const categoryTitles = Object.keys(toolsSchema)
+      console.log('%c⚪️►►►► %cline:127%ccategoryTitles', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(131, 175, 155);padding:3px;border-radius:2px', categoryTitles)
+        // const prepareAddToLibrary = addToLibrary.map(name=)
+        const toAddArrays = addToLibrary.map(name=>[name])
+        console.log('%c⚪️►►►► %cline:130%ctoAddArrays', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px', toAddArrays)
+        const groomedData = groomDataForToolForm([categoryTitles, ...toAddArrays], formInputData)
+
+        console.log('%c⚪️►►►► %cline:113%cgroomedData', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(130, 57, 53);padding:3px;border-radius:2px', groomedData)
+        
+        setUserFilesToGroomArray(groomedData)
+        setSendToLibrary(false)
   }
-    else {
-      setAddToLibrary(prevState=>[...prevState, name])
-    }
-}
+  },[sendToLibrary])
 
-const handleToggleAllCheckBox = (e) => {
-  e.preventDefault();
-  if(addToLibrary.length>0) {
-    setAddToLibrary([])
+  ////////////////////////////////////////
+  /// HANDLERS
+  ////////////////////////////////////////
+  const handleCheckBox = (e) => {
+    e.preventDefault();
+    const name = e.target.dataset.fileName
+    if(addToLibrary.includes(name) ) {
+      setAddToLibrary(prevState=>{
+        const oldState = [...prevState]
+        const newState = oldState.filter(item=>item!==name)
+        return newState
+      })
+    }
+      else {
+        setAddToLibrary(prevState=>[...prevState, name])
+      }
   }
-    else {
-      setAddToLibrary([...fileNames])
+
+  const handleToggleAllCheckBox = (e) => {
+    e.preventDefault();
+    if(addToLibrary.length>0) {
+      setAddToLibrary([])
     }
-}
+      else {
+        setAddToLibrary([...fileNames])
+      }
+  }
 
-const handleFindNewPluginsButton = (e)=>{
-  setFindNewPlugins(!findNewPlugins)
-}
-const handleAddToLibraryButton =()=>{
-    console.log('%c⚪️►►►► %cline:111%caddToLibrary', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(56, 13, 49);padding:3px;border-radius:2px', addToLibrary)
-//   [
-//     "name",
-//     "functions",
-//     "color",
-//     "precision",
-//     "company",
-//     "productURL",
-//     "photoURL",
-//     "oversampling",
-//     "favorite",
-//     "rating",
-//     "status",
-//     "notes"
-// ]
-const categoryTitles = Object.keys(toolsSchema)
-console.log('%c⚪️►►►► %cline:127%ccategoryTitles', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(131, 175, 155);padding:3px;border-radius:2px', categoryTitles)
-  // const prepareAddToLibrary = addToLibrary.map(name=)
-  const toAddArrays = addToLibrary.map(name=>[name])
-  console.log('%c⚪️►►►► %cline:130%ctoAddArrays', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px', toAddArrays)
-  const groomedData = groomDataForToolForm([categoryTitles, ...toAddArrays])
+  const handleFindNewPluginsButton = (e)=>{
+    setFindNewPlugins(!findNewPlugins)
+  }
+  const handleAddToLibraryButton =()=>{
+    setSendToLibrary(true)
 
-  console.log('%c⚪️►►►► %cline:113%cgroomedData', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(130, 57, 53);padding:3px;border-radius:2px', groomedData)
-  setUserFilesToGroomArray(groomedData)
-
-}
+  }
 
 
   ////////////////////////////////////////

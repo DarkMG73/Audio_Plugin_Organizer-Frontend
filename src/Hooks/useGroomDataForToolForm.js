@@ -1,22 +1,10 @@
-import {useState,useEffect} from 'react';
-import {useSelector} from 'react-redux'
-import GetPluginFormInputsWithOptions from "./GetPluginFormInputsWithOptions";
+
 
 const useGroomDataForToolForm = (pluginSchema) => {
-  const [formInputData, setFormInputData] = useState(false);
-  const toolsSchema = useSelector((state) => state.toolsData.toolsSchema);
-  ////////////////////////////////////////
-  /// EFFECTS
-  ////////////////////////////////////////
-  useEffect(() => {
-      const res = GetPluginFormInputsWithOptions(toolsSchema);
-      setFormInputData(res);
-    }, []);
-    
-    ////////////////////////////////////////
+
   /// HELPER FUNCTIONS
   ////////////////////////////////////////
-  const createKeyValueObjectsArray = (dataArray) => {
+  const createKeyValueObjectsArray = (dataArray ) => {
     console.log('%c⚪️►►►► %cline:19%cdataArray', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(178, 190, 126);padding:3px;border-radius:2px', dataArray)
     const outputArray = [];
     const categoryTitles = dataArray[0];
@@ -35,7 +23,7 @@ const useGroomDataForToolForm = (pluginSchema) => {
     return outputArray;
   };
 
-const outputFunction = (dataArray) => {
+const outputFunction = (dataArray, formInputData) => {
     const pairedObjectsArray = createKeyValueObjectsArray(dataArray);
     console.log('%c⚪️►►►► %cline:39%cpairedObjectsArray', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(217, 104, 49);padding:3px;border-radius:2px', pairedObjectsArray)
     const duplicateFunctionOptions = [];
@@ -44,9 +32,11 @@ const outputFunction = (dataArray) => {
     pairedObjectsArray.forEach((row) => {
       const rowGroup = [];
       let assembledRow = {};
-
+        console.log('%c⚪️►►►► %cline:49%cformInputData', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(3, 38, 58);padding:3px;border-radius:2px', formInputData)
+      
       formInputData.forEach((inputData, i) => {
         assembledRow = { ...inputData };
+        console.log('%c⚪️►►►► %cline:49%cassembledRow', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(227, 160, 93);padding:3px;border-radius:2px', assembledRow)
         if (inputData.name === "notes") {
           let rowData = row[inputData.name];
           rowData = decodeURI(rowData);
