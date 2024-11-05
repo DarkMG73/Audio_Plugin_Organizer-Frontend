@@ -12,9 +12,8 @@ const PluginFinder = () => {
   const [addToLibrary, setAddToLibrary] = useState([])
   const [currentNameInSearch, setCurrentNameInSearch] = useState(true)
   const [findNewPlugins, setFindNewPlugins] = useState(false);
-  const handleFindNewPluginsBUtton = (e)=>{
-    setFindNewPlugins(!findNewPlugins)
-  }
+  
+
 useEffect(()=>{
   if(findNewPlugins) {
     
@@ -73,6 +72,7 @@ useEffect(()=>{
       
 }, [findNewPlugins])
 
+
 useEffect(()=>{
   console.log('%c⚪️►►►► %cline:77%caddToLibrary', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(38, 157, 128);padding:3px;border-radius:2px', addToLibrary)
 },[addToLibrary])
@@ -103,10 +103,17 @@ const handleToggleAllCheckBox = (e) => {
     }
 }
 
+const handleFindNewPluginsButton = (e)=>{
+  setFindNewPlugins(!findNewPlugins)
+}
+const handleAddToLibraryButton =()=>{
+  
+}
 
   return (
     <div className={Styles['plugin-finder-container']}>
-   <button onClick={handleFindNewPluginsBUtton}>Find New Plugins</button>
+   <button onClick={handleFindNewPluginsButton}>Find New Plugins</button>
+   <button onClick={handleAddToLibraryButton}>Add to Library &rarr;</button>
       <ul>
          {currentNameInSearch &&
             <div key="loader" className={Styles["loader-wrap"]}>
