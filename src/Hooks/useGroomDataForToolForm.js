@@ -31,11 +31,13 @@ const useGroomDataForToolForm = (pluginSchema) => {
       outputArray.push(assembledRow);
     });
     outputArray.shift();
+    console.log('%c⚪️►►►► %cline:33%coutputArray', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(95, 92, 51);padding:3px;border-radius:2px', outputArray)
     return outputArray;
   };
 
 const outputFunction = (dataArray) => {
     const pairedObjectsArray = createKeyValueObjectsArray(dataArray);
+    console.log('%c⚪️►►►► %cline:39%cpairedObjectsArray', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(217, 104, 49);padding:3px;border-radius:2px', pairedObjectsArray)
     const duplicateFunctionOptions = [];
     const outputArray = [];
 
@@ -181,9 +183,11 @@ const outputFunction = (dataArray) => {
       });
 
       outputArray.push(rowGroup);
+      console.log('%c⚪️►►►► %cline:183%coutputArray', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(39, 72, 98);padding:3px;border-radius:2px', outputArray)
     });
-
+    console.log('%c⚪️►►►► %cline:186%coutputArray', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px', outputArray)
     return outputArray;
+    
   };
   return outputFunction;
 };
