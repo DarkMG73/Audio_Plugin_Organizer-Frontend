@@ -4,6 +4,7 @@ import Styles from "./PluginFinder.module.css"
 import {getLocalPluginData} from '../../storage/audioToolsDB'
 import BarLoader from "../../UI/Loaders/BarLoader/BarLoader";
 import AddAToolForm from "../AddATool/AddAToolForm";
+import useGroomDataForToolForm from "../../Hooks/useGroomDataForToolForm";
 
 const PluginFinder = () => {
   const {allTools} = useSelector((state) => state.toolsData);
@@ -14,7 +15,7 @@ const PluginFinder = () => {
   const [userFilesToGroomArray, setUserFilesToGroomArray] = useState(false)
   const [currentNameInSearch, setCurrentNameInSearch] = useState(true)
   const [findNewPlugins, setFindNewPlugins] = useState(false);
-  
+  const groomDataForToolForm = useGroomDataForToolForm()
 
 useEffect(()=>{
   if(findNewPlugins) {
@@ -56,7 +57,6 @@ useEffect(()=>{
               
               if(!matchedNames.includes(name)) { 
                 groomedList.push(name) 
-               
               }
             }
 
@@ -71,7 +71,6 @@ useEffect(()=>{
           setCurrentNameInSearch(false)
         console.log('err->', err)
       })}
-      
 }, [findNewPlugins])
 
 
@@ -109,8 +108,16 @@ const handleFindNewPluginsButton = (e)=>{
   setFindNewPlugins(!findNewPlugins)
 }
 const handleAddToLibraryButton =()=>{
-  setUserFilesToGroomArray(addToLibrary.map(name=>[name,name]))
+    console.log('%c⚪️►►►► %cline:111%caddToLibrary', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(56, 13, 49);padding:3px;border-radius:2px', addToLibrary)
+  
+    
+  const groomedData = groomDataForToolForm(addToLibrary)
+
+  console.log('%c⚪️►►►► %cline:113%cgroomedData', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(130, 57, 53);padding:3px;border-radius:2px', groomedData)
+  setUserFilesToGroomArray(groomedData)
+
 }
+
 
   ////////////////////////////////////////
   /// Styles
