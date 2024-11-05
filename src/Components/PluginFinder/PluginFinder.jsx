@@ -15,7 +15,6 @@ const PluginFinder = () => {
   const [addToLibrary, setAddToLibrary] = useState([])
   const [userFilesToGroomArray, setUserFilesToGroomArray] = useState(false)
   const [sendToLibrary, setSendToLibrary] = useState(false)
-  const [currentNameInSearch, setCurrentNameInSearch] = useState(true)
   const [findNewPlugins, setFindNewPlugins] = useState(false);
   const groomDataForToolForm = useGroomDataForToolForm()
   const toolsSchema = useSelector((state) => state.toolsData.toolsSchema);
@@ -26,7 +25,6 @@ const PluginFinder = () => {
   useEffect(()=>{
     if(findNewPlugins) {
       setActivateLoader(true)
-      setCurrentNameInSearch(true)
       getLocalPluginData().then(
           data=>{
               console.log('plugin names---->',data)
@@ -64,11 +62,11 @@ const PluginFinder = () => {
               }
 
             setFileNames(groomedList)
-            setCurrentNameInSearch(false)
+
             setActivateLoader(false)
           }
       ).catch(err=>{
-            setCurrentNameInSearch(false)
+
             setActivateLoader(false)
           console.log('err->', err)
         })} else{
@@ -84,6 +82,7 @@ const PluginFinder = () => {
   useEffect(()=>{
     if(sendToLibrary) {
         const categoryTitles = Object.keys(toolsSchema)
+        console.log('%c⚪️►►►► %cline:84%ccategoryTitles', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(178, 190, 126);padding:3px;border-radius:2px', categoryTitles)
         // const prepareAddToLibrary = addToLibrary.map(name=)
         const toAddArrays = addToLibrary.map(name=>[name])
         const groomedData = groomDataForToolForm([categoryTitles, ...toAddArrays])
