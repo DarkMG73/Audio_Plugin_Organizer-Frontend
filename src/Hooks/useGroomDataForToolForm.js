@@ -17,11 +17,13 @@ const useGroomDataForToolForm = (pluginSchema) => {
   /// HELPER FUNCTIONS
   ////////////////////////////////////////
   const createKeyValueObjectsArray = (dataArray) => {
+    console.log('%c⚪️►►►► %cline:19%cdataArray', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(178, 190, 126);padding:3px;border-radius:2px', dataArray)
     const outputArray = [];
     const categoryTitles = dataArray[0];
     dataArray.forEach((row) => {
       const assembledRow = {};
       row.forEach((value, i) => {
+        console.log('%c⚪️►►►► %cline:25%cvalue', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(1, 77, 103);padding:3px;border-radius:2px', value)
         assembledRow[categoryTitles[i].trim()] = value
           .replaceAll("^", ",")
           .trim();

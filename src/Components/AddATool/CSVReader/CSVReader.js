@@ -12,7 +12,7 @@ export default function CSVReader(props) {
   return (
     <CSVReader
       onUploadAccepted={(results) => {
-                console.log('%c⚪️►►►► %cline:15%cresults.data', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(1, 77, 103);padding:3px;border-radius:2px', results.data)
+        console.log('%c⚪️►►►► %cline:15%cresults.data', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(1, 77, 103);padding:3px;border-radius:2px', results.data)
         const groomedCSVOutput = groomCSVOutput(results.data);
         props.setFileUploadArray(groomedCSVOutput);
       }}

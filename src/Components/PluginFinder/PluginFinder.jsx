@@ -16,6 +16,7 @@ const PluginFinder = () => {
   const [currentNameInSearch, setCurrentNameInSearch] = useState(true)
   const [findNewPlugins, setFindNewPlugins] = useState(false);
   const groomDataForToolForm = useGroomDataForToolForm()
+  const toolsSchema = useSelector((state) => state.toolsData.toolsSchema);
 
 useEffect(()=>{
   if(findNewPlugins) {
@@ -109,9 +110,26 @@ const handleFindNewPluginsButton = (e)=>{
 }
 const handleAddToLibraryButton =()=>{
     console.log('%c⚪️►►►► %cline:111%caddToLibrary', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(56, 13, 49);padding:3px;border-radius:2px', addToLibrary)
-  
-    
-  const groomedData = groomDataForToolForm(addToLibrary)
+//   [
+//     "name",
+//     "functions",
+//     "color",
+//     "precision",
+//     "company",
+//     "productURL",
+//     "photoURL",
+//     "oversampling",
+//     "favorite",
+//     "rating",
+//     "status",
+//     "notes"
+// ]
+const categoryTitles = Object.keys(toolsSchema)
+console.log('%c⚪️►►►► %cline:127%ccategoryTitles', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(131, 175, 155);padding:3px;border-radius:2px', categoryTitles)
+  // const prepareAddToLibrary = addToLibrary.map(name=)
+  const toAddArrays = addToLibrary.map(name=>[name])
+  console.log('%c⚪️►►►► %cline:130%ctoAddArrays', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px', toAddArrays)
+  const groomedData = groomDataForToolForm([categoryTitles, ...toAddArrays])
 
   console.log('%c⚪️►►►► %cline:113%cgroomedData', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(130, 57, 53);padding:3px;border-radius:2px', groomedData)
   setUserFilesToGroomArray(groomedData)
