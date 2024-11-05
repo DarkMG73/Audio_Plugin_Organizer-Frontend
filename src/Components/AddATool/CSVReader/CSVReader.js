@@ -1,24 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import styles from "./CSVReader.module.css";
 import { useCSVReader } from "react-papaparse";
-import GetPluginFormInputsWithOptions from "../../../Hooks/GetPluginFormInputsWithOptions";
 import useGroomDataForToolForm from "../../../Hooks/useGroomDataForToolForm";
 
 export default function CSVReader(props) {
-  const toolsSchema = useSelector((state) => state.toolsData.toolsSchema);
   const { CSVReader } = useCSVReader();
-  const [formInputData, setFormInputData] = useState(false);
   const groomCSVOutput = useGroomDataForToolForm()
-
-  ////////////////////////////////////////
-  /// EFFECTS
-  ////////////////////////////////////////
-  useEffect(() => {
-      const res = GetPluginFormInputsWithOptions(toolsSchema);
-      setFormInputData(res);
-    }, []);
-
 
   ////////////////////////////////////////
   /// OUTPUT
@@ -26,7 +12,8 @@ export default function CSVReader(props) {
   return (
     <CSVReader
       onUploadAccepted={(results) => {
-        const groomedCSVOutput = groomCSVOutput(results.data, formInputData);
+        console.log('%c⚪️►►►► %cline:15%cresults.data', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(1, 77, 103);padding:3px;border-radius:2px', results.data)
+        const groomedCSVOutput = groomCSVOutput(results.data);
         props.setFileUploadArray(groomedCSVOutput);
       }}
     >

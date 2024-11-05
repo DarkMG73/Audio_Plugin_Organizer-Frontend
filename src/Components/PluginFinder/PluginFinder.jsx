@@ -5,12 +5,11 @@ import {getLocalPluginData} from '../../storage/audioToolsDB'
 import BarLoader from "../../UI/Loaders/BarLoader/BarLoader";
 import AddAToolForm from "../AddATool/AddAToolForm";
 import useGroomDataForToolForm from "../../Hooks/useGroomDataForToolForm";
-import GetPluginFormInputsWithOptions from "../../Hooks/GetPluginFormInputsWithOptions";
+
 
 
 const PluginFinder = () => {
   const {allTools} = useSelector((state) => state.toolsData);
-  console.log('%c⚪️►►►► %cline:7%callTools', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(217, 104, 49);padding:3px;border-radius:2px', allTools)
   const acceptedPluginWrappers = ['vst','vst3','component']
   const [fileNames, setFileNames] = useState([]);
   const [addToLibrary, setAddToLibrary] = useState([])
@@ -19,25 +18,14 @@ const PluginFinder = () => {
   const [currentNameInSearch, setCurrentNameInSearch] = useState(true)
   const [findNewPlugins, setFindNewPlugins] = useState(false);
   const groomDataForToolForm = useGroomDataForToolForm()
-  const [formInputData, setFormInputData] = useState(false);
   const toolsSchema = useSelector((state) => state.toolsData.toolsSchema);
+  const [activateLoader, setActivateLoader] = useState(false)
 
-  ////////////////////////////////////////
-  /// EFFECTS
-  ////////////////////////////////////////
-  useEffect(() => { 
-      console.log('%c⚪️►►►►>>>>>>>>>>>>>>>>>>>>>> %cline:12%ctoolsSchema', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(237, 222, 139);padding:3px;border-radius:2px', toolsSchema)
-        
-      const res = GetPluginFormInputsWithOptions(toolsSchema);
 
-      console.log('%c⚪️►►►► %cline:12%cres', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(248, 214, 110);padding:3px;border-radius:2px', res)
-     
-      setFormInputData(res);
-    }, []);
     
   useEffect(()=>{
     if(findNewPlugins) {
-      
+      setActivateLoader(true)
       setCurrentNameInSearch(true)
       getLocalPluginData().then(
           data=>{
@@ -53,9 +41,6 @@ const PluginFinder = () => {
                 if(isValid) acceptedPluginNames.add(nameArray[0])
                 }
               ) 
-
-
-              console.log('%c⚪️►►►► %cline:35%cacceptedPluginNames', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px', acceptedPluginNames)
               
               const matchedNames = []
               const groomedList = []
@@ -78,17 +63,17 @@ const PluginFinder = () => {
                 }
               }
 
-            console.log('%c⚪️►►►► %cline:39%cmatchedNames', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(20, 68, 106);padding:3px;border-radius:2px', matchedNames)
-
-            console.log('%c⚪️►►►► %cline:41%cgroomedList', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px', groomedList)
-
             setFileNames(groomedList)
             setCurrentNameInSearch(false)
+            setActivateLoader(false)
           }
       ).catch(err=>{
             setCurrentNameInSearch(false)
+            setActivateLoader(false)
           console.log('err->', err)
-        })}
+        })} else{
+          setActivateLoader(false)
+        }
   }, [findNewPlugins])
 
 
@@ -98,33 +83,15 @@ const PluginFinder = () => {
 
   useEffect(()=>{
     if(sendToLibrary) {
-      console.log('%c⚪️►►►► %cline:111%caddToLibrary', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(56, 13, 49);padding:3px;border-radius:2px', addToLibrary)
-      //   [
-      //     "name",
-      //     "functions",
-      //     "color",
-      //     "precision",
-      //     "company",
-      //     "productURL",
-      //     "photoURL",
-      //     "oversampling",
-      //     "favorite",
-      //     "rating",
-      //     "status",
-      //     "notes"
-      // ]
-      const categoryTitles = Object.keys(toolsSchema)
-      console.log('%c⚪️►►►► %cline:127%ccategoryTitles', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(131, 175, 155);padding:3px;border-radius:2px', categoryTitles)
+        const categoryTitles = Object.keys(toolsSchema)
         // const prepareAddToLibrary = addToLibrary.map(name=)
         const toAddArrays = addToLibrary.map(name=>[name])
-        console.log('%c⚪️►►►► %cline:130%ctoAddArrays', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px', toAddArrays)
-        const groomedData = groomDataForToolForm([categoryTitles, ...toAddArrays], formInputData)
-
-        console.log('%c⚪️►►►► %cline:113%cgroomedData', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(130, 57, 53);padding:3px;border-radius:2px', groomedData)
+        const groomedData = groomDataForToolForm([categoryTitles, ...toAddArrays])
         
         setUserFilesToGroomArray(groomedData)
         setSendToLibrary(false)
   }
+  setActivateLoader(false)
   },[sendToLibrary])
 
   ////////////////////////////////////////
@@ -156,9 +123,11 @@ const PluginFinder = () => {
   }
 
   const handleFindNewPluginsButton = (e)=>{
+    setActivateLoader(true)
     setFindNewPlugins(!findNewPlugins)
   }
   const handleAddToLibraryButton =()=>{
+    setActivateLoader(true)
     setSendToLibrary(true)
 
   }
@@ -202,7 +171,7 @@ const PluginFinder = () => {
    <button onClick={handleFindNewPluginsButton}>Find New Plugins</button>
    <button onClick={handleAddToLibraryButton}>Add to Library &rarr;</button>
       <ul>
-         {currentNameInSearch &&
+         {activateLoader > 0 &&
             <div key="loader" className={Styles["loader-wrap"]}>
               <BarLoader />
             </div>
