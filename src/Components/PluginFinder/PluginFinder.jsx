@@ -3,6 +3,7 @@ import {useSelector} from 'react-redux'
 import Styles from "./PluginFinder.module.css"
 import {getLocalPluginData} from '../../storage/audioToolsDB'
 import BarLoader from "../../UI/Loaders/BarLoader/BarLoader";
+import AddAToolForm from "../AddATool/AddAToolForm";
 
 const PluginFinder = () => {
   const {allTools} = useSelector((state) => state.toolsData);
@@ -10,6 +11,7 @@ const PluginFinder = () => {
   const acceptedPluginWrappers = ['vst','vst3','component']
   const [fileNames, setFileNames] = useState([]);
   const [addToLibrary, setAddToLibrary] = useState([])
+  const [userFilesToGroomArray, setUserFilesToGroomArray] = useState(false)
   const [currentNameInSearch, setCurrentNameInSearch] = useState(true)
   const [findNewPlugins, setFindNewPlugins] = useState(false);
   
@@ -107,9 +109,42 @@ const handleFindNewPluginsButton = (e)=>{
   setFindNewPlugins(!findNewPlugins)
 }
 const handleAddToLibraryButton =()=>{
-  
+  setUserFilesToGroomArray(addToLibrary.map(name=>[name,name]))
 }
 
+  ////////////////////////////////////////
+  /// Styles
+  ////////////////////////////////////////
+  const submitButtonStyles = {
+    position: "relative",
+    top: "-0",
+    left: "40%",
+    width: "80%",
+    transform: " translateX(-50%)",
+    background: "var(--iq-color-accent-gradient)",
+    borderRadius: "50px",
+    height: "3em",
+    font: "var(--iq-font-heading-2)",
+  };
+
+  const buttonStyles = {
+    width: "80%",
+    borderRadius: "50px",
+    height: "3em",
+    font: "var(--iq-font-heading-2)",
+    fontSize: "1.5em",
+    padding: "0",
+    textTransform: "uppercase",
+    fontWeight: "900",
+    letterSpacing: "0.25em",
+    textShadow:
+      "rgb(0 0 0 / 50%) -1px -1px 1px, rgb(255 255 255 / 50%) 1px 1px 1px, 0 0 22px wheat",
+  };
+
+
+  ////////////////////////////////////////
+  /// Output
+  ////////////////////////////////////////
   return (
     <div className={Styles['plugin-finder-container']}>
    <button onClick={handleFindNewPluginsButton}>Find New Plugins</button>
@@ -125,6 +160,19 @@ const handleAddToLibraryButton =()=>{
         {findNewPlugins &&
         <Fragment>
           {fileNames.length > 0 && <h3>{fileNames.length}</h3>}
+          {userFilesToGroomArray && (
+                <div
+                  key="add-a-tool-inputs-container 3"
+                  className={Styles["inputs-container"]}
+                >
+                  <AddAToolForm
+                    saveOrUpdateData="save"
+                    formData={userFilesToGroomArray}
+                    buttonStyles={buttonStyles}
+                    submitButtonStyles={submitButtonStyles}
+                  />
+                </div>
+          )}
           {fileNames.map((fileName, index) => (
               <li key={index}>
 

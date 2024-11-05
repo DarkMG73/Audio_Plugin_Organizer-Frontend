@@ -48,6 +48,7 @@ function AddAToolFormElms(props) {
   }
 
   if (newFormInputData.length > 0) {
+    console.log('%c⚪️►►►► %cline:50%cnewFormInputData', 'color:#fff;background:#ee6f57;padding:3px;border-radius:2px', 'color:#fff;background:#1f3c88;padding:3px;border-radius:2px', 'color:#fff;background:rgb(3, 101, 100);padding:3px;border-radius:2px', newFormInputData)
     newFormInputData[0].forEach((group) => {
       // To make the flow of the options through the form clearer, we set fixed numbers and booleans as strings
       if (group.name === "rating") group.options = ["1", "2", "3", "4", "5"];
