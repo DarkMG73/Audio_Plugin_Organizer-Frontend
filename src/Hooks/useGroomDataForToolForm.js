@@ -28,6 +28,14 @@ const useGroomDataForToolForm = (pluginSchema) => {
       const categoryTitles = dataArray[0];
       dataArray.forEach((row) => {
          const assembledRow = {};
+         categoryTitles.forEach((title) => (assembledRow[title] = ""));
+         console.log(
+            "%c⚪️►►►► %cline:31%cassembledRow",
+            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+            "color:#fff;background:rgb(248, 214, 110);padding:3px;border-radius:2px",
+            assembledRow
+         );
          row.forEach((value, i) => {
             console.log(
                "%c⚪️►►►► %cline:25%cvalue",
@@ -40,6 +48,15 @@ const useGroomDataForToolForm = (pluginSchema) => {
                .replaceAll("^", ",")
                .trim();
          });
+
+         console.log(
+            "%c⚪️►►►► %cline:43%cassembledRow",
+            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+            "color:#fff;background:rgb(20, 68, 106);padding:3px;border-radius:2px",
+            assembledRow
+         );
+
          outputArray.push(assembledRow);
          console.log(
             "%c⚪️►►►► %cline:43%coutputArray",
