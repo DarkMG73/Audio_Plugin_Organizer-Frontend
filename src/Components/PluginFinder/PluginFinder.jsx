@@ -116,7 +116,13 @@ const PluginFinder = () => {
             categoryTitles,
             ...toAddArrays
          ]);
-
+         console.log(
+            "%c⚪️►►►► %cline:115%cgroomedData",
+            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+            "color:#fff;background:rgb(3, 101, 100);padding:3px;border-radius:2px",
+            groomedData
+         );
          setUserFilesToGroomArray(groomedData);
          setSendToLibrary(false);
       }
