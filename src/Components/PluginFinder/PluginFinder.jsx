@@ -87,28 +87,17 @@ const PluginFinder = () => {
    useEffect(() => {
       if (sendToLibrary) {
          const categoryTitles = Object.keys(toolsSchema);
-         console.log(
-            "%c⚪️►►►► %cline:84%ccategoryTitles",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(178, 190, 126);padding:3px;border-radius:2px",
-            categoryTitles
-         );
-
          const toAddArrays = addToLibrary.map((name) => {
             const outputArray = [];
 
+            // Assign defaults
             outputArray[categoryTitles.indexOf("name")] = name;
+            outputArray[categoryTitles.indexOf("functions")] =
+               "/Audio Effects/";
             outputArray[categoryTitles.indexOf("status")] = "active";
             outputArray[categoryTitles.indexOf("rating")] = "3";
             outputArray[categoryTitles.indexOf("masterLibraryID")] = name;
-            console.log(
-               "%c⚪️►►►► %cline:91%coutputArray",
-               "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-               "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-               "color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px",
-               outputArray
-            );
+
             return outputArray;
          });
 
@@ -116,18 +105,12 @@ const PluginFinder = () => {
             categoryTitles,
             ...toAddArrays
          ]);
-         console.log(
-            "%c⚪️►►►► %cline:115%cgroomedData",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(3, 101, 100);padding:3px;border-radius:2px",
-            groomedData
-         );
+
          setUserFilesToGroomArray(groomedData);
          setSendToLibrary(false);
       }
       setActivateLoader(false);
-   }, [sendToLibrary]);
+   }, [sendToLibrary, addToLibrary, groomDataForToolForm, toolsSchema]);
 
    ////////////////////////////////////////
    /// HANDLERS
