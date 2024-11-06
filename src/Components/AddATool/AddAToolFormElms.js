@@ -55,17 +55,17 @@ function AddAToolFormElms(props) {
          "color:#fff;background:rgb(3, 101, 100);padding:3px;border-radius:2px",
          newFormInputData
       );
-      newFormInputData[0].forEach((group) => {
-         // To make the flow of the options through the form clearer, we set fixed numbers and booleans as strings
-         if (group.name === "rating") group.options = ["1", "2", "3", "4", "5"];
-         if (group.name === "favorite" || group.name === "oversampling")
-            group.options = ["True", "False"];
+      // newFormInputData[0].forEach((group) => {
+      //    // To make the flow of the options through the form clearer, we set fixed numbers and booleans as strings
+      //    if (group.name === "rating") group.options = ["1", "2", "3", "4", "5"];
+      //    if (group.name === "favorite" || group.name === "oversampling")
+      //       group.options = ["True", "False"];
 
-         // Format user added functions to match stock functions
-         if (group.name === "functions") {
-            group.options = getAllFunctionOptions(toolsMetadata);
-         }
-      });
+      //    // Format user added functions to match stock functions
+      //    if (group.name === "functions") {
+      //       group.options = getAllFunctionOptions(toolsMetadata);
+      //    }
+      // });
    }
 
    ////////////////////////////////////////
@@ -98,7 +98,29 @@ function AddAToolFormElms(props) {
                                  formNumber={index}
                                  inputDataObj={inputData}
                                  requiredError={props.requiredError}
-                                 // parentName={}
+                                 parentName={formDataGroup.forEach(
+                                    (topicGroup) => {
+                                       console.log(
+                                          "%c⚪️►►►► %cline:102%ctopicGroup",
+                                          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                                          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                                          "color:#fff;background:rgb(3, 22, 52);padding:3px;border-radius:2px",
+                                          topicGroup
+                                       );
+
+                                       console.log(
+                                          "%c⚪️►►►► %cline:110%ctopicGroup.name === name",
+                                          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                                          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                                          "color:#fff;background:rgb(39, 72, 98);padding:3px;border-radius:2px",
+                                          topicGroup.name === "name"
+                                       );
+
+                                       if (topicGroup.name === "name") {
+                                          return topicGroup.preFilledData;
+                                       }
+                                    }
+                                 )}
                               />
                            );
                         })}

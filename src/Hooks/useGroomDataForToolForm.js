@@ -29,86 +29,31 @@ const useGroomDataForToolForm = (pluginSchema) => {
       dataArray.forEach((row) => {
          const assembledRow = {};
          categoryTitles.forEach((title) => (assembledRow[title] = ""));
-         console.log(
-            "%c⚪️►►►► %cline:31%cassembledRow",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(248, 214, 110);padding:3px;border-radius:2px",
-            assembledRow
-         );
+
          row.forEach((value, i) => {
-            console.log(
-               "%c⚪️►►►► %cline:25%cvalue",
-               "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-               "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-               "color:#fff;background:rgb(1, 77, 103);padding:3px;border-radius:2px",
-               value
-            );
             assembledRow[categoryTitles[i].trim()] = value
                .replaceAll("^", ",")
                .trim();
          });
 
-         console.log(
-            "%c⚪️►►►► %cline:43%cassembledRow",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(20, 68, 106);padding:3px;border-radius:2px",
-            assembledRow
-         );
-
          outputArray.push(assembledRow);
-         console.log(
-            "%c⚪️►►►► %cline:43%coutputArray",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(217, 104, 49);padding:3px;border-radius:2px",
-            outputArray
-         );
       });
       outputArray.shift();
-      console.log(
-         "%c⚪️►►►► %cline:33%coutputArray",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(95, 92, 51);padding:3px;border-radius:2px",
-         outputArray
-      );
       return outputArray;
    };
 
    const outputFunction = (dataArray) => {
       const pairedObjectsArray = createKeyValueObjectsArray(dataArray);
-      console.log(
-         "%c⚪️►►►► %cline:39%cpairedObjectsArray",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(217, 104, 49);padding:3px;border-radius:2px",
-         pairedObjectsArray
-      );
       const duplicateFunctionOptions = [];
       const outputArray = [];
 
       pairedObjectsArray.forEach((row) => {
          const rowGroup = [];
          let assembledRow = {};
-         console.log(
-            "%c⚪️►►►► %cline:49%cformInputData",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(3, 38, 58);padding:3px;border-radius:2px",
-            formInputData
-         );
 
          formInputData.forEach((inputData, i) => {
             assembledRow = { ...inputData };
-            console.log(
-               "%c⚪️►►►► %cline:49%cassembledRow",
-               "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-               "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-               "color:#fff;background:rgb(227, 160, 93);padding:3px;border-radius:2px",
-               assembledRow
-            );
+
             if (inputData.name === "notes") {
                let rowData = row[inputData.name];
                rowData = decodeURI(rowData);
@@ -252,21 +197,7 @@ const useGroomDataForToolForm = (pluginSchema) => {
          });
 
          outputArray.push(rowGroup);
-         console.log(
-            "%c⚪️►►►► %cline:183%coutputArray",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(39, 72, 98);padding:3px;border-radius:2px",
-            outputArray
-         );
       });
-      console.log(
-         "%c⚪️►►►► %cline:186%coutputArray",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px",
-         outputArray
-      );
       return outputArray;
    };
    return outputFunction;

@@ -210,7 +210,7 @@ const FormInput = (props) => {
             <label key={"form-inpu-1t"} htmlFor={formNumber + "#" + input.name}>
                {input.title}
                {input.title === "Producturl" && (
-                  <a href="{}">Quick Web Search &rarr;</a>
+                  <a href={"/" + props.parentName}>Quick Web Search &rarr;</a>
                )}
             </label>
             <input
