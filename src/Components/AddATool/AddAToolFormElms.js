@@ -92,35 +92,43 @@ function AddAToolFormElms(props) {
                            hidden
                         />
                         {formDataGroup.map((inputData, i) => {
+                           let preFilledData = null;
+
+                           formDataGroup.forEach((topicGroup) => {
+                              if (topicGroup.name === "name") {
+                                 console.log(
+                                    "%c⚪️►►►► %cline:111%ctopicGroup.preFilledData",
+                                    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                                    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                                    "color:#fff;background:rgb(3, 22, 52);padding:3px;border-radius:2px",
+                                    topicGroup.preFilledData
+                                 );
+                                 if (
+                                    topicGroup &&
+                                    Object.hasOwn(
+                                       topicGroup,
+                                       "preFilledData"
+                                    ) &&
+                                    topicGroup.preFilledData
+                                 )
+                                    preFilledData = topicGroup.preFilledData;
+                              }
+                           });
+
+                           console.log(
+                              "%c⚪️►►►► %cline:96%cpreFilledData",
+                              "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                              "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                              "color:#fff;background:rgb(130, 57, 53);padding:3px;border-radius:2px",
+                              preFilledData
+                           );
                            return (
                               <FormInput
                                  key={"addtoolformelms-4" + i}
                                  formNumber={index}
                                  inputDataObj={inputData}
                                  requiredError={props.requiredError}
-                                 parentName={formDataGroup.forEach(
-                                    (topicGroup) => {
-                                       console.log(
-                                          "%c⚪️►►►► %cline:102%ctopicGroup",
-                                          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                                          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                                          "color:#fff;background:rgb(3, 22, 52);padding:3px;border-radius:2px",
-                                          topicGroup
-                                       );
-
-                                       console.log(
-                                          "%c⚪️►►►► %cline:110%ctopicGroup.name === name",
-                                          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                                          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                                          "color:#fff;background:rgb(39, 72, 98);padding:3px;border-radius:2px",
-                                          topicGroup.name === "name"
-                                       );
-
-                                       if (topicGroup.name === "name") {
-                                          return topicGroup.preFilledData;
-                                       }
-                                    }
-                                 )}
+                                 parentName={preFilledData}
                               />
                            );
                         })}

@@ -3,6 +3,13 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import { toTitleCase } from "../../../Hooks/utility";
 
 const FormInput = (props) => {
+   console.log(
+      "%c⚪️►►►► %cline:5%cprops",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
+      props
+   );
    const [requiredError, setRequiredError] = useState(true);
    const [requiredClass, setRequiredClass] = useState("");
    const input = props.inputDataObj;
@@ -210,7 +217,14 @@ const FormInput = (props) => {
             <label key={"form-inpu-1t"} htmlFor={formNumber + "#" + input.name}>
                {input.title}
                {input.title === "Producturl" && (
-                  <a href={"/" + props.parentName}>Quick Web Search &rarr;</a>
+                  <a
+                     href={`https://search.brave.com/search?q=audio+plugin+${props.parentName}&source=desktop`}
+                     target="_blank"
+                     alt="A Brave search for this plugin"
+                  >
+                     To get the product URL a photo URL, find the developer page
+                     here &rarr;
+                  </a>
                )}
             </label>
             <input
