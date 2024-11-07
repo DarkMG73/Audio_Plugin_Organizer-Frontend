@@ -18,37 +18,47 @@ const FormInput = (props) => {
       "../../../assets/images/official_plugin_images/",
       true
    );
+   const genericImages = require.context(
+      "../../../assets/images/generic_plugin_images/",
+      true
+   );
+
    console.log(
-      "%c⚪️►►►► %cline:17%cimages",
+      "%c⚪️►►►► %cline:21%cgenericImages",
       "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
       "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(17, 63, 61);padding:3px;border-radius:2px",
-      images
+      "color:#fff;background:rgb(131, 175, 155);padding:3px;border-radius:2px",
+      genericImages
    );
-   const imageList = images.keys().map((image) => {
-      console.log(
-         "%c⚪️►►►► %cline:19%cimage",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
-         image
-      );
 
+   const imageList = images.keys().map((image) => {
       return images(image);
    });
 
    console.log(
-      "%c⚪️►►►► %cline:25%cimageList",
+      "%c⚪️►►►► %cline:37%cgenericImages.keys()",
       "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
       "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(227, 160, 93);padding:3px;border-radius:2px",
-      imageList
+      "color:#fff;background:rgb(130, 57, 53);padding:3px;border-radius:2px",
+      genericImages.keys()
    );
+
+   const genericImageList = genericImages.keys().map((image) => {
+      console.log(
+         "%c⚪️►►►► %cline:37%cimage",
+         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+         "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
+         image
+      );
+      return genericImages(image);
+   });
 
    const [requiredError, setRequiredError] = useState(true);
    const [requiredClass, setRequiredClass] = useState("");
    const [photoSelected, setPhotoSelected] = useState();
    const [picSelectorOpen, setPicSelectorOpen] = useState(false);
+   const [genericPicSelectorOpen, setGenericPicSelectorOpen] = useState(false);
    const input = props.inputDataObj;
    const formNumber = props.formNumber;
    const [inputValue, setInputValue] = useState(input.preFilledData);
@@ -118,10 +128,56 @@ const FormInput = (props) => {
 
    const handleClosePicSelector = (e) => {
       e.preventDefault();
-      setPicSelectorOpen(!picSelectorOpen);
+      if ((e.target.value = "generic")) {
+         console.log(
+            "%c⚪️►►►► %cline:105%ce",
+            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+            "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
+            e.target.value
+         );
+         setGenericPicSelectorOpen(!genericPicSelectorOpen);
+      } else {
+         setPicSelectorOpen(!picSelectorOpen);
+      }
    };
+
    const handleOnSelectPic = (imageObj) => {
       const picLocation = "/official_plugin_images/";
+      const imageStr = imageObj.src;
+      console.log(
+         "%c⚪️►►►► %cline:18%cimageStr",
+         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+         "color:#fff;background:rgb(161, 23, 21);padding:3px;border-radius:2px",
+         imageStr
+      );
+
+      const groomedImageNameStart = imageStr.substring(
+         imageStr.lastIndexOf("/") + 1,
+         imageStr.indexOf(".")
+      );
+
+      // const groomedImageNameStart = imageStr.substring(
+      //    0,
+      //    imageStr.indexOf(".")
+      // );
+
+      const groomedImageNameEnd = imageStr.substring(imageStr.lastIndexOf("."));
+      console.log(
+         "%c⚪️►►►► %cline:34%cgroomedImageName",
+         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+         "color:#fff;background:rgb(96, 143, 159);padding:3px;border-radius:2px",
+         groomedImageNameStart + groomedImageNameEnd
+      );
+      setPhotoSelected(
+         picLocation + groomedImageNameStart + groomedImageNameEnd
+      );
+   };
+
+   const handleOnGenericSelectPic = (imageObj) => {
+      const picLocation = "/generic_plugin_images/";
       const imageStr = imageObj.src;
       console.log(
          "%c⚪️►►►► %cline:18%cimageStr",
@@ -321,34 +377,87 @@ const FormInput = (props) => {
             {input.title === "Photourl" && (
                <div
                   className={
-                     styles["image-selector-container"] +
+                     styles["image-selector-outer-container"] +
                      " " +
-                     styles["image-selector-" + input.title]
+                     styles["default-image-selector"]
                   }
                >
-                  {picSelectorOpen && (
-                     <div
-                        className={
-                           styles["image-selector"] +
-                           " " +
-                           styles["default-image-selector"]
-                        }
-                     >
-                        <ImagePicker
-                           images={imageList.map((image, i) => ({
-                              src: image,
-                              value: i
-                           }))}
-                           onPick={handleOnSelectPic}
-                        />
-                        <button type="button" onClick={handleClosePicSelector}>
-                           OK
-                        </button>
-                     </div>
-                  )}
-                  <button onClick={handleClosePicSelector}>
-                     Select from Generic Pics
-                  </button>{" "}
+                  {
+                     // OEM Pic Selector
+                  }
+                  <div
+                     className={
+                        styles["image-selector-container"] +
+                        " " +
+                        styles["image-selector-" + input.title]
+                     }
+                  >
+                     {picSelectorOpen && (
+                        <div
+                           className={
+                              styles["image-selector"] +
+                              " " +
+                              styles["default-image-selector"]
+                           }
+                        >
+                           <ImagePicker
+                              images={imageList.map((image, i) => ({
+                                 src: image,
+                                 value: i
+                              }))}
+                              onPick={handleOnSelectPic}
+                           />
+                           <button
+                              type="button"
+                              onClick={handleClosePicSelector}
+                           >
+                              OK
+                           </button>
+                        </div>
+                     )}
+
+                     <button onClick={handleClosePicSelector}>
+                        Select from OEM Pics Library
+                     </button>
+                  </div>
+                  {
+                     // Generic Pic Selector
+                  }
+                  <div
+                     className={
+                        styles["image-selector-container"] +
+                        " " +
+                        styles["image-selector-" + input.title]
+                     }
+                  >
+                     {genericPicSelectorOpen && (
+                        <div
+                           className={
+                              styles["image-selector"] +
+                              " " +
+                              styles["default-image-selector"]
+                           }
+                        >
+                           <ImagePicker
+                              images={genericImageList.map((image, i) => ({
+                                 src: image,
+                                 value: i
+                              }))}
+                              onPick={handleOnGenericSelectPic}
+                           />
+                           <button
+                              type="button"
+                              value="generic"
+                              onClick={handleClosePicSelector}
+                           >
+                              OK
+                           </button>
+                        </div>
+                     )}
+                     <button onClick={handleClosePicSelector}>
+                        Select from Generic Pics Library
+                     </button>
+                  </div>
                </div>
             )}
             <input
