@@ -1,6 +1,10 @@
 import styles from "./FormInput.module.css";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { toTitleCase } from "../../../Hooks/utility";
+import ImagePicker from "react-image-picker";
+import "react-image-picker/dist/index.css";
+// import img1 from "../../../assets/images/Acoustica-Audio_AERO-AMP.png";
+// import img2 from "../../../assets/images/product-photo-placeholder-2.png";
 
 const FormInput = (props) => {
    console.log(
@@ -10,8 +14,41 @@ const FormInput = (props) => {
       "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
       props
    );
+   const images = require.context(
+      "../../../assets/images/official_plugin_images/",
+      true
+   );
+   console.log(
+      "%c⚪️►►►► %cline:17%cimages",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(17, 63, 61);padding:3px;border-radius:2px",
+      images
+   );
+   const imageList = images.keys().map((image) => {
+      console.log(
+         "%c⚪️►►►► %cline:19%cimage",
+         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+         "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
+         image
+      );
+
+      return images(image);
+   });
+
+   console.log(
+      "%c⚪️►►►► %cline:25%cimageList",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(227, 160, 93);padding:3px;border-radius:2px",
+      imageList
+   );
+
    const [requiredError, setRequiredError] = useState(true);
    const [requiredClass, setRequiredClass] = useState("");
+   const [photoSelected, setPhotoSelected] = useState();
+   const [picSelectorOpen, setPicSelectorOpen] = useState(false);
    const input = props.inputDataObj;
    const formNumber = props.formNumber;
    const [inputValue, setInputValue] = useState(input.preFilledData);
@@ -25,6 +62,16 @@ const FormInput = (props) => {
    useEffect(() => {
       if (input.required == true) setRequiredClass("required-input");
    }, []);
+
+   useEffect(() => {
+      console.log(
+         "%c⚪️►►►► %cline:39%cphotoSelected",
+         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+         "color:#fff;background:rgb(39, 72, 98);padding:3px;border-radius:2px",
+         photoSelected
+      );
+   }, [photoSelected]);
 
    useEffect(() => {
       if (input.required == true && requiredError) {
@@ -69,12 +116,52 @@ const FormInput = (props) => {
       // setInputValue(e.target.value);
    };
 
+   const handleClosePicSelector = (e) => {
+      e.preventDefault();
+      setPicSelectorOpen(!picSelectorOpen);
+   };
+   const handleOnSelectPic = (imageObj) => {
+      const picLocation = "/official_plugin_images/";
+      const imageStr = imageObj.src;
+      console.log(
+         "%c⚪️►►►► %cline:18%cimageStr",
+         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+         "color:#fff;background:rgb(161, 23, 21);padding:3px;border-radius:2px",
+         imageStr
+      );
+
+      const groomedImageNameStart = imageStr.substring(
+         imageStr.lastIndexOf("/") + 1,
+         imageStr.indexOf(".")
+      );
+
+      // const groomedImageNameStart = imageStr.substring(
+      //    0,
+      //    imageStr.indexOf(".")
+      // );
+
+      const groomedImageNameEnd = imageStr.substring(imageStr.lastIndexOf("."));
+      console.log(
+         "%c⚪️►►►► %cline:34%cgroomedImageName",
+         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+         "color:#fff;background:rgb(96, 143, 159);padding:3px;border-radius:2px",
+         groomedImageNameStart + groomedImageNameEnd
+      );
+      setPhotoSelected(
+         picLocation + groomedImageNameStart + groomedImageNameEnd
+      );
+   };
+
    ///////////////////////////////////////
    /// FUNCTIONALITY
    ////////////////////////////////////////
    let groomedOptions;
    if (input.hasOwnProperty("options"))
-      groomedOptions = input.options.map((option) => option.trim());
+      groomedOptions = input.options.map(
+         (option) => typeof option === "string" && option.trim()
+      );
 
    if (input.type === "textarea") {
       outputJSX = (
@@ -214,7 +301,10 @@ const FormInput = (props) => {
             key={"form-input"}
             className={styles["input-container"] + " " + styles[input.name]}
          >
-            <label key={"form-inpu-1t"} htmlFor={formNumber + "#" + input.name}>
+            <label
+               key={"form-input-1t"}
+               htmlFor={formNumber + "#" + input.name}
+            >
                {input.title}
                {input.title === "Producturl" && (
                   <a
@@ -227,11 +317,45 @@ const FormInput = (props) => {
                   </a>
                )}
             </label>
+
+            {input.title === "Photourl" && (
+               <div
+                  className={
+                     styles["image-selector-container"] +
+                     " " +
+                     styles["image-selector-" + input.title]
+                  }
+               >
+                  {picSelectorOpen && (
+                     <div
+                        className={
+                           styles["image-selector"] +
+                           " " +
+                           styles["default-image-selector"]
+                        }
+                     >
+                        <ImagePicker
+                           images={imageList.map((image, i) => ({
+                              src: image,
+                              value: i
+                           }))}
+                           onPick={handleOnSelectPic}
+                        />
+                        <button type="button" onClick={handleClosePicSelector}>
+                           OK
+                        </button>
+                     </div>
+                  )}
+                  <button onClick={handleClosePicSelector}>
+                     Select from Generic Pics
+                  </button>{" "}
+               </div>
+            )}
             <input
                key={"form-input-2"}
                type="url"
                name={formNumber + "#" + input.name}
-               defaultValue={inputValue}
+               defaultValue={photoSelected ? photoSelected : inputValue}
                ref={requiredTextInput}
                onChange={props.onChange || textInputOnChangeHandler}
                className={styles[requiredClass]}
@@ -257,7 +381,7 @@ const FormInput = (props) => {
       const options = groomedOptions.map((option, i) => {
          let optionGroup = "";
          let optionName = option;
-         if (option.includes("~")) {
+         if (option && option.includes("~")) {
             [optionGroup, optionName] = option.split("~");
             optionGroup = optionGroup.trim();
             optionName = optionName.trim();
@@ -297,7 +421,7 @@ const FormInput = (props) => {
                </div>
             );
          } else if (
-            (inputValue.constructor === String ||
+            ((optionName && inputValue.constructor === String) ||
                inputValue.constructor === Array) &&
             inputValue.length > 0 &&
             (inputValue.toString().toLowerCase().trim() ==
@@ -342,8 +466,9 @@ const FormInput = (props) => {
             );
          } else {
             if (
-               optionName.toLowerCase() === "true" ||
-               optionName.toLowerCase() === "false"
+               typeof optionName === "string" &&
+               (optionName.toLowerCase() === "true" ||
+                  optionName.toLowerCase() === "false")
             )
                optionName = toTitleCase(optionName.toLowerCase(), true);
             return (
@@ -352,11 +477,15 @@ const FormInput = (props) => {
                   className={
                      styles["input-wrap"] +
                      " 3 " +
-                     optionName.toLowerCase().replace(/[^A-Z0-9]+/gi, "_") +
+                     (typeof optionName === "string" &&
+                        optionName.toLowerCase().replace(/[^A-Z0-9]+/gi, "_")) +
                      " " +
                      styles[
                         "input-option-" +
-                           optionName.toLowerCase().replace(/[^A-Z0-9]+/gi, "_")
+                           (typeof optionName === "string" &&
+                              optionName
+                                 .toLowerCase()
+                                 .replace(/[^A-Z0-9]+/gi, "_"))
                      ] +
                      " " +
                      styles["display-row"] +

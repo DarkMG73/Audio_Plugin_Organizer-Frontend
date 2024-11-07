@@ -16,6 +16,7 @@
     "react-dom": "^18.1.0",
     "react-hook-form": "^7.31.1",
     "react-iframe": "^1.8.5",
+    "react-image-picker": "^1.1.1",
     "react-measure": "^2.5.2",
     "react-papaparse": "^4.0.2",
     "react-redux": "^8.0.1",
