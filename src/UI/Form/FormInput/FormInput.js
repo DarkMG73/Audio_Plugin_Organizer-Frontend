@@ -222,10 +222,12 @@ const FormInput = (props) => {
 
       const options = groomedOptions
          .sort(function (a, b) {
-            return a.toLowerCase().localeCompare(b.toLowerCase());
+            if (a && b) return a.toLowerCase().localeCompare(b.toLowerCase());
          })
          .map((option, i) => {
             if (
+               inputValue &&
+               option &&
                inputValue.toLowerCase().trim() == option.toLowerCase().trim()
             ) {
                inputHasSelected = true;

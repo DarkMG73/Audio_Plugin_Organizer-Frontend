@@ -6,6 +6,13 @@ import { useSelector } from "react-redux";
 import { getAllFunctionOptions } from "../../Hooks/utility";
 
 function AddAToolFormElms(props) {
+   console.log(
+      "%c⚪️►►►► %cline:8%cprops",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(161, 23, 21);padding:3px;border-radius:2px",
+      props
+   );
    const [formOpen, setFormOpen] = useState(true);
    const formRefresh = props.formRefresh ? props.formRefresh : true;
    const [formInputData, setFormInputData] = useState(false);
@@ -20,6 +27,13 @@ function AddAToolFormElms(props) {
       const pluginFormWithOptions = GetPluginFormInputsWithOptions(
          toolsSchema,
          toolsMetadata
+      );
+      console.log(
+         "%c⚪️►►►► %cline:27%cpluginFormWithOptions",
+         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+         "color:#fff;background:rgb(60, 79, 57);padding:3px;border-radius:2px",
+         pluginFormWithOptions
       );
 
       setFormInputData(pluginFormWithOptions);
@@ -111,7 +125,7 @@ function AddAToolFormElms(props) {
                                  parentName={preFilledData}
                               />
                            );
-                        })}{" "}
+                        })}
                         <button
                            key={"addtoolformelms-5"}
                            className={styles["close-question-form-button"]}
