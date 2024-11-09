@@ -50,11 +50,47 @@
    z-index: 200;
    background: #000000f7;
    overflow: auto;
-   /* padding: 2em; */
+   padding-bottom: 7em;
    display: flex;
    flex-direction: column;
    justify-content: flex-start;
    align-items: center;
+}
+
+.plugin-finder-modal input[type="submit"] {
+   transform: translate(-50%, calc(-100% - 1em));
+   background: var(--iq-color-accent-gradient);
+   position: fixed !important;
+   top: 100% !important;
+   left: 50% !important;
+   z-index: 10 !important;
+}
+
+.close-all-forms-button {
+   width: 75%;
+   min-height: 3em;
+   margin: 1em;
+}
+
+.plugin-finder-container [class*="AddAToolFormElms_close-"] {
+   min-height: 2em;
+   margin: 2em auto -0.5em;
+   max-width: none;
+   display: block;
+   grid-area: close-button;
+   width: 100%;
+   left: 0;
+   transform: none;
+   background: #005570;
+   color: var(--iq-color-background);
+   text-transform: uppercase;
+   opacity: 0.75;
+}
+
+.plugin-finder-container [class*="AddAToolFormElms_close-"]:hover {
+   background: rgb(255 135 0);
+   color: var(--iq-color-background-contrast);
+   opacity: 1;
 }
 
 .plugin-finder-container ul {

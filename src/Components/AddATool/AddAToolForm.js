@@ -12,13 +12,6 @@ import LocalErrorDisplay from "../../Components/ErrorHandling/LocalErrorDisplay/
 import { loadingRequestsActions } from "../../store/loadingRequestsSlice";
 
 function AddAToolForm(props) {
-   console.log(
-      "%c⚪️►►►► %cline:14%cprops",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
-      props
-   );
    const user = useSelector((state) => state.auth.user);
    const [requiredError, setRequiredError] = useState(false);
    const [formOpen, setFormOpen] = useState(null);
@@ -55,6 +48,8 @@ function AddAToolForm(props) {
          requiredError={props.requiredError}
          formOpen={formOpen}
          formRefresh={formRefresh}
+         cancelOneForm={props.cancelOneForm}
+         ignoreFormOpen={props.ignoreFormOpen}
       />
    ]);
    const successCallback = () => {
@@ -99,6 +94,7 @@ function AddAToolForm(props) {
             formOpen={formOpen}
             formRefresh={formRefresh}
             cancelOneForm={props.cancelOneForm}
+            ignoreFormOpen={props.ignoreFormOpen}
          />
       ]);
    }, [requiredError, formRefresh]);
@@ -126,6 +122,8 @@ function AddAToolForm(props) {
             requiredError={props.requiredError}
             formOpen={formOpen}
             formRefresh={formRefresh}
+            cancelOneForm={props.cancelOneForm}
+            ignoreFormOpen={props.ignoreFormOpen}
          />
       ]);
    }
@@ -221,7 +219,7 @@ function AddAToolForm(props) {
                      onClick={addAnotherQuestionFormButtonHandler}
                      styles={props.buttonStyles}
                   >
-                     Add another Question
+                     Add Another Plugin
                   </PushButton>
                   <PushButton
                      key={"addatoolform-9"}

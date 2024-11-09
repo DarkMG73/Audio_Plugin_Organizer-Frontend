@@ -37,37 +37,30 @@ function AddAToolFormElms(props) {
       newFormInputData = props.formData ? props.formData : [formInputData];
 
    function cancelQuestionFormButtonHandler(e) {
+      e.preventDefault();
       const close = window.confirm(
          "Are you sure you want to cancel this specific item? Any data input for this item will be lost (other items in this Question Entry Form will not be affected)? "
       );
 
       if (close) {
-         setFormOpen(false);
+         if (!props.ignoreFormOpen) setFormOpen(false);
          if (props.setFormParentOpen) props.setFormParentOpen(false);
-         if (props.cancelOneForm) props.cancelOneForm(e.target);
+         if (props.cancelOneForm) props.cancelOneForm(e);
       }
    }
 
-   if (newFormInputData.length > 0) {
-      console.log(
-         "%c⚪️►►►► %cline:50%cnewFormInputData",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(3, 101, 100);padding:3px;border-radius:2px",
-         newFormInputData
-      );
-      // newFormInputData[0].forEach((group) => {
-      //    // To make the flow of the options through the form clearer, we set fixed numbers and booleans as strings
-      //    if (group.name === "rating") group.options = ["1", "2", "3", "4", "5"];
-      //    if (group.name === "favorite" || group.name === "oversampling")
-      //       group.options = ["True", "False"];
-
-      //    // Format user added functions to match stock functions
-      //    if (group.name === "functions") {
-      //       group.options = getAllFunctionOptions(toolsMetadata);
-      //    }
-      // });
-   }
+   // if (newFormInputData.length > 0) {
+   // newFormInputData[0].forEach((group) => {
+   //    // To make the flow of the options through the form clearer, we set fixed numbers and booleans as strings
+   //    if (group.name === "rating") group.options = ["1", "2", "3", "4", "5"];
+   //    if (group.name === "favorite" || group.name === "oversampling")
+   //       group.options = ["True", "False"];
+   //    // Format user added functions to match stock functions
+   //    if (group.name === "functions") {
+   //       group.options = getAllFunctionOptions(toolsMetadata);
+   //    }
+   // });
+   // }
 
    ////////////////////////////////////////
    /// OUTPUT
@@ -118,17 +111,17 @@ function AddAToolFormElms(props) {
                                  parentName={preFilledData}
                               />
                            );
-                        })}
+                        })}{" "}
+                        <button
+                           key={"addtoolformelms-5"}
+                           className={styles["close-question-form-button"]}
+                           onClick={cancelQuestionFormButtonHandler}
+                           style={props.cancelButtonStyles}
+                           data-form-number={index}
+                        >
+                           Cancel Form
+                        </button>
                      </div>
-                     <button
-                        key={"addtoolformelms-5"}
-                        className={styles["close-question-form-button"]}
-                        onClick={cancelQuestionFormButtonHandler}
-                        style={props.cancelButtonStyles}
-                        data-form-number={index}
-                     >
-                        CLOSE
-                     </button>
                   </Fragment>
                ))}
             </div>

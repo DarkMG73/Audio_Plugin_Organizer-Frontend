@@ -30,13 +30,6 @@ const FormInput = (props) => {
    const [picSelectorOpen, setPicSelectorOpen] = useState(false);
    const [genericPicSelectorOpen, setGenericPicSelectorOpen] = useState(false);
    const input = props.inputDataObj;
-   console.log(
-      "%c⚪️►►►► %cline:32%cinput",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(1, 77, 103);padding:3px;border-radius:2px",
-      input
-   );
    const formNumber = props.formNumber;
    const [inputValue, setInputValue] = useState(input.preFilledData);
    const [checkboxTextInputValue, setCheckboxTextInputValue] = useState();
@@ -131,13 +124,6 @@ const FormInput = (props) => {
    const handleOnGenericSelectPic = (imageObj) => {
       const picLocation = "/generic_plugin_images/";
       const imageStr = imageObj.src;
-      console.log(
-         "%c⚪️►►►► %cline:18%cimageStr",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(161, 23, 21);padding:3px;border-radius:2px",
-         imageStr
-      );
 
       const groomedImageNameStart = imageStr.substring(
          imageStr.lastIndexOf("/") + 1,
@@ -150,13 +136,6 @@ const FormInput = (props) => {
       // );
 
       const groomedImageNameEnd = imageStr.substring(imageStr.lastIndexOf("."));
-      console.log(
-         "%c⚪️►►►► %cline:34%cgroomedImageName",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(96, 143, 159);padding:3px;border-radius:2px",
-         groomedImageNameStart + groomedImageNameEnd
-      );
       setPhotoSelected(
          picLocation + groomedImageNameStart + groomedImageNameEnd
       );

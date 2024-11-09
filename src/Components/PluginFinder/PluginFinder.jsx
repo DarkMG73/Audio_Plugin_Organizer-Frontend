@@ -75,16 +75,6 @@ const PluginFinder = () => {
    }, [findNewPlugins]);
 
    useEffect(() => {
-      console.log(
-         "%c⚪️►►►► %cline:77%caddToLibrary",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(38, 157, 128);padding:3px;border-radius:2px",
-         addToLibrary
-      );
-   }, [addToLibrary]);
-
-   useEffect(() => {
       if (sendToLibrary) {
          const categoryTitles = Object.keys(toolsSchema);
          const toAddArrays = addToLibrary.map((name) => {
@@ -236,8 +226,26 @@ const PluginFinder = () => {
                )}
             </ul>
          </div>
-         <div className={Styles["plugin-finder-modal"]}>
-            {userFilesToGroomArray && (
+         {userFilesToGroomArray && (
+            <div className={Styles["plugin-finder-modal"]}>
+               <button
+                  key={"addtoolformelms-5"}
+                  className={
+                     Styles["close-form-button"] +
+                     " " +
+                     Styles["close-all-forms-button"]
+                  }
+                  onClick={() => {
+                     const close = window.confirm(
+                        "Are you sure you want to cancel all of the new plugin forms? Any data input will be lost. "
+                     );
+
+                     if (close) setUserFilesToGroomArray(false);
+                  }}
+               >
+                  Close All
+               </button>
+
                <div
                   key="add-a-tool-inputs-container 3"
                   className={Styles["inputs-container"]}
@@ -247,26 +255,27 @@ const PluginFinder = () => {
                      formData={userFilesToGroomArray}
                      buttonStyles={buttonStyles}
                      submitButtonStyles={submitButtonStyles}
-                     cancelOneForm={(buttonElm) => {
-                        console.log(
-                           "%c⚪️►►►► %cline:250%ce",
-                           "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                           "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                           "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
-                           buttonElm.dataset.formNumber
+                     ignoreFormOpen={true}
+                     setFormParentOpen={false}
+                     cancelOneForm={(e) => {
+                        e.preventDefault();
+                        const targetParent = e.target.closest(
+                           "[class*=form-group-wrap]"
                         );
-
-                        setUserFilesToGroomArray(
-                           userFilesToGroomArray.splice(
-                              buttonElm.dataset.formNumber,
-                              1
-                           )
-                        );
+                        if (targetParent) {
+                           targetParent.style.display = "none";
+                        } else {
+                           console.log(
+                              "ERROR: Target parent element " +
+                                 targetParent +
+                                 " is not present. This form can not be closed."
+                           );
+                        }
                      }}
                   />
                </div>
-            )}
-         </div>
+            </div>
+         )}
       </div>
    );
 };
