@@ -36,14 +36,15 @@ function AddAToolFormElms(props) {
    if (formInputData)
       newFormInputData = props.formData ? props.formData : [formInputData];
 
-   function cancelQuestionFormButtonHandler() {
+   function cancelQuestionFormButtonHandler(e) {
       const close = window.confirm(
          "Are you sure you want to cancel this specific item? Any data input for this item will be lost (other items in this Question Entry Form will not be affected)? "
       );
 
       if (close) {
          setFormOpen(false);
-         props.setFormParentOpen(false);
+         if (props.setFormParentOpen) props.setFormParentOpen(false);
+         if (props.cancelOneForm) props.cancelOneForm(e.target);
       }
    }
 
@@ -96,13 +97,6 @@ function AddAToolFormElms(props) {
 
                            formDataGroup.forEach((topicGroup) => {
                               if (topicGroup.name === "name") {
-                                 console.log(
-                                    "%c⚪️►►►► %cline:111%ctopicGroup.preFilledData",
-                                    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                                    "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                                    "color:#fff;background:rgb(3, 22, 52);padding:3px;border-radius:2px",
-                                    topicGroup.preFilledData
-                                 );
                                  if (
                                     topicGroup &&
                                     Object.hasOwn(
@@ -115,13 +109,6 @@ function AddAToolFormElms(props) {
                               }
                            });
 
-                           console.log(
-                              "%c⚪️►►►► %cline:96%cpreFilledData",
-                              "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                              "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                              "color:#fff;background:rgb(130, 57, 53);padding:3px;border-radius:2px",
-                              preFilledData
-                           );
                            return (
                               <FormInput
                                  key={"addtoolformelms-4" + i}
@@ -138,6 +125,7 @@ function AddAToolFormElms(props) {
                         className={styles["close-question-form-button"]}
                         onClick={cancelQuestionFormButtonHandler}
                         style={props.cancelButtonStyles}
+                        data-form-number={index}
                      >
                         CLOSE
                      </button>

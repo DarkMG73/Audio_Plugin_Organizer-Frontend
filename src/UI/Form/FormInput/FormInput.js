@@ -7,13 +7,6 @@ import "react-image-picker/dist/index.css";
 // import img2 from "../../../assets/images/product-photo-placeholder-2.png";
 
 const FormInput = (props) => {
-   console.log(
-      "%c⚪️►►►► %cline:5%cprops",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
-      props
-   );
    const images = require.context(
       "../../../assets/images/official_plugin_images/",
       true
@@ -23,34 +16,11 @@ const FormInput = (props) => {
       true
    );
 
-   console.log(
-      "%c⚪️►►►► %cline:21%cgenericImages",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(131, 175, 155);padding:3px;border-radius:2px",
-      genericImages
-   );
-
    const imageList = images.keys().map((image) => {
       return images(image);
    });
 
-   console.log(
-      "%c⚪️►►►► %cline:37%cgenericImages.keys()",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(130, 57, 53);padding:3px;border-radius:2px",
-      genericImages.keys()
-   );
-
    const genericImageList = genericImages.keys().map((image) => {
-      console.log(
-         "%c⚪️►►►► %cline:37%cimage",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
-         image
-      );
       return genericImages(image);
    });
 
@@ -60,6 +30,13 @@ const FormInput = (props) => {
    const [picSelectorOpen, setPicSelectorOpen] = useState(false);
    const [genericPicSelectorOpen, setGenericPicSelectorOpen] = useState(false);
    const input = props.inputDataObj;
+   console.log(
+      "%c⚪️►►►► %cline:32%cinput",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(1, 77, 103);padding:3px;border-radius:2px",
+      input
+   );
    const formNumber = props.formNumber;
    const [inputValue, setInputValue] = useState(input.preFilledData);
    const [checkboxTextInputValue, setCheckboxTextInputValue] = useState();
@@ -72,16 +49,6 @@ const FormInput = (props) => {
    useEffect(() => {
       if (input.required == true) setRequiredClass("required-input");
    }, []);
-
-   useEffect(() => {
-      console.log(
-         "%c⚪️►►►► %cline:39%cphotoSelected",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(39, 72, 98);padding:3px;border-radius:2px",
-         photoSelected
-      );
-   }, [photoSelected]);
 
    useEffect(() => {
       if (input.required == true && requiredError) {
@@ -128,14 +95,12 @@ const FormInput = (props) => {
 
    const handleClosePicSelector = (e) => {
       e.preventDefault();
-      if ((e.target.value = "generic")) {
-         console.log(
-            "%c⚪️►►►► %cline:105%ce",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
-            e.target.value
-         );
+
+      if (e.target.value === "cancel") {
+         setPhotoSelected(null);
+      }
+
+      if (e.target.dataset.selectorType === "generic") {
          setGenericPicSelectorOpen(!genericPicSelectorOpen);
       } else {
          setPicSelectorOpen(!picSelectorOpen);
@@ -145,13 +110,6 @@ const FormInput = (props) => {
    const handleOnSelectPic = (imageObj) => {
       const picLocation = "/official_plugin_images/";
       const imageStr = imageObj.src;
-      console.log(
-         "%c⚪️►►►► %cline:18%cimageStr",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(161, 23, 21);padding:3px;border-radius:2px",
-         imageStr
-      );
 
       const groomedImageNameStart = imageStr.substring(
          imageStr.lastIndexOf("/") + 1,
@@ -164,13 +122,7 @@ const FormInput = (props) => {
       // );
 
       const groomedImageNameEnd = imageStr.substring(imageStr.lastIndexOf("."));
-      console.log(
-         "%c⚪️►►►► %cline:34%cgroomedImageName",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(96, 143, 159);padding:3px;border-radius:2px",
-         groomedImageNameStart + groomedImageNameEnd
-      );
+
       setPhotoSelected(
          picLocation + groomedImageNameStart + groomedImageNameEnd
       );
@@ -213,6 +165,42 @@ const FormInput = (props) => {
    ///////////////////////////////////////
    /// FUNCTIONALITY
    ////////////////////////////////////////
+   const addTitlesToPicSelIMages = () => {
+      const checkForElmInterval = setInterval(() => {
+         const imagePickerElm = document.querySelector(".image_picker");
+         if (imagePickerElm) {
+            clearInterval(checkForElmInterval);
+            const allElms = document.querySelectorAll(".responsive");
+
+            allElms.forEach((elm) => {
+               // Get image within elm
+               const imgElm = elm.querySelector("img");
+               const imgSrc = imgElm.src;
+
+               // Groom src string to be just name
+               let imageName = imgSrc.substring(
+                  imgSrc.lastIndexOf("/") + 1,
+                  imgSrc.indexOf(".")
+               );
+
+               const charLimit = 21;
+               if (imageName.length >= charLimit) {
+                  imageName = imageName.substring(0, charLimit - 1) + "...";
+               }
+
+               // Add title to elm
+               const preventDuplicates = elm.querySelector("h4");
+               const newH3ELm = document.createElement("h4");
+               newH3ELm.innerText = imageName
+                  .replace("_", " ")
+                  .replace("-", " ");
+
+               if (!preventDuplicates) elm.prepend(newH3ELm);
+            });
+         }
+      }, 300);
+   };
+
    let groomedOptions;
    if (input.hasOwnProperty("options"))
       groomedOptions = input.options.map(
@@ -375,13 +363,7 @@ const FormInput = (props) => {
             </label>
 
             {input.title === "Photourl" && (
-               <div
-                  className={
-                     styles["image-selector-outer-container"] +
-                     " " +
-                     styles["default-image-selector"]
-                  }
-               >
+               <div className={styles["image-selector-outer-container"]}>
                   {
                      // OEM Pic Selector
                   }
@@ -401,22 +383,43 @@ const FormInput = (props) => {
                            }
                         >
                            <ImagePicker
-                              images={imageList.map((image, i) => ({
-                                 src: image,
-                                 value: i
-                              }))}
+                              images={imageList.map((image, i) => {
+                                 if (i >= imageList.length - 1)
+                                    addTitlesToPicSelIMages();
+                                 return {
+                                    src: image,
+                                    value: i
+                                 };
+                              })}
                               onPick={handleOnSelectPic}
                            />
-                           <button
-                              type="button"
-                              onClick={handleClosePicSelector}
-                           >
-                              OK
-                           </button>
+                           <div className={styles["button-container"]}>
+                              <button
+                                 type="button"
+                                 value="select"
+                                 data-selector-type="oem"
+                                 onClick={handleClosePicSelector}
+                                 className={styles["select-button"]}
+                              >
+                                 OK
+                              </button>
+                              <button
+                                 type="button"
+                                 value="cancel"
+                                 data-selector-type="oem"
+                                 onClick={handleClosePicSelector}
+                                 className={styles["cancel-button"]}
+                              >
+                                 Cancel
+                              </button>
+                           </div>
                         </div>
                      )}
 
-                     <button onClick={handleClosePicSelector}>
+                     <button
+                        onClick={handleClosePicSelector}
+                        data-selector-type="oem"
+                     >
                         Select from OEM Pics Library
                      </button>
                   </div>
@@ -439,22 +442,42 @@ const FormInput = (props) => {
                            }
                         >
                            <ImagePicker
-                              images={genericImageList.map((image, i) => ({
-                                 src: image,
-                                 value: i
-                              }))}
+                              images={genericImageList.map((image, i) => {
+                                 if (i >= genericImageList.length - 1)
+                                    addTitlesToPicSelIMages();
+                                 return {
+                                    src: image,
+                                    value: i
+                                 };
+                              })}
                               onPick={handleOnGenericSelectPic}
                            />
-                           <button
-                              type="button"
-                              value="generic"
-                              onClick={handleClosePicSelector}
-                           >
-                              OK
-                           </button>
+                           <div className={styles["button-container"]}>
+                              <button
+                                 type="button"
+                                 value="select"
+                                 data-selector-type="generic"
+                                 onClick={handleClosePicSelector}
+                                 className={styles["select-button"]}
+                              >
+                                 OK
+                              </button>
+                              <button
+                                 type="button"
+                                 value="cancel"
+                                 data-selector-type="generic"
+                                 onClick={handleClosePicSelector}
+                                 className={styles["cancel-button"]}
+                              >
+                                 Cancel
+                              </button>
+                           </div>
                         </div>
                      )}
-                     <button onClick={handleClosePicSelector}>
+                     <button
+                        onClick={handleClosePicSelector}
+                        data-selector-type="generic"
+                     >
                         Select from Generic Pics Library
                      </button>
                   </div>
@@ -665,6 +688,16 @@ const FormInput = (props) => {
                >
                   {input.title}
                </label>
+
+               {requiredError && input.required == true && (
+                  <span
+                     key={"form-input-c4"}
+                     className={styles[requiredClass + "-text"]}
+                  >
+                     &uarr; This field is required &uarr;
+                  </span>
+               )}
+               {options.map((optionHTML) => optionHTML)}
                <input
                   key={"form-input-c3"}
                   type="text"
@@ -676,15 +709,6 @@ const FormInput = (props) => {
                   className={styles[requiredClass]}
                   required={props.inputRequired}
                />
-               {requiredError && input.required == true && (
-                  <span
-                     key={"form-input-c4"}
-                     className={styles[requiredClass + "-text"]}
-                  >
-                     &uarr; This field is required &uarr;
-                  </span>
-               )}
-               {options.map((optionHTML) => optionHTML)}
             </div>
          );
       }

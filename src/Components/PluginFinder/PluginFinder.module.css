@@ -1,4 +1,46 @@
 .plugin-finder-container {
+   position: relative;
+   /* top: 0; */
+   /* left: 0; */
+   width: 100%;
+   max-height: 100%;
+   margin: 3em auto 0;
+   /* z-index: 200; */
+   /* background: #000000f7; */
+   /* overflow: auto; */
+   /* padding: 2em; */
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+
+.plugin-finder-container button {
+   position: relative;
+   font-weight: 700;
+   background: var(--iq-color-foreground);
+   color: var(--iq-color-accent);
+   box-shadow:
+      3px 3px 7px -4px #ffffffdb inset,
+      -3px -3px 7px -4px black inset;
+   padding: 0 1em;
+   border-radius: 6.125px;
+   transition: 0.1s all ease;
+   /* transform: scale(1, 1.125) translateX(-1em); */
+   background: var(--iq-color-accent);
+   color: var(--iq-color-foreground);
+   border: none;
+}
+
+.plugin-finder-container button:hover {
+   transform: scale(1, 1.125);
+}
+
+.plugin-finder-selector-wrap {
+   max-width: 100%;
+}
+
+.plugin-finder-modal {
    position: fixed;
    top: 0;
    left: 0;
@@ -8,7 +50,7 @@
    z-index: 200;
    background: #000000f7;
    overflow: auto;
-   padding: 2em;
+   /* padding: 2em; */
    display: flex;
    flex-direction: column;
    justify-content: flex-start;
@@ -20,8 +62,30 @@
    max-width: 80%;
    max-height: 100%;
    list-style: none;
+   /* display: flex; */
+   /* flex-wrap: wrap; */
+   /* column-count: 3; */
+   display: grid;
+   grid-template-columns: 25% 25% 25% 25%;
+   width: 100%;
+   padding: 0;
+   min-width: 100%;
 }
 
+.plugin-finder-container ul label[for="select-all"],
+.plugin-finder-container ul h3,
+.plugin-finder-container .add-to-library-button {
+   display: block;
+   grid-column: 1 / -1;
+}
+.plugin-finder-container ul label[for="select-all"],
+.plugin-finder-container .add-to-library-button {
+   margin: 1em;
+}
+.plugin-finder-container ul li {
+   text-align: left;
+   margin-right: 1em;
+}
 .loader-wrap {
    position: fixed;
    top: 37%;
@@ -62,4 +126,75 @@
 
 .plugin-finder-selector-wrap input[type="checkbox"] {
    pointer-events: none;
+   position: absolute;
+   visibility: hidden;
+   transition: 0.1s all ease;
+}
+
+.plugin-finder-selector-wrap label:has(input[type="checkbox"]:checked) {
+   font-weight: 700;
+   background: var(--iq-color-foreground);
+   color: var(--iq-color-accent);
+   box-shadow:
+      3px 3px 7px -4px var(--iq-color-accent) inset,
+      3px 3px 7px -4px black inset;
+   padding: 0 1em;
+   border-radius: 6.125px;
+   transform: scale(1, 1.125) translateX(-1em);
+   display: inline-block;
+}
+
+.plugin-finder-container .add-to-library-button {
+   height: 2em;
+   width: 100%;
+   overflow: hidden;
+   margin: 0 auto;
+   padding: 0;
+   background: var(--iq-color-accent);
+   color: var(--iq-color-foreground);
+   transform: scale(1, 0);
+   transition: 0.3s all ease;
+   margin-bottom: 1em;
+   opacity: 0;
+   transform-origin: bottom;
+}
+
+.plugin-finder-container input[type="radio"]:checked {
+   x: red;
+   color: rgb(255 135 0);
+   background: rgb(255 135 0);
+}
+
+.plugin-finder-container input[type="radio"] {
+   box-shadow: none;
+   appearance: none;
+   padding: 0.5em;
+   background: #005570;
+}
+
+.plugin-finder-container:has(input[type="checkbox"]:checked)
+   .add-to-library-button {
+   transform: scale(1);
+   box-shadow:
+      3px 3px 7px -4px #ffffffc9 inset,
+      -3px -3px 7px -4px black inset;
+   opacity: 1;
+}
+
+@media screen and (max-width: 1024px) {
+   .plugin-finder-container ul {
+      grid-template-columns: 33.33% 33.33% 33.33%;
+   }
+}
+
+@media screen and (max-width: 850px) {
+   .plugin-finder-container ul {
+      grid-template-columns: 50% 50%;
+   }
+}
+
+@media screen and (max-width: 400px) {
+   .plugin-finder-container ul {
+      grid-template-columns: 100%;
+   }
 }

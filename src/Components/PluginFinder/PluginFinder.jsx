@@ -181,24 +181,13 @@ const PluginFinder = () => {
    ////////////////////////////////////////
    return (
       <div className={Styles["plugin-finder-container"]}>
-         <button onClick={handleFindNewPluginsButton}>Find New Plugins</button>
-         <button onClick={handleAddToLibraryButton}>
-            Add to Library &rarr;
+         <button
+            className={Styles["find-new-plugins-button"]}
+            onClick={handleFindNewPluginsButton}
+         >
+            Local Plugin Finder
          </button>
 
-         {userFilesToGroomArray && (
-            <div
-               key="add-a-tool-inputs-container 3"
-               className={Styles["inputs-container"]}
-            >
-               <AddAToolForm
-                  saveOrUpdateData="save"
-                  formData={userFilesToGroomArray}
-                  buttonStyles={buttonStyles}
-                  submitButtonStyles={submitButtonStyles}
-               />
-            </div>
-         )}
          <div className={Styles["plugin-finder-selector-wrap"]}>
             <ul>
                {activateLoader > 0 && (
@@ -207,15 +196,22 @@ const PluginFinder = () => {
                   </div>
                )}
 
-               <label htmlFor="select-all" onClick={handleToggleAllCheckBox}>
-                  {" "}
-                  <input type="checkbox" name="select-all" />
-                  Select All
-               </label>
                {findNewPlugins && (
                   <Fragment>
                      {fileNames.length > 0 && <h3>{fileNames.length}</h3>}
-
+                     <label
+                        htmlFor="select-all"
+                        onClick={handleToggleAllCheckBox}
+                     >
+                        <input type="checkbox" name="select-all" />
+                        Select All
+                     </label>
+                     <button
+                        className={Styles["add-to-library-button"]}
+                        onClick={handleAddToLibraryButton}
+                     >
+                        Add to Library &rarr;
+                     </button>
                      {fileNames.map((fileName, index) => (
                         <li key={index}>
                            <label
@@ -223,7 +219,6 @@ const PluginFinder = () => {
                               onClick={handleCheckBox}
                               data-file-name={fileName}
                            >
-                              {" "}
                               <input
                                  type="checkbox"
                                  name={fileName}
@@ -240,6 +235,37 @@ const PluginFinder = () => {
                   </Fragment>
                )}
             </ul>
+         </div>
+         <div className={Styles["plugin-finder-modal"]}>
+            {userFilesToGroomArray && (
+               <div
+                  key="add-a-tool-inputs-container 3"
+                  className={Styles["inputs-container"]}
+               >
+                  <AddAToolForm
+                     saveOrUpdateData="save"
+                     formData={userFilesToGroomArray}
+                     buttonStyles={buttonStyles}
+                     submitButtonStyles={submitButtonStyles}
+                     cancelOneForm={(buttonElm) => {
+                        console.log(
+                           "%c⚪️►►►► %cline:250%ce",
+                           "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                           "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                           "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
+                           buttonElm.dataset.formNumber
+                        );
+
+                        setUserFilesToGroomArray(
+                           userFilesToGroomArray.splice(
+                              buttonElm.dataset.formNumber,
+                              1
+                           )
+                        );
+                     }}
+                  />
+               </div>
+            )}
          </div>
       </div>
    );
