@@ -64,16 +64,16 @@ function AddAToolFormElms(props) {
    }
 
    // if (newFormInputData.length > 0) {
-   // newFormInputData[0].forEach((group) => {
-   //    // To make the flow of the options through the form clearer, we set fixed numbers and booleans as strings
-   //    if (group.name === "rating") group.options = ["1", "2", "3", "4", "5"];
-   //    if (group.name === "favorite" || group.name === "oversampling")
-   //       group.options = ["True", "False"];
-   //    // Format user added functions to match stock functions
-   //    if (group.name === "functions") {
-   //       group.options = getAllFunctionOptions(toolsMetadata);
-   //    }
-   // });
+   //    newFormInputData[0].forEach((group) => {
+   //       // To make the flow of the options through the form clearer, we set fixed numbers and booleans as strings
+   //       if (group.name === "rating") group.options = ["1", "2", "3", "4", "5"];
+   //       if (group.name === "favorite" || group.name === "oversampling")
+   //          group.options = ["True", "False"];
+   //       // Format user added functions to match stock functions
+   //       if (group.name === "functions") {
+   //          group.options = getAllFunctionOptions(toolsMetadata);
+   //       }
+   //    });
    // }
 
    ////////////////////////////////////////
