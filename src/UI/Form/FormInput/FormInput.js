@@ -44,16 +44,6 @@ const FormInput = (props) => {
    }, []);
 
    useEffect(() => {
-      console.log(
-         "%c⚪️►►►► %cline:48%cphotoSelected",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(254, 67, 101);padding:3px;border-radius:2px",
-         photoSelected
-      );
-   }, [photoSelected]);
-
-   useEffect(() => {
       if (input.required == true && requiredError) {
          setRequiredClass("required-input-error");
       }
@@ -125,13 +115,6 @@ const FormInput = (props) => {
       // );
 
       const groomedImageNameEnd = imageStr.substring(imageStr.lastIndexOf("."));
-      console.log(
-         "%c⚪️►►►► %cline:107%cgroomedImageNameStart",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(131, 175, 155);padding:3px;border-radius:2px",
-         groomedImageNameStart
-      );
 
       setPhotoSelected(
          picLocation + groomedImageNameStart + groomedImageNameEnd

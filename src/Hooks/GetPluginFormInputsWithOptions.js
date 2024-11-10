@@ -2,13 +2,6 @@ import { formInputData } from "../data/formInputData";
 import { toTitleCase } from "./utility";
 
 function GetPluginFormInputsWithOptions(pluginSchema, toolsMetadata) {
-   console.log(
-      "%c⚪️►►►► %cline:4%cpluginSchema",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(3, 101, 100);padding:3px;border-radius:2px",
-      pluginSchema
-   );
    if (!pluginSchema) return [];
    const output = [];
 
@@ -45,13 +38,7 @@ function GetPluginFormInputsWithOptions(pluginSchema, toolsMetadata) {
                         optionSetName.replaceAll(" ", "").split("~").pop()
                      )
                   );
-                  console.log(
-                     "%c⚪️►►►► %cline:55%ccleanOptionSetNamesArray",
-                     "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                     "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                     "color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px",
-                     cleanOptionSetNamesArray
-                  );
+
                   if (
                      !cleanOptionSetNamesArray.includes(
                         option.replaceAll(" ", "")
@@ -68,13 +55,6 @@ function GetPluginFormInputsWithOptions(pluginSchema, toolsMetadata) {
             });
          }
          topicOptions = Array.from(optionsSet);
-         console.log(
-            "%c⚪️►►►► %cline:69%ctopicOptions",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(89, 61, 67);padding:3px;border-radius:2px",
-            topicOptions
-         );
       }
 
       output.push({
