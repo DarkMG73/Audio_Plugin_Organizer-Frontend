@@ -29,45 +29,51 @@ function GetPluginFormInputsWithOptions(pluginSchema, toolsMetadata) {
       );
 
       let topicOptions = presetOptions ? presetOptions : [];
-      console.log(
-         "%c⚪️►►►► %cline:30%ctopicOptions1",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(34, 8, 7);padding:3px;border-radius:2px",
-         topicOptions
-      );
 
       if (toolsMetadata) {
          const optionsSet = new Set();
 
          topicOptions.forEach((option) => optionsSet.add(option));
+
+         if (Object.hasOwn(toolsMetadata, key)) {
+            toolsMetadata[key].forEach((option) => {
+               if (key === "functions") {
+                  const cleanOptionSetNamesArray = [];
+
+                  optionsSet.forEach((optionSetName) =>
+                     cleanOptionSetNamesArray.push(
+                        optionSetName.replaceAll(" ", "").split("~").pop()
+                     )
+                  );
+                  console.log(
+                     "%c⚪️►►►► %cline:55%ccleanOptionSetNamesArray",
+                     "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                     "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                     "color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px",
+                     cleanOptionSetNamesArray
+                  );
+                  if (
+                     !cleanOptionSetNamesArray.includes(
+                        option.replaceAll(" ", "")
+                     )
+                  ) {
+                     optionsSet.add("User Added ~ " + option);
+                     return;
+                  } else {
+                     return;
+                  }
+               }
+               optionsSet.add(option);
+            });
+         }
+         topicOptions = Array.from(optionsSet);
          console.log(
-            "%c⚪️►►►► %cline:44%coptionsSet",
+            "%c⚪️►►►► %cline:69%ctopicOptions",
             "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
             "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(161, 23, 21);padding:3px;border-radius:2px",
-            optionsSet
+            "color:#fff;background:rgb(89, 61, 67);padding:3px;border-radius:2px",
+            topicOptions
          );
-
-         // for (const key in toolsMetadata) {
-         //    toolsMetadata[key].forEach((option) => {
-         //       if (key === "functions") {
-         //          const cleanOptionSetNamesArray = [];
-
-         //          optionsSet.forEach((optionSetName) =>
-         //             cleanOptionSetNamesArray.push(
-         //                optionSetName.replaceAll(" ", "").split("~")
-         //             )
-         //          );
-         //          if (!cleanOptionSetNamesArray.includes(option)) {
-         //             optionsSet.add(option);
-         //             return;
-         //          }
-         //       }
-         //       optionsSet.add(option);
-         //    });
-         // }
-         topicOptions = Array.from(optionsSet);
       }
 
       output.push({
