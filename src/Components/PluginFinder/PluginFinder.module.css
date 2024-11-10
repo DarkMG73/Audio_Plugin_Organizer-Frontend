@@ -15,7 +15,21 @@
    align-items: center;
 }
 
-.plugin-finder-container button {
+.button-container {
+   display: flex;
+   width: 100%;
+   grid-column: 1 / -1;
+   justify-content: center;
+   align-items: center;
+   flex-wrap: wrap;
+}
+
+.button-container > * {
+   margin: 0 1em;
+}
+
+.plugin-finder-container button,
+.button-container label {
    position: relative;
    font-weight: 700;
    box-shadow:
@@ -28,6 +42,13 @@
    background: var(--iq-color-accent);
    color: var(--iq-color-foreground);
    border: none;
+   font-variant: small-caps;
+   font-weight: 700;
+}
+
+.button-container label,
+.button-container button {
+   font-variant: all-small-caps;
 }
 
 .plugin-finder-container [class*="required-input-error"] {
@@ -60,7 +81,7 @@
 }
 
 .plugin-finder-modal input[type="submit"] {
-   transform: translate(-50%, calc(-100% - 1em));
+   transform: translate(-50%, calc(-100% - 1em)) !important;
    background: var(--iq-color-accent-gradient);
    position: fixed !important;
    top: 100% !important;

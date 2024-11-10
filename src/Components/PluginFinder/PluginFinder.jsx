@@ -201,36 +201,39 @@ const PluginFinder = () => {
                            computer.
                         </h3>
                      )}
-                     <label
-                        htmlFor="select-all"
-                        onClick={handleCheckAllCheckBox}
-                     >
-                        <input type="checkbox" name="select-all" />
-                        Select All
-                     </label>
-                     <label
-                        htmlFor="select-none"
-                        onClick={handleClearAllCheckBox}
-                     >
-                        <input type="checkbox" name="select-none" />
-                        Deselect All
-                     </label>
-                     <label
-                        htmlFor="select-twenty"
-                        onClick={handleCheckSomeCheckBox}
-                        data-amount="20"
-                     >
-                        <input type="checkbox" name="select-twenty" />
-                        Select First Twenty Items
-                     </label>
-                     <label
-                        htmlFor="select-fifty"
-                        onClick={handleCheckSomeCheckBox}
-                        data-amount="50"
-                     >
-                        <input type="checkbox" name="select-fifty" />
-                        Select First Fifty Items
-                     </label>
+                     <div className={Styles["button-container"]}>
+                        <label
+                           htmlFor="select-none"
+                           onClick={handleClearAllCheckBox}
+                        >
+                           <input type="checkbox" name="select-none" />
+                           Clear All
+                        </label>
+                        <label
+                           htmlFor="select-twenty"
+                           onClick={handleCheckSomeCheckBox}
+                           data-amount="20"
+                        >
+                           <input type="checkbox" name="select-twenty" />
+                           Select First Twenty Items
+                        </label>
+                        <label
+                           htmlFor="select-fifty"
+                           onClick={handleCheckSomeCheckBox}
+                           data-amount="50"
+                        >
+                           <input type="checkbox" name="select-fifty" />
+                           Select First Fifty Items
+                        </label>
+
+                        <label
+                           htmlFor="select-all"
+                           onClick={handleCheckAllCheckBox}
+                        >
+                           <input type="checkbox" name="select-all" />
+                           Select All
+                        </label>
+                     </div>
                      <button
                         className={Styles["add-to-library-button"]}
                         onClick={handleAddToLibraryButton}
