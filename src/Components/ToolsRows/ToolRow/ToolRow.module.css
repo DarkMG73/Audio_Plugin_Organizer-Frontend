@@ -1,340 +1,346 @@
 .tool-id {
-  font-size: 90%;
-  opacity: 0.75;
-  font-feature-settings: "smcp", "c2sc";
-  text-align: center;
-  padding: 0.5em;
-  transition: 0.2s all ease;
+   font-size: 90%;
+   opacity: 0.75;
+   font-feature-settings: "smcp", "c2sc";
+   text-align: center;
+   padding: 0.5em;
+   transition: 0.2s all ease;
 }
 .tool-id:hover {
-  opacity: 1;
-  transform: scale(1.1);
+   opacity: 1;
+   transform: scale(1.1);
 }
 
 .grid-item {
-  position: relative;
-  display: flex;
-  flex-basis: 33.33%;
-  flex-direction: column;
-  padding: 1em;
-  overflow: hidden;
-  font: var(--iq-font-subheading);
-  font-size: 1rem;
-  flex-grow: 1;
-  min-width: min-content;
+   position: relative;
+   display: flex;
+   flex-basis: 33.33%;
+   flex-direction: column;
+   padding: 1em;
+   overflow: hidden;
+   font: var(--iq-font-subheading);
+   font-size: 1rem;
+   flex-grow: 1;
+   min-width: min-content;
 }
 
 .grid-item-title {
-  margin-right: 1em;
-  opacity: 0.5;
-  font-size: 1rem;
+   margin-right: 1em;
+   opacity: 0.5;
+   font-size: 1rem;
 }
 .grid-item-child img {
-  height: calc(7em + 3vw);
-  justify-self: center;
+   height: calc(7em + 3vw);
+   justify-self: center;
 }
 
 .grid-item-title::first-letter {
-  text-transform: capitalize;
+   text-transform: capitalize;
 }
 
 .grid-item-text {
-  font-weight: 700;
-  color: var(--iq-color-foreground);
+   font-weight: 700;
+   color: var(--iq-color-foreground);
 }
 
 .grid-item-child {
-  position: relative;
-  display: flex;
-  align-items: center;
+   position: relative;
+   display: flex;
+   align-items: center;
 }
 .photoURL .grid-item-child {
-  justify-content: center;
+   justify-content: center;
 }
 
 .list {
-  list-style: none;
-  text-align: left;
-  padding: 0;
-  margin: 0.25em 0;
+   list-style: none;
+   text-align: left;
+   padding: 0;
+   margin: 0.25em 0;
 }
 
 ._id,
 .title-title,
 .identifier,
 .masterLibraryID {
-  display: none;
+   display: none;
 }
 
 .name {
-  padding-bottom: 0;
-  padding-left: 0.5em;
-  font: var(--iq-font-subheading);
-  min-height: 100%;
+   padding-bottom: 0;
+   padding-left: 0.5em;
+   font: var(--iq-font-subheading);
+   min-height: 100%;
 }
 .name .grid-item-title {
-  display: none;
+   display: none;
 }
 
 .name-wrap,
 .notes-wrap {
-  flex-basis: 100%;
-  justify-content: center;
-  min-width: min-content;
-  flex-grow: 1;
-  justify-content: left;
-  font-weight: 700;
-  transition: 0.3s all ease;
-  transition-delay: 0.5s;
+   flex-basis: 100%;
+   justify-content: center;
+   min-width: min-content;
+   flex-grow: 1;
+   justify-content: left;
+   font-weight: 700;
+   transition: 0.3s all ease;
+   transition-delay: 0.5s;
 }
 
 .name-wrap {
-  font: var(--iq--font-heading-2);
-  font-size: 1.5em;
-  letter-spacing: 0.2em;
+   font: var(--iq--font-heading-2);
+   font-size: 1.5em;
+   letter-spacing: 0.2em;
 }
 
 .name-wrap div {
-  width: 100%;
-  justify-content: center;
-  /* font-weight: 700; */
-  font-variant: all-small-caps;
+   width: 100%;
+   justify-content: center;
+   /* font-weight: 700; */
+   font-variant: all-small-caps;
 }
 
 .notes-wrap:hover {
-  transform: scale(1.1) translateX(0%);
-  background: white;
-  color: black;
-  margin: 1em;
-  width: 100%;
-  padding-bottom: 2em;
-  transition-delay: 0.75s;
+   transform: scale(1.1) translateX(0%);
+   background: white;
+   color: black;
+   margin: 1em;
+   width: 100%;
+   padding-bottom: 2em;
+   transition-delay: 0.75s;
 }
 .notes-wrap:hover * {
-  font-family: Arial !important;
-  font-weight: 500 !important;
-  transition: 0.1s all ease;
-  transition-delay: 0s;
+   font-family: Arial !important;
+   font-weight: 500 !important;
+   transition: 0.1s all ease;
+   transition-delay: 0s;
 }
 
 .color {
-  grid-area: color;
-  padding-top: 0;
-  min-width: min-content;
-  grid-row-end: -1;
+   grid-area: color;
+   padding-top: 0;
+   min-width: min-content;
+   grid-row-end: -1;
 }
 
 .title-text {
-  font: var(--iq-font-subheading);
-  min-height: 100%;
+   font: var(--iq-font-subheading);
+   min-height: 100%;
 }
 .tool {
-  grid-area: tool;
+   grid-area: tool;
 }
 .answer {
-  grid-area: answer;
+   grid-area: answer;
 }
 
 .answer > .grid-item-text,
 .tool > .grid-item-text {
-  font: var(--iq-font-body-text);
-  font-weight: 500;
-  border-radius: 27px;
-  border: 1px solid var(--iq-color-foreground);
-  padding: 1em 2em;
-  margin: 1em auto;
-  width: 100%;
-  max-width: 100%;
+   font: var(--iq-font-body-text);
+   font-weight: 500;
+   border-radius: 27px;
+   border: 1px solid var(--iq-color-foreground);
+   padding: 1em 2em;
+   margin: 1em auto;
+   width: 100%;
+   max-width: 100%;
 }
 .tool,
 .answer {
-  background: var(--iq-color-background);
-  color: var(--iq-color-background-contrast);
+   background: var(--iq-color-background);
+   color: var(--iq-color-background-contrast);
 }
 .search {
-  grid-area: search;
+   grid-area: search;
 }
 .credit {
-  grid-area: credit;
+   grid-area: credit;
 }
 .link {
-  grid-area: link;
+   grid-area: link;
 }
 button.edit {
-  /* Set within prop passed to button component */
+   /* Set within prop passed to button component */
 }
 
 .button-container {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
+   display: flex;
+   flex-direction: column;
+   position: relative;
+   bottom: 0;
+   left: 50%;
+   transform: translateX(-50%);
+   width: 100%;
 }
 
 .deleted {
-  border-radius: 3px !important;
-  font-size: 1.5em !important;
-  box-shadow: inset 1px 1px 7px -5px black, inset -4px -4px 7px -5px white !important;
-  padding: 1em !important;
-  opacity: 0.7 !important;
+   border-radius: 3px !important;
+   font-size: 1.5em !important;
+   box-shadow:
+      inset 1px 1px 7px -5px black,
+      inset -4px -4px 7px -5px white !important;
+   padding: 1em !important;
+   opacity: 0.7 !important;
 }
 
 .favorite {
-  position: absolute;
-  top: 0;
-  left: 0;
+   position: absolute;
+   top: 0;
+   left: 0;
 }
 
 .favorite:after {
-  content: "\2661";
-  position: absolute;
-  top: 0;
-  left: 0;
+   content: "\2661";
+   position: absolute;
+   top: 0;
+   left: 0;
 }
 
 .favorite-true:after {
-  content: "\2665";
-  color: var(--iq-color-accent);
-  position: absolute;
-  top: 0;
-  left: 0;
+   content: "\2665";
+   color: var(--iq-color-accent);
+   position: absolute;
+   top: 0;
+   left: 0;
 }
 
 .favorite .grid-item-title,
 .favorite .grid-item-text {
-  display: none;
+   display: none;
 }
 
 .rating {
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: flex;
-  flex-direction: revert;
-  transform: translateY(-25%);
+   position: absolute;
+   top: 0;
+   right: 0;
+   display: flex;
+   flex-direction: revert;
+   transform: translateY(-25%);
 }
 
 .photoURL {
-  min-width: 100%;
+   min-width: 100%;
 }
 .photoURL-title,
 .productURL-title {
-  display: none;
+   display: none;
 }
 .photoURL > div {
-  max-height: 500px !important;
-  max-width: 300px;
-  margin: 0 auto;
+   max-height: 500px !important;
+   max-width: 300px;
+   margin: 0 auto;
 }
 
 .productURL {
-  align-items: center;
-  justify-content: space-evenly;
-  margin: auto;
+   align-items: center;
+   justify-content: space-evenly;
+   margin: auto;
 }
 .productURL-text {
-  word-break: break-all;
+   word-break: break-all;
 }
 
 .productURL a {
-  color: inherit;
-  font-style: oblique;
-  text-decoration: none;
+   color: inherit;
+   font-style: oblique;
+   text-decoration: none;
 }
 
 .tool-row-wrap {
-  position: relative;
+   position: relative;
 }
 .editing-fields-wrap {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  height: 100%;
-  width: 100%;
-  transform: translate(-50%, -50%);
-  max-width: 1200px;
-  z-index: 90;
-  display: flex;
-  max-height: calc(100% - 71px);
-  margin: 20px auto;
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   height: 100%;
+   width: 100%;
+   transform: translate(-50%, -50%);
+   max-width: 1200px;
+   z-index: 90;
+   display: flex;
+   max-height: calc(100% - 71px);
+   margin: 20px auto;
 }
 
 .tool-row-wrap .editing-fields-wrap {
-  border: none;
+   border: none;
+}
+
+.tool-row-wrap [class*="required-input-error"] {
+   border: none !important;
 }
 
 .overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  z-index: 90;
-  display: flex;
-  background: var(--iq-color-foreground);
-  max-height: 100%;
-  opacity: 0.9;
+   position: fixed;
+   top: 0;
+   left: 0;
+   height: 100%;
+   width: 100%;
+   z-index: 90;
+   display: flex;
+   background: var(--iq-color-foreground);
+   max-height: 100%;
+   opacity: 0.9;
 }
 
 .status-Wanted > div > div {
-  border: 7px solid var(--iq-color-accent);
+   border: 7px solid var(--iq-color-accent);
 }
 
 .status-Wanted:after {
-  content: "Wanted";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--iq-color-accent);
-  color: var(--iq-color-foreground);
-  text-shadow: 0 0 2px var(--iq-color-background);
-  padding: 0.5em;
-  font-weight: 700;
-  letter-spacing: 0.25em;
+   content: "Wanted";
+   position: absolute;
+   top: 0;
+   left: 50%;
+   transform: translateX(-50%);
+   background: var(--iq-color-accent);
+   color: var(--iq-color-foreground);
+   text-shadow: 0 0 2px var(--iq-color-background);
+   padding: 0.5em;
+   font-weight: 700;
+   letter-spacing: 0.25em;
 }
 
 .status-Disabled {
-  border: 7px solid var(--iq-color-foreground);
+   border: 7px solid var(--iq-color-foreground);
 }
 .status-Disabled > div > div {
-  /* background-color: gray; */
-  background-image: repeating-linear-gradient(
-    45deg,
-    transparent,
-    transparent 10%,
-    rgb(123, 123, 123) 50%,
-    rgba(0, 0, 0, 0.497) 100%
-  );
-  color: black !important;
+   /* background-color: gray; */
+   background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10%,
+      rgb(123, 123, 123) 50%,
+      rgba(0, 0, 0, 0.497) 100%
+   );
+   color: black !important;
 }
 .status-Disabled a {
-  color: inherit;
+   color: inherit;
 }
 .status-Disabled > div > div > div button {
-  color: inherit !important;
-  background: inherit !important;
+   color: inherit !important;
+   background: inherit !important;
 }
 .status-Disabled .button-container {
-  color: var(--iq-color-foreground) !important;
-  background: var(--iq-color-accent) !important;
-  font-size: 1.5em;
-  height: 3em;
+   color: var(--iq-color-foreground) !important;
+   background: var(--iq-color-accent) !important;
+   font-size: 1.5em;
+   height: 3em;
 }
 
 .status-Disabled:after {
-  content: "Disabled";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--iq-color-foreground);
-  color: var(--iq-color-background);
-  text-shadow: 0 0 2px var(--iq-color-accent);
-  padding: 0.5em;
-  font-weight: 700;
-  letter-spacing: 0.25em;
+   content: "Disabled";
+   position: absolute;
+   top: 0;
+   left: 50%;
+   transform: translateX(-50%);
+   background: var(--iq-color-foreground);
+   color: var(--iq-color-background);
+   text-shadow: 0 0 2px var(--iq-color-accent);
+   padding: 0.5em;
+   font-weight: 700;
+   letter-spacing: 0.25em;
 }

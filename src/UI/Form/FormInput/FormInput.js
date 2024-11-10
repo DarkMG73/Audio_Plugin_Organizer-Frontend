@@ -44,6 +44,16 @@ const FormInput = (props) => {
    }, []);
 
    useEffect(() => {
+      console.log(
+         "%c⚪️►►►► %cline:48%cphotoSelected",
+         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+         "color:#fff;background:rgb(254, 67, 101);padding:3px;border-radius:2px",
+         photoSelected
+      );
+   }, [photoSelected]);
+
+   useEffect(() => {
       if (input.required == true && requiredError) {
          setRequiredClass("required-input-error");
       }
@@ -115,6 +125,13 @@ const FormInput = (props) => {
       // );
 
       const groomedImageNameEnd = imageStr.substring(imageStr.lastIndexOf("."));
+      console.log(
+         "%c⚪️►►►► %cline:107%cgroomedImageNameStart",
+         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+         "color:#fff;background:rgb(131, 175, 155);padding:3px;border-radius:2px",
+         groomedImageNameStart
+      );
 
       setPhotoSelected(
          picLocation + groomedImageNameStart + groomedImageNameEnd
@@ -147,6 +164,7 @@ const FormInput = (props) => {
    const addTitlesToPicSelIMages = () => {
       const checkForElmInterval = setInterval(() => {
          const imagePickerElm = document.querySelector(".image_picker");
+
          if (imagePickerElm) {
             clearInterval(checkForElmInterval);
             const allElms = document.querySelectorAll(".responsive");
@@ -464,11 +482,14 @@ const FormInput = (props) => {
                   </div>
                </div>
             )}
+            {photoSelected}
+            {inputValue}
             <input
                key={"form-input-2"}
                type="url"
                name={formNumber + "#" + input.name}
                defaultValue={photoSelected ? photoSelected : inputValue}
+               value={photoSelected}
                ref={requiredTextInput}
                onChange={props.onChange || textInputOnChangeHandler}
                className={styles[requiredClass]}

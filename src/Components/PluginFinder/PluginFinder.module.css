@@ -18,8 +18,6 @@
 .plugin-finder-container button {
    position: relative;
    font-weight: 700;
-   background: var(--iq-color-foreground);
-   color: var(--iq-color-accent);
    box-shadow:
       3px 3px 7px -4px #ffffffdb inset,
       -3px -3px 7px -4px black inset;
@@ -30,6 +28,10 @@
    background: var(--iq-color-accent);
    color: var(--iq-color-foreground);
    border: none;
+}
+
+.plugin-finder-container [class*="required-input-error"] {
+   border: none !important;
 }
 
 .plugin-finder-container button:hover {
@@ -70,27 +72,6 @@
    width: 75%;
    min-height: 3em;
    margin: 1em;
-}
-
-.plugin-finder-container [class*="AddAToolFormElms_close-"] {
-   min-height: 2em;
-   margin: 2em auto -0.5em;
-   max-width: none;
-   display: block;
-   grid-area: close-button;
-   width: 100%;
-   left: 0;
-   transform: none;
-   background: #005570;
-   color: var(--iq-color-background);
-   text-transform: uppercase;
-   opacity: 0.75;
-}
-
-.plugin-finder-container [class*="AddAToolFormElms_close-"]:hover {
-   background: rgb(255 135 0);
-   color: var(--iq-color-background-contrast);
-   opacity: 1;
 }
 
 .plugin-finder-container ul {

@@ -53,7 +53,7 @@ function AddAToolFormElms(props) {
    function cancelQuestionFormButtonHandler(e) {
       e.preventDefault();
       const close = window.confirm(
-         "Are you sure you want to cancel this specific item? Any data input for this item will be lost (other items in this Question Entry Form will not be affected)? "
+         "Are you sure you want to cancel this specific item? Any data input for this item will be lost (other items in this plugin entry form will not be affected)? "
       );
 
       if (close) {
@@ -128,7 +128,7 @@ function AddAToolFormElms(props) {
                         })}
                         <button
                            key={"addtoolformelms-5"}
-                           className={styles["close-question-form-button"]}
+                           className={styles["close-item-form-button"]}
                            onClick={cancelQuestionFormButtonHandler}
                            style={props.cancelButtonStyles}
                            data-form-number={index}

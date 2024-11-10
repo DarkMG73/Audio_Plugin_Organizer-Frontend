@@ -63,7 +63,8 @@ function GetPluginFormInputsWithOptions(pluginSchema, toolsMetadata) {
                      return;
                   }
                }
-               optionsSet.add(option);
+
+               optionsSet.add(option.toString());
             });
          }
          topicOptions = Array.from(optionsSet);
