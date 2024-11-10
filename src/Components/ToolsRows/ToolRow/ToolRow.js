@@ -14,7 +14,7 @@ import {
 } from "../../../storage/audioToolsDB";
 import GetPluginFormInputsWithOptions from "../../../Hooks/GetPluginFormInputsWithOptions";
 import useToolDisplayOrder from "../../../Hooks/useToolDisplayOrder";
-import placeholderImage from "../../../assets/images/product-photo-placeholder-5.png";
+import placeholderImage from "../../../assets/images/product-photo-placeholder.png";
 
 function ToolRow(props) {
    const { toolsMetadata, toolsSchema } = useSelector(
