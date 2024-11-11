@@ -209,22 +209,26 @@ const PluginFinder = () => {
                            <input type="checkbox" name="select-none" />
                            Clear All
                         </label>
-                        <label
-                           htmlFor="select-twenty"
-                           onClick={handleCheckSomeCheckBox}
-                           data-amount="20"
-                        >
-                           <input type="checkbox" name="select-twenty" />
-                           Select First Twenty Items
-                        </label>
-                        <label
-                           htmlFor="select-fifty"
-                           onClick={handleCheckSomeCheckBox}
-                           data-amount="50"
-                        >
-                           <input type="checkbox" name="select-fifty" />
-                           Select First Fifty Items
-                        </label>
+                        {fileNames.length > 20 && (
+                           <label
+                              htmlFor="select-twenty"
+                              onClick={handleCheckSomeCheckBox}
+                              data-amount="20"
+                           >
+                              <input type="checkbox" name="select-twenty" />
+                              Select First Twenty Items
+                           </label>
+                        )}
+                        {fileNames.length > 50 && (
+                           <label
+                              htmlFor="select-fifty"
+                              onClick={handleCheckSomeCheckBox}
+                              data-amount="50"
+                           >
+                              <input type="checkbox" name="select-fifty" />
+                              Select First Fifty Items
+                           </label>
+                        )}
 
                         <label
                            htmlFor="select-all"
