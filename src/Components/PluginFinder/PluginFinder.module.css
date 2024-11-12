@@ -15,7 +15,8 @@
    align-items: center;
 }
 
-.button-container {
+.button-container,
+.url-input-container {
    display: flex;
    width: 100%;
    grid-column: 1 / -1;
@@ -24,6 +25,24 @@
    flex-wrap: wrap;
 }
 
+.url-input-container > * {
+   flex-basis: 100%;
+}
+
+.url-input-container input {
+   font-weight: 500;
+}
+.url-input-container button {
+   width: 50%;
+   max-width: 80%;
+   flex-basis: 100%;
+   margin: 1em auto;
+}
+
+.location-input-container {
+   display: flex;
+   flex-direction: column;
+}
 .button-container > * {
    margin: 0 1em;
 }
@@ -60,7 +79,8 @@
 }
 
 .plugin-finder-selector-wrap {
-   max-width: 100%;
+   max-width: 800px;
+   width: 100%;
 }
 
 .plugin-finder-modal {
@@ -108,6 +128,16 @@
    width: 100%;
    padding: 0;
    min-width: 100%;
+}
+
+.plugin-finder-container ul p,
+.url-show-paths-button {
+   grid-column: 1 / -1;
+}
+
+.url-show-paths-button {
+   width: 38em;
+   margin: auto;
 }
 
 .plugin-finder-container ul label[for="select-all"],
@@ -198,7 +228,6 @@
 }
 
 .plugin-finder-container input[type="radio"]:checked {
-   x: red;
    color: rgb(255 135 0);
    background: rgb(255 135 0);
 }
@@ -217,6 +246,21 @@
       3px 3px 7px -4px #ffffffc9 inset,
       -3px -3px 7px -4px black inset;
    opacity: 1;
+}
+
+.button-container label[for="select-none"] {
+   width: 0;
+   height: 0;
+   transition: 0.3s all ease;
+   padding: 0;
+}
+
+.plugin-finder-container:has(input[type="checkbox"]:checked)
+   [for="select-none"] {
+   width: max-content;
+   height: max-content;
+   transition: 0.3s all ease;
+   padding: 0 1em;
 }
 
 @media screen and (max-width: 1024px) {
