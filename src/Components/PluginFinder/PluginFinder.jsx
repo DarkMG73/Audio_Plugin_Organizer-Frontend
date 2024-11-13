@@ -5,17 +5,13 @@ import { getLocalPluginData } from "../../storage/audioToolsDB";
 import BarLoader from "../../UI/Loaders/BarLoader/BarLoader";
 import AddAToolForm from "../AddATool/AddAToolForm";
 import useGroomDataForToolForm from "../../Hooks/useGroomDataForToolForm";
-import { updateUserPluginPaths } from "../../storage/userDB";
+import {
+   updateUserPluginPaths,
+   updateIgnoredPlugins
+} from "../../storage/userDB";
 
 const PluginFinder = () => {
    const { user } = useSelector((state) => state.auth);
-   console.log(
-      "%c⚪️►►►► %cline:11%cuser",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(39, 72, 98);padding:3px;border-radius:2px",
-      user
-   );
    const { allTools } = useSelector((state) => state.toolsData);
    const acceptedPluginWrappers = ["vst", "vst3", "component"];
    const [fileNames, setFileNames] = useState([]);
@@ -30,6 +26,7 @@ const PluginFinder = () => {
       useState(false);
    const [showPluginPaths, setShowPluginPaths] = useState(false);
    const [noPluginPathsExist, setNoPluginPathsExist] = useState(true);
+   const [ignorePluginList, setIgnorePluginList] = useState([]);
    const groomDataForToolForm = useGroomDataForToolForm();
    const toolsSchema = useSelector((state) => state.toolsData.toolsSchema);
    const [activateLoader, setActivateLoader] = useState(false);
@@ -54,8 +51,16 @@ const PluginFinder = () => {
             ? user.pluginPaths
             : {};
 
+      const userIgnoredPlugins =
+         user &&
+         Object.hasOwn(user, "ignoredPlugins") &&
+         user.ignoredPlugins.constructor === Array
+            ? user.ignoredPlugins
+            : [];
+
       setShowHidePluginPathsButton(true);
       setPluginPathsObj(userPluginPaths);
+      setIgnorePluginList(userIgnoredPlugins);
    }, [user]);
 
    useEffect(() => {
@@ -80,7 +85,7 @@ const PluginFinder = () => {
 
                const matchedNames = [];
                const groomedList = [];
-               // Remove existing plugin names
+               // Remove existing and ignored plugin names
                for (const name of acceptedPluginNames) {
                   if (!matchedNames.includes(name)) {
                      for (const value of Object.values(allTools)) {
@@ -97,12 +102,15 @@ const PluginFinder = () => {
                      }
                   }
 
-                  if (!matchedNames.includes(name)) {
+                  if (
+                     !matchedNames.includes(name) &&
+                     !ignorePluginList.includes(name)
+                  ) {
                      groomedList.push(name);
                   }
                }
 
-               setFileNames(groomedList);
+               setFileNames(groomedList.sort((a, b) => a.localeCompare(b)));
                setTimeout(() => {
                   setActivateLoader(false);
                }, 3000);
@@ -172,6 +180,46 @@ const PluginFinder = () => {
       }
    };
 
+   const handleAddToIgnoreList = (e) => {
+      e.preventDefault();
+      const name = e.target.dataset.fileName;
+      setIgnorePluginList((prevState) => {
+         return [...prevState, name].sort((a, b) => a.localeCompare(b));
+      });
+
+      if (addToLibrary.includes(name)) {
+         setAddToLibrary((prevState) => {
+            const oldState = [...prevState];
+            const newState = oldState.filter((item) => item !== name);
+            return newState;
+         });
+      }
+
+      if (fileNames.includes(name)) {
+         setFileNames((prevState) => {
+            const oldState = [...prevState];
+            const newState = oldState.filter((item) => item !== name);
+            return newState;
+         });
+      }
+   };
+
+   const handleRemoveFromIgnoreList = (e) => {
+      e.preventDefault();
+      const name = e.target.dataset.fileName;
+
+      setIgnorePluginList((prevState) => {
+         const oldState = [...prevState];
+         const newState = oldState.filter((item) => item !== name);
+
+         return newState;
+      });
+
+      setFileNames((prevState) => {
+         return [...prevState, name].sort((a, b) => a.localeCompare(b));
+      });
+   };
+
    const handleAddPluginLocationInput = (e) => {
       e.preventDefault();
       setShowPluginPaths(true);
@@ -192,6 +240,17 @@ const PluginFinder = () => {
          pluginPathsObj
       );
       updateUserPluginPaths(user, pluginPathsObj);
+   };
+
+   const handleSaveIgnoredPluginsButton = (e) => {
+      console.log(
+         "%c⚪️►►►► %cline:259%cignorePluginList",
+         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+         "color:#fff;background:rgb(39, 72, 98);padding:3px;border-radius:2px",
+         ignorePluginList
+      );
+      updateIgnoredPlugins(user, ignorePluginList);
    };
 
    const handleCheckAllCheckBox = (e) => {
@@ -268,7 +327,19 @@ const PluginFinder = () => {
                   </div>
                )}
 
-               {findNewPlugins && (
+               {!user && findNewPlugins && (
+                  <div className={Styles["login-message-wrap"]}>
+                     <p>
+                        Please log in to be able to search for plugins on your
+                        machine.
+                     </p>
+                     <p>
+                        If you do not have a profile, please register using the
+                        "Sign Up" button above.
+                     </p>
+                  </div>
+               )}
+               {user && findNewPlugins && (
                   <Fragment>
                      {fileNames.length > 0 && (
                         <h3>
@@ -363,6 +434,31 @@ const PluginFinder = () => {
                         </div>
                      )}
 
+                     <div className={Styles["ignore-plugin-list-container"]}>
+                        <h3>Ignored Plugins</h3>
+                        <button onClick={handleSaveIgnoredPluginsButton}>
+                           Save Ignored Plugins
+                        </button>
+                        <ul>
+                           {ignorePluginList.map((fileName, index) => (
+                              <li key={index}>
+                                 <label
+                                    htmlFor={"ignored" + fileName}
+                                    onClick={handleRemoveFromIgnoreList}
+                                    data-file-name={fileName}
+                                 >
+                                    {fileName}
+                                 </label>
+                                 <button
+                                    name={"ignored" + fileName}
+                                    className={Styles["ignore-list-button"]}
+                                    onClick={handleRemoveFromIgnoreList}
+                                    data-file-name={fileName}
+                                 ></button>
+                              </li>
+                           ))}
+                        </ul>
+                     </div>
                      <div className={Styles["button-container"]}>
                         <label
                            htmlFor="select-none"
@@ -427,12 +523,20 @@ const PluginFinder = () => {
                               />
                               {fileName}
                            </label>
+                           <button
+                              className={Styles["ignore-list-button"]}
+                              onClick={handleAddToIgnoreList}
+                              data-file-name={fileName}
+                           >
+                              X
+                           </button>
                         </li>
                      ))}
                   </Fragment>
                )}
             </ul>
          </div>
+
          {userFilesToGroomArray && (
             <div className={Styles["plugin-finder-modal"]}>
                <button
