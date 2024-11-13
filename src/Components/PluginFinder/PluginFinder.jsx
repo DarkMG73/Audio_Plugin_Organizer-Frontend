@@ -21,12 +21,14 @@ const PluginFinder = () => {
    const [findNewPlugins, setFindNewPlugins] = useState(false);
    const [pluginPathsObj, setPluginPathsObj] = useState({});
    const [showPluginPathSaveButton, setShowPluginPathSaveButton] =
-      useState(true);
+      useState(false);
    const [showHidePluginPathsButton, setShowHidePluginPathsButton] =
       useState(false);
    const [showPluginPaths, setShowPluginPaths] = useState(false);
    const [noPluginPathsExist, setNoPluginPathsExist] = useState(true);
    const [ignorePluginList, setIgnorePluginList] = useState([]);
+   const [showSaveIgnoreListButton, setShowSaveIgnoreListButton] =
+      useState(false);
    const groomDataForToolForm = useGroomDataForToolForm();
    const toolsSchema = useSelector((state) => state.toolsData.toolsSchema);
    const [activateLoader, setActivateLoader] = useState(false);
@@ -182,6 +184,7 @@ const PluginFinder = () => {
 
    const handleAddToIgnoreList = (e) => {
       e.preventDefault();
+      setShowSaveIgnoreListButton(true);
       const name = e.target.dataset.fileName;
       setIgnorePluginList((prevState) => {
          return [...prevState, name].sort((a, b) => a.localeCompare(b));
@@ -206,6 +209,7 @@ const PluginFinder = () => {
 
    const handleRemoveFromIgnoreList = (e) => {
       e.preventDefault();
+      setShowSaveIgnoreListButton(true);
       const name = e.target.dataset.fileName;
 
       setIgnorePluginList((prevState) => {
@@ -224,6 +228,7 @@ const PluginFinder = () => {
       e.preventDefault();
       setShowPluginPaths(true);
       setShowPluginPathSaveButton(true);
+
       setPluginPathsObj((prevState) => {
          const newState = { ...prevState };
          newState[e.target.name] = e.target.value;
@@ -232,25 +237,38 @@ const PluginFinder = () => {
    };
 
    const handleSaveLocationsButton = (e) => {
-      console.log(
-         "%c⚪️►►►► %cline:143%chandleSaveLocationsButton",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(95, 92, 51);padding:3px;border-radius:2px",
-         pluginPathsObj
-      );
-      updateUserPluginPaths(user, pluginPathsObj);
+      updateUserPluginPaths(user, pluginPathsObj)
+         .then((res) => {
+            setShowPluginPathSaveButton(false);
+
+            alert("The save was successful!\n\nServer status: " + res.status);
+         })
+         .catch((err) => {
+            console.log(
+               "%c⚪️►►►► %cline:243%cerr",
+               "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+               "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+               "color:#fff;background:rgb(3, 38, 58);padding:3px;border-radius:2px",
+               err
+            );
+         });
    };
 
    const handleSaveIgnoredPluginsButton = (e) => {
-      console.log(
-         "%c⚪️►►►► %cline:259%cignorePluginList",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(39, 72, 98);padding:3px;border-radius:2px",
-         ignorePluginList
-      );
-      updateIgnoredPlugins(user, ignorePluginList);
+      updateIgnoredPlugins(user, ignorePluginList)
+         .then((res) => {
+            setShowSaveIgnoreListButton(false);
+            alert("The save was successful!\n\nServer status: " + res.status);
+         })
+         .catch((err) => {
+            console.log(
+               "%c⚪️►►►► %cline:243%cerr",
+               "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+               "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+               "color:#fff;background:rgb(3, 38, 58);padding:3px;border-radius:2px",
+               err
+            );
+         });
    };
 
    const handleCheckAllCheckBox = (e) => {
@@ -353,7 +371,13 @@ const PluginFinder = () => {
                            className={Styles["url-show-paths-button"]}
                            onClick={handleShowPluginPaths}
                         >
-                           Show Plugin Paths
+                           {!showPluginPaths && !noPluginPathsExist && (
+                              <span>Show</span>
+                           )}
+                           {(showPluginPaths || noPluginPathsExist) && (
+                              <span>Hide</span>
+                           )}
+                           Plugin Paths
                         </button>
                      )}
 
@@ -377,7 +401,7 @@ const PluginFinder = () => {
                                        ? pluginPathsObj["location-1"]
                                        : ""
                                  }
-                                 onChange={handleAddPluginLocationInput}
+                                 onClick={handleAddPluginLocationInput}
                               />
                            </div>{" "}
                            <div className={Styles["location-input-container"]}>
@@ -392,7 +416,7 @@ const PluginFinder = () => {
                                        ? pluginPathsObj["location-2"]
                                        : ""
                                  }
-                                 onChange={handleAddPluginLocationInput}
+                                 onClick={handleAddPluginLocationInput}
                               />{" "}
                            </div>{" "}
                            <div className={Styles["location-input-container"]}>
@@ -407,7 +431,7 @@ const PluginFinder = () => {
                                        ? pluginPathsObj["location-3"]
                                        : ""
                                  }
-                                 onChange={handleAddPluginLocationInput}
+                                 onClick={handleAddPluginLocationInput}
                               />{" "}
                            </div>{" "}
                            <div className={Styles["location-input-container"]}>
@@ -422,12 +446,15 @@ const PluginFinder = () => {
                                        ? pluginPathsObj["location-4"]
                                        : ""
                                  }
-                                 onChange={handleAddPluginLocationInput}
+                                 onClick={handleAddPluginLocationInput}
                               />
                            </div>
                            {showPluginPathSaveButton &&
                               Object.keys(pluginPathsObj).length > 0 && (
-                                 <button onClick={handleSaveLocationsButton}>
+                                 <button
+                                    className={Styles["pulse"]}
+                                    onClick={handleSaveLocationsButton}
+                                 >
                                     Save Plugin Location Changes
                                  </button>
                               )}
@@ -436,10 +463,28 @@ const PluginFinder = () => {
 
                      <div className={Styles["ignore-plugin-list-container"]}>
                         <h3>Ignored Plugins</h3>
-                        <button onClick={handleSaveIgnoredPluginsButton}>
-                           Save Ignored Plugins
-                        </button>
+                        {showSaveIgnoreListButton && (
+                           <button
+                              className={Styles["pulse"]}
+                              onClick={handleSaveIgnoredPluginsButton}
+                           >
+                              Save Ignored Plugins
+                           </button>
+                        )}
                         <ul>
+                           {ignorePluginList.length <= 0 && (
+                              <div className={Styles["plugin-finder-text-box"]}>
+                                 <p>
+                                    Plugins to ignore will appear here. Click
+                                    the X next to the plugin name to ignore.
+                                    <br />
+                                    Be sure to save this list after each change.
+                                    <br />
+                                    Restore an ignored plugin anytime by
+                                    clicking on it.
+                                 </p>
+                              </div>
+                           )}
                            {ignorePluginList.map((fileName, index) => (
                               <li key={index}>
                                  <label
@@ -499,8 +544,24 @@ const PluginFinder = () => {
                            </label>
                         )}
                      </div>
+                     <div
+                        className={
+                           Styles["plugin-finder-text-box"] +
+                           " " +
+                           Styles["add-to-library-text-box"]
+                        }
+                     >
+                        <p>
+                           Click the plugin name to select it to add to the
+                           library. Click the X to ignore it in the future.
+                        </p>
+                     </div>
                      <button
-                        className={Styles["add-to-library-button"]}
+                        className={
+                           Styles["add-to-library-button"] +
+                           " " +
+                           Styles["pulse"]
+                        }
                         onClick={handleAddToLibraryButton}
                      >
                         Add to Library &rarr;
