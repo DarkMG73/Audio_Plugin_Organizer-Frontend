@@ -89,11 +89,17 @@
    border-radius: 6.125px;
    transition: 0.1s all ease;
    /* transform: scale(1, 1.125) translateX(-1em); */
-   background: var(--iq-color-accent);
+   background: var(--iq-color-background);
    color: var(--iq-color-foreground);
    border: none;
    font-variant: small-caps;
    font-weight: 700;
+}
+
+.plugin-finder-container button:hover,
+.button-container label:hover {
+   background: var(--iq-color-accent);
+   color: var(--iq-color-foreground);
 }
 
 .plugin-finder-container .ignore-list-button {
@@ -117,12 +123,33 @@
    color: var(--iq-color-foreground);
 }
 
+.plugin-finder-container .find-new-plugins-button {
+   background: var(--iq-color-accent);
+   color: var(--iq-color-foreground);
+}
+
+.plugin-finder-container .find-new-plugins-button.open {
+   background: var(--iq-color-foreground);
+   color: var(--iq-color-accent);
+   min-height: 2em;
+}
+.plugin-finder-container .find-new-plugins-button.open:hover {
+   background: var(--iq-color-accent);
+   color: var(--iq-color-foreground);
+}
+.plugin-finder-container button.button-action-needed {
+   background: var(--iq-color-accent);
+   color: var(--iq-color-foreground);
+   min-height: 3em;
+}
+
 .plugin-finder-text-box {
    grid-column: 1 / -1;
    padding: 0 1em;
    max-width: 800px;
    margin: auto;
 }
+
 .plugin-finder-selector-wrap
    .ignore-plugin-list-container
    ul

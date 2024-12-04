@@ -34,6 +34,11 @@ const PluginFinder = () => {
    const [activateLoader, setActivateLoader] = useState(false);
 
    useEffect(() => {
+      console.log("fileNames---->", fileNames);
+      console.log("ignorePluginList---->", ignorePluginList);
+   }, [fileNames, ignorePluginList]);
+
+   useEffect(() => {
       let pluginPathsExist = false;
 
       if (pluginPathsObj) {
@@ -236,7 +241,7 @@ const PluginFinder = () => {
       });
    };
 
-   const handleSaveLocationsButton = (e) => {
+   const handleSaveLocationsButton = () => {
       updateUserPluginPaths(user, pluginPathsObj)
          .then((res) => {
             setShowPluginPathSaveButton(false);
@@ -254,7 +259,7 @@ const PluginFinder = () => {
          });
    };
 
-   const handleSaveIgnoredPluginsButton = (e) => {
+   const handleSaveIgnoredPluginsButton = () => {
       updateIgnoredPlugins(user, ignorePluginList)
          .then((res) => {
             setShowSaveIgnoreListButton(false);
@@ -287,7 +292,7 @@ const PluginFinder = () => {
       setAddToLibrary([...fileNames.slice(0, numberToSelect)]);
    };
 
-   const handleFindNewPluginsButton = (e) => {
+   const handleFindNewPluginsButton = () => {
       setActivateLoader(true);
       setFindNewPlugins(!findNewPlugins);
    };
@@ -331,7 +336,12 @@ const PluginFinder = () => {
    return (
       <div className={Styles["plugin-finder-container"]}>
          <button
-            className={Styles["find-new-plugins-button"]}
+            type="button"
+            className={
+               Styles["find-new-plugins-button"] +
+               " " +
+               (findNewPlugins && Styles.open)
+            }
             onClick={handleFindNewPluginsButton}
          >
             {findNewPlugins && <span> Close</span>} Local Plugin Finder
@@ -368,6 +378,7 @@ const PluginFinder = () => {
 
                      {showHidePluginPathsButton && (
                         <button
+                           type="button"
                            className={Styles["url-show-paths-button"]}
                            onClick={handleShowPluginPaths}
                         >
@@ -452,7 +463,8 @@ const PluginFinder = () => {
                            {showPluginPathSaveButton &&
                               Object.keys(pluginPathsObj).length > 0 && (
                                  <button
-                                    className={Styles["pulse"]}
+                                    type="button"
+                                    className={Styles.pulse}
                                     onClick={handleSaveLocationsButton}
                                  >
                                     Save Plugin Location Changes
@@ -465,7 +477,12 @@ const PluginFinder = () => {
                         <h3>Ignored Plugins</h3>
                         {showSaveIgnoreListButton && (
                            <button
-                              className={Styles["pulse"]}
+                              type="button"
+                              className={
+                                 Styles.pulse +
+                                 " " +
+                                 Styles["button-action-needed"]
+                              }
                               onClick={handleSaveIgnoredPluginsButton}
                            >
                               Save Ignored Plugins
@@ -488,6 +505,7 @@ const PluginFinder = () => {
                            {ignorePluginList.map((fileName, index) => (
                               <li key={index}>
                                  <label
+                                    key={"ignored-label" + fileName}
                                     htmlFor={"ignored" + fileName}
                                     onClick={handleRemoveFromIgnoreList}
                                     data-file-name={fileName}
@@ -495,11 +513,13 @@ const PluginFinder = () => {
                                     {fileName}
                                  </label>
                                  <button
+                                    key={"ignored" + fileName}
+                                    type="button"
                                     name={"ignored" + fileName}
                                     className={Styles["ignore-list-button"]}
                                     onClick={handleRemoveFromIgnoreList}
                                     data-file-name={fileName}
-                                 ></button>
+                                 />
                               </li>
                            ))}
                         </ul>
@@ -557,10 +577,13 @@ const PluginFinder = () => {
                         </p>
                      </div>
                      <button
+                        type="button"
                         className={
                            Styles["add-to-library-button"] +
                            " " +
-                           Styles["pulse"]
+                           Styles.pulse +
+                           " " +
+                           Styles["button-action-needed"]
                         }
                         onClick={handleAddToLibraryButton}
                      >
@@ -585,6 +608,7 @@ const PluginFinder = () => {
                               {fileName}
                            </label>
                            <button
+                              type="button"
                               className={Styles["ignore-list-button"]}
                               onClick={handleAddToIgnoreList}
                               data-file-name={fileName}
@@ -601,7 +625,8 @@ const PluginFinder = () => {
          {userFilesToGroomArray && (
             <div className={Styles["plugin-finder-modal"]}>
                <button
-                  key={"addtoolformelms-5"}
+                  type="button"
+                  key="addtoolformelms-5"
                   className={
                      Styles["close-form-button"] +
                      " " +
@@ -627,7 +652,7 @@ const PluginFinder = () => {
                      formData={userFilesToGroomArray}
                      buttonStyles={buttonStyles}
                      submitButtonStyles={submitButtonStyles}
-                     ignoreFormOpen={true}
+                     //   ignoreFormOpen={true}
                      setFormParentOpen={false}
                      cancelOneForm={(e) => {
                         e.preventDefault();
