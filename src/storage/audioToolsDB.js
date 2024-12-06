@@ -79,7 +79,6 @@ export async function savePlugin(userAndDataObject) {
          Authorization: "JWT " + userAndDataObject.user.token
       }
    };
-   //
 
    const response = await axios
       .post(`/api/all-plugins/add/`, userAndDataObject, axiosConfig)
