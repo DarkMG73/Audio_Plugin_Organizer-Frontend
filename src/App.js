@@ -135,6 +135,13 @@ const App = (props) => {
             if (res.status >= 400) {
                runGatherToolData();
             } else {
+               console.log(
+                  "%c⚪️►►►► %cline:138%cres.data.cookie",
+                  "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                  "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                  "color:#fff;background:rgb(227, 160, 93);padding:3px;border-radius:2px",
+                  res.data.cookie
+               );
                getUserUserByToken(res.data.cookie)
                   .then((userProfile) => {
                      if (userProfile.status >= 400) {

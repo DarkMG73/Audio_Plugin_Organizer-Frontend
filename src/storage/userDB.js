@@ -312,6 +312,13 @@ export async function getUserCookie(user) {
    // SessionStorage used while hosting API on Heroku
    const output = new Promise((resolve, reject) => {
       const cookie = StorageForSession("GET", {}, "giProductionTool");
+      console.log(
+         "%c⚪️►►►► %cline:314%ccookie",
+         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+         "color:#fff;background:rgb(60, 79, 57);padding:3px;border-radius:2px",
+         cookie
+      );
 
       let status = 400;
       if (cookie) status = 202;
