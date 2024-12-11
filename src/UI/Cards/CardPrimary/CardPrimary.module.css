@@ -1,13 +1,16 @@
 .card-primary {
   display: flex;
   flex-direction: column;
-  /* border: 3px solid red; */
   background: var(--iq-color-foreground-gradient);
+  background-image: var(--apo-background-image);
   color: var(--iq-color-background-warm);
   padding: 2rem;
   border-radius: 50px;
-  box-shadow: inset 4px 4px 14px -7px rgb(255 255 255),
+  box-shadow:
+    inset 4px 4px 14px -7px rgb(255 255 255),
     inset -4px -4px 14px -7px rgb(0 0 0 / 50%);
+  box-shadow: var(--apo-boxshadow-outer), var(--apo-boxshadow-inner);
+  border: 1px solid;
 }
 
 .card-priimary a {
