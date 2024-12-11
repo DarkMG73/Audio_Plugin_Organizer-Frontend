@@ -1,7 +1,10 @@
 .app-container {
-  text-align: center;
-  background: var(--iq-color-foreground);
-  color: var(--iq-color-background-warm);
+   text-align: center;
+   background: var(--iq-color-foreground);
+   background: var(--iq-color-background-body);
+   background-image: var(--apo-background-image);
+   background-image: var(--apo-background-image-body);
+   color: var(--iq-color-background-warm);
 }
 
 /* .content-container {
@@ -16,33 +19,33 @@
  *  STYLE 3
  */
 ::-webkit-scrollbar-track {
-  background-color: #f6000014;
-  background: transparent;
-  border-radius: 50px;
-  /* box-shadow: -3px -3px 5px -3px inset rgb(59 59 59),
+   background: transparent;
+   background: var(--iq-color-scrollbar-track);
+   border-radius: 50px;
+   /* box-shadow: -3px -3px 5px -3px inset rgb(59 59 59),
     -2px -3px 5px -3px inset rgb(255 255 255); */
-  margin-top: 50px;
+   margin-top: 50px;
 }
 
 ::-webkit-scrollbar {
-  width: auto;
-  height: 100%;
-  min-width: 8px;
-  border-radius: 50px;
-  background-color: transparent;
-  /* background: radial-gradient(
+   width: auto;
+   height: 100%;
+   min-width: 8px;
+   border-radius: 50px;
+   background-color: transparent;
+   /* background: radial-gradient(
     ellipse at center,
     rgb(87 87 87) 0%,
     rgb(9 9 9) 100%
   ); */
-  background: transparent;
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0000', endColorstr='#000000',GradientType=1 );
+   background: transparent;
+   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0000', endColorstr='#000000',GradientType=1 );
 }
 
 /* ::-webkit-scrollbar-thumb {
   background: radial-gradient(
     ellipse at center,
-    rgb(255 135 0) 0%,
+    var(--iq-color-accent) 0%,
     rgba(0, 0, 0, 1) 100%
   );
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0000', endColorstr='#000000',GradientType=1 );
@@ -50,135 +53,137 @@
 } */
 
 ::-webkit-scrollbar-thumb {
-  background: radial-gradient(
-    ellipse at center,
-    rgb(253 253 253) 0%,
-    rgba(0, 0, 0, 1) 100%
-  );
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0000', endColorstr='#000000',GradientType=1 );
-  border-radius: 50px;
+   background: radial-gradient(
+      ellipse at center,
+      rgb(253 253 253) 0%,
+      var(--iq-color-scrollbar-thumb) 100%
+   );
+   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0000', endColorstr='#000000',GradientType=1 );
+   border-radius: 50px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+   .App-logo {
+      animation: App-logo-spin infinite 20s linear;
+   }
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+   background-color: #282c34;
+   min-height: 100vh;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   font-size: calc(10px + 2vmin);
+   color: white;
 }
 
 .App-link {
-  color: #61dafb;
+   color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+   from {
+      transform: rotate(0deg);
+   }
+   to {
+      transform: rotate(360deg);
+   }
 }
 
 .content-container {
-  z-index: 1;
+   z-index: 1;
 }
 
 .admin-notice {
-  background: var(--iq-color-accent);
-  border-radius: 50px 50px 0 0;
-  top: 50%;
-  color: var(--iq-color-background-contrast);
-  font: var(--iq--font-heading);
-  right: 0;
-  max-height: 2em;
-  max-width: 800px;
-  padding: 0.25em;
-  position: fixed;
-  text-align: center;
-  transform: translate(-1em, -8em) rotate(-90deg);
-  transform-origin: right;
-  width: 17em;
-  z-index: 2000;
+   background: var(--iq-color-accent);
+   border-radius: 50px 50px 0 0;
+   top: 50%;
+   color: var(--iq-color-background-contrast);
+   font: var(--iq--font-heading);
+   right: 0;
+   max-height: 2em;
+   max-width: 800px;
+   padding: 0.25em;
+   position: fixed;
+   text-align: center;
+   transform: translate(-1em, -8em) rotate(-90deg);
+   transform-origin: right;
+   width: 17em;
+   z-index: 2000;
 }
 
 .admin-notice h3 {
-  margin: 0;
+   margin: 0;
 }
 
 .error-wrapper {
-  border-radius: 50px 50px 0 0;
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 100%) scale(1, 0);
-  z-index: 100000;
-  transition: 0.3s all ease;
-  transform-origin: bottom;
-  transition-timing-function: cubic-bezier(0.02, 1.03, 0.36, 5);
-  max-height: 100%;
-  max-width: 100%;
-  width: 100%;
+   border-radius: 50px 50px 0 0;
+   position: fixed;
+   bottom: 0;
+   left: 50%;
+   transform: translate(-50%, 100%) scale(1, 0);
+   z-index: 100000;
+   transition: 0.3s all ease;
+   transform-origin: bottom;
+   transition-timing-function: cubic-bezier(0.02, 1.03, 0.36, 5);
+   max-height: 100%;
+   max-width: 100%;
+   width: 100%;
 }
 
 .error-active {
-  transform: translate(-50%, 0) scale(1, 1);
+   transform: translate(-50%, 0) scale(1, 1);
 }
 
 .error-close-button {
-  position: absolute;
-  right: 24px;
-  top: 24px;
-  background: transparent;
-  border: none;
-  color: inherit;
-  text-shadow: 0 0 1px var(--iq-color-accent);
-  font-size: 18px;
+   position: absolute;
+   right: 24px;
+   top: 24px;
+   background: transparent;
+   border: none;
+   color: inherit;
+   text-shadow: 0 0 1px var(--iq-color-accent);
+   font-size: 18px;
 }
 
 .loader-wrap {
-  position: fixed;
-  top: 37%;
-  right: 0;
-  width: 250px;
-  height: 55px;
-  z-index: 110;
-  border-radius: 50px 0 0 50px;
-  background: var(--iq-color-foreground);
-  color: var(--iq-color-background-warm);
-  box-shadow: inset 3px 3px 11px -7px, 7px 7px 10px -7px black;
+   position: fixed;
+   top: 37%;
+   right: 0;
+   width: 250px;
+   height: 55px;
+   z-index: 110;
+   border-radius: 50px 0 0 50px;
+   background: var(--iq-color-foreground);
+   color: var(--iq-color-background-warm);
+   box-shadow:
+      inset 3px 3px 11px -7px,
+      7px 7px 10px -7px black;
 }
 
 .loader-wrap div {
-  max-height: 100%;
-  top: 50%;
-  min-height: 100%;
-  transform: translateY(-50%);
-  border-radius: 0;
-  position: relative;
-  padding: 0;
-  margin: 0 auto;
-  height: 100%;
-  background: transparent;
-  box-shadow: none;
-  overflow: visible;
+   max-height: 100%;
+   top: 50%;
+   min-height: 100%;
+   transform: translateY(-50%);
+   border-radius: 0;
+   position: relative;
+   padding: 0;
+   margin: 0 auto;
+   height: 100%;
+   background: transparent;
+   box-shadow: none;
+   overflow: visible;
 }
 
 .loader-wrap div span {
-  max-height: 100%;
-  height: 20px;
-  top: calc(50% - 10px);
-  display: flex;
-  background: var(--iq-color-background-warm-gradient);
+   max-height: 100%;
+   height: 20px;
+   top: calc(50% - 10px);
+   display: flex;
+   background: var(--iq-color-background-warm-gradient);
 }
 
 .loader-wrap div span {
