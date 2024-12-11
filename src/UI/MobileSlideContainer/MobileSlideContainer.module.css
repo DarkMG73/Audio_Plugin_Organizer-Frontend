@@ -10,7 +10,7 @@
   max-width: 100vw !important;
   padding-top: 18px;
   overflow: hidden;
-  z-index: 90;
+  z-index: 10;
   transform: scale(0, 1);
   transform-origin: left;
   transition: all 0.2s ease;
@@ -34,10 +34,6 @@
   text-transform: uppercase;
 }
 
-.slider-panel-button:hover {
-  background: var(--iq-color-accent);
-  transform: rotate(-90deg) translateY(-175%) translateX(0%);
-}
 .close-slider-panel-button {
   color: var(--iq-color-background-warm-gradient);
   background: var(--iq-color-foreground);

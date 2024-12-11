@@ -1,24 +1,20 @@
-import { useState, useEffect, Fragment } from 'react';
-import Measure from 'react-measure';
-import { useSelector, useDispatch } from 'react-redux';
-import styles from './Header.module.css';
-import PushButton from '../../UI/Buttons/PushButton/PushButton';
-import LoginStatus from '../User/LoginStatus/LoginStatus';
-// import { audioToolDataActions } from '../../store/audioToolDataSlice';
-import { headerDimensionsActions } from '../../store/elementDimensionsSlice';
-
-// import { ReactComponent as Logo } from '../../assets/logos/PTO_Logo-192x192.svg';
-import Logo from '../../assets/logos/icon.png';
-import AppThemeSwitcher from '../AppThemeSwitcher/AppThemeSwitcher';
+import { useState, useEffect, Fragment, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import styles from "./Header.module.css";
+import PushButton from "../../UI/Buttons/PushButton/PushButton";
+import LoginStatus from "../User/LoginStatus/LoginStatus";
+import { audioToolDataActions } from "../../store/audioToolDataSlice";
+import { headerDimensionsActions } from "../../store/elementDimensionsSlice";
+import Measure from "react-measure";
+import { ReactComponent as Logo } from "../../assets/logos/PTO_Logo-192x192.svg";
 
 const Header = () => {
   const [scrolledUp, setScrolledUp] = useState(false);
   const [loginSlidePanelOpen, setLoginSlidePanelOpen] = useState(false);
-  const [showSignUpInLoginSlide, setShowSignUpInLoginSlide] = useState(false);
   const [navbarHeight, setNavbarHeight] = useState(null);
-  // const navbarRef = useRef(null); // unused now, but leaving for a planned change
+  const navbarRef = useRef(null); // unused now, but leaving for a planned change
   const user = useSelector((state) => state.auth.user);
-  const showNavbarClass = scrolledUp ? 'show-navbar' : 'hide-navbar';
+  const showNavbarClass = scrolledUp ? "show-navbar" : "hide-navbar";
   const dispatch = useDispatch();
   const scrollPositionToAtivateNavbar = 95;
 
@@ -26,19 +22,12 @@ const Header = () => {
   /// HANDLERS
   ////////////////////////////////////////
   // unused now, but leaving for a planned change
-  // const addAToolButtonHandler = () => {
-  //   dispatch(audioToolDataActions.goToAddATool());
-  // };
+  const addAToolButtonHandler = () => {
+    dispatch(audioToolDataActions.goToAddATool());
+  };
 
-  const loginSlidePanelToggleButtonHandler = (e) => {
-    const { value } = e.target.closest('button');
-    if (value === 'close') {
-      setShowSignUpInLoginSlide(false);
-      setLoginSlidePanelOpen(false);
-    } else {
-      setLoginSlidePanelOpen(true);
-      if (value === 'signup') setShowSignUpInLoginSlide(true);
-    }
+  const loginSlidePanelToggleButtonHandler = () => {
+    setLoginSlidePanelOpen(!loginSlidePanelOpen);
   };
 
   ////////////////////////////////////////
@@ -46,7 +35,7 @@ const Header = () => {
   ////////////////////////////////////////
   useEffect(() => {
     function onScroll() {
-      const currentPosition = window.pageYOffset; // or use document.documentElement.scrollTop;
+      let currentPosition = window.pageYOffset; // or use document.documentElement.scrollTop;
       if (currentPosition < scrollPositionToAtivateNavbar) {
         // downscroll code
         setScrolledUp(false);
@@ -56,8 +45,8 @@ const Header = () => {
       }
     }
 
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
@@ -79,20 +68,20 @@ const Header = () => {
           <div
             ref={measureRef}
             className={
-              styles['navbar-container'] + ' ' + styles[showNavbarClass]
+              styles["navbar-container"] + " " + styles[showNavbarClass]
             }
           >
             <a href="#">
-              <h1 key="home" className="section-title animate">
-                {' '}
-                <span className={styles['logo-wrap']}>
-                  <img src={Logo} alt="logo" />
+              <h1 key="home" className="section-title">
+                {" "}
+                <span className={styles["logo-wrap"]}>
+                  <Logo />
                 </span>
                 Production Tool Organizer
               </h1>
             </a>
             <div
-              className={`${styles['login-button-wrap']} ${styles['show-on-small-screens']}`}
+              className={`${styles["login-button-wrap"]} ${styles["show-on-small-screens"]}`}
             >
               {!user && (
                 <PushButton
@@ -103,9 +92,9 @@ const Header = () => {
                   data=""
                   size="small"
                   onClick={loginSlidePanelToggleButtonHandler}
-                  styles={{ margin: '0 auto' }}
+                  styles={{ margin: "0 auto" }}
                 >
-                  {loginSlidePanelOpen && <span>CLOSE Login/Sign Up</span>}
+                  {loginSlidePanelOpen && <span>CLOSE Login/Sign Up</span>}{" "}
                   {!loginSlidePanelOpen && <span>Login/Sign up</span>}
                 </PushButton>
               )}
@@ -118,84 +107,33 @@ const Header = () => {
                   data=""
                   size="small"
                   onClick={loginSlidePanelToggleButtonHandler}
-                  styles={{ margin: '0 auto' }}
+                  styles={{ margin: "0 auto" }}
                 >
-                  {loginSlidePanelOpen && <span>CLOSE Login/logout</span>}
+                  {loginSlidePanelOpen && <span>CLOSE Login/logout</span>}{" "}
                   {!loginSlidePanelOpen && <span>Logout</span>}
                 </PushButton>
               )}
-            </div>
-            {!user && (
-              <div
-                className={`${styles['login-button-wrap']} ${styles['hide-on-small-screens']}`}
-              >
-                {!loginSlidePanelOpen && (
-                  <Fragment>
-                    <PushButton
-                      inputOrButton="button"
-                      id="create-entry-btn"
-                      colorType="secondary"
-                      value="login"
-                      data=""
-                      size="small"
-                      onClick={loginSlidePanelToggleButtonHandler}
-                      styles={{ margin: '0 auto' }}
-                    >
-                      {loginSlidePanelOpen && <span>CLOSE Login</span>}
-                      {!loginSlidePanelOpen && <span>Login</span>}
-                    </PushButton>
-                    <PushButton
-                      inputOrButton="button"
-                      id="create-entry-btn"
-                      colorType="secondary"
-                      value="signup"
-                      data=""
-                      size="small"
-                      onClick={loginSlidePanelToggleButtonHandler}
-                      styles={{ margin: '0 auto' }}
-                    >
-                      {loginSlidePanelOpen && <span>CLOSE Sign Up</span>}
-                      {!loginSlidePanelOpen && <span>Sign up</span>}
-                    </PushButton>
-                  </Fragment>
-                )}
-              </div>
-            )}
-            {loginSlidePanelOpen && (
-              <div className={`${styles['login-slide-panel']} `}>
-                <LoginStatus
-                  horizontalDisplay={false}
-                  showLoginForm={!showSignUpInLoginSlide}
-                  showSignupForm={showSignUpInLoginSlide}
-                />{' '}
-                <div className={`${styles['login-slide-panel-close-wrap']} `}>
-                  <PushButton
-                    inputOrButton="button"
-                    id="create-entry-btn"
-                    colorType="secondary"
-                    value="close"
-                    data=""
-                    size="small"
-                    onClick={loginSlidePanelToggleButtonHandler}
-                    styles={{ margin: '0 auto' }}
-                  >
-                    <span>Cancel</span>
-                  </PushButton>
+              {loginSlidePanelOpen && (
+                <div className={`${styles["login-slide-panel"]} `}>
+                  <LoginStatus horizontalDisplay={false} />
                 </div>
-              </div>
-            )}
-            <div className={`${styles['theme-selector-wrap']}`}>
-              <AppThemeSwitcher />
+              )}
+            </div>
+            <div
+              className={`${styles["navbar-login-wrap"]} ${styles["hide-on-small-screens"]}`}
+            >
+              {" "}
+              <LoginStatus horizontalDisplay={true} />
             </div>
           </div>
         )}
       </Measure>
-      <div className={styles['header-container']}>
-        <div className={styles['fixed-header-container']}>
-          <h1 key="home" className="section-title animate">
-            {' '}
-            <span className={styles['logo-wrap']}>
-              <img src={Logo} alt="logo" />
+      <div className={styles["header-container"]}>
+        <div className={styles["fixed-header-container"]}>
+          <h1 key="home" className="section-title">
+            {" "}
+            <span className={styles["logo-wrap"]}>
+              <Logo />
             </span>
             Production Tool Organizer
           </h1>

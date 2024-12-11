@@ -1,11 +1,7 @@
 .db-login-container {
-  box-shadow:
-    0 -30px 50px -50px white,
-    0 30px 50px -50px white;
+  box-shadow: 0 -30px 50px -50px white, 0 30px 50px -50px white;
   padding: 1em;
   margin: 2em;
-  border-radius: 50px;
-  box-shadow: var(--apo-login-status-boxshadow);
 }
 
 .db-login-container h4 {
@@ -37,7 +33,7 @@
 }
 
 .db-login-container p {
-  margin: 0 auto 1em;
+  margin: 0 auto 0em;
   padding: 0;
 }
 
@@ -58,9 +54,7 @@
   padding: 0.25em 2em;
   font-weight: 700;
   width: 100%;
-  box-shadow:
-    inset 1px 1px 3px -2px black,
-    inset -1px -1px 3px -2px white;
+  box-shadow: inset 1px 1px 3px -2px black, inset -1px -1px 3px -2px white;
   border: 1px inset var(--iq-color-background-warm);
   background: var(--iq-color-background-warm);
   color: var(--iq-color-foreground);
@@ -78,10 +72,7 @@
 }
 
 .form-container {
-  box-shadow:
-    3px 3px 10px -7px inset black,
-    -3px -3px 10px -7px inset white;
-  box-shadow: var(--apo-login-status-form-boxshadow);
+  box-shadow: 3px 3px 10px -7px inset black, -3px -3px 10px -7px inset white;
   width: 100%;
   max-width: none;
   border-radius: 10px;
@@ -92,9 +83,9 @@ body .form-container label {
   font-size: 1em;
 }
 
-body .form-container input[type='text'],
-body .form-container input[type='email'],
-body .form-container input[type='password'] {
+body .form-container input[type="text"],
+body .form-container input[type="email"],
+body .form-container input[type="password"] {
   font-size: 1em;
   padding: 0px 2em;
   margin: 0;
@@ -110,10 +101,8 @@ body .form-container input[type='password'] {
   align-items: center;
   background: var(--iq-color-background-warm-gradient);
   color: var(--iq-color-foreground);
-  box-shadow:
-    inset 1px 1px 1px rgb(255 255 255 / 25%),
-    inset 1px -1px 1px rgb(0 0 0 / 15%),
-    1px 1px 5px -3px black;
+  box-shadow: inset 1px 1px 1px rgb(255 255 255 / 25%),
+    inset 1px -1px 1px rgb(0 0 0 / 15%), 1px 1px 5px -3px black;
   border: none;
   font: var(--iq-font-body-text);
   font-size: 1em;
@@ -163,13 +152,7 @@ body .form-container input[type='password'] {
   margin-left: 1em;
   color: var(--iq-color-foreground);
   text-shadow: 0 0 3px wheat;
-  background: linear-gradient(
-    var(--iq-color-accent) 37%,
-    rgba(0, 0, 0, 1) 100%
-  );
-  max-height: min-content;
-  min-height: max-content;
-  margin: auto;
+  background: linear-gradient(rgb(255 135 0) 37%, rgba(0, 0, 0, 1) 100%);
 }
 .db-login-container.horizontal-display label {
   display: none;

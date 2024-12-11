@@ -1,11 +1,11 @@
-import { useEffect, Fragment } from 'react';
-import styles from './FilterTools.module.css';
-import { useSelector, useDispatch } from 'react-redux';
-import SlideButton from '../../UI/Buttons/SlideButton/SlideButton';
-import { escapeHtml } from '../../Hooks/utility';
-import SetFilteredToolIdList from '../../Hooks/SetFilteredToolList';
-import { audioToolDataActions } from '../../store/audioToolDataSlice';
-import CollapsibleElm from '../../UI/CollapsibleElm/CollapsibleElm';
+import { useEffect, Fragment } from "react";
+import styles from "./FilterTools.module.css";
+import { useSelector, useDispatch } from "react-redux";
+import SlideButton from "../../UI/Buttons/SlideButton/SlideButton";
+import { escapeHtml } from "../../Hooks/utility";
+import SetFilteredToolIdList from "../../Hooks/SetFilteredToolList";
+import { audioToolDataActions } from "../../store/audioToolDataSlice";
+import CollapsibleElm from "../../UI/CollapsibleElm/CollapsibleElm";
 
 function FilterTools(props) {
   const allToolsData = useSelector((state) => state.toolsData);
@@ -33,40 +33,40 @@ function FilterTools(props) {
   function filterButtonHandler(e) {
     const value = escapeHtml(e.target.value);
 
-    if (e.target.dataset.data === 'rating' && value !== '') {
+    if (e.target.dataset.data === "rating" && value !== "") {
       // Only one rating can be selected at a time
       dispatch(
         audioToolDataActions.removeFromToolFilters({
           type: e.target.dataset.data,
           value: currentFilters.rating,
-        }),
+        })
       );
 
       dispatch(
         audioToolDataActions.addToToolFilters({
           type: e.target.dataset.data,
           value: parseInt(value),
-        }),
+        })
       );
 
       SetFilteredToolIdList();
     } else if (
-      e.target.dataset.data === 'oversampling' ||
-      e.target.dataset.data === 'favorite'
+      e.target.dataset.data === "oversampling" ||
+      e.target.dataset.data === "favorite"
     ) {
       // Only one boolean selection can be selected at a time
       dispatch(
         audioToolDataActions.removeFromToolFilters({
           type: e.target.dataset.data,
           value: currentFilters[e.target.dataset.data],
-        }),
+        })
       );
       if (e.target.checked) {
         dispatch(
           audioToolDataActions.addToToolFilters({
             type: e.target.dataset.data,
             value: true,
-          }),
+          })
         );
       }
 
@@ -76,7 +76,7 @@ function FilterTools(props) {
         audioToolDataActions.addToToolFilters({
           type: e.target.dataset.data,
           value: value,
-        }),
+        })
       );
       SetFilteredToolIdList();
     } else {
@@ -84,7 +84,7 @@ function FilterTools(props) {
         audioToolDataActions.removeFromToolFilters({
           type: e.target.dataset.data,
           value: value,
-        }),
+        })
       );
     }
 
@@ -98,74 +98,74 @@ function FilterTools(props) {
   return (
     <Fragment>
       <h2
-        key={'tool-filter-2'}
-        className={`section-title ${styles['main-title']}`}
+        key={"tool-filter-2"}
+        className={`section-title ${styles["main-title"]}`}
       >
         Filters
       </h2>
-      <div key={'tool-filter-1'} id="tool-filter" className={styles.outerwrap}>
-        {allTools && !allTools.hasOwnProperty('error') && (
+      <div key={"tool-filter-1"} id="tool-filter" className={styles.outerwrap}>
+        {allTools && !allTools.hasOwnProperty("error") && (
           <Fragment>
-            <div key={'tool-filter-3'} className={styles['slide-button-wrap']}>
+            <div key={"tool-filter-3"} className={styles["slide-button-wrap"]}>
               {currentFilters &&
                 Object.keys(currentFilters).map((topic) => {
                   if (
-                    topic === 'name' ||
-                    topic.includes('URL') ||
-                    topic === 'notes'
+                    topic === "name" ||
+                    topic.includes("URL") ||
+                    topic === "notes"
                   )
                     return;
 
-                  if (topic === 'rating') {
+                  if (topic === "rating") {
                     return (
                       <div
-                        key={topic + '1'}
+                        key={topic + "1"}
                         className={
-                          styles['slide-button-inner-wrap'] +
-                          ' ' +
-                          styles[topic + '-slide-button-inner-wrap']
+                          styles["slide-button-inner-wrap"] +
+                          " " +
+                          styles[topic + "-slide-button-inner-wrap"]
                         }
                       >
                         <h3
-                          key={topic + '2'}
-                          className={styles['slide-button-inner-wrap-title']}
+                          key={topic + "2"}
+                          className={styles["slide-button-inner-wrap-title"]}
                         >
                           {topic}
                         </h3>
                         {currentFilters[topic] > 0 && (
                           <span
-                            key={'tool-filter-1' + topic}
-                            className={styles['option-selected']}
+                            key={"tool-filter-1" + topic}
+                            className={styles["option-selected"]}
                           ></span>
                         )}
                         <select
-                          key={'tool-filter-2' + topic}
+                          key={"tool-filter-2" + topic}
                           onChange={filterButtonHandler}
                           data-data={topic}
                         >
                           <option
-                            key={topic + '3'}
+                            key={topic + "3"}
                             type="radio"
                             className={
-                              ['radio-button'] +
-                              ' ' +
-                              styles[topic + '-radio-button']
+                              ["radio-button"] +
+                              " " +
+                              styles[topic + "-radio-button"]
                             }
                             value=""
                           ></option>
                           {toolsMetadata[topic].map((entry) => {
                             return (
-                              <Fragment key={entry + 'fragment 1'}>
+                              <Fragment key={entry + "fragment 1"}>
                                 <option
-                                  key={entry + '3'}
+                                  key={entry + "3"}
                                   selected={currentFilters[topic].includes(
-                                    entry,
+                                    entry
                                   )}
                                   type="radio"
                                   className={
-                                    ['radio-button'] +
-                                    ' ' +
-                                    styles[topic + '-radio-button']
+                                    ["radio-button"] +
+                                    " " +
+                                    styles[topic + "-radio-button"]
                                   }
                                   value={entry}
                                 >
@@ -178,51 +178,51 @@ function FilterTools(props) {
                       </div>
                     );
                   }
-                  if (topic === 'oversampling' || topic === 'favorite') {
+                  if (topic === "oversampling" || topic === "favorite") {
                     return (
                       <div
-                        key={topic + '10'}
+                        key={topic + "10"}
                         className={
-                          styles['slide-button-inner-wrap'] +
-                          ' ' +
-                          styles[topic + '-slide-button-inner-wrap']
+                          styles["slide-button-inner-wrap"] +
+                          " " +
+                          styles[topic + "-slide-button-inner-wrap"]
                         }
                       >
                         <h3
-                          key={topic + '20'}
-                          className={styles['slide-button-inner-wrap-title']}
+                          key={topic + "20"}
+                          className={styles["slide-button-inner-wrap-title"]}
                         >
-                          {toolsMetadata[topic][0] != 'false' &&
-                          topic === 'oversampling'
-                            ? 'O-sample' + toolsMetadata[topic].length
+                          {toolsMetadata[topic][0] != "false" &&
+                          topic === "oversampling"
+                            ? "O-sample" + toolsMetadata[topic].length
                             : topic}
                         </h3>
-                        <form key={'tool-filter-form-1' + topic}>
+                        <form key={"tool-filter-form-1" + topic}>
                           {toolsMetadata[topic].map((entry) => {
                             return (
-                              <Fragment key={'tool-filter-form-2' + entry}>
+                              <Fragment key={"tool-filter-form-2" + entry}>
                                 <label
-                                  key={'tool-filter-form-3' + entry}
+                                  key={"tool-filter-form-3" + entry}
                                   htmlFor={entry.toString()}
                                 >
                                   {entry}
                                 </label>
                                 <input
-                                  key={entry + '3'}
+                                  key={entry + "3"}
                                   checked={currentFilters[topic].length > 0}
                                   type="checkbox"
                                   className={
-                                    ['radio-button'] +
-                                    ' ' +
-                                    styles[topic + '-radio-button']
+                                    ["radio-button"] +
+                                    " " +
+                                    styles[topic + "-radio-button"]
                                   }
                                   data-data={topic}
                                   onChange={filterButtonHandler}
                                   value={entry}
                                 />
                                 <span
-                                  key={'tool-filter-form-4' + entry}
-                                  className={styles['checkmark']}
+                                  key={"tool-filter-form-4" + entry}
+                                  className={styles["checkmark"]}
                                 ></span>
                               </Fragment>
                             );
@@ -233,31 +233,34 @@ function FilterTools(props) {
                   }
                   return (
                     <CollapsibleElm
-                      key={topic + '20'}
-                      id={topic + '-collapsible-elm'}
+                      key={topic + "20"}
+                      id={topic + "-collapsible-elm"}
                       styles={{
-                        position: 'relative',
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        justifyContent: 'space-between',
-                        margin: '0 auto 1.5em',
+                        position: "relative",
+                        display: "flex",
+                        flexWrap: "wrap",
+                        justifyContent: "space-between",
+                        margin: "0 auto 1.5em",
                       }}
                       maxHeight="20.5em"
                       inputOrButton="button"
                       buttonStyles={{
-                        margin: '-2em auto 3em',
-                        letterSpacing: '0.25em',
-                        fontVariant: 'small-caps',
-                        transform: 'translateY(0%)',
-                        transition: '0.7s all ease',
-                        minWidth: '100%',
-                        textAlign: 'center',
-                        display: 'flex',
-                        alignItems: 'center',
-                        zIndex: '10',
-                        borderRadius: '50px',
-                        paddingBottom: '0.5em',
-                        paddingTop: '0.5em',
+                        margin: "-2em auto 3em",
+                        letterSpacing: "0.25em",
+                        fontVariant: "small-caps",
+                        transform: "translateY(0%)",
+                        transition: "0.7s all ease",
+                        minWidth: "100%",
+                        textAlign: "center",
+                        display: "flex",
+                        alignItems: "center",
+                        zIndex: "10",
+                        boxShadow:
+                          "white 0px 7px 8px -7px inset, inset black 0px -4px 8px -7px, 0 2px 10px -9px black",
+                        background: "transparent",
+                        borderRadius: "50px",
+                        paddingBottom: "0.5em",
+                        paddingTop: "0.5em",
                       }}
                       colorType="secondary"
                       data=""
@@ -265,27 +268,27 @@ function FilterTools(props) {
                       open={false}
                     >
                       <div
-                        key={topic + '30'}
-                        className={styles['slide-button-inner-wrap']}
+                        key={topic + "30"}
+                        className={styles["slide-button-inner-wrap"]}
                       >
                         <h3
-                          key={topic + '40'}
-                          className={styles['slide-button-inner-wrap-title']}
+                          key={topic + "40"}
+                          className={styles["slide-button-inner-wrap-title"]}
                         >
                           {topic}
                         </h3>
                         {toolsMetadata[topic].map((entry) => {
                           return (
                             <SlideButton
-                              key={entry + '30'}
+                              key={entry + "30"}
                               label={entry}
                               onClick={filterButtonHandler}
                               checked={currentFilters[topic].includes(entry)}
                               data={topic}
                               user={user.email}
                               slideButtonTitleStyles={{
-                                textAlign: 'right',
-                                fontSize: '10px',
+                                textAlign: "right",
+                                fontSize: "10px",
                               }}
                             />
                           );

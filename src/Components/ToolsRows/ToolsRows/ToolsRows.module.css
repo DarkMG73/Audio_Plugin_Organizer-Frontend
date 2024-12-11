@@ -14,14 +14,11 @@
   /* color: var(--iq-color-foreground); */
   font-weight: 700;
   letter-spacing: var(--iq-spacing-subheading);
-  box-shadow:
-    inset 0 8px 15px -13px rgb(0 0 0 / 30%),
-    0 -8px 15px -16px white;
+  box-shadow: inset 0 8px 15px -13px rgb(0 0 0 / 30%), 0 -8px 15px -16px white;
   margin: 4em 0 1em;
   padding: 1.5em 0 0.5em;
   border-radius: 10px 10px 0 0;
-  text-shadow:
-    -1px -1px 1px rgb(0 0 0 / 50%),
+  text-shadow: -1px -1px 1px rgb(0 0 0 / 50%),
     1px 1px 1px rgb(255 255 255 / 50%);
 }
 
@@ -39,9 +36,7 @@
 }
 
 .tool-row-list-container > div {
-  box-shadow:
-    inset 0px -4px 4px rgb(0 0 0 / 38%),
-    inset 0px 4px 4px #e4e4e4;
+  box-shadow: inset 0px -4px 4px rgb(0 0 0 / 38%), inset 0px 4px 4px #e4e4e4;
 }
 
 .open-all-button-wrap {
@@ -58,8 +53,7 @@
 
 .open-all-button-wrap button:hover {
   box-shadow: inset 0 0 30px -15px;
-  color: var(--iq-color-foreground);
-  background: var(--iq-color-accent-2);
+  color: var(--iq-color-accent);
   text-shadow: 0 0 3px rgba(255, 255, 0, 0.504);
   transition: all 0.3s ease;
 }

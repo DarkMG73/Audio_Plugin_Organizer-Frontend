@@ -10,127 +10,125 @@
 } */
 
 .form-group-wrap {
-  display: grid;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  border-radius: inherit;
-  overflow: hidden;
-  margin: auto;
-  /* box-shadow: inset -3px -3px 10px -7px white, inset 3px 3px 10px -7px black; */
-  padding: 1em 0em 3em;
-  width: 100%;
-  grid-columns: (auto, 1fr);
-  grid-template-columns: 25% 25% 25% 25%;
-  grid-template-areas:
-    'name name name name'
-    'functions functions functions functions'
-    'precision precision precision precision'
-    'color color color color'
-    'company company company company'
-    'productURL productURL productURL productURL'
-    'photoURL photoURL photoURL photoURL'
-    'status rating oversampling favorite'
-    'notes notes notes notes'
-    'identifier identifier identifier identifier'
-    'masterLibraryID masterLibraryID masterLibraryID masterLibraryID'
-    '_id _id _id _id'
-    'close-button close-button close-button close-button';
-  margin-top: 10em;
-  position: relative;
-  box-shadow: var(--apo-form-outer-shadow);
-  border-top: var(--apo-form-top-border);
-}
-
-.form-group-wrap:first-child {
-  margin-top: 3em;
+   display: grid;
+   flex-wrap: wrap;
+   justify-content: space-evenly;
+   border-radius: inherit;
+   overflow: hidden;
+   margin: auto;
+   /* box-shadow: inset -3px -3px 10px -7px white, inset 3px 3px 10px -7px black; */
+   padding: 1em 0em 3em;
+   width: 100%;
+   grid-columns: (auto, 1fr);
+   grid-template-columns: 25% 25% 25% 25%;
+   grid-template-areas:
+      "name name name name"
+      "functions functions functions functions"
+      "precision precision precision precision"
+      "color color color color"
+      "company company company company"
+      "productURL productURL productURL productURL"
+      "photoURL photoURL photoURL photoURL"
+      "status rating oversampling favorite"
+      "notes notes notes notes"
+      "identifier identifier identifier identifier"
+      "masterLibraryID masterLibraryID masterLibraryID masterLibraryID"
+      "_id _id _id _id"
+      "close-button close-button close-button close-button";
+   margin-top: 3em;
+   position: relative;
+   box-shadow:
+      inset 0px 18px 10px 4px #005570,
+      0px -17px 10px -10px var(--iq-color-accent-dark);
+   border-top: 3px solid var(--iq-color-accent-dark);
 }
 
 .form-group-wrap:after {
-  content: '';
-  position: absolute;
-  display: block;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  /* background: red; */
-  box-shadow:
-    inset 0px 10px 11px -10px var(--iq-color-accent-dark),
-    inset 0px 0px 50px -11px var(--iq-color-accent-dark);
-  pointer-events: none;
+   content: "";
+   position: absolute;
+   display: block;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   /* background: red; */
+   box-shadow:
+      inset 0px 10px 11px -10px var(--iq-color-accent-dark),
+      inset 0px 0px 50px -11px var(--iq-color-accent-dark);
+   pointer-events: none;
 }
 
-.form-group-wrap > [class*='input-container'] {
-  position: relative;
-  /* padding: 0 1em; */
-  margin-top: auto;
+.form-group-wrap > [class*="input-container"] {
+   position: relative;
+   /* padding: 0 1em; */
+   margin-top: auto;
 }
 
-.form-group-wrap > [class*='input-container']:after {
-  content: '';
-  position: absolute;
-  display: block;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  box-shadow: var(--apo-form-gradient);
-  pointer-events: none;
-  border-radius: 11px;
+.form-group-wrap > [class*="input-container"]:after {
+   content: "";
+   position: absolute;
+   display: block;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   box-shadow: inset 0 27px 20px -16px var(--iq-color-accent-dark);
+   pointer-events: none;
+   border-radius: 11px;
 }
 
-.form-group-wrap > [class*='input-container']:not([class*='FormInput_name']) {
-  margin: 2em auto;
+.form-group-wrap > [class*="input-container"]:not([class*="FormInput_name"]) {
+   margin: 2em auto;
 }
 
-[class*='FormInput_name'] {
-  grid-area: name;
+[class*="FormInput_name"] {
+   grid-area: name;
 }
 
-[class*='FormInput_input-functions'] {
-  grid-area: functions;
+[class*="FormInput_input-functions"] {
+   grid-area: functions;
 }
-[class*='FormInput_input-precision'] {
-  grid-area: precision;
+[class*="FormInput_input-precision"] {
+   grid-area: precision;
 }
-[class*='FormInput_input-color'] {
-  grid-area: color;
+[class*="FormInput_input-color"] {
+   grid-area: color;
 }
-[class*='FormInput_input-company'] {
-  grid-area: company;
+[class*="FormInput_input-company"] {
+   grid-area: company;
 }
-[class*='FormInput_notes'] {
-  grid-area: notes;
+[class*="FormInput_notes"] {
+   grid-area: notes;
 }
-[class*='FormInput_productURL'] {
-  grid-area: productURL;
+[class*="FormInput_productURL"] {
+   grid-area: productURL;
 }
-[class*='FormInput_photoURL'] {
-  grid-area: photoURL;
+[class*="FormInput_photoURL"] {
+   grid-area: photoURL;
 }
-[class*='FormInput_input-oversampling'] {
-  grid-area: oversampling;
+[class*="FormInput_input-oversampling"] {
+   grid-area: oversampling;
 }
-[class*='FormInput_input-favorite'] {
-  grid-area: favorite;
+[class*="FormInput_input-favorite"] {
+   grid-area: favorite;
 }
-[class*='FormInput_input-rating'] {
-  grid-area: rating;
+[class*="FormInput_input-rating"] {
+   grid-area: rating;
 }
-[class*='FormInput_input-status'] {
-  grid-area: status;
+[class*="FormInput_input-status"] {
+   grid-area: status;
 }
-[class*='FormInput_identifier'] {
-  grid-area: identifier;
+[class*="FormInput_identifier"] {
+   grid-area: identifier;
 }
-body [class*='FormInput_id'] {
-  display: none;
+body [class*="FormInput_id"] {
+   display: none;
 }
-[class*='FormInput__id'] {
-  grid-area: _id;
+[class*="FormInput__id"] {
+   grid-area: _id;
 }
-[class*='FormInput_masterLibraryID'] {
-  grid-area: masterLibraryID;
+[class*="FormInput_masterLibraryID"] {
+   grid-area: masterLibraryID;
 }
 /* .form-group-wrap > * > *:not(label) {
   min-height: 100%;
@@ -138,7 +136,7 @@ body [class*='FormInput_id'] {
 
 .form-question-container,
 .form-answer-container {
-  flex-basis: 100%;
+   flex-basis: 100%;
 }
 
 /* .close-item-form-button {
@@ -155,51 +153,51 @@ body [class*='FormInput_id'] {
 } */
 
 .close-item-form-button {
-  position: relative;
-  display: block;
-  grid-area: close-button;
-  width: 100%;
-  max-width: 100%;
-  min-height: 100%;
-  height: 4em;
-  left: 0;
-  margin: 4em auto -0.5em;
-  transform: none;
-  text-transform: uppercase;
-  opacity: 0.75;
-  font-weight: 700;
-  box-shadow:
-    3px 3px 7px -4px #ffffffdb inset,
-    -3px -3px 7px -4px black inset;
-  padding: 0 1em;
-  border-radius: 6.125px;
-  transition: 0.1s all ease;
-  background: var(--iq-color-accent);
-  color: var(--iq-color-foreground);
-  border: none;
+   position: relative;
+   display: block;
+   grid-area: close-button;
+   width: 100%;
+   max-width: 100%;
+   min-height: 100%;
+   height: 4em;
+   left: 0;
+   margin: 4em auto -0.5em;
+   transform: none;
+   text-transform: uppercase;
+   opacity: 0.75;
+   font-weight: 700;
+   box-shadow:
+      3px 3px 7px -4px #ffffffdb inset,
+      -3px -3px 7px -4px black inset;
+   padding: 0 1em;
+   border-radius: 6.125px;
+   transition: 0.1s all ease;
+   background: var(--iq-color-accent);
+   color: var(--iq-color-foreground);
+   border: none;
 }
 
 .close-item-form-button:after {
-  content: 'Cancel this form?';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 10em;
-  padding: 1em;
-  border-radius: 25px;
-  box-shadow:
-    2px 2px 3px -2px rgba(0, 0, 0, 0.502),
-    inset 3px 3px 3px -2px rgb(255, 255, 255),
-    inset -3px -3px 3px -2px rgba(0, 0, 0, 0.502);
-  background: var(--iq-color-background-warm-gradient);
-  color: var(--iq-color-foreground);
-  transform: scale(0);
-  transition: 0.3s all ease;
-  transform-origin: 1em 1em;
+   content: "Cancel this form?";
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 10em;
+   padding: 1em;
+   border-radius: 25px;
+   box-shadow:
+      2px 2px 3px -2px rgba(0, 0, 0, 0.502),
+      inset 3px 3px 3px -2px rgb(255, 255, 255),
+      inset -3px -3px 3px -2px rgba(0, 0, 0, 0.502);
+   background: var(--iq-color-background-warm-gradient);
+   color: var(--iq-color-foreground);
+   transform: scale(0);
+   transition: 0.3s all ease;
+   transform-origin: 1em 1em;
 }
 
 .close-item-form-button:hover:after {
-  /* content: "Cancel this Form?";
+   /* content: "Cancel this Form?";
   position: absolute;
   top: 1em;
   left: 1.25em;
@@ -215,25 +213,22 @@ body [class*='FormInput_id'] {
 }
 
 .close-item-form-button:hover {
-  transform: scale(1.25) !important;
-  background: var(--iq-color-accent);
-  color: var(--iq-color-background-contrast);
-  opacity: 1;
+   transform: scale(1.25) !important;
+   background: rgb(255 135 0);
+   color: var(--iq-color-background-contrast);
+   opacity: 1;
 }
 
 .scroll-wrap {
-  overflow: scroll;
-  max-height: calc(93% - 72px);
-  position: relative;
-  padding: 0 1em;
-  margin: 0 auto 2%;
-  box-shadow: 0px 25px 30px -25px #494949;
-  border-radius: 50px;
-  background: var(--iq-add-tool-background);
-  color: var(--apo-add-tool-color);
-  font-weight: 700;
+   overflow: scroll;
+   max-height: calc(93% - 72px);
+   position: relative;
+   padding: 0 0 0 2em;
+   margin: 0 auto 2%;
+   box-shadow: 0px 25px 30px -25px #494949;
+   border-radius: 50px;
 }
 
-/* .scroll-wrap > .form-group-wrap {
-  margin-top: 8em;
-} */
+.scroll-wrap > .form-group-wrap {
+   margin-top: 8em;
+}
