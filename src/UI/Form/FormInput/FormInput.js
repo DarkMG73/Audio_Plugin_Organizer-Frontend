@@ -1,16 +1,22 @@
 import styles from "./FormInput.module.css";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { toTitleCase } from "../../../Hooks/utility";
-import ImagePicker from "react-image-picker";
-import "react-image-picker/dist/index.css";
+import { useSelector } from "react-redux";
+// import ImagePicker from "react-image-picker";
+// import 'react-image-picker/dist/index.css';
 // import img1 from "../../../assets/images/Acoustica-Audio_AERO-AMP.png";
 // import img2 from "../../../assets/images/product-photo-placeholder-2.png";
 
 const FormInput = (props) => {
+   const { officialImages, defaultImages } = useSelector(
+      (state) => state.toolsData
+   );
+
    const images = require.context(
       "../../../assets/images/official_plugin_images/",
       true
    );
+
    const genericImages = require.context(
       "../../../assets/images/generic_plugin_images/",
       true
@@ -182,18 +188,31 @@ const FormInput = (props) => {
    };
 
    let groomedOptions;
-   if (input.hasOwnProperty("options"))
-      groomedOptions = input.options.map(
-         (option) => typeof option === "string" && option.trim()
-      );
+   if (Object.hasOwn(input, "options") && input.options) {
+      groomedOptions = input.options.map((option) => {
+         return typeof option === "string" && option.trim();
+      });
+   }
 
    if (input.type === "textarea") {
       outputJSX = (
          <div
-            key={"form-input"}
-            className={styles["input-container"] + " " + styles[input.name]}
+            key="form-input"
+            className={
+               styles["input-container"] +
+               " " +
+               styles[input.name] +
+               " " +
+               "input-container" +
+               " " +
+               "FormInput_" +
+               input.name +
+               " " +
+               "FormInput_input-" +
+               input.name
+            }
          >
-            <label key={"form-inpu-1t"} htmlFor={formNumber + "#" + input.name}>
+            <label key={"form-input-1"} htmlFor={formNumber + "#" + input.name}>
                {" "}
                {input.title}
             </label>
@@ -204,13 +223,18 @@ const FormInput = (props) => {
                defaultValue={inputValue}
                ref={requiredTextInput}
                onChange={props.onChange || textInputOnChangeHandler}
-               className={styles[requiredClass]}
+               className={styles[requiredClass] + " " + requiredClass}
                style={{ height: "auto", width: "auto", minHeight: "0" }}
             ></textarea>
             {requiredError && input.required == true && (
                <span
                   key={"form-input-3"}
-                  className={styles[requiredClass + "-text"]}
+                  className={
+                     styles[requiredClass + "-text"] +
+                     " " +
+                     requiredClass +
+                     "-text"
+                  }
                >
                   &uarr; This field is required &uarr;
                </span>
@@ -282,7 +306,17 @@ const FormInput = (props) => {
          <div
             key={"form-input-jsx"}
             className={
-               styles["input-container"] + " " + styles["input-" + input.name]
+               styles["input-container"] +
+               " " +
+               styles["input-" + input.name] +
+               " " +
+               "input-container" +
+               " " +
+               "FormInput_" +
+               input.name +
+               " " +
+               "FormInput_input-" +
+               input.name
             }
          >
             <label key={"form-input-1"} htmlFor={formNumber + "#" + input.name}>
@@ -308,13 +342,145 @@ const FormInput = (props) => {
                value={toTitleCase(inputValue)}
                ref={requiredTextInput}
                onChange={props.onChange || textInputOnChangeHandler}
-               className={styles[requiredClass]}
+               className={styles[requiredClass] + " " + requiredClass}
                required={props.inputRequired}
             />
             {requiredError && input.required == true && (
                <span
                   key={"form-input-3"}
-                  className={styles[requiredClass + "-text"]}
+                  className={
+                     styles[requiredClass + "-text"] +
+                     " " +
+                     requiredClass +
+                     "-text"
+                  }
+               >
+                  &uarr; This field is required &uarr;
+               </span>
+            )}
+         </div>
+      );
+   } else if (input.type === "datalist") {
+      // *** Select Boxes***
+      let inputHasSelected = false;
+
+      const options = groomedOptions
+         .sort(function (a, b) {
+            if (a && b) return a.toLowerCase().localeCompare(b.toLowerCase());
+         })
+         .map((option, i) => {
+            if (
+               inputValue &&
+               option &&
+               inputValue.toLowerCase().trim() == option.toLowerCase().trim()
+            ) {
+               inputHasSelected = true;
+               return (
+                  <option
+                     key={"form-input-" + i}
+                     name={formNumber + "#" + input.name}
+                     className={
+                        styles.option + " " + styles["option-" + input.name]
+                     }
+                     defaultValue={option}
+                     selected
+                  >
+                     {option}
+                  </option>
+               );
+            } else {
+               return (
+                  <option
+                     key={"form-input-" + i}
+                     name={formNumber + "#" + input.name}
+                     className={
+                        styles.option + " " + styles["option-" + input.name]
+                     }
+                     defaultValue={option}
+                  >
+                     {option}
+                  </option>
+               );
+            }
+         });
+      console.log(
+         "%c⚪️►►►► %cline:408%coptions",
+         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+         "color:#fff;background:rgb(114, 83, 52);padding:3px;border-radius:2px",
+         options
+      );
+      if (!inputHasSelected)
+         options.push(
+            <option
+               key={"form-input-noInputHasSelected"}
+               disabled
+               selected
+               defaultValue=""
+            >
+               -- select an option --
+            </option>
+         );
+      options.push(<option key={"form-input-empty"} defaultValue=""></option>);
+      // options.push(
+      //    <option key={"form-input-unkown"} defaultValue="">
+      //       -- Unkown --
+      //    </option>
+      // );
+
+      outputJSX = (
+         <div
+            key={"form-input-jsx"}
+            className={
+               styles["input-container"] +
+               " " +
+               styles["input-" + input.name] +
+               " " +
+               "input-container" +
+               " " +
+               "FormInput_" +
+               input.name +
+               " " +
+               "FormInput_input-" +
+               input.name
+            }
+         >
+            <label key={"form-input-1"} htmlFor={formNumber + "#" + input.name}>
+               {input.title}
+            </label>
+
+            <input
+               list={formNumber + "#" + input.name}
+               name={formNumber + "#" + input.name}
+               defaultValue={
+                  input.options.length > 0 ? input.options[0].trim() : ""
+               }
+               placeholder="Email address..."
+               required={input.required}
+               onChange={props.onChange || textInputOnChangeHandler}
+            />
+            <datalist
+               className="form-control"
+               id={formNumber + "#" + input.name}
+               key={"form-input-4"}
+               type={input.type}
+               name={formNumber + "#" + input.name}
+               defaultValue={input.value}
+               required={input.required}
+               onChange={props.onChange || textInputOnChangeHandler}
+            >
+               {options.map((optionHTML) => optionHTML)}
+            </datalist>
+
+            {requiredError && input.required == true && (
+               <span
+                  key={"form-input-3"}
+                  className={
+                     styles[requiredClass + "-text"] +
+                     " " +
+                     requiredClass +
+                     "-text"
+                  }
                >
                   &uarr; This field is required &uarr;
                </span>
@@ -325,7 +491,19 @@ const FormInput = (props) => {
       outputJSX = (
          <div
             key={"form-input"}
-            className={styles["input-container"] + " " + styles[input.name]}
+            className={
+               styles["input-container"] +
+               " " +
+               styles[input.name] +
+               " " +
+               "input-container" +
+               " " +
+               "FormInput_" +
+               input.name +
+               " " +
+               "FormInput_input-" +
+               input.name
+            }
          >
             <label
                key={"form-input-1t"}
@@ -345,7 +523,13 @@ const FormInput = (props) => {
             </label>
 
             {input.title === "Photourl" && (
-               <div className={styles["image-selector-outer-container"]}>
+               <div
+                  className={
+                     styles["image-selector-outer-container"] +
+                     " " +
+                     "image-selector-outer-container"
+                  }
+               >
                   {
                      // OEM Pic Selector
                   }
@@ -353,7 +537,12 @@ const FormInput = (props) => {
                      className={
                         styles["image-selector-container"] +
                         " " +
-                        styles["image-selector-" + input.title]
+                        styles["image-selector-" + input.title] +
+                        " " +
+                        "image-selector-container" +
+                        " " +
+                        "image-selector-" +
+                        input.title
                      }
                   >
                      {picSelectorOpen && (
@@ -361,10 +550,12 @@ const FormInput = (props) => {
                            className={
                               styles["image-selector"] +
                               " " +
-                              styles["default-image-selector"]
+                              styles["default-image-selector"] +
+                              " " +
+                              "default-image-selector"
                            }
                         >
-                           <ImagePicker
+                           {/* <ImagePicker
                               images={imageList.map((image, i) => {
                                  if (i >= imageList.length - 1)
                                     addTitlesToPicSelIMages();
@@ -374,14 +565,24 @@ const FormInput = (props) => {
                                  };
                               })}
                               onPick={handleOnSelectPic}
-                           />
-                           <div className={styles["button-container"]}>
+                           />  */}
+                           <div
+                              className={
+                                 styles["button-container"] +
+                                 " " +
+                                 "button-container"
+                              }
+                           >
                               <button
                                  type="button"
                                  value="select"
                                  data-selector-type="oem"
                                  onClick={handleClosePicSelector}
-                                 className={styles["select-button"]}
+                                 className={
+                                    styles["select-button"] +
+                                    " " +
+                                    "select-button"
+                                 }
                               >
                                  OK
                               </button>
@@ -390,7 +591,11 @@ const FormInput = (props) => {
                                  value="cancel"
                                  data-selector-type="oem"
                                  onClick={handleClosePicSelector}
-                                 className={styles["cancel-button"]}
+                                 className={
+                                    styles["cancel-button"] +
+                                    " " +
+                                    "cancel-button"
+                                 }
                               >
                                  Cancel
                               </button>
@@ -412,7 +617,11 @@ const FormInput = (props) => {
                      className={
                         styles["image-selector-container"] +
                         " " +
-                        styles["image-selector-" + input.title]
+                        styles["image-selector-" + input.title] +
+                        " " +
+                        "image-selector-container" +
+                        "image-selector-" +
+                        input.title
                      }
                   >
                      {genericPicSelectorOpen && (
@@ -420,27 +629,41 @@ const FormInput = (props) => {
                            className={
                               styles["image-selector"] +
                               " " +
-                              styles["default-image-selector"]
+                              styles["default-image-selector"] +
+                              " " +
+                              "image-selector" +
+                              " " +
+                              "default-image-selector"
                            }
                         >
-                           <ImagePicker
-                              images={genericImageList.map((image, i) => {
-                                 if (i >= genericImageList.length - 1)
-                                    addTitlesToPicSelIMages();
-                                 return {
-                                    src: image,
-                                    value: i
-                                 };
-                              })}
-                              onPick={handleOnGenericSelectPic}
-                           />
-                           <div className={styles["button-container"]}>
+                           {/* <ImagePicker
+                    images={genericImageList.map((image, i) => {
+                      if (i >= genericImageList.length - 1)
+                        addTitlesToPicSelIMages();
+                      return {
+                        src: image,
+                        value: i,
+                      };
+                    })}
+                    onPick={handleOnGenericSelectPic}
+                  /> */}
+                           <div
+                              className={
+                                 styles["button-container"] +
+                                 " " +
+                                 "button-container"
+                              }
+                           >
                               <button
                                  type="button"
                                  value="select"
                                  data-selector-type="generic"
                                  onClick={handleClosePicSelector}
-                                 className={styles["select-button"]}
+                                 className={
+                                    styles["select-button"] +
+                                    " " +
+                                    "select-button"
+                                 }
                               >
                                  OK
                               </button>
@@ -449,7 +672,11 @@ const FormInput = (props) => {
                                  value="cancel"
                                  data-selector-type="generic"
                                  onClick={handleClosePicSelector}
-                                 className={styles["cancel-button"]}
+                                 className={
+                                    styles["cancel-button"] +
+                                    " " +
+                                    "cancel-button"
+                                 }
                               >
                                  Cancel
                               </button>
@@ -475,12 +702,17 @@ const FormInput = (props) => {
                value={photoSelected}
                ref={requiredTextInput}
                onChange={props.onChange || textInputOnChangeHandler}
-               className={styles[requiredClass]}
+               className={styles[requiredClass] + " " + requiredClass}
             />
             {requiredError && input.required == true && (
                <span
                   key={"form-input-3"}
-                  className={styles[requiredClass + "-text"]}
+                  className={
+                     styles[requiredClass + "-text"] +
+                     " " +
+                     requiredClass +
+                     "-text"
+                  }
                >
                   &uarr; This field is required &uarr;
                </span>
@@ -517,7 +749,11 @@ const FormInput = (props) => {
                   className={
                      styles["input-wrap"] +
                      " 1 " +
-                     styles["input-option" + option]
+                     styles["input-option" + option] +
+                     " " +
+                     "input-wrap1 " +
+                     "input-option" +
+                     option
                   }
                >
                   <input
@@ -636,7 +872,15 @@ const FormInput = (props) => {
                className={
                   styles["input-container"] +
                   " " +
-                  styles["input-" + input.name]
+                  styles["input-" + input.name] +
+                  " " +
+                  "input-container" +
+                  " " +
+                  "FormInput_" +
+                  input.name +
+                  " " +
+                  "FormInput_input-" +
+                  input.name
                }
             >
                <label
@@ -664,7 +908,15 @@ const FormInput = (props) => {
                className={
                   styles["input-container"] +
                   " " +
-                  styles["input-" + input.name]
+                  styles["input-" + input.name] +
+                  " " +
+                  "input-container" +
+                  " " +
+                  "FormInput_" +
+                  input.name +
+                  " " +
+                  "FormInput_input-" +
+                  input.name
                }
             >
                <label
@@ -701,7 +953,19 @@ const FormInput = (props) => {
       outputJSX = (
          <div
             key={"text-input-1"}
-            className={styles["input-container"] + " " + styles[input.name]}
+            className={
+               styles["input-container"] +
+               " " +
+               styles[input.name] +
+               " " +
+               "input-container" +
+               " " +
+               "FormInput_" +
+               input.name +
+               " " +
+               "FormInput_input-" +
+               input.name
+            }
          >
             <label key={"text-input-2"} htmlFor={formNumber + "#" + input.name}>
                {input.title}

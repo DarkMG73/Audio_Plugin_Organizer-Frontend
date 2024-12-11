@@ -1,12 +1,21 @@
 import storage from "../storage/storage";
 import { getData, getSchemaForAudioPlugin } from "../storage/audioToolsDB";
+import { getUserNameMemory } from "../storage/userDB";
 
 export default async function GatherToolData(user) {
    const allToolsData = {};
    const dataFromStorage = storage("GET");
-   let pluginSchema = await getSchemaForAudioPlugin();
+   const pluginSchema = await getSchemaForAudioPlugin();
+   const imagesALL = require.context(
+      "../assets/images/official_plugin_images/",
+      true
+   );
+   const images = require.context(
+      "../assets/images/generic_plugin_images/",
+      true
+   );
 
-   if (pluginSchema && pluginSchema.hasOwnProperty("status"))
+   if (pluginSchema && Object.hasOwn(pluginSchema, "status"))
       throw pluginSchema;
    let historyDataFromStorage = null;
    let currentFilters = null;
@@ -20,13 +29,6 @@ export default async function GatherToolData(user) {
    let allTools;
    try {
       allTools = await getData(user);
-      console.log(
-         "%c⚪️►►►► %cline:21%callTools",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(227, 160, 93);padding:3px;border-radius:2px",
-         allTools
-      );
    } catch (err) {
       throw err.response;
    }
@@ -34,9 +36,12 @@ export default async function GatherToolData(user) {
    allTools = allTools.map((tool) => {
       const output = {};
       if (!Object.keys(tool).includes("oversampling")) {
-         Object.keys(tool).forEach((key) => (output[key] = tool[key]));
-         output["oversampling"] = "false";
+         Object.keys(tool).forEach((key) => {
+            output[key] = tool[key];
+         });
+         output.oversampling = "false";
       } else {
+         // eslint-disable-next-line no-restricted-syntax
          for (const key in tool) {
             if (key === "oversampling") {
                if (tool[key] === true) output[key] = "true";
@@ -69,6 +74,7 @@ export default async function GatherToolData(user) {
    ////////////
 
    allTools.forEach((toolData) => {
+      // eslint-disable-next-line no-underscore-dangle
       allToolsData.allTools[toolData._id] = toolData;
    });
 
@@ -79,13 +85,14 @@ export default async function GatherToolData(user) {
       stats: {}
    };
 
+   // eslint-disable-next-line no-use-before-define
    allToolsData.toolsMetadata = gatherAllMetadata(allTools);
    allToolsData.toolsSchema = pluginSchema.obj;
 
    const gatherFilters = (keysArray) => {
       const output = {};
       keysArray.forEach((item) => {
-         if (item != "_id") output[item] = [];
+         if (item !== "_id") output[item] = [];
       });
       return output;
    };
@@ -93,12 +100,56 @@ export default async function GatherToolData(user) {
    allToolsData.currentFilters =
       currentFilters ?? gatherFilters(Object.keys(allToolsData.toolsMetadata));
 
+   ////////////////////////////////////////////////////////////////
+   const groomedAllImages = {};
+
+   imagesALL.keys().forEach((image) => {
+      groomedAllImages[image.replace(".", "")] = imagesALL(image);
+   });
+
+   const groomedAllDefaultImages = {};
+
+   images.keys().forEach((image) => {
+      const folder = image.split("/")[1];
+      if (!Object.hasOwn(groomedAllDefaultImages, folder))
+         groomedAllDefaultImages[folder] = [];
+
+      groomedAllDefaultImages[folder].push(images(image));
+   });
+
+   allToolsData.officialImages = groomedAllImages;
+   allToolsData.defaultImages = groomedAllDefaultImages;
+   ////////////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////////////
+
+   const userNameMemoryData = await getUserNameMemory();
+
+   if (
+      Object.hasOwn(userNameMemoryData.data, "appUserNameMemory") &&
+      userNameMemoryData.data.appUserNameMemory
+   ) {
+      const { appUserNameMemory } = userNameMemoryData.data;
+      if (appUserNameMemory.constructor === Array) {
+         allToolsData.appUserNameMemory = appUserNameMemory;
+      } else if (appUserNameMemory.constructor === String) {
+         const groomedAppUserNameMemory = JSON.parse(appUserNameMemory);
+
+         allToolsData.appUserNameMemory = groomedAppUserNameMemory;
+      } else {
+         allToolsData.appUserNameMemory = [];
+      }
+   } else {
+      allToolsData.appUserNameMemory = [];
+   }
+
+   ////////////////////////////////////////////////////////////////
    return allToolsData;
 }
 
 function gatherAllMetadata(dataObject) {
    const itemsToExclude = ["__v", "createdAt", "updatedAt"];
    const valuesToExclude = ["undefined", "", " "];
+   // eslint-disable-next-line no-use-before-define
    const outputSet = objectExtractAllValuesPerKey(
       dataObject,
       itemsToExclude,
@@ -115,8 +166,10 @@ function objectExtractAllValuesPerKey(
    const outputObject = {};
 
    // Grab each tool
+   // eslint-disable-next-line no-restricted-syntax, guard-for-in
    for (const i in objectToLoop) {
       // Get each item withing that tool (ID, topic, answer, etc)
+      // eslint-disable-next-line no-restricted-syntax, guard-for-in
       for (let key in objectToLoop[i]) {
          const keyBeforeTrim = key;
          key = key.trim();
@@ -127,7 +180,7 @@ function objectExtractAllValuesPerKey(
             !valuesToExclude.includes(objectToLoop[i][key])
          ) {
             if (typeof objectToLoop[i][key] === "boolean") {
-               if (outputObject.hasOwnProperty(key)) {
+               if (Object.hasOwn(outputObject, key)) {
                   // No need to log false Booloens
                   if (objectToLoop[i][key] === true)
                      outputObject[key].add(objectToLoop[i][key]);
@@ -139,7 +192,7 @@ function objectExtractAllValuesPerKey(
                      outputObject[key].add(objectToLoop[i][key]);
                }
             } else if (typeof objectToLoop[i][key] === "number") {
-               if (outputObject.hasOwnProperty(key)) {
+               if (Object.hasOwn(outputObject, key)) {
                   outputObject[key].add(objectToLoop[i][key]);
                } else {
                   outputObject[key] = new Set();
@@ -153,7 +206,7 @@ function objectExtractAllValuesPerKey(
                   const value = term.trim().toString();
 
                   // Add to Set. If key Set does not exist, create it.
-                  if (outputObject.hasOwnProperty(key)) {
+                  if (Object.hasOwn(outputObject, key)) {
                      outputObject[key].add(value);
                   } else {
                      outputObject[key] = new Set();
@@ -166,7 +219,7 @@ function objectExtractAllValuesPerKey(
             else if (objectToLoop[i][key].constructor !== Array) {
                const value = objectToLoop[i][key].trim().toString();
 
-               if (outputObject.hasOwnProperty(key)) {
+               if (Object.hasOwn(outputObject, key)) {
                   outputObject[key].add(value);
                } else {
                   outputObject[key] = new Set();
@@ -182,7 +235,7 @@ function objectExtractAllValuesPerKey(
 
                      // Check if  the value is valid
                      if (!valuesToExclude.includes(value)) {
-                        if (outputObject.hasOwnProperty(keyBeforeTrim)) {
+                        if (Object.hasOwn(outputObject, keyBeforeTrim)) {
                            outputObject[key].add(value);
                         } else {
                            outputObject[key] = new Set();
@@ -192,25 +245,26 @@ function objectExtractAllValuesPerKey(
                   });
                } else {
                   // Given this is an empty array, just return an empty Setup
-                  if (!outputObject.hasOwnProperty(key))
+                  // eslint-disable-next-line no-lonely-if
+                  if (!Object.hasOwn(outputObject, key))
                      outputObject[key] = new Set();
                }
             }
          }
       }
    }
-
+   // eslint-disable-next-line no-restricted-syntax, guard-for-in
    for (const i in outputObject) {
       outputObject[i] = Array.from(outputObject[i]);
    }
-
-   for (const i in outputObject) {
-   }
+   // eslint-disable-next-line no-restricted-syntax, guard-for-in
+   //   for (const i in outputObject) {
+   //   }
    return outputObject;
 }
 
-function stringToArray(tagString) {
-   if (tagString == "undefined") return [];
+// function stringToArray(tagString) {
+//   if (tagString == 'undefined') return [];
 
-   return tagString.replaceAll(" ", "").split(",");
-}
+//   return tagString.replaceAll(' ', '').split(',');
+// }

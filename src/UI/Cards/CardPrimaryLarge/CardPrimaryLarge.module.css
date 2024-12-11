@@ -6,8 +6,15 @@
   color: var(--iq-color-background-warm);
   padding: 2rem;
   border-radius: 50px;
-  box-shadow: inset 4px 4px 14px -7px rgb(255 255 255),
-    inset -4px -4px 14px -7px rgb(0 0 0 / 50%), inset 0 0 100px -75px #ffffff;
+  box-shadow:
+    inset 4px 4px 14px -7px rgb(255 255 255),
+    inset -4px -4px 14px -7px rgb(0 0 0 / 50%),
+    inset 0 0 100px -75px #ffffff;
+  box-shadow: var(--apo-boxshadow-outer), var(--apo-boxshadow-inner);
+  background: var(--iq-color-foreground);
+  color: var(--iq-color-background);
+  background-image: var(--apo-background-image);
+  border: 1px solid;
 }
 
 .card-priimary a {

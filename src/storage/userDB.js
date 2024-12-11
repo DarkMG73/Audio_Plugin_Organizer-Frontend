@@ -1,5 +1,5 @@
 import axios from "axios";
-import { StorageForSession } from "../storage/storage";
+import Storage, { StorageForSession } from "../storage/storage";
 
 axios.defaults.withCredentials = true;
 
@@ -26,27 +26,12 @@ export async function registerAUser(user) {
             error
          );
          if (
-            error.hasOwnProperty("data") &&
-            error.data.hasOwnProperty("message")
+            Object.hasOwn(error, "data") &&
+            Object.hasOwn(error.data, "message")
          ) {
-            console.log(
-               "%c --> %cline:30%cerror.data.hasOwnProperty(message)",
-               "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-               "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-               "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
-               error.data.hasOwnProperty("message")
-            );
-
             if (error.data.message.constructor === String) return error;
 
-            if (error.data.message.hasOwnProperty("code")) {
-               console.log(
-                  "%c --> %cline:41%cerror.data.message.hasOwnProperty(code)",
-                  "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                  "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                  "color:#fff;background:rgb(56, 13, 49);padding:3px;border-radius:2px",
-                  error.data.message.hasOwnProperty("code")
-               );
+            if (Object.hasOwn(error.data.message, "code")) {
                // MongoDB error 11000 is a duplicate error
                if (error.data.message.code === 11000) {
                   console.log(
@@ -61,16 +46,15 @@ export async function registerAUser(user) {
                      message: `${error.data.message.keyValue.email} is already being used in the database. Please use a different email address or login with this email address and the password originally set.`
                   };
                   return errorMessage;
-               } else {
-                  return error.message.code;
                }
+               return error.message.code;
             }
          }
 
          console.log("error", error);
          if (
-            error.hasOwnProperty("data") &&
-            error.data.hasOwnProperty("message")
+            Object.hasOwn(error, "data") &&
+            Object.hasOwn(error.data, "message")
          )
             console.log("errors", error.data.message);
       });
@@ -87,11 +71,7 @@ export async function updateUserPluginPaths(user, dataObj) {
    };
 
    const output = await axios
-      .post(
-         `/api/users/auth/update-plugin-paths/`,
-         { dataObj: dataObj },
-         axiosConfig
-      )
+      .post(`/api/users/auth/update-plugin-paths/`, { dataObj }, axiosConfig)
       .then((res) => {
          return res;
       })
@@ -112,26 +92,26 @@ export async function updateUserPluginPaths(user, dataObj) {
             error
          );
          if (
-            error.hasOwnProperty("data") &&
-            error.data.hasOwnProperty("message")
+            Object.hasOwn(error, "data") &&
+            Object.hasOwn(error.data, "message")
          ) {
             console.log(
                "%c --> %cline:30%cerror.data.hasOwnProperty(message)",
                "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
                "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
                "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
-               error.data.hasOwnProperty("message")
+               Object.hasOwn(error.data, "message")
             );
 
             if (error.data.message.constructor === String) return error;
 
-            if (error.data.message.hasOwnProperty("code")) {
+            if (Object.hasOwn(error.data.message, "code")) {
                console.log(
                   "%c --> %cline:41%cerror.data.message.hasOwnProperty(code)",
                   "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
                   "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
                   "color:#fff;background:rgb(56, 13, 49);padding:3px;border-radius:2px",
-                  error.data.message.hasOwnProperty("code")
+                  Object.hasOwn(error.data.message, "code")
                );
                // MongoDB error 11000 is a duplicate error
                if (error.data.message.code === 11000) {
@@ -147,16 +127,15 @@ export async function updateUserPluginPaths(user, dataObj) {
                      message: `${error.data.message.keyValue.email} is already being used in the database. Please use a different email address or login with this email address and the password originally set.`
                   };
                   return errorMessage;
-               } else {
-                  return error.message.code;
                }
+               return error.message.code;
             }
          }
 
          console.log("error", error);
          if (
-            error.hasOwnProperty("data") &&
-            error.data.hasOwnProperty("message")
+            Object.hasOwn(error, "data") &&
+            Object.hasOwn(error.data, "message")
          )
             console.log("errors", error.data.message);
       });
@@ -174,7 +153,7 @@ export async function updateIgnoredPlugins(user, dataArray) {
    const output = await axios
       .post(
          `/api/users/auth/update-ignored-plugins/`,
-         { dataArray: dataArray },
+         { dataArray },
          axiosConfig
       )
       .then((res) => {
@@ -197,27 +176,12 @@ export async function updateIgnoredPlugins(user, dataArray) {
             error
          );
          if (
-            error.hasOwnProperty("data") &&
-            error.data.hasOwnProperty("message")
+            Object.hasOwn(error, "data") &&
+            Object.hasOwn(error.data, "message")
          ) {
-            console.log(
-               "%c --> %cline:30%cerror.data.hasOwnProperty(message)",
-               "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-               "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-               "color:#fff;background:rgb(252, 157, 154);padding:3px;border-radius:2px",
-               error.data.hasOwnProperty("message")
-            );
-
             if (error.data.message.constructor === String) return error;
 
-            if (error.data.message.hasOwnProperty("code")) {
-               console.log(
-                  "%c --> %cline:41%cerror.data.message.hasOwnProperty(code)",
-                  "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                  "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                  "color:#fff;background:rgb(56, 13, 49);padding:3px;border-radius:2px",
-                  error.data.message.hasOwnProperty("code")
-               );
+            if (Object.hasOwn(error.data.message, "code")) {
                // MongoDB error 11000 is a duplicate error
                if (error.data.message.code === 11000) {
                   console.log(
@@ -232,16 +196,15 @@ export async function updateIgnoredPlugins(user, dataArray) {
                      message: `${error.data.message.keyValue.email} is already being used in the database. Please use a different email address or login with this email address and the password originally set.`
                   };
                   return errorMessage;
-               } else {
-                  return error.message.code;
                }
+               return error.message.code;
             }
          }
 
          console.log("error", error);
          if (
-            error.hasOwnProperty("data") &&
-            error.data.hasOwnProperty("message")
+            Object.hasOwn(error, "data") &&
+            Object.hasOwn(error.data, "message")
          )
             console.log("errors", error.data.message);
       });
@@ -251,7 +214,7 @@ export async function updateIgnoredPlugins(user, dataArray) {
 
 export async function setUserCookie(user) {
    // SessionStorage used while hosting API on Heroku
-   const output = new Promise((resolve, reject) => {
+   const output = new Promise((resolve) => {
       const cookie = StorageForSession("ADD", user, "giProductionTool");
       let status = 400;
       if (cookie) status = 202;
@@ -279,9 +242,8 @@ export async function setUserCookie(user) {
    return output;
 }
 
-export async function deleteUserCookie(user) {
-   // SessionStorage used while hosting API on Heroku
-   const output = new Promise((resolve, reject) => {
+export async function deleteUserCookie() {
+   const output = new Promise((resolve) => {
       const cookie = StorageForSession("DELETE", {}, "giProductionTool");
       let status = 400;
       if (cookie) status = 202;
@@ -308,17 +270,10 @@ export async function deleteUserCookie(user) {
    return output;
 }
 
-export async function getUserCookie(user) {
+export async function getUserCookie() {
    // SessionStorage used while hosting API on Heroku
-   const output = new Promise((resolve, reject) => {
+   const output = new Promise((resolve) => {
       const cookie = StorageForSession("GET", {}, "giProductionTool");
-      console.log(
-         "%c⚪️►►►► %cline:314%ccookie",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(60, 79, 57);padding:3px;border-radius:2px",
-         cookie
-      );
 
       let status = 400;
       if (cookie) status = 202;
@@ -354,8 +309,8 @@ export async function sign_inAUser(token) {
       .catch((error) => {
          console.log("error", error);
          if (
-            error.hasOwnProperty("data") &&
-            error.data.hasOwnProperty("message")
+            Object.hasOwn(error, "data") &&
+            Object.hasOwn(error.data, "message")
          )
             console.log("errors", error.response.data.message);
          return error.response;
@@ -377,13 +332,7 @@ export async function getUserUserByToken(token) {
       })
       .catch((err) => {
          console.log("err", err);
-         console.log(
-            "%c --> %cline:196%cresponse",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px",
-            err.response
-         );
+
          return err.response;
 
          // console.log("errors", err.response.data.err.message);
@@ -391,3 +340,39 @@ export async function getUserUserByToken(token) {
 
    return output;
 }
+
+export const addToUserNameMemory = (user, userNameMemory) => {
+   const maxMemoryLimit = 2;
+   const newUserMemory = [user.email, ...userNameMemory];
+   const newListSet = new Set();
+   newUserMemory.forEach((name) => newListSet.add(name));
+   const newListArray = Array.from(newListSet);
+   const trimmedList = newListArray.slice(0, maxMemoryLimit);
+   console.log(
+      "%c⚪️►►►► %cline:350%ctrimmedList",
+      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+      "color:#fff;background:rgb(248, 147, 29);padding:3px;border-radius:2px",
+      trimmedList
+   );
+
+   Storage("ADD", trimmedList, "appUserNameMemory");
+};
+
+export const getUserNameMemory = async () => {
+   const output = new Promise((resolve) => {
+      const appUserNameMemory = Storage("GET", {}, "appUserNameMemory");
+
+      let status = 400;
+
+      if (appUserNameMemory) status = 202;
+
+      resolve({
+         data: {
+            appUserNameMemory
+         },
+         status
+      });
+   });
+   return output;
+};

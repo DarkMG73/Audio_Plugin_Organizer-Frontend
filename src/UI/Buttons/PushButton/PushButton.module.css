@@ -1,7 +1,9 @@
 .button {
   margin: 0 0.5em;
-  box-shadow: inset 1px 1px 1px rgb(255 255 255 / 25%),
-    inset 1px -1px 1px rgb(0 0 0 / 15%), 1px 1px 5px -3px black;
+  box-shadow:
+    inset 1px 1px 1px rgb(255 255 255 / 25%),
+    inset 1px -1px 1px rgb(0 0 0 / 15%),
+    1px 1px 5px -3px black;
   border: none;
   background: inherit;
   color: inherit;
@@ -11,6 +13,7 @@
   font-weight: 700;
   cursor: pointer;
   transition: 0.2s all ease;
+  border-radius: 50px;
 }
 
 .button:hover {
@@ -23,21 +26,45 @@
 .button.primary {
   background: var(--iq-color-foreground-gradient);
   color: var(--iq-color-background-warm);
+  border: var(--apo-border-button-1);
+  background: var(--iq-color-foreground);
+  color: var(--iq-color-background);
+  box-shadow: var(--apo-boxshadow-small-glow-inner);
 }
 
 .button.primary.selected {
-  box-shadow: inset 1px 1px 1px rgb(255 255 255 / 25%),
-    inset 1px -1px 1px rgb(0 0 0 / 15%), 1px 1px 5px -3px black, 0 0 10px white,
+  box-shadow:
+    inset 1px 1px 1px rgb(255 255 255 / 25%),
+    inset 1px -1px 1px rgb(0 0 0 / 15%),
+    1px 1px 5px -3px black,
+    0 0 10px white,
     inset 0 0 10px white;
 }
 
 .button.secondary {
   background: var(--iq-color-background-warm-gradient);
   color: var(--iq-color-foreground);
+  box-shadow: var(--apo-boxshadow-outer), var(--apo-boxshadow-inner);
+  border: 1px solid;
+  border: var(--apo-border-button-1);
+  background: var(--iq-color-background);
+  color: var(--iq-color-foreground);
+  box-shadow: var(--apo-boxshadow-small-glow-inner);
+
+  background: var(--iq-color-accent);
+  color: var(--iq-color-foreground);
+  border: none;
+  box-shadow:
+    inset -3px -3px 7px -4px black,
+    inset 3px 3px 7px -4px white;
 }
+
 .button.secondary.selected {
-  box-shadow: inset 1px 1px 1px rgb(255 255 255 / 25%),
-    inset 1px -1px 1px rgb(0 0 0 / 15%), 1px 1px 5px -3px black, 0 0 10px white,
+  box-shadow:
+    inset 1px 1px 1px rgb(255 255 255 / 25%),
+    inset 1px -1px 1px rgb(0 0 0 / 15%),
+    1px 1px 5px -3px black,
+    0 0 10px white,
     inset 0 0 10px white;
 }
 

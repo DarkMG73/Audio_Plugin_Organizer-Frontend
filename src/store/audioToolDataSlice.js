@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 function InitState() {
   const initialState = {};
@@ -10,11 +10,15 @@ function InitState() {
   initialState.toolsSchema = null;
   initialState.goToAddATool = null;
   initialState.goToToolRows = null;
+  initialState.officialImages = null;
+  initialState.defaultImages = null;
+  initialState.appUserNameMemory = null;
+
   return initialState;
 }
 
 export const audioToolDataSlice = createSlice({
-  name: "toolsData",
+  name: 'toolsData',
   initialState: InitState(),
   reducers: {
     /// INITIALIZE STATE /////////////////////////////
@@ -28,6 +32,9 @@ export const audioToolDataSlice = createSlice({
       state.toolsSchema = toolsData.toolsSchema;
       state.goToAddATool = 0;
       state.goToToolRows = 0;
+      state.officialImages = toolsData.officialImages;
+      state.defaultImages = toolsData.defaultImages;
+      state.appUserNameMemory = toolsData.appUserNameMemory;
     },
 
     /// ADD TO FILTERS /////////////////////////////
