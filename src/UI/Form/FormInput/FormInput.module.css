@@ -181,7 +181,8 @@ textarea {
 .input-container input[type="checkbox"] + label {
    flex-grow: 1;
    max-width: calc(100% - 2em);
-   font-size: inherit;
+   font-size: calc(0.5em + 0.4vw);
+   line-height: 1.25em;
    font-weight: 700;
    border: none;
    padding: 0.75em 0.5em 0.75em 0.5em;
@@ -596,7 +597,7 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
    /* border: 1px inset !important; */
    box-shadow: inset 0 0 10px 0 !important;
    text-shadow: 0 0 3px;
-   padding: 0.25em !important;
+   padding: 0.5em !important;
    border-radius: 50px !important;
    box-shadow: none !important;
 }
@@ -615,8 +616,9 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
       inset -2px -2px 7px -5px white,
       inset 3px 3px 7px -5px black !important;
 }
+
 [data-group^="SPACER"] label {
-   font-size: 1.5em !important;
+   font-size: calc(0.9em + 0.1vw) !important;
    text-shadow: 0 0 10px;
 }
 
@@ -974,8 +976,43 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
 }
 
 /* /// Responsive Breakpoints /// */
+@media screen and (min-width: 1500px) {
+   .input-container input[type="checkbox"] + label {
+      font-size: inherit;
+   }
+}
+
 @media screen and (max-width: 800px) {
    .input-container.masterLibraryID:before {
       content: "*** Must match the title of the plugin file (VST or AU) ***";
+   }
+}
+
+@media screen and (max-width: 600px) {
+   body .input-container.input-container.input-functions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      min-height: fit-content;
+      max-height: none;
+      height: max-content;
+   }
+
+   body .input-container.input-container.input-functions > * {
+      flex-basis: 100% !important;
+      max-height: 100% !important;
+      position: relative !important;
+      border-radius: 0.3px !important;
+   }
+
+   .input-container.input-functions input[type="checkbox"] + label,
+   .input-container.input-color input[type="checkbox"] + label {
+      min-height: 3em;
+      display: flex;
+      height: fit-content;
+      justify-content: center;
+      align-items: center;
+      font-size: 1em;
    }
 }

@@ -792,6 +792,17 @@ const FormInput = (props) => {
                   className={
                      styles["input-wrap"] +
                      " 2 " +
+                     (typeof optionName === "string" &&
+                        optionName.toLowerCase().replace(/[^A-Z0-9]+/gi, "_")) +
+                     " " +
+                     styles[
+                        "input-option-" +
+                           (typeof optionName === "string" &&
+                              optionName
+                                 .toLowerCase()
+                                 .replace(/[^A-Z0-9]+/gi, "_"))
+                     ] +
+                     " " +
                      styles["input-option" + optionName] +
                      " " +
                      styles["display-row"] +

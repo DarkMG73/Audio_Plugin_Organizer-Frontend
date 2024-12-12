@@ -87,10 +87,13 @@ body {
    animation:
       fadein 7s cubic-bezier(1, -0.16, 0.41, 1),
       scale 3s cubic-bezier(0.97, -0.11, 0.85, 1.38);
+   overscroll-behavior: none;
 }
+
 a {
    color: var(--iq-color-accent);
 }
+
 code {
    /* font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace; */

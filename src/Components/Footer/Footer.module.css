@@ -1,14 +1,20 @@
 .footer-column a {
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  font-weight: 700;
-  text-decoration: none;
-  display: inline-block;
-  transform-origin: left;
-  transition: all 0.2s ease;
+   letter-spacing: 0.1em;
+   text-transform: uppercase;
+   font-weight: 700;
+   text-decoration: none;
+   display: inline-block;
+   transform-origin: left;
+   transition: all 0.2s ease;
 }
 
 .footer-column a:hover {
-  text-shadow: 0 0 3px var(--iq-color-accent);
-  transform: scale(1, 1.25);
+   text-shadow: 0 0 3px var(--iq-color-accent);
+   transform: scale(1, 1.25);
+}
+
+@media screen and (max-width: 600px) {
+   .footer-container {
+      font-size: 1rem;
+   }
 }
