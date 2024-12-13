@@ -90,7 +90,6 @@ root.render(
             <App />
          </ErrorBoundary>
       </Provider>
-      ,
    </React.StrictMode>
 );
 

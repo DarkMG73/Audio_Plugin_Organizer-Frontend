@@ -7,8 +7,8 @@
    justify-content: space-between;
    background: transparent;
    color: inherit;
-   width: max-content;
-   max-width: 100%;
+   width: 100%;
+   max-width: 800px;
    height: fit-content;
    z-index: 100;
    padding: 8px 16px 0;
@@ -134,8 +134,6 @@
 
 @media only screen and (max-width: 768px) {
    .navbar-container {
-      max-width: 100%;
-      /* min-width: 100%; */
       padding: 0.5em 0 0 0;
    }
    .show-on-small-screens {

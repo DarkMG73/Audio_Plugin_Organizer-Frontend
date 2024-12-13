@@ -469,6 +469,8 @@ body
    border: 3px inset var(--iq-color-alert-red);
    width: 100%;
    grid-column: 1 / -1;
+   text-align: left;
+   padding-left: 2em;
 }
 
 @media screen and (max-width: 1024px) {

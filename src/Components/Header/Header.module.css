@@ -37,7 +37,7 @@
 }
 
 .navbar-container > * {
-   margin: 0 auto;
+   margin: auto;
 }
 
 .navbar-container h1 {
@@ -125,6 +125,7 @@
    justify-content: center;
    align-items: center;
    flex-wrap: wrap;
+   flex-direction: column;
    width: fit-content;
    transition: 0.3s all ease;
    margin: auto;
@@ -150,7 +151,7 @@
    height: 100%;
    max-height: 100%;
    padding-bottom: 0;
-   margin-bottom: -3em;
+   margin-bottom: -1em;
 }
 
 .login-slide-panel > div button {
@@ -171,18 +172,13 @@
    background: var(--iq-color-foreground);
    color: var(--iq-color-accent-light);
    /* box-shadow: none; */
-   min-width: min-content;
+   min-width: 18em;
    flex-basis: 100%;
    width: 50%;
 }
 .login-slide-panel .login-slide-panel-close-wrap button:hover {
-   margin: 2em auto;
    background: var(--iq-color-accent);
    color: var(--iq-color-foreground);
-   /* box-shadow: none; */
-   min-width: min-content;
-   flex-basis: 100%;
-   width: 50%;
 }
 
 .login-button-wrap {
@@ -233,10 +229,15 @@ body .login-button-wrap.hide-on-small-screens button {
    margin: 0 0.25em 0 0;
 }
 .logo-wrap * {
-   max-width: 1em;
+   max-width: max-content;
    max-height: 100%;
-   height: 1em;
+   height: 2em;
    margin-bottom: -0.14em;
+   transform: translateY(25%);
+}
+
+.navbar-container .logo-wrap * {
+   transform: none;
 }
 
 .navbar-container .logo-wrap {
@@ -244,13 +245,13 @@ body .login-button-wrap.hide-on-small-screens button {
    margin: 0 1em 0 0;
 }
 .navbar-container .logo-wrap * {
-   max-width: 4em;
-   max-height: 100%;
-   height: 4em;
+   max-width: max-content;
+   max-height: 2em;
+   height: 100%;
    /* margin-bottom: -0.25em;*/
 }
 .navbar-container .section-title-wrap {
-   margin: auto;
+   margin: auto 0;
    padding: 0;
 }
 span.logo-wrap path:nth-last-child(2),
@@ -302,6 +303,13 @@ span.logo-wrap path:last-child {
       pulseText 18s ease infinite;
 }
 /* ----- */
+
+.button-outer-container {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin: auto 0;
+}
 
 @media only screen and (max-width: 1023px) {
    .fixed-header-container h1 {

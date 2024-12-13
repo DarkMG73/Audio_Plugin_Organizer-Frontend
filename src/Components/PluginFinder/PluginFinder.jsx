@@ -381,6 +381,18 @@ const PluginFinder = () => {
                         In order to scan your computer for new plugins, you will
                         need tp run the desktop version of this app.
                      </p>
+                     <p>
+                        {" "}
+                        Download it from GlassInteractive.com here:
+                        <br />
+                        <a
+                           href="https://www.glassinteractive.com/audio-plugin-organizer/"
+                           target="_blank"
+                           rel="noreferrer"
+                        >
+                           glassinteractive.com/audio-plugin-organizer/
+                        </a>
+                     </p>
                   </div>
                )}
                {activateLoader > 0 && (

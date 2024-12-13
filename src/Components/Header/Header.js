@@ -29,12 +29,14 @@ const Header = () => {
    // const addAToolButtonHandler = () => {
    //   dispatch(audioToolDataActions.goToAddATool());
    // };
-
+   const closeLoginSlidePanel = (open) => {
+      setShowSignUpInLoginSlide(open);
+      setLoginSlidePanelOpen(open);
+   };
    const loginSlidePanelToggleButtonHandler = (e) => {
       const { value } = e.target.closest("button");
       if (value === "close") {
-         setShowSignUpInLoginSlide(false);
-         setLoginSlidePanelOpen(false);
+         closeLoginSlidePanel(false);
       } else {
          setLoginSlidePanelOpen(true);
          if (value === "signup") setShowSignUpInLoginSlide(true);
@@ -91,115 +93,122 @@ const Header = () => {
                         Production Tool Organizer
                      </h1>
                   </a>
-                  <div
-                     className={`${styles["login-button-wrap"]} ${styles["show-on-small-screens"]}`}
-                  >
-                     {!user && (
-                        <PushButton
-                           inputOrButton="button"
-                           id="create-entry-btn"
-                           colorType="secondary"
-                           value="Add a Question"
-                           data=""
-                           size="small"
-                           onClick={loginSlidePanelToggleButtonHandler}
-                           styles={{ margin: "0 auto" }}
-                        >
-                           {loginSlidePanelOpen && <span>CLOSE</span>}
-                           {!loginSlidePanelOpen && (
-                              <span>
-                                 Login or
-                                 <br />
-                                 Sign up
-                              </span>
-                           )}
-                        </PushButton>
-                     )}
-                     {user && (
-                        <PushButton
-                           inputOrButton="button"
-                           id="create-entry-btn"
-                           colorType="secondary"
-                           value="Add a Question"
-                           data=""
-                           size="small"
-                           onClick={loginSlidePanelToggleButtonHandler}
-                           styles={{ margin: "0 auto" }}
-                        >
-                           {loginSlidePanelOpen && (
-                              <span>CLOSE Login/logout</span>
-                           )}
-                           {!loginSlidePanelOpen && <span>Logout</span>}
-                        </PushButton>
-                     )}
-                  </div>
-                  {!user && (
-                     <div
-                        className={`${styles["login-button-wrap"]} ${styles["hide-on-small-screens"]}`}
-                     >
-                        {!loginSlidePanelOpen && (
-                           <Fragment>
+                  <div className={`${styles["button-outer-container"]} `}>
+                     <div className={`${styles["login-button-wrap"]} `}>
+                        {!user && (
+                           <div
+                              className={`${styles["login-button-inner-wrap"]} ${styles["show-on-small-screens"]}`}
+                           >
                               <PushButton
                                  inputOrButton="button"
                                  id="create-entry-btn"
                                  colorType="secondary"
-                                 value="login"
+                                 value="Add a Question"
                                  data=""
                                  size="small"
                                  onClick={loginSlidePanelToggleButtonHandler}
                                  styles={{ margin: "0 auto" }}
                               >
-                                 {loginSlidePanelOpen && (
-                                    <span>CLOSE Login</span>
+                                 {loginSlidePanelOpen && <span>CLOSE</span>}
+                                 {!loginSlidePanelOpen && (
+                                    <span>
+                                       Login or
+                                       <br />
+                                       Sign up
+                                    </span>
                                  )}
-                                 {!loginSlidePanelOpen && <span>Login</span>}
                               </PushButton>
-                              <PushButton
-                                 inputOrButton="button"
-                                 id="create-entry-btn"
-                                 colorType="secondary"
-                                 value="signup"
-                                 data=""
-                                 size="small"
-                                 onClick={loginSlidePanelToggleButtonHandler}
-                                 styles={{ margin: "0 auto" }}
-                              >
-                                 {loginSlidePanelOpen && (
-                                    <span>CLOSE Sign Up</span>
-                                 )}
-                                 {!loginSlidePanelOpen && <span>Sign up</span>}
-                              </PushButton>
-                           </Fragment>
+                           </div>
                         )}
-                     </div>
-                  )}
-                  {loginSlidePanelOpen && (
-                     <div className={`${styles["login-slide-panel"]} `}>
-                        <LoginStatus
-                           horizontalDisplay={false}
-                           showLoginForm={!showSignUpInLoginSlide}
-                           showSignupForm={showSignUpInLoginSlide}
-                        />
-                        <div
-                           className={`${styles["login-slide-panel-close-wrap"]} `}
-                        >
+                        {user && (
                            <PushButton
                               inputOrButton="button"
                               id="create-entry-btn"
                               colorType="secondary"
-                              value="close"
+                              value="Add a Question"
                               data=""
                               size="small"
                               onClick={loginSlidePanelToggleButtonHandler}
                               styles={{ margin: "0 auto" }}
                            >
-                              <span>Cancel</span>
+                              {loginSlidePanelOpen && (
+                                 <span>CLOSE Login/logout</span>
+                              )}
+                              {!loginSlidePanelOpen && <span>Logout</span>}
                            </PushButton>
-                        </div>
+                        )}
                      </div>
-                  )}
-                  <div className={`${styles["theme-selector-wrap"]}`}>
-                     <AppThemeSwitcher />
+                     {!user && (
+                        <div
+                           className={`${styles["login-button-wrap"]} ${styles["hide-on-small-screens"]}`}
+                        >
+                           {!loginSlidePanelOpen && (
+                              <Fragment>
+                                 <PushButton
+                                    inputOrButton="button"
+                                    id="create-entry-btn"
+                                    colorType="secondary"
+                                    value="login"
+                                    data=""
+                                    size="small"
+                                    onClick={loginSlidePanelToggleButtonHandler}
+                                    styles={{ margin: "0 auto" }}
+                                 >
+                                    {loginSlidePanelOpen && (
+                                       <span>CLOSE Login</span>
+                                    )}
+                                    {!loginSlidePanelOpen && <span>Login</span>}
+                                 </PushButton>
+                                 <PushButton
+                                    inputOrButton="button"
+                                    id="create-entry-btn"
+                                    colorType="secondary"
+                                    value="signup"
+                                    data=""
+                                    size="small"
+                                    onClick={loginSlidePanelToggleButtonHandler}
+                                    styles={{ margin: "0 auto" }}
+                                 >
+                                    {loginSlidePanelOpen && (
+                                       <span>CLOSE Sign Up</span>
+                                    )}
+                                    {!loginSlidePanelOpen && (
+                                       <span>Sign up</span>
+                                    )}
+                                 </PushButton>
+                              </Fragment>
+                           )}
+                        </div>
+                     )}
+                     {loginSlidePanelOpen && (
+                        <div className={`${styles["login-slide-panel"]} `}>
+                           <LoginStatus
+                              horizontalDisplay={false}
+                              showLoginForm={!showSignUpInLoginSlide}
+                              showSignupForm={showSignUpInLoginSlide}
+                              callback={closeLoginSlidePanel}
+                           />
+                           <div
+                              className={`${styles["login-slide-panel-close-wrap"]} `}
+                           >
+                              <PushButton
+                                 inputOrButton="button"
+                                 id="create-entry-btn"
+                                 colorType="secondary"
+                                 value="close"
+                                 data=""
+                                 size="small"
+                                 onClick={loginSlidePanelToggleButtonHandler}
+                                 styles={{ margin: "0 auto" }}
+                              >
+                                 <span>Cancel</span>
+                              </PushButton>
+                           </div>
+                        </div>
+                     )}
+                     <div className={`${styles["theme-selector-wrap"]}`}>
+                        <AppThemeSwitcher />
+                     </div>
                   </div>
                </div>
             )}

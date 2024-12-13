@@ -45,10 +45,13 @@ const BottomNavBar = () => {
                   margin: "0 auto",
                   borderRadius: "50px 0 0 0",
                   padding: " 0.75em 3em",
-                  fontVariant: "small-caps"
+                  fontVariant: "small-caps",
+                  minWidth: "min-content",
+                  flexBasis: "40%",
+                  flexGrow: " 1"
                }}
             >
-               <span>&#9650;Top</span>
+               <span>&#9650;</span>
             </PushButton>{" "}
             <PushButton
                inputOrButton="button"
@@ -61,13 +64,21 @@ const BottomNavBar = () => {
                styles={{
                   margin: "0 auto",
                   textShadow: "0 0 3px wheat",
-                  padding: " 0.75em 3em",
+                  padding: " 0.75em 0.25em",
                   fontVariant: "small-caps",
-                  borderRadius: "3px"
+                  borderRadius: "3px",
+                  display: "flex",
+                  justifyContent: "center",
+                  minWidth: "min-content",
+                  flexBasis: "20%"
                }}
             >
-               <div className={styles["hide-on-small-screens"]}>
-                  Add a Plugin or Tool
+               <div
+                  className={
+                     styles["hide-on-small-screens"] + " " + styles["plus-sign"]
+                  }
+               >
+                  &#65291;
                </div>
                <div
                   className={
@@ -89,10 +100,13 @@ const BottomNavBar = () => {
                   margin: "0 auto",
                   borderRadius: "0 50px 0 0",
                   padding: " 0.75em 3em",
-                  fontVariant: "small-caps"
+                  fontVariant: "small-caps",
+                  minWidth: "min-content",
+                  flexBasis: "40%",
+                  flexGrow: " 1"
                }}
             >
-               <span>Bottom&#9660;</span>
+               <span>&#9660;</span>
             </PushButton>
          </div>
       </Fragment>

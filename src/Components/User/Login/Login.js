@@ -16,20 +16,12 @@ import Iframe from "react-iframe";
 
 const Login = (props) => {
    const { appUserNameMemory } = useSelector((state) => state.toolsData);
-   console.log(
-      "%c⚪️►►►► %cline:18%cappUserNameMemory",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(130, 57, 53);padding:3px;border-radius:2px",
-      appUserNameMemory
-   );
-
    const [user, setUser] = useState({
       // First email is populated in rendered input, so must be pre-filled in user
       email: appUserNameMemory.length > 0 ? appUserNameMemory[0] : "",
       password: ""
    });
-
+   const callback = props.callback;
    const [loginError, seLoginError] = useState(false);
    const [showLoginError, setShowLoginError] = useState(true);
    const [showChangePasswordHTML, setShowChangePasswordHTML] = useState(false);
@@ -82,13 +74,6 @@ const Login = (props) => {
       dispatch(loadingRequestsActions.removeFromLoadRequest());
    };
    const completeSignInProcedures = (res) => {
-      console.log(
-         "%c⚪️►►►► %cline:75%cres",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(39, 72, 98);padding:3px;border-radius:2px",
-         res
-      );
       if (process.env.NODE_ENV === "development")
          console.log(
             "%c --> %cline:27%ccompleteSignInProcedures",
@@ -112,6 +97,7 @@ const Login = (props) => {
       });
 
       dispatch(authActions.logIn(res.data));
+
       GatherToolData(res.data).then((data) => {
          if (process.env.NODE_ENV === "development")
             console.log(
@@ -120,6 +106,7 @@ const Login = (props) => {
                data
             );
          dispatch(audioToolDataActions.initState(data));
+
          removeLoadingRequest();
       });
    };
@@ -209,6 +196,7 @@ const Login = (props) => {
                   );
 
                   if (res.status >= 200 && res.status < 400) {
+                     if (callback) callback();
                      completeSignInProcedures(res);
                   } else if (res.status === 0 || res.status === 404) {
                      seLoginError(
@@ -246,6 +234,7 @@ const Login = (props) => {
                         "color:#fff;background:rgb(114, 83, 52);padding:3px;border-radius:2px",
                         res.hasOwnProperty("data")
                      );
+                     if (callback) callback();
                      completeSignInProcedures(res);
                   } else {
                      seLoginError(
