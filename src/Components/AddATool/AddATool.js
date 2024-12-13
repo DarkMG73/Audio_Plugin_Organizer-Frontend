@@ -25,23 +25,18 @@ function AddATool(props) {
    /// EFFECTS
    ////////////////////////////////////////
    useEffect(() => {
-      console.log(
-         "%c⚪️►►►► %cline:30%cgoToAddATool",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(153, 80, 84);padding:3px;border-radius:2px",
-         goToAddATool
-      );
-      if (goToAddATool && goToAddATool > 0)
-         addAToolRef.current?.scrollIntoView({ behavior: "smooth" });
-
-      console.log(
-         "%c⚪️►►►► %cline:37%caddAToolRef.current",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(237, 222, 139);padding:3px;border-radius:2px",
-         addAToolRef.current
-      );
+      const elm = addAToolRef.current;
+      if (goToAddATool && goToAddATool > 0) {
+         elm?.scrollIntoView({ behavior: "smooth" });
+         elm.classList.add("popup");
+         elm.addEventListener(
+            "click",
+            () => {
+               elm.classList.remove("popup");
+            },
+            false
+         );
+      }
    }, [goToAddATool]);
 
    ////////////////////////////////////////

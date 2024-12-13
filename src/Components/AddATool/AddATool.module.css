@@ -1,106 +1,112 @@
 .add-a-tool-container {
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 1em auto 0.5em;
+   justify-content: center;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   margin: 1em auto 0.5em;
 }
 
 .db-login-status-container {
-  max-width: 100%;
+   max-width: 100%;
 }
 
 .tool-container h4 {
-  margin: 0 auto 0.5em;
-  padding: 0;
+   margin: 0 auto 0.5em;
+   padding: 0;
 }
 
 .button-section-container,
 .not-logged-in-error {
-  display: flex;
-  /* flex-direction: column; */
-  justify-content: center;
-  align-items: stretch;
-  text-align: center;
-  font: var(--iq-font-subheading);
-  width: 100%;
-  margin: 0 0 1em;
-  min-height: fit-content;
-  height: 100%;
+   display: flex;
+   /* flex-direction: column; */
+   justify-content: center;
+   align-items: stretch;
+   text-align: center;
+   font: var(--iq-font-subheading);
+   width: 100%;
+   margin: 0 0 1em;
+   min-height: fit-content;
+   height: 100%;
 }
 
 .button-section-container > * {
-  max-width: 25rem;
-  width: 100%;
-  flex-grow: 1;
-  min-height: fit-content;
-  /* height: 100%; */
+   max-width: 25rem;
+   width: 100%;
+   flex-grow: 1;
+   min-height: fit-content;
+   /* height: 100%; */
 }
 
 .button-container {
-  min-height: fit-content;
+   min-height: fit-content;
 }
 
 .button-container > * {
-  min-height: fit-content;
-  height: 100%;
+   min-height: fit-content;
+   height: 100%;
 }
 .button-section-container h4 {
-  min-height: 3em;
-  margin: 0 auto;
+   min-height: 3em;
+   margin: 0 auto;
 }
 .add-a-tool-intro,
 .add-a-tool-container .not-logged-in-error {
-  max-width: 800px;
+   max-width: 800px;
 }
 
 .button-section-container button,
 .button-section-container span {
-  font-size: 0.9em;
+   font-size: 0.9em;
 }
 
 .cvs-buttons-container {
-  display: flex;
-  justify-content: center;
-  height: 100%;
+   display: flex;
+   justify-content: center;
+   height: 100%;
 }
 
 .button-section-container button {
-  margin: 0 auto 1em;
-  padding: 0.5em 2em;
-  width: 100%;
-  height: 100%;
-  flex-grow: 1;
-  justify-content: center;
-  align-items: center;
-  background: var(--iq-color-background-warm-gradient);
-  color: var(--iq-color-foreground);
-  box-shadow: inset 1px 1px 1px rgb(255 255 255 / 25%),
-    inset 1px -1px 1px rgb(0 0 0 / 15%), 1px 1px 5px -3px black;
-  border: none;
-  font: var(--iq-font-body-text);
-  font-size: 1em;
-  font-weight: 700;
+   margin: 0 auto 1em;
+   padding: 0.5em 2em;
+   width: 100%;
+   height: 100%;
+   flex-grow: 1;
+   justify-content: center;
+   align-items: center;
+   background: var(--iq-color-background-warm-gradient);
+   color: var(--iq-color-foreground);
+   box-shadow:
+      inset 1px 1px 1px rgb(255 255 255 / 25%),
+      inset 1px -1px 1px rgb(0 0 0 / 15%),
+      1px 1px 5px -3px black;
+   border: none;
+   font: var(--iq-font-body-text);
+   font-size: 1em;
+   font-weight: 700;
 }
 
 .form-container {
-  box-shadow: 3px 3px 10px -7px inset black, -3px -3px 10px -7px inset white;
-  width: 100%;
-  max-width: none;
-  padding: 1em;
-  border-radius: 10px;
-  margin: 1em;
+   box-shadow:
+      3px 3px 10px -7px inset black,
+      -3px -3px 10px -7px inset white;
+   width: 100%;
+   max-width: none;
+   padding: 1em;
+   border-radius: 10px;
+   margin: 1em;
 }
 
 .not-logged-in-error {
-  border: 2px inset var(--iq-color-accent);
-  margin: 2em auto;
+   border: 2px inset var(--iq-color-accent);
+   margin: 2em auto;
 }
 
 .inputs-container {
-  width: 100%;
-  max-width: 100%;
-  padding: 1em;
-  box-shadow: 7px 7px 10px -7px black inset, -7px -7px 10px -7px #b8b8b8 inset;
-  border-radius: 50px;
+   width: 100%;
+   max-width: 100%;
+   padding: 1em;
+   box-shadow:
+      7px 7px 10px -7px black inset,
+      -7px -7px 10px -7px #b8b8b8 inset;
+   border-radius: 50px;
 }

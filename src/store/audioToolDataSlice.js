@@ -65,12 +65,6 @@ export const audioToolDataSlice = createSlice({
 
       /// GO TO: ADD TOOL /////////////////////////////
       goToAddATool: (state, action) => {
-         console.log(
-            "%c⚪️►►►► %cline:67%cgoToAddATool",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(3, 101, 100);padding:3px;border-radius:2px"
-         );
          const goToAddAToolCount = state.goToAddATool;
          state.goToAddATool = goToAddAToolCount + 1;
       },
