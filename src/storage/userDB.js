@@ -348,13 +348,6 @@ export const addToUserNameMemory = (user, userNameMemory) => {
    newUserMemory.forEach((name) => newListSet.add(name));
    const newListArray = Array.from(newListSet);
    const trimmedList = newListArray.slice(0, maxMemoryLimit);
-   console.log(
-      "%c⚪️►►►► %cline:350%ctrimmedList",
-      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-      "color:#fff;background:rgb(248, 147, 29);padding:3px;border-radius:2px",
-      trimmedList
-   );
 
    Storage("ADD", trimmedList, "appUserNameMemory");
 };

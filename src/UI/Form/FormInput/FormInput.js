@@ -403,13 +403,7 @@ const FormInput = (props) => {
                );
             }
          });
-      console.log(
-         "%c⚪️►►►► %cline:408%coptions",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(114, 83, 52);padding:3px;border-radius:2px",
-         options
-      );
+
       if (!inputHasSelected)
          options.push(
             <option

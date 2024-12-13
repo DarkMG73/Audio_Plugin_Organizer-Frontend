@@ -41,13 +41,7 @@ const AppThemeSwitcher = () => {
 
    useEffect(() => {
       const themeSelection = storage("GET", {}, "appTheme");
-      console.log(
-         "%c⚪️►►►► %cline:43%cthemeSelection",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(131, 175, 155);padding:3px;border-radius:2px",
-         themeSelection
-      );
+
       if (!themeSelection || !themeSelection.appTheme) {
          document.body.classList.add(Object.keys(themeOptions)[0]);
          setSavedTheme(Object.keys(themeOptions)[0]);
