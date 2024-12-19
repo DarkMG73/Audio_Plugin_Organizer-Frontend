@@ -90,7 +90,7 @@ const Header = () => {
                         <span className={styles["logo-wrap"]}>
                            <img src={Logo} alt="logo" />
                         </span>
-                        Production Tool Organizer
+                        Audio Plugin Organizer
                      </h1>
                   </a>
                   <div className={`${styles["button-outer-container"]} `}>
@@ -220,7 +220,7 @@ const Header = () => {
                   <span className={styles["logo-wrap"]}>
                      <img src={Logo} alt="logo" />
                   </span>
-                  Production Tool Organizer
+                  Audio Plugin Organizer
                </h1>
             </div>
          </div>

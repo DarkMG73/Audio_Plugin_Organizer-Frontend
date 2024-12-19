@@ -2,8 +2,8 @@ import styles from "./FormInput.module.css";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { toTitleCase } from "../../../Hooks/utility";
 import { useSelector } from "react-redux";
-// import ImagePicker from "react-image-picker";
-// import 'react-image-picker/dist/index.css';
+import ImagePicker from "react-image-picker";
+import "react-image-picker/dist/index.css";
 // import img1 from "../../../assets/images/Acoustica-Audio_AERO-AMP.png";
 // import img2 from "../../../assets/images/product-photo-placeholder-2.png";
 
@@ -549,7 +549,7 @@ const FormInput = (props) => {
                               "default-image-selector"
                            }
                         >
-                           {/* <ImagePicker
+                           <ImagePicker
                               images={imageList.map((image, i) => {
                                  if (i >= imageList.length - 1)
                                     addTitlesToPicSelIMages();
@@ -559,7 +559,7 @@ const FormInput = (props) => {
                                  };
                               })}
                               onPick={handleOnSelectPic}
-                           />  */}
+                           />
                            <div
                               className={
                                  styles["button-container"] +
@@ -630,17 +630,17 @@ const FormInput = (props) => {
                               "default-image-selector"
                            }
                         >
-                           {/* <ImagePicker
-                    images={genericImageList.map((image, i) => {
-                      if (i >= genericImageList.length - 1)
-                        addTitlesToPicSelIMages();
-                      return {
-                        src: image,
-                        value: i,
-                      };
-                    })}
-                    onPick={handleOnGenericSelectPic}
-                  /> */}
+                           <ImagePicker
+                              images={genericImageList.map((image, i) => {
+                                 if (i >= genericImageList.length - 1)
+                                    addTitlesToPicSelIMages();
+                                 return {
+                                    src: image,
+                                    value: i
+                                 };
+                              })}
+                              onPick={handleOnGenericSelectPic}
+                           />
                            <div
                               className={
                                  styles["button-container"] +

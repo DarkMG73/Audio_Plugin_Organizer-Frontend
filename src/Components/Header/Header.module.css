@@ -228,13 +228,19 @@ body .login-button-wrap.hide-on-small-screens button {
    max-width: 100%;
    margin: 0 0.25em 0 0;
 }
+
 .logo-wrap * {
    max-width: max-content;
    max-height: 100%;
    height: 2em;
    margin-bottom: -0.14em;
-   transform: translateY(25%);
+   transform: translateY(25%) scale(1, 1.5);
 }
+
+/* Electron handled transform slightly differently */
+/* div[class*='desktop-version'] .logo-wrap * {
+  transform: translateY(25%) scale(1, 1);
+} */
 
 .navbar-container .logo-wrap * {
    transform: none;
@@ -244,6 +250,7 @@ body .login-button-wrap.hide-on-small-screens button {
    max-width: 100%;
    margin: 0 1em 0 0;
 }
+
 .navbar-container .logo-wrap * {
    max-width: max-content;
    max-height: 2em;
@@ -315,11 +322,18 @@ span.logo-wrap path:last-child {
    .fixed-header-container h1 {
       transform: scale(1.25, 1);
    }
+
+   .logo-wrap * {
+      transform: translateY(25%) scale(1, 1.25);
+   }
 }
 
 @media only screen and (max-width: 768px) {
    .fixed-header-container h1 {
       transform: scale(1, 1);
+   }
+   .logo-wrap * {
+      transform: translateY(25%) scale(1, 1);
    }
    .navbar-container {
       padding: 1em 0.5em;
