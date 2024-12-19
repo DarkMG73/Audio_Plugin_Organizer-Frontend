@@ -200,7 +200,7 @@ body .login-button-wrap.hide-on-small-screens button {
    flex-grow: 1;
    margin: auto !important;
    transform: none !important;
-   padding: 0 0.25em 0.25em;
+   padding: 0 0.75em 0.25em;
    height: 100%;
    width: auto;
    vertical-align: middle;
