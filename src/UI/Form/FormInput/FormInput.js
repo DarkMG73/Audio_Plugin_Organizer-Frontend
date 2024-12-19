@@ -144,76 +144,70 @@ const FormInput = (props) => {
    }
 
    const addTitlesToPicSelIMages = (listArray) => {
-      const checkForElmInterval = setInterval(() => {
-         const imagePickerElm = document.querySelector(".image_picker");
+      try {
+         const checkForElmInterval = setInterval(() => {
+            const imagePickerElm = document.querySelector(".image_picker");
 
-         if (imagePickerElm) {
-            clearInterval(checkForElmInterval);
-            const allElms = document.querySelectorAll(".responsive");
+            if (imagePickerElm) {
+               clearInterval(checkForElmInterval);
+               const allElms = document.querySelectorAll(".responsive");
 
-            allElms.forEach((elm) => {
-               // Get image within elm
-               const imgElm = elm.querySelector("img");
-               const imgSrc = imgElm.src;
+               allElms.forEach((elm) => {
+                  // Get image within elm
+                  const imgElm = elm.querySelector("img");
+                  const imgSrc = imgElm.src;
 
-               const cleanImageName = (srcStr) => {
-                  return srcStr.substring(
-                     srcStr.lastIndexOf("/") + 1,
-                     srcStr.indexOf(".")
-                  );
-               };
+                  const cleanImageName = (srcStr) => {
+                     return srcStr
+                        .substring(
+                           srcStr.lastIndexOf("/") + 1,
+                           srcStr.indexOf(".")
+                        )
+                        .replaceAll("%20", "");
+                  };
 
-               // Groom src string to be just name
+                  // Groom src string to be just name
 
-               let imageName = cleanImageName(imgSrc);
-               console.log(
-                  "%c⚪️►►►► %cline:168%cimageName",
-                  "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                  "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                  "color:#fff;background:rgb(178, 190, 126);padding:3px;border-radius:2px",
-                  imageName
-               );
+                  let imageName = cleanImageName(imgSrc);
 
-               imageName = listArray.find((group) => {
-                  console.log(
-                     "%c⚪️►►►► %cline:177%cgroup",
-                     "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                     "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                     "color:#fff;background:rgb(179, 214, 110);padding:3px;border-radius:2px",
-                     group
-                  );
-                  return (
-                     group.src
+                  imageName = listArray.find((group) => {
+                     const groomedGroupSrc = group.src
+                        .replaceAll("/static/media", "")
                         .split(".")[0]
                         .replaceAll("/", " ")
-                        .replaceAll(" ", "") === imageName
-                  );
+                        .replaceAll(" ", "");
+
+                     return groomedGroupSrc === imageName;
+                  });
+
+                  if (
+                     !imageName ||
+                     !Object.hasOwn(imageName, "name") ||
+                     imageName.name.includes("data:image")
+                  )
+                     return;
+
+                  imageName = cleanImageName(imageName.name.replace(/^./, ""));
+
+                  const charLimit = 21;
+                  if (imageName.length >= charLimit) {
+                     imageName = imageName.substring(0, charLimit - 1) + "...";
+                  }
+
+                  // Add title to elm
+                  const preventDuplicates = elm.querySelector("h4");
+                  const newH3ELm = document.createElement("h4");
+                  newH3ELm.innerText = imageName
+                     .replace("_", " ")
+                     .replace("-", " ");
+
+                  if (!preventDuplicates) elm.prepend(newH3ELm);
                });
-               console.log(
-                  "%c⚪️►►►► %cline:168%cimageName",
-                  "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                  "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                  "color:#fff;background:rgb(178, 190, 126);padding:3px;border-radius:2px",
-                  imageName
-               );
-               imageName = cleanImageName(imageName.name.replace(/^./, ""));
-
-               const charLimit = 21;
-               if (imageName.length >= charLimit) {
-                  imageName = imageName.substring(0, charLimit - 1) + "...";
-               }
-
-               // Add title to elm
-               const preventDuplicates = elm.querySelector("h4");
-               const newH3ELm = document.createElement("h4");
-               newH3ELm.innerText = imageName
-                  .replace("_", " ")
-                  .replace("-", " ");
-
-               if (!preventDuplicates) elm.prepend(newH3ELm);
-            });
-         }
-      }, 300);
+            }
+         }, 300);
+      } catch (err) {
+         console.log("----> err", err);
+      }
    };
 
    let groomedOptions;

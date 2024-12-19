@@ -966,6 +966,7 @@ body .input-container.input-color input[type="checkbox"]:hover + label {
 }
 .image-selector [class*="responsive"] {
    max-width: min-content;
+   min-width: 170px;
 }
 
 .image-selector [class*="responsive"] h4 {
