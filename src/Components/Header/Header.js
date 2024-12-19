@@ -63,13 +63,6 @@ const Header = () => {
    }, []);
 
    useEffect(() => {
-      console.log(
-         "%c⚪️►►►► %cline:67%cnavbarHeight",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px",
-         navbarHeight
-      );
       const init = {
          top: 0,
          right: 0,
@@ -83,13 +76,6 @@ const Header = () => {
       }, 500);
    }, []);
    useEffect(() => {
-      console.log(
-         "%c⚪️►►►► %cline:71%cnavbarHeight",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(248, 214, 110);padding:3px;border-radius:2px",
-         navbarHeight
-      );
       if (
          navbarHeight &&
          Object.hasOwn(navbarHeight, "bottom") &&
