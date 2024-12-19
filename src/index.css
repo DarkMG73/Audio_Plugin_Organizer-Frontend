@@ -81,9 +81,10 @@ body {
    max-height: 100vh;
    overflow: auto;
    align-items: flex-start;
-   animation:
+   /* animation:
       fadein 7s cubic-bezier(1, -0.16, 0.41, 1),
-      scale 3s cubic-bezier(0.97, -0.11, 0.85, 1.38);
+      scale 3s cubic-bezier(0.97, -0.11, 0.85, 1.38); */
+   animation: fadein 3s cubic-bezier(1, -0.16, 0.41, 1);
    overscroll-behavior: none;
 }
 

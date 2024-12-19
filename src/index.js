@@ -82,6 +82,10 @@ axios.interceptors.response.use(
 ////////////////////////
 ///    OUTPUT
 ///////////////////////
+setTimeout(() => {
+   const barLoader = document.getElementById("startup-loader-wrap");
+   if (barLoader) barLoader.remove();
+}, 10000);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
    <React.StrictMode>
