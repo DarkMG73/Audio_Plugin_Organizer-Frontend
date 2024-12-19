@@ -10,9 +10,9 @@ import {
    updateIgnoredPlugins
 } from "../../storage/userDB";
 
-const PluginFinder = () => {
+const PluginFinder = (props) => {
    // If running browser version, send to download page
-   const isDesktopApp = isElectron();
+   const { isDesktopApp } = props;
    const { user } = useSelector((state) => state.auth);
    const { allTools } = useSelector((state) => state.toolsData);
    const acceptedPluginWrappers = ["vst", "vst3", "component"];
@@ -34,37 +34,6 @@ const PluginFinder = () => {
    const groomDataForToolForm = useGroomDataForToolForm();
    const toolsSchema = useSelector((state) => state.toolsData.toolsSchema);
    const [activateLoader, setActivateLoader] = useState(false);
-
-   function isElectron() {
-      // Renderer process
-      if (
-         typeof window !== "undefined" &&
-         typeof window.process === "object" &&
-         window.process.type === "renderer"
-      ) {
-         return true;
-      }
-
-      // Main process
-      if (
-         typeof process !== "undefined" &&
-         typeof process.versions === "object" &&
-         !!process.versions.electron
-      ) {
-         return true;
-      }
-
-      // Detect the user agent when the `nodeIntegration` option is set to true
-      if (
-         typeof navigator === "object" &&
-         typeof navigator.userAgent === "string" &&
-         navigator.userAgent.indexOf("Electron") >= 0
-      ) {
-         return true;
-      }
-
-      return false;
-   }
 
    // useEffect(() => {
    //   console.log('fileNames---->', fileNames);

@@ -93,9 +93,9 @@ function ToolsRowsList(props) {
       >
          <div className={styles["header-container"]}>
             {/* <h2 key="home" className="section-title">
-               Plugins <span className={styles["special-character"]}>&</span>{" "}
-               Tools List
-            </h2> */}
+          Plugins <span className={styles['special-character']}>&</span> Tools
+          List
+        </h2> */}
          </div>
          <div className={styles["add-a-tool-wrap"]}>
             {!toolsAreReady && <BarLoader />}
@@ -117,7 +117,7 @@ function ToolsRowsList(props) {
                />
             )}
          </div>
-         <PluginFinder />
+         <PluginFinder isDesktopApp={props.isDesktopApp} />
          <div
             key={"tool-list-wrap-key"}
             className={styles["tool-list-wrap"]}
