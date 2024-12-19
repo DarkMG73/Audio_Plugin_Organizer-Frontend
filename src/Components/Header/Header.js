@@ -63,7 +63,39 @@ const Header = () => {
    }, []);
 
    useEffect(() => {
-      dispatch(headerDimensionsActions.updateHeaderDimensions(navbarHeight));
+      console.log(
+         "%c⚪️►►►► %cline:67%cnavbarHeight",
+         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+         "color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px",
+         navbarHeight
+      );
+      const init = {
+         top: 0,
+         right: 0,
+         bottom: 0,
+         left: 0,
+         width: 0,
+         height: 43
+      };
+      setTimeout(() => {
+         dispatch(headerDimensionsActions.updateHeaderDimensions(init));
+      }, 500);
+   }, []);
+   useEffect(() => {
+      console.log(
+         "%c⚪️►►►► %cline:71%cnavbarHeight",
+         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+         "color:#fff;background:rgb(248, 214, 110);padding:3px;border-radius:2px",
+         navbarHeight
+      );
+      if (
+         navbarHeight &&
+         Object.hasOwn(navbarHeight, "bottom") &&
+         navbarHeight.bottom <= 100
+      )
+         dispatch(headerDimensionsActions.updateHeaderDimensions(navbarHeight));
    }, [navbarHeight]);
 
    ////////////////////////////////////////
