@@ -12,22 +12,24 @@ const FormInput = (props) => {
       (state) => state.toolsData
    );
 
-   const images = require.context(
-      "../../../assets/images/official_plugin_images/",
-      true
-   );
+   // const images = require.context(
+   //   '../../../assets/images/official_plugin_images/',
+   //   true,
+   // );
 
-   const genericImages = require.context(
-      "../../../assets/images/generic_plugin_images/",
-      true
-   );
+   // const genericImages = require.context(
+   //   '../../../assets/images/generic_plugin_images/',
+   //   true,
+   // );
 
-   const imageList = images.keys().map((image) => {
-      return images(image);
-   });
+   const imageList = officialImages;
 
-   const genericImageList = genericImages.keys().map((image) => {
-      return genericImages(image);
+   const genericImageList = [];
+
+   Object.values(defaultImages).forEach((defaultImageGroup) => {
+      defaultImageGroup.forEach((imageData) =>
+         genericImageList.push(imageData)
+      );
    });
 
    const [requiredError, setRequiredError] = useState(true);
@@ -107,50 +109,41 @@ const FormInput = (props) => {
    };
 
    const handleOnSelectPic = (imageObj) => {
-      const picLocation = "/official_plugin_images/";
-      const imageStr = imageObj.src;
+      const listArray = imageList;
+      const picLocation = "official_plugin_images/";
 
-      const groomedImageNameStart = imageStr.substring(
-         imageStr.lastIndexOf("/") + 1,
-         imageStr.indexOf(".")
-      );
-
-      // const groomedImageNameStart = imageStr.substring(
-      //    0,
-      //    imageStr.indexOf(".")
-      // );
-
-      const groomedImageNameEnd = imageStr.substring(imageStr.lastIndexOf("."));
-
-      setPhotoSelected(
-         picLocation + groomedImageNameStart + groomedImageNameEnd
-      );
+      setPhotoSelected(picLocation + applySelectedPhoto(imageObj, listArray));
    };
 
    const handleOnGenericSelectPic = (imageObj) => {
-      const picLocation = "/generic_plugin_images/";
-      const imageStr = imageObj.src;
+      const listArray = genericImageList;
+      const picLocation = "generic_plugin_images/";
 
-      const groomedImageNameStart = imageStr.substring(
-         imageStr.lastIndexOf("/") + 1,
-         imageStr.indexOf(".")
-      );
-
-      // const groomedImageNameStart = imageStr.substring(
-      //    0,
-      //    imageStr.indexOf(".")
-      // );
-
-      const groomedImageNameEnd = imageStr.substring(imageStr.lastIndexOf("."));
-      setPhotoSelected(
-         picLocation + groomedImageNameStart + groomedImageNameEnd
-      );
+      setPhotoSelected(picLocation + applySelectedPhoto(imageObj, listArray));
    };
 
    ///////////////////////////////////////
    /// FUNCTIONALITY
    ////////////////////////////////////////
-   const addTitlesToPicSelIMages = () => {
+   function applySelectedPhoto(imageObj, listArray) {
+      const imageStr = imageObj.src;
+
+      // const groomedImageNameStart = imageStr.substring(
+      //    0,
+      //    imageStr.indexOf(".")
+      // );
+      const rawName = listArray.find((group) => {
+         return group.src === imageStr;
+      });
+
+      const groomedImageNameStart = rawName.name;
+
+      const groomedImageNameEnd = groomedImageNameStart.replace("./", "");
+
+      return groomedImageNameEnd;
+   }
+
+   const addTitlesToPicSelIMages = (listArray) => {
       const checkForElmInterval = setInterval(() => {
          const imagePickerElm = document.querySelector(".image_picker");
 
@@ -163,11 +156,47 @@ const FormInput = (props) => {
                const imgElm = elm.querySelector("img");
                const imgSrc = imgElm.src;
 
+               const cleanImageName = (srcStr) => {
+                  return srcStr.substring(
+                     srcStr.lastIndexOf("/") + 1,
+                     srcStr.indexOf(".")
+                  );
+               };
+
                // Groom src string to be just name
-               let imageName = imgSrc.substring(
-                  imgSrc.lastIndexOf("/") + 1,
-                  imgSrc.indexOf(".")
+
+               let imageName = cleanImageName(imgSrc);
+               console.log(
+                  "%c⚪️►►►► %cline:168%cimageName",
+                  "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                  "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                  "color:#fff;background:rgb(178, 190, 126);padding:3px;border-radius:2px",
+                  imageName
                );
+
+               imageName = listArray.find((group) => {
+                  console.log(
+                     "%c⚪️►►►► %cline:177%cgroup",
+                     "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                     "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                     "color:#fff;background:rgb(179, 214, 110);padding:3px;border-radius:2px",
+                     group
+                  );
+                  return (
+                     group.src
+                        .split(".")[0]
+                        .replaceAll("/", " ")
+                        .replaceAll(" ", "") === imageName
+                  );
+               });
+               console.log(
+                  "%c⚪️►►►► %cline:168%cimageName",
+                  "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                  "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                  "color:#fff;background:rgb(178, 190, 126);padding:3px;border-radius:2px",
+                  imageName
+               );
+               imageName = cleanImageName(imageName.name.replace(/^./, ""));
 
                const charLimit = 21;
                if (imageName.length >= charLimit) {
@@ -550,11 +579,11 @@ const FormInput = (props) => {
                            }
                         >
                            <ImagePicker
-                              images={imageList.map((image, i) => {
+                              images={imageList.map((imageData, i) => {
                                  if (i >= imageList.length - 1)
-                                    addTitlesToPicSelIMages();
+                                    addTitlesToPicSelIMages(imageList);
                                  return {
-                                    src: image,
+                                    src: imageData.src,
                                     value: i
                                  };
                               })}
@@ -633,9 +662,9 @@ const FormInput = (props) => {
                            <ImagePicker
                               images={genericImageList.map((image, i) => {
                                  if (i >= genericImageList.length - 1)
-                                    addTitlesToPicSelIMages();
+                                    addTitlesToPicSelIMages(genericImageList);
                                  return {
-                                    src: image,
+                                    src: image.src,
                                     value: i
                                  };
                               })}
@@ -686,8 +715,7 @@ const FormInput = (props) => {
                   </div>
                </div>
             )}
-            {photoSelected}
-            {inputValue}
+
             <input
                key={"form-input-2"}
                type="url"

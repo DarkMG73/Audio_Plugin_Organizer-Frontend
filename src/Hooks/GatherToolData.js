@@ -101,10 +101,13 @@ export default async function GatherToolData(user) {
       currentFilters ?? gatherFilters(Object.keys(allToolsData.toolsMetadata));
 
    ////////////////////////////////////////////////////////////////
-   const groomedAllImages = {};
+   const groomedAllImages = [];
 
    imagesALL.keys().forEach((image) => {
-      groomedAllImages[image.replace(".", "")] = imagesALL(image);
+      groomedAllImages.push({
+         name: image.replace(".", ""),
+         src: imagesALL(image)
+      });
    });
 
    const groomedAllDefaultImages = {};
@@ -114,14 +117,13 @@ export default async function GatherToolData(user) {
       if (!Object.hasOwn(groomedAllDefaultImages, folder))
          groomedAllDefaultImages[folder] = [];
 
-      groomedAllDefaultImages[folder].push(images(image));
+      groomedAllDefaultImages[folder].push({ name: image, src: images(image) });
    });
 
    allToolsData.officialImages = groomedAllImages;
    allToolsData.defaultImages = groomedAllDefaultImages;
    ////////////////////////////////////////////////////////////////
    ////////////////////////////////////////////////////////////////
-
    const userNameMemoryData = await getUserNameMemory();
 
    if (
