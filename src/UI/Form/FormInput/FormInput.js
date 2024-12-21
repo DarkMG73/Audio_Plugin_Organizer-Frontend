@@ -144,13 +144,6 @@ const FormInput = (props) => {
    }
 
    const addTitlesToPicSelIMages = (listArray) => {
-      console.log(
-         "%c⚪️►►►► %cline:146%clistArray",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(56, 13, 49);padding:3px;border-radius:2px",
-         listArray
-      );
       try {
          const checkForElmInterval = setInterval(() => {
             const imagePickerElm = document.querySelector(".image_picker");
@@ -160,31 +153,19 @@ const FormInput = (props) => {
                const allElms = document.querySelectorAll(".responsive");
 
                allElms.forEach((elm) => {
-                  console.log(
-                     "%c⚪️►►►► %cline:162%celm",
-                     "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                     "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                     "color:#fff;background:rgb(179, 214, 110);padding:3px;border-radius:2px",
-                     elm
-                  );
                   // Get image within elm
                   const imgElm = elm.querySelector("img");
-                  console.log(
-                     "%c⚪️►►►► %cline:158%cimgElm",
-                     "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                     "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                     "color:#fff;background:rgb(20, 68, 106);padding:3px;border-radius:2px",
-                     imgElm
-                  );
+
                   const imgSrc = imgElm.src;
 
                   const cleanImageName = (srcStr) => {
                      return srcStr
                         .substring(
                            srcStr.lastIndexOf("/") + 1,
-                           srcStr.indexOf(".")
+                           srcStr.indexOf(".", srcStr.lastIndexOf("/"))
                         )
-                        .replaceAll("%20", "");
+                        .replaceAll("%20", "")
+                        .replaceAll(" ", "");
                   };
 
                   // Groom src string to be just name
@@ -192,12 +173,7 @@ const FormInput = (props) => {
                   let imageName = cleanImageName(imgSrc);
 
                   imageName = listArray.find((group) => {
-                     const groomedGroupSrc = group.src
-                        .substring(
-                           group.src.lastIndexOf("/") + 1,
-                           group.src.indexOf(".", group.src.lastIndexOf("/"))
-                        )
-                        .replaceAll(" ", "");
+                     const groomedGroupSrc = cleanImageName(group.src);
 
                      return groomedGroupSrc === imageName;
                   });
@@ -678,13 +654,6 @@ const FormInput = (props) => {
                            <ImagePicker
                               images={genericImageList.map((image, i) => {
                                  if (i >= genericImageList.length - 1) {
-                                    console.log(
-                                       "%c⚪️►►►► %cline:679%cgenericImageList.length",
-                                       "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                                       "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                                       "color:#fff;background:rgb(229, 187, 129);padding:3px;border-radius:2px",
-                                       genericImageList.length
-                                    );
                                     addTitlesToPicSelIMages(genericImageList);
                                  }
                                  return {
