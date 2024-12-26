@@ -154,5 +154,5 @@ strong {
       inset 0 0 20px 0 var(--iq-color-accent-2);
    border-radius: 50px;
    padding: 1em;
-   color: var(--iq-color-foreground);
+   color: var(--iq-color-background-contrast);
 }
