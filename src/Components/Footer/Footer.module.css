@@ -8,7 +8,8 @@
    transition: all 0.2s ease;
 }
 
-.footer-column a:hover {
+/* Hover turned Off for touch and stylus */
+body[class*="can-hover"] .footer-column a:hover {
    text-shadow: 0 0 3px var(--iq-color-accent);
    transform: scale(1, 1.25);
 }

@@ -174,8 +174,8 @@ body [class*="FormInput_id"] {
    padding: 0 1em;
    border-radius: 6.125px;
    transition: 0.1s all ease;
-   background: var(--iq-color-accent);
-   color: var(--iq-color-foreground);
+   background: var(--iq-color-accent-2);
+   color: var(--iq-color-background);
    border: none;
 }
 
@@ -198,7 +198,8 @@ body [class*="FormInput_id"] {
    transform-origin: 1em 1em;
 }
 
-.close-item-form-button:hover:after {
+/* Hover turned Off for touch and stylus */
+body[class*="can-hover"] .close-item-form-button:hover:after {
    /* content: "Cancel this Form?";
   position: absolute;
   top: 1em;
@@ -214,7 +215,7 @@ body [class*="FormInput_id"] {
   transition: 0.2s all ease; */
 }
 
-.close-item-form-button:hover {
+body[class*="can-hover"] .close-item-form-button:hover {
    transform: scale(1.25) !important;
    background: var(--iq-color-accent);
    color: var(--iq-color-background-contrast);

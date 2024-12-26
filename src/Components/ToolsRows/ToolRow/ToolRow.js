@@ -407,14 +407,13 @@ function ToolRow(props) {
                   letterSpacing: "0.25em",
                   fontVariant: "small-caps",
                   transform: "translateY(100%)",
-                  transition: "0.7s all ease",
                   minWidth: "5em",
                   textAlign: "center",
                   display: "flex",
                   alignItems: "center"
                }}
                colorType="primary"
-               data=""
+               data="see-more-button"
                size="small"
                open={props.openAll}
             >
@@ -543,6 +542,7 @@ function ToolRow(props) {
                         flexGrow: "1",
                         top: "-14px",
                         width: "90%",
+                        minWidth: "min-content",
                         maxWidth: " 40%",
                         fontSize: "1em",
                         color: "var(--iq-color-alert-text)",

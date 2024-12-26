@@ -128,15 +128,15 @@ https://colordesigner.io/color-palette-builder?mode=lch#FFFFFA-A1A194-5B605F-464
    --apo-color-main-title-bkg-alt-1: var(--iq-color-foreground);
    --apo-color-main-title-color-alt-1: var(--iq-color-background);
    --apo-background-image: url(https://www.transparenttextures.com/patterns/brushed-alum.png);
-   --apo-background-image-body: url(https://www.transparenttextures.com/patterns/brushed-alum.png);
-   --apo-background-body: linear-gradient(
-      0deg,
-      var(--iq-color-accent),
-      #163950
-   );
+   --apo-background-image-body: none;
+   --apo-background-body: none;
    --apo-login-status-boxshadow: var(--apo-boxshadow-inner),
       var(--apo-boxshadow-outer);
    --apo-login-status-form-boxshadow: none;
+   --apo-color-navbar-title-wrap: var(--iq-color-foreground);
+   --apo-border-radius-navbar-title-wrap: 50px 25px;
+   --apo-box-shadow-navbar-title-wrap: 1px 1px 3px -2px #000000 inset,
+      -1px -1px 3px -2px #ffffff inset;
    --iq-color-nav-buttons-background: var(--iq-color-accent);
    --iq-color-nav-buttons-color: var(--iq-color-foreground);
    --iq-color-scrollbar-track: radial-gradient(white, #00000026);
@@ -208,10 +208,10 @@ background: var(--iq-color-foreground-gradient);
    text-transform: uppercase;
    background-image: linear-gradient(
       -225deg,
-      var(--iq-color-foreground) 0%,
-      var(--iq-color-foreground) 20%,
+      var(--iq-color-accent-2-dark) 20%,
       vaR(--iq-color-accent-2) 40%,
-      var(--iq-color-accent) 100%
+      var(--iq-color-accent) 50%,
+      var(--iq-color-accent-dark) 80%
    );
    background-size: auto auto;
    background-clip: border-box;

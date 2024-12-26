@@ -7,10 +7,12 @@
 
 .fixed-header-container {
    /* background: linear-gradient(177deg, #5e5e5e 0%, #181818 67%); */
-   background: var(--iq-color-foreground-gradient);
+   /* background: var(--iq-color-foreground-gradient);
    background-image: var(--apo-background-image);
    color: var(--iq-color-accent);
-   color: var(--iq-color-foreground);
+   color: var(--iq-color-foreground); */
+   background: var(--iq-color-foreground);
+   color: var(--iq-color-background);
    overflow: hidden;
    z-index: 0;
    padding-bottom: 50px;
@@ -71,6 +73,7 @@
    font-weight: 900;
    transform: scale(1.5, 1);
    z-index: 0;
+   padding: 1em;
 }
 
 @keyframes triggerElmMeasure {
@@ -115,6 +118,7 @@
    left: 0;
    max-width: 100%;
    max-height: calc(100vh - 50px);
+   min-height: 450px;
    min-width: 100%;
    background: transparent;
    height: fit-content;
@@ -160,11 +164,12 @@
 
 .login-slide-panel .login-slide-panel-close-wrap {
    margin: 0 auto;
+   height: 25px;
    background: transparent;
    color: var(--iq-color-accent-light);
    box-shadow: none;
    min-width: min-content;
-   flex-basis: 100%;
+   /* flex-basis: 100%; */
 }
 
 .login-slide-panel .login-slide-panel-close-wrap button {
@@ -176,7 +181,12 @@
    flex-basis: 100%;
    width: 50%;
 }
-.login-slide-panel .login-slide-panel-close-wrap button:hover {
+
+/* Hover turned Off for touch and stylus */
+body[class*="can-hover"]
+   .login-slide-panel
+   .login-slide-panel-close-wrap
+   button:hover {
    background: var(--iq-color-accent);
    color: var(--iq-color-foreground);
 }
@@ -215,7 +225,7 @@ body .login-button-wrap.hide-on-small-screens button {
 
 .theme-selector-wrap {
    position: relative;
-   margin: auto 0;
+   margin: auto 0 auto 1em;
 }
 
 .theme-selector-wrap select {
@@ -257,10 +267,18 @@ body .login-button-wrap.hide-on-small-screens button {
    height: 100%;
    /* margin-bottom: -0.25em;*/
 }
+
 .navbar-container .section-title-wrap {
    margin: auto 0;
    padding: 0;
 }
+
+.navbar-container .section-title-wrap {
+   background: var(--apo-color-navbar-title-wrap);
+   border-radius: var(--apo-border-radius-navbar-title-wrap);
+   box-shadow: var(--apo-box-shadow-navbar-title-wrap);
+}
+
 span.logo-wrap path:nth-last-child(2),
 span.logo-wrap path:last-child {
    fill: #c3c3c3 !important;
@@ -279,9 +297,16 @@ span.logo-wrap path:last-child {
    padding-left: 25px;
 }
 
-.navbar-container h1:hover,
-.navbar-container h1:hover path:last-child,
-.navbar-container h1:hover path:nth-last-child(2) {
+.navbar-container button[data-data="login-or-signup-button"] {
+   /* margin-right: 8em; */
+   padding: 0 2em 0.5em;
+   min-width: 14em;
+}
+
+/* Hover turned Off for touch and stylus */
+body[class*="can-hover"] .navbar-container h1:hover,
+body[class*="can-hover"] .navbar-container h1:hover path:last-child,
+body[class*="can-hover"] .navbar-container h1:hover path:nth-last-child(2) {
    fill: var(--iq-color-accent) !important;
    color: var(--iq-color-accent);
 }
@@ -344,6 +369,9 @@ span.logo-wrap path:last-child {
    }
    .hide-on-small-screens {
       display: none !important;
+   }
+   .navbar-container .logo-wrap * {
+      max-height: 4em;
    }
 }
 

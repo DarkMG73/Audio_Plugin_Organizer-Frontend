@@ -122,7 +122,7 @@ const Header = () => {
                                  id="create-entry-btn"
                                  colorType="secondary"
                                  value="Add a Question"
-                                 data=""
+                                 data="login-or-signup-button"
                                  size="small"
                                  onClick={loginSlidePanelToggleButtonHandler}
                                  styles={{ margin: "0 auto" }}

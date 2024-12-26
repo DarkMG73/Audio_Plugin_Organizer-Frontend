@@ -24,6 +24,7 @@
    box-shadow:
       3px 3px 7px -4px #000000 inset,
       -3px -3px 7px -4px #ffffff inset;
+   height: 2em;
 }
 
 .form input[type="text"],
@@ -43,10 +44,11 @@
    justify-content: inherit;
    display: none;
 }
+
 .form > div > div {
    padding: 0;
    margin: 0 auto;
-   height: 2em;
+   /* height: 2em; */
 }
 
 .form button {

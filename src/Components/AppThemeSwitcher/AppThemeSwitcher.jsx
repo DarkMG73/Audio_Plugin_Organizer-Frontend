@@ -43,7 +43,7 @@ const AppThemeSwitcher = () => {
       const themeSelection = storage("GET", {}, "appTheme");
 
       if (!themeSelection || !themeSelection.appTheme) {
-         document.body.classList.add(Object.keys(themeOptions)[0]);
+         document.body.classList.add(Object.keys(themeOptions)[1]);
          setSavedTheme(Object.keys(themeOptions)[0]);
       } else {
          document.body.classList.add(themeSelection.appTheme);

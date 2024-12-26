@@ -96,12 +96,6 @@
    font-weight: 700;
 }
 
-.plugin-finder-container button:hover,
-.button-container label:hover {
-   background: var(--iq-color-accent);
-   color: var(--iq-color-foreground);
-}
-
 .plugin-finder-container .ignore-list-button {
    background: transparent;
    color: #ff8700;
@@ -116,13 +110,6 @@
    transition: 0.3s all ease;
 }
 
-.plugin-finder-container .ignore-list-button:hover {
-   transform: scale(2, 1.5);
-   z-index: 10;
-   background: var(--iq-color-accent);
-   color: var(--iq-color-foreground);
-}
-
 .plugin-finder-container .find-new-plugins-button {
    background: var(--iq-color-accent);
    color: var(--iq-color-foreground);
@@ -133,10 +120,7 @@
    color: var(--iq-color-accent);
    min-height: 2em;
 }
-.plugin-finder-container .find-new-plugins-button.open:hover {
-   background: var(--iq-color-accent);
-   color: var(--iq-color-foreground);
-}
+
 .plugin-finder-container button.button-action-needed {
    background: var(--iq-color-accent);
    color: var(--iq-color-foreground);
@@ -184,12 +168,8 @@
    text-shadow: 0 0 3px var(--iq-color-accent);
 }
 
-body
-   .plugin-finder-selector-wrap
-   .ignore-plugin-list-container
-   ul
-   li:hover
-   .ignore-list-button {
+body .plugin-finder-selector-wrap .ignore-plugin-list-container ul,
+.ignore-list-button {
    opacity: 0.9;
 }
 
@@ -200,10 +180,6 @@ body
 
 .plugin-finder-container [class*="required-input-error"] {
    border: none !important;
-}
-
-.plugin-finder-container button:hover {
-   transform: scale(1, 1.125);
 }
 
 .plugin-finder-selector-wrap {
@@ -349,8 +325,7 @@ body
    display: none;
 }
 
-.plugin-finder-selector-wrap li:has(input[type="checkbox"]:checked),
-.plugin-finder-container ul li:hover {
+.plugin-finder-selector-wrap li:has(input[type="checkbox"]:checked) {
    background: var(--iq-color-foreground);
    color: var(--iq-color-accent);
    box-shadow:
@@ -362,9 +337,6 @@ body
    display: inline-block;
 }
 
-.plugin-finder-selector-wrap li:has(.ignore-list-button:hover) {
-   box-shadow: none;
-}
 .plugin-finder-selector-wrap label:has(input[type="checkbox"]:checked) {
    /* transform: scale(1, 1.125) translateX(-1em); */
    font-weight: 700;
@@ -375,16 +347,6 @@ body
    display: inline-block;
    text-align: right;
    overflow: hidden;
-}
-
-.plugin-finder-container ul li:hover {
-   transform: scale(1.125) translateX(1em);
-   font-weight: 700;
-}
-
-.ignore-plugin-list-container ul li:hover {
-   transform: none;
-   font-weight: 500;
 }
 
 .plugin-finder-container .add-to-library-button {
@@ -471,6 +433,55 @@ body
    grid-column: 1 / -1;
    text-align: left;
    padding-left: 2em;
+}
+
+/* Hover turned Off for touch and stylus */
+body[class*="can-hover"] .plugin-finder-container button:hover,
+body[class*="can-hover"] .button-container label:hover {
+   background: var(--iq-color-accent);
+   color: var(--iq-color-foreground);
+}
+body[class*="can-hover"] .plugin-finder-container .ignore-list-button:hover {
+   transform: scale(2, 1.5);
+   z-index: 10;
+   background: var(--iq-color-accent);
+   color: var(--iq-color-foreground);
+}
+body[class*="can-hover"]
+   .plugin-finder-container
+   .find-new-plugins-button.open:hover {
+   background: var(--iq-color-accent);
+   color: var(--iq-color-foreground);
+}
+body[class*="can-hover"] li:hover .ignore-list-button {
+   opacity: 0.9;
+}
+body[class*="can-hover"] .plugin-finder-container button:hover {
+   transform: scale(1, 1.125);
+}
+body[class*="can-hover"] .plugin-finder-container ul li:hover {
+   background: var(--iq-color-foreground);
+   color: var(--iq-color-accent);
+   box-shadow:
+      3px 3px 7px -4px var(--iq-color-accent) inset,
+      3px 3px 7px -4px black inset;
+   padding: 0 1em;
+   border-radius: 6.125px;
+   transform: scale(1) translateX(-1em);
+   display: inline-block;
+}
+body[class*="can-hover"]
+   .plugin-finder-selector-wrap
+   li:has(.ignore-list-button:hover) {
+   box-shadow: none;
+}
+body[class*="can-hover"] .plugin-finder-container ul li:hover {
+   transform: scale(1.125) translateX(1em);
+   font-weight: 700;
+}
+body[class*="can-hover"] .ignore-plugin-list-container ul li:hover {
+   transform: none;
+   font-weight: 500;
 }
 
 @media screen and (max-width: 1024px) {

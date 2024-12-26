@@ -56,7 +56,8 @@
    transition: all 0.7s ease;
 }
 
-.open-all-button-wrap button:hover {
+/* Hover turned Off for touch and stylus */
+body[class*="can-hover"] .open-all-button-wrap button:hover {
    box-shadow: inset 0 0 30px -15px;
    color: var(--iq-color-foreground);
    background: var(--iq-color-accent-2);

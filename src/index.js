@@ -40,7 +40,10 @@ console.log(
 
 if (inDevelopment) {
    axios.defaults.baseURL = "https://api-organizer.glassinteractive.com/";
-   // axios.defaults.baseURL = "http://localhost:8000";
+   axios.defaults.baseURL = "http://localhost:8000";
+   // For iOS testing
+   axios.defaults.baseURL = "http://192.168.0.109:8000";
+
    console.log(
       "%cRunning in DEV MODE with the base URL:",
       "color:#fff;background:#027482;padding:14px;border-radius:0 25px 25px 0",
@@ -78,6 +81,11 @@ axios.interceptors.response.use(
       return Promise.reject(error);
    }
 );
+
+const canHover = !matchMedia("(hover: none)").matches;
+if (canHover) {
+   document.body.classList.add("can-hover");
+}
 
 ////////////////////////
 ///    OUTPUT
