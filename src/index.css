@@ -65,16 +65,20 @@ html {
    box-sizing: border-box;
 }
 body {
+   /* Defaults */
    background-color: #ffffff;
    color: #003647;
    font:
       normal 500 12px "Kodchasan",
       sans-serif;
    margin: 0;
+   /* Theme Settings */
    font: var(--iq-font-body-text);
+   letter-spacing: var(--apo-general-font-letter-spacing);
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
    background: var(--iq-color-foreground-gradient);
+   background: linear-gradient(177deg, #5e5e5e 0%, #121232 1%);
    background: var(--apo-background-body);
    color: var(--iq-color-background-warm);
    min-height: 100vh;
@@ -82,8 +86,8 @@ body {
    overflow: auto;
    align-items: flex-start;
    /* animation:
-      fadein 7s cubic-bezier(1, -0.16, 0.41, 1),
-      scale 3s cubic-bezier(0.97, -0.11, 0.85, 1.38); */
+    fadein 7s cubic-bezier(1, -0.16, 0.41, 1),
+    scale 3s cubic-bezier(0.97, -0.11, 0.85, 1.38); */
    animation: fadein 3s cubic-bezier(1, -0.16, 0.41, 1);
    overscroll-behavior: none;
 }

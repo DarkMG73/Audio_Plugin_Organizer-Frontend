@@ -112,6 +112,7 @@ https://colordesigner.io/color-palette-builder?mode=lch#FFFFFA-A1A194-5B605F-464
    --iq--font-heading: small-caps normal 700 24px "ANDTIOH One", sans-serif;
    --iq--font-heading-2: small-caps normal 700 18px "ANDTIOH One", sans-serif;
    --iq--font-heading-3: small-caps normal 700 18px "Michroma", sans-serif;
+   --apo-general-font-letter-spacing: 0.125em;
    --iq-spacing-heading: 0.25em;
    --iq-spacing-subheading: 0.375em;
    --iq-font-subheading: small-caps normal 700 12px "Michroma", sans-serif;
