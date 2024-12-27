@@ -101,21 +101,35 @@ function ToolsRows(props) {
                <div className={styles["filters-data-container"]}>
                   {filtersAreSelected && (
                      <Fragment>
-                        {" "}
-                        <h3
-                           key="toolsrowsList-3"
-                           className={`"section-subtitle" ${styles["section-subtitle"]}`}
-                        >
-                           There are{" "}
-                           {filteredToolsIds.length > 0
-                              ? filteredToolsIds.length
-                              : Object.keys(allTools).length}{" "}
-                           tools shown of the total{" "}
-                           {Object.keys(allTools).length}.
-                        </h3>
+                        {filteredToolsIds.length <= 0 && (
+                           <h3
+                              key="toolsrowsList-3"
+                              className={`"section-subtitle" ${styles["section-subtitle"]}`}
+                           >
+                              <span className={styles["amount-after-filters"]}>
+                                 O
+                              </span>{" "}
+                              items fit the selected filters.
+                              <br />
+                              Consider removing some of the filters.
+                           </h3>
+                        )}
+
+                        {filteredToolsIds.length > 0 && (
+                           <h3
+                              key="toolsrowsList-3"
+                              className={`"section-subtitle" ${styles["section-subtitle"]}`}
+                           >
+                              <span className={styles["amount-after-filters"]}>
+                                 {filteredToolsIds.length}
+                              </span>{" "}
+                              of the total {Object.keys(allTools).length} fit
+                              the selected filters.
+                           </h3>
+                        )}
                         <ul className={styles["filters-list-container"]}>
                            <h4 className={styles["filtered-list-title"]}>
-                              Filters Selected
+                              Filters
                            </h4>
                            {Object.entries(currentFilters).map((entry) => {
                               if (entry[1].length > 0)

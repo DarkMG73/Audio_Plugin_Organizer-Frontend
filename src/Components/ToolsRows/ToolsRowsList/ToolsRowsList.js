@@ -28,8 +28,16 @@ function ToolsRowsList(props) {
    }, [allTools]);
 
    useEffect(() => {
-      if (goToToolRows > 0)
-         toolListRef.current?.scrollIntoView({ behavior: "smooth" });
+      if (goToToolRows > 0) {
+         const yOffset = -30;
+
+         const y =
+            toolListRef.current.getBoundingClientRect().top +
+            window.scrollY +
+            yOffset;
+
+         window.scrollTo({ top: y, behavior: "smooth" });
+      }
    }, [goToToolRows]);
    // useEffect(() => {
    //   props.setScrollToToolsRowsList(sessionResultsBox);

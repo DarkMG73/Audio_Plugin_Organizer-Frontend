@@ -126,6 +126,12 @@ body[class*="can-hover"] .open-all-button-wrap button:hover {
    font-weight: 700;
 }
 
+.amount-after-filters {
+   font-weight: 700;
+   transform: scale(1.5) translate(0, -12.5%);
+   display: inline-block;
+}
+
 @media screen and (max-width: 600px) {
    .tools-rows-list-container > div {
       width: 100%;
