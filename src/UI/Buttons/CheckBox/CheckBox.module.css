@@ -1,0 +1,17 @@
+.checkbox-wrap {
+  width: 100%;
+  padding: 0 1em;
+  margin: 0.25em auto;
+}
+
+.checkbox-wrap label {
+  display: flex;
+  flex-direction: row-reverse;
+  text-align: right;
+  font-size: 10px;
+}
+
+.checkbox-wrap input {
+  height: 1em;
+  margin: auto 0.25em;
+}

@@ -1,7 +1,8 @@
 import { useEffect, Fragment } from "react";
 import styles from "./FilterTools.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import SlideButton from "../../UI/Buttons/SlideButton/SlideButton";
+import CheckBox from "../../UI/Buttons/CheckBox/CheckBox";
+// import SlideButton from '../../UI/Buttons/SlideButton/SlideButton';
 import { escapeHtml } from "../../Hooks/utility";
 import SetFilteredToolIdList from "../../Hooks/SetFilteredToolList";
 import { audioToolDataActions } from "../../store/audioToolDataSlice";
@@ -331,7 +332,7 @@ function FilterTools(props) {
                                     </h3>
                                     {toolsMetadata[topic].map((entry) => {
                                        return (
-                                          <SlideButton
+                                          <CheckBox
                                              key={entry + "30"}
                                              label={entry}
                                              onClick={filterButtonHandler}
@@ -360,3 +361,35 @@ function FilterTools(props) {
 }
 
 export default FilterTools;
+
+//  <SlideButton
+//    key={entry + '30'}
+//    label={entry}
+//    onClick={filterButtonHandler}
+//    checked={currentFilters[topic].includes(entry)}
+//    data={topic}
+//    user={user.email}
+//    slideButtonTitleStyles={{
+//      textAlign: 'right',
+//      fontSize: '10px',
+//    }}
+//  />
+
+//  <PushButton
+//                             key={entry + '30'}
+//                             inputOrButton="input"
+//                             id={entry + '-button'}
+//                             colorType="primary"
+//                             value={entry}
+//                             label={entry}
+//                             data={topic}
+//                             size="small"
+//                             onClick={filterButtonHandler}
+//                             checked={currentFilters[topic].includes(entry)}
+//                             styles={{
+//                               textAlign: 'right',
+//                               fontSize: '10px',
+//                             }}
+//                           >
+//                             Delete this Item
+//                           </PushButton>

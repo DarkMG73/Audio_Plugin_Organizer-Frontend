@@ -83,6 +83,49 @@ body[class*="can-hover"] .open-all-button-wrap button:hover {
    margin: 0 auto 3em;
 }
 
+.tools-rows-list-container .filters-data-container,
+.filters-list-container {
+   position: relative;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+   width: 100%;
+   margin: auto;
+   padding: 0;
+   flex-basis: 100%;
+}
+
+.filters-list-container {
+   margin: -1em auto 2.5em;
+}
+
+.filtered-list-title {
+   width: 100%;
+   letter-spacing: 0.25em;
+   font-variant: small-caps;
+}
+
+.filters-list-container .topic-list {
+   display: flex;
+   flex-direction: column;
+   font-variant: all-small-caps;
+   padding: 0;
+   margin: auto 1em;
+   list-style: none;
+}
+
+.filters-list-container .topic-title {
+   margin: 0;
+   border-bottom: 1px solid;
+   opacity: 0.5;
+}
+
+.filters-list-container .name {
+   margin: 0 auto;
+   color: var(--iq-color-accent-2);
+   font-weight: 700;
+}
+
 @media screen and (max-width: 600px) {
    .tools-rows-list-container > div {
       width: 100%;

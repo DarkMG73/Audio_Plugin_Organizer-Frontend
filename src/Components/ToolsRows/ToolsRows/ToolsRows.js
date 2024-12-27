@@ -17,7 +17,12 @@ function ToolsRows(props) {
    const headerPosition = useSelector(
       (state) => state.elementDimensions.header
    );
+   const { currentFilters } = useSelector((state) => state.toolsData);
+   let filtersAreSelected = false;
 
+   Object.values(currentFilters).forEach((value) => {
+      if (value.length > 0) filtersAreSelected = true;
+   });
    //  if (!headerPosition.hasOwnProperty("bottom")) headerPosition.bottom = 0;
 
    ////////////////////////////////////////
@@ -93,16 +98,53 @@ function ToolsRows(props) {
          </div>
          <div key="toolsrows-1" className={styles["tools-rows-list-container"]}>
             {!toolsToDisplay.hasOwnProperty("error") && (
-               <h3
-                  key="toolsrowsList-3"
-                  className={`"section-subtitle" ${styles["section-subtitle"]}`}
-               >
-                  There are{" "}
-                  {filteredToolsIds.length > 0
-                     ? filteredToolsIds.length
-                     : Object.keys(allTools).length}{" "}
-                  tools shown of the total {Object.keys(allTools).length}.
-               </h3>
+               <div className={styles["filters-data-container"]}>
+                  {filtersAreSelected && (
+                     <Fragment>
+                        {" "}
+                        <h3
+                           key="toolsrowsList-3"
+                           className={`"section-subtitle" ${styles["section-subtitle"]}`}
+                        >
+                           There are{" "}
+                           {filteredToolsIds.length > 0
+                              ? filteredToolsIds.length
+                              : Object.keys(allTools).length}{" "}
+                           tools shown of the total{" "}
+                           {Object.keys(allTools).length}.
+                        </h3>
+                        <ul className={styles["filters-list-container"]}>
+                           <h4 className={styles["filtered-list-title"]}>
+                              Filters Selected
+                           </h4>
+                           {Object.entries(currentFilters).map((entry) => {
+                              if (entry[1].length > 0)
+                                 return (
+                                    <ul className={styles["topic-list"]}>
+                                       <h5 className={styles["topic-title"]}>
+                                          {entry[0]}
+                                       </h5>
+                                       {entry[1].map((name) => (
+                                          <li className={styles["name"]}>
+                                             {name}
+                                          </li>
+                                       ))}
+                                    </ul>
+                                 );
+                              return false;
+                           })}
+                        </ul>
+                     </Fragment>
+                  )}
+                  {!filtersAreSelected && (
+                     <h3
+                        key="toolsrowsList-3"
+                        className={`"section-subtitle" ${styles["section-subtitle"]}`}
+                     >
+                        This library has {Object.keys(allTools).length} plugins.
+                     </h3>
+                  )}
+               </div>
             )}
             {!toolsToDisplay.hasOwnProperty("error") ? (
                sortedAllTools.map((tool) => {
