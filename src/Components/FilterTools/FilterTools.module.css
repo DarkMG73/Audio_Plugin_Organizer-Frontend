@@ -40,6 +40,7 @@
       "functions"
       "color"
       "precision"
+      "company"
       "oversampling";
    grid-template-columns: repeat(1, 1fr);
    grid-auto-rows: minmax(auto, auto);
@@ -49,16 +50,14 @@
    grid-area: favorite;
 }
 
-.outerwrap [data-topic="favorite"] input {
-   transform: translateY(12.5%);
-}
-
-.outerwrap [data-topic="favorite"] h3 {
-   transform: translateY(-25%);
+.outerwrap [data-topic="favorite"] input,
+.outerwrap [data-topic="oversampling"] input {
+   /* transform: translateY(12.5%); */
 }
 
 .outerwrap [data-topic="favorite"] h3,
-.outerwrap [data-topic="rating"] h3 {
+.outerwrap [data-topic="rating"] h3,
+.outerwrap [data-topic="oversampling"] h3 {
    transform: translateY(-17%);
    opacity: 1;
 }
@@ -81,6 +80,17 @@
 
 .slide-button-wrap .topic-group {
    overflow: visible;
+}
+
+.slide-button-wrap .topic-group button {
+   position: relative;
+   transform-origin: top;
+   transition: 0.2s all ease !important;
+}
+
+.slide-button-wrap .topic-group button:hover {
+   transform: scale(1, 1.25);
+   transform-origin: top;
 }
 
 .slide-button-inner-wrap {
@@ -162,8 +172,12 @@
 }
 
 .rating-slide-button-inner-wrap select {
-   background: var(--iq-color-background-warm-gradient);
-   color: var(--iq-color-foreground);
+   background: inherit;
+   color: inherit;
+   padding: 0 0.5em;
+   margin-left: 0.5em;
+   border-color: var(--iq-color-accent-dark);
+   box-shadow: none;
 }
 
 .rating-slide-button-inner-wrap .option-selected {

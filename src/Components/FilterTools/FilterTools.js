@@ -202,7 +202,10 @@ function FilterTools(props) {
                                  </div>
                               );
                            }
-                           if (topic === "favorite") {
+                           if (
+                              topic === "favorite" ||
+                              topic === "oversampling"
+                           ) {
                               return (
                                  <div
                                     key={topic + "10"}
@@ -223,10 +226,8 @@ function FilterTools(props) {
                                           ]
                                        }
                                     >
-                                       {toolsMetadata[topic][0] != "false" &&
-                                       topic === "oversampling"
-                                          ? "O-sample" +
-                                            toolsMetadata[topic].length
+                                       {topic === "oversampling"
+                                          ? "O-sample"
                                           : topic}
                                     </h3>
                                     <form key={"tool-filter-form-1" + topic}>
@@ -300,7 +301,7 @@ function FilterTools(props) {
                                     maxHeight="20.5em"
                                     inputOrButton="button"
                                     buttonStyles={{
-                                       margin: "0em auto 0em",
+                                       margin: "-0.75em auto 0",
                                        letterSpacing: "0.25em",
                                        fontVariant: "small-caps",
                                        // transform: 'translateY(0%)',

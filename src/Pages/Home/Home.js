@@ -67,9 +67,10 @@ const Home = () => {
                         maxWidth: "223px",
                         width: "223px",
                         position: "sticky",
-                        height: "100vh",
+                        height: "calc(100vh - 39px)",
                         overflowY: "auto",
-                        top: "0"
+                        top: "0",
+                        paddingBottom: "7em"
                      }}
                   >
                      <ErrorBoundary>
@@ -91,10 +92,10 @@ const Home = () => {
                      maxWidth: "223px",
                      width: "223px",
                      position: "sticky",
-                     height: "100vh",
+                     height: "calc(100vh - 39px)",
                      overflowY: "auto",
                      top: "38px",
-                     paddingbottom: "75px"
+                     paddingBottom: "7em"
                   }}
                >
                   <ErrorBoundary>

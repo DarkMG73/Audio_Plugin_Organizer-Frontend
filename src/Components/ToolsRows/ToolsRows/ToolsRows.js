@@ -132,19 +132,39 @@ function ToolsRows(props) {
                               Filters
                            </h4>
                            {Object.entries(currentFilters).map((entry) => {
-                              if (entry[1].length > 0)
-                                 return (
-                                    <ul className={styles["topic-list"]}>
-                                       <h5 className={styles["topic-title"]}>
-                                          {entry[0]}
-                                       </h5>
-                                       {entry[1].map((name) => (
-                                          <li className={styles["name"]}>
-                                             {name}
-                                          </li>
-                                       ))}
-                                    </ul>
-                                 );
+                              if (entry[1].length > 0) {
+                                 if (
+                                    entry[0] === "favorite" ||
+                                    entry[0] === "oversampling"
+                                 ) {
+                                    return (
+                                       <ul className={styles["topic-list"]}>
+                                          <h5 className={styles["topic-title"]}>
+                                             {entry[0]}
+                                          </h5>
+                                          {entry[1].map((name) => (
+                                             <li className={styles["name"]}>
+                                                True
+                                             </li>
+                                          ))}
+                                       </ul>
+                                    );
+                                 } else {
+                                    return (
+                                       <ul className={styles["topic-list"]}>
+                                          <h5 className={styles["topic-title"]}>
+                                             {entry[0]}
+                                          </h5>
+                                          {entry[1].map((name) => (
+                                             <li className={styles["name"]}>
+                                                {name}
+                                             </li>
+                                          ))}
+                                       </ul>
+                                    );
+                                 }
+                              }
+
                               return false;
                            })}
                         </ul>

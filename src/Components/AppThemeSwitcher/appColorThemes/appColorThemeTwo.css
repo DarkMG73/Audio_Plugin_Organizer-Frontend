@@ -150,8 +150,7 @@ https://colordesigner.io/color-palette-builder?mode=lch#121232-C1E6F6-43BDE9-2F5
 .themeTwo select {
    border: 1px solid var(--iq-color-accent);
    border-radius: 50px;
-   padding: 0 0.5em;
-   margin-left: 0.5em;
+   padding: 0.25em 1em;
    background: var(--iq-color-accent);
    color: var(--iq-color-background-cool);
    background: var(--iq-color-accent-gradient);
