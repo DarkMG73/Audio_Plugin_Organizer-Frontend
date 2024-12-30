@@ -42,7 +42,7 @@
 /* Hover turned Off for touch and stylus */
 body[class*="can-hover"] .slider-panel-button:hover {
    background: var(--iq-color-accent);
-   transform: rotate(-90deg) translateY(-175%) translateX(0%);
+   transform: rotate(-90deg) translateY(-225%) translateX(0%);
 }
 
 .open {

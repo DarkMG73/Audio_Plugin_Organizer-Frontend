@@ -13,7 +13,14 @@ function FilterTools(props) {
    const user = useSelector((state) => state.auth.user);
    const dispatch = useDispatch();
    const { currentFilters, allTools, toolsMetadata } = allToolsData;
-
+   const doNotFilterList = [
+      "name",
+      "productURL",
+      "photoURL",
+      "notes",
+      "masterLibraryID",
+      "identifier"
+   ];
    ////////////////////////////////////////
    /// EFFECTS
    ////////////////////////////////////////
@@ -120,12 +127,7 @@ function FilterTools(props) {
                   >
                      {currentFilters &&
                         Object.keys(currentFilters).map((topic) => {
-                           if (
-                              topic === "name" ||
-                              topic.includes("URL") ||
-                              topic === "notes"
-                           )
-                              return;
+                           if (doNotFilterList.includes(topic)) return;
 
                            if (topic === "rating") {
                               return (
@@ -138,6 +140,7 @@ function FilterTools(props) {
                                           topic + "-slide-button-inner-wrap"
                                        ]
                                     }
+                                    data-topic={topic}
                                  >
                                     <h3
                                        key={topic + "2"}
@@ -199,10 +202,7 @@ function FilterTools(props) {
                                  </div>
                               );
                            }
-                           if (
-                              topic === "oversampling" ||
-                              topic === "favorite"
-                           ) {
+                           if (topic === "favorite") {
                               return (
                                  <div
                                     key={topic + "10"}
@@ -213,6 +213,7 @@ function FilterTools(props) {
                                           topic + "-slide-button-inner-wrap"
                                        ]
                                     }
+                                    data-topic={topic}
                                  >
                                     <h3
                                        key={topic + "20"}
@@ -282,74 +283,78 @@ function FilterTools(props) {
                               );
                            }
                            return (
-                              <CollapsibleElm
-                                 key={topic + "20"}
-                                 id={topic + "-collapsible-elm"}
-                                 styles={{
-                                    position: "relative",
-                                    display: "flex",
-                                    flexWrap: "wrap",
-                                    justifyContent: "space-between",
-                                    margin: "0 auto 1.5em"
-                                 }}
-                                 maxHeight="20.5em"
-                                 inputOrButton="button"
-                                 buttonStyles={{
-                                    margin: "-2em auto 3em",
-                                    letterSpacing: "0.25em",
-                                    fontVariant: "small-caps",
-                                    // transform: 'translateY(0%)',
-                                    transition: "0.7s all ease",
-                                    minWidth: "100%",
-                                    textAlign: "center",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    zIndex: "10",
-                                    borderRadius: "50px",
-                                    paddingBottom: "0.5em",
-                                    paddingTop: "0.5em"
-                                 }}
-                                 colorType="secondary"
-                                 data=""
-                                 size="small"
-                                 open={false}
+                              <div
+                                 key={topic + "30"}
+                                 className={styles["topic-group"]}
+                                 data-topic={topic}
                               >
-                                 <div
-                                    key={topic + "30"}
-                                    className={
-                                       styles["slide-button-inner-wrap"]
-                                    }
+                                 <CollapsibleElm
+                                    key={topic + "20"}
+                                    id={topic + "-collapsible-elm"}
+                                    styles={{
+                                       position: "relative",
+                                       display: "flex",
+                                       flexWrap: "wrap",
+                                       justifyContent: "space-between"
+                                    }}
+                                    maxHeight="20.5em"
+                                    inputOrButton="button"
+                                    buttonStyles={{
+                                       margin: "0em auto 0em",
+                                       letterSpacing: "0.25em",
+                                       fontVariant: "small-caps",
+                                       // transform: 'translateY(0%)',
+                                       transition: "0.7s all ease",
+                                       minWidth: "100%",
+                                       textAlign: "center",
+                                       display: "flex",
+                                       alignItems: "center",
+                                       zIndex: "10",
+                                       borderRadius: "0 0 50px 50px",
+                                       paddingBottom: "0.5em",
+                                       paddingTop: "0.5em"
+                                    }}
+                                    colorType="secondary"
+                                    size="small"
+                                    open={false}
                                  >
-                                    <h3
-                                       key={topic + "40"}
+                                    <div
+                                       key={topic + "30"}
                                        className={
-                                          styles[
-                                             "slide-button-inner-wrap-title"
-                                          ]
+                                          styles["slide-button-inner-wrap"]
                                        }
                                     >
-                                       {topic}
-                                    </h3>
-                                    {toolsMetadata[topic].map((entry) => {
-                                       return (
-                                          <CheckBox
-                                             key={entry + "30"}
-                                             label={entry}
-                                             onClick={filterButtonHandler}
-                                             checked={currentFilters[
-                                                topic
-                                             ].includes(entry)}
-                                             data={topic}
-                                             user={user.email}
-                                             slideButtonTitleStyles={{
-                                                textAlign: "right",
-                                                fontSize: "10px"
-                                             }}
-                                          />
-                                       );
-                                    })}
-                                 </div>
-                              </CollapsibleElm>
+                                       <h3
+                                          key={topic + "40"}
+                                          className={
+                                             styles[
+                                                "slide-button-inner-wrap-title"
+                                             ]
+                                          }
+                                       >
+                                          {topic}
+                                       </h3>
+                                       {toolsMetadata[topic].map((entry) => {
+                                          return (
+                                             <CheckBox
+                                                key={entry + "30"}
+                                                label={entry}
+                                                onClick={filterButtonHandler}
+                                                checked={currentFilters[
+                                                   topic
+                                                ].includes(entry)}
+                                                data={topic}
+                                                user={user.email}
+                                                slideButtonTitleStyles={{
+                                                   textAlign: "right",
+                                                   fontSize: "10px"
+                                                }}
+                                             />
+                                          );
+                                       })}
+                                    </div>
+                                 </CollapsibleElm>
+                              </div>
                            );
                         })}
                   </div>

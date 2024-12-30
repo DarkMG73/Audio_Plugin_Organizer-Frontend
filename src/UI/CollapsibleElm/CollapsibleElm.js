@@ -91,6 +91,7 @@ function CollapsibleElm(props) {
             ref={textRef}
             className={styles["collapsible-elm"]}
             style={elmOpenStyles}
+            {...props.dataAttribute}
          >
             {props.children}
          </div>
