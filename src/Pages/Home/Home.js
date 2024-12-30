@@ -70,7 +70,8 @@ const Home = () => {
                         height: "calc(100vh - 39px)",
                         overflowY: "auto",
                         top: "0",
-                        paddingBottom: "7em"
+                        paddingBottom: "7em",
+                        borderRadius: "50px 50px 0 0"
                      }}
                   >
                      <ErrorBoundary>
@@ -95,7 +96,8 @@ const Home = () => {
                      height: "calc(100vh - 39px)",
                      overflowY: "auto",
                      top: "38px",
-                     paddingBottom: "7em"
+                     paddingBottom: "7em",
+                     borderRadius: "50px 50px 0 0"
                   }}
                >
                   <ErrorBoundary>

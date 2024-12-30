@@ -125,7 +125,7 @@ function ToolsRowsList(props) {
                />
             )}
          </div>
-         <PluginFinder isDesktopApp={props.isDesktopApp} />
+         {user && <PluginFinder isDesktopApp={props.isDesktopApp} />}
          <div
             key={"tool-list-wrap-key"}
             className={styles["tool-list-wrap"]}
