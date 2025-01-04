@@ -27,7 +27,7 @@ console.log(
    "color:#fff;background:rgb(96, 143, 159);padding:3px;border-radius:2px",
    inDevelopment
 );
-// axios.defaults.baseURL = "https://api-audio-plugin-organizer.herokuapp.com/";
+
 axios.defaults.baseURL = "https://api-organizer.glassinteractive.com/";
 
 console.log(
