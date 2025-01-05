@@ -13,6 +13,7 @@ function ToolsRows(props) {
    const toolsToDisplayCategories = [];
    const toolsToDisplayRows = {};
    const [openAll, setOpenAll] = useState(false);
+   const [displayFormat, setDisplayFormat] = useState("grid");
    const filteredToolsIds = props.filteredToolsIds;
    const headerPosition = useSelector(
       (state) => state.elementDimensions.header
@@ -56,47 +57,24 @@ function ToolsRows(props) {
       setOpenAll(!openAll);
    };
 
+   const displayFormatChangeButtonHandler = (e) => {
+      setDisplayFormat(e.target.value);
+   };
+
    ////////////////////////////////////////
    /// OUTPUT
    ////////////////////////////////////////
    return (
       <>
          <div
-            key="open-all-button-wrap"
-            className={styles["open-all-button-wrap"]}
-            style={{ top: headerPosition.bottom + "px" }}
+            key="toolsrows-1"
+            className={
+               styles["tools-rows-list-container"] +
+               " " +
+               "display-format-" +
+               displayFormat
+            }
          >
-            {" "}
-            {!toolsToDisplay.hasOwnProperty("error") && (
-               <PushButton
-                  key={"open-all-button"}
-                  inputOrButton="button"
-                  styles={{
-                     width: "75%",
-                     letterSpacing: "var(--iq-spacing-subheading)",
-                     fontSize: "calc(0.8rem + 0.2vw)",
-                     fontVariant: "all-small-caps",
-                     textAlign: "center",
-                     display: "flex",
-                     justifyContent: "center",
-                     margin: "auto",
-                     padding: "calc(0.25em + 0.4vh)  1.5em",
-                     transform: "none",
-                     borderRadius: "50px"
-                  }}
-                  id={"open-all-button"}
-                  colorType="secondary"
-                  value="Open All"
-                  data=""
-                  size=""
-                  onClick={openAllButtonHandler}
-               >
-                  {!openAll && <Fragment>Expand All Tools</Fragment>}
-                  {openAll && <Fragment>Collapse All Tools</Fragment>}
-               </PushButton>
-            )}
-         </div>
-         <div key="toolsrows-1" className={styles["tools-rows-list-container"]}>
             {!toolsToDisplay.hasOwnProperty("error") && (
                <div className={styles["filters-data-container"]}>
                   {filtersAreSelected && (
@@ -180,6 +158,163 @@ function ToolsRows(props) {
                   )}
                </div>
             )}
+            <div
+               key="display-button-container"
+               className={styles["display-button-container"]}
+            >
+               <h4 className={styles["display-section-title"]}>
+                  {displayFormat} Display
+               </h4>
+               <div
+                  key="display-button-wrap"
+                  className={styles["display-button-wrap"]}
+               >
+                  {displayFormat !== "grid" && (
+                     <PushButton
+                        key={"display-format-grid-button"}
+                        inputOrButton="button"
+                        styles={{
+                           width: "75%",
+                           letterSpacing: "var(--iq-spacing-subheading)",
+                           fontSize: "calc(0.8rem + 0.2vw)",
+                           fontVariant: "all-small-caps",
+                           textAlign: "center",
+                           display: "flex",
+                           justifyContent: "center",
+                           margin: "auto",
+                           padding: "0.25em",
+                           transform: "none",
+                           borderRadius: "0"
+                        }}
+                        id={"display-format-grid-button"}
+                        colorType="primary"
+                        value="grid"
+                        data=""
+                        size=""
+                        onClick={displayFormatChangeButtonHandler}
+                     >
+                        Grid
+                     </PushButton>
+                  )}
+
+                  {displayFormat !== "lines" && (
+                     <PushButton
+                        key="display-format-lines-button"
+                        inputOrButton="button"
+                        styles={{
+                           width: "75%",
+                           letterSpacing: "var(--iq-spacing-subheading)",
+                           fontSize: "calc(0.8rem + 0.2vw)",
+                           fontVariant: "all-small-caps",
+                           textAlign: "center",
+                           display: "flex",
+                           justifyContent: "center",
+                           margin: "auto",
+                           padding: "0.25em",
+                           transform: "none",
+                           borderRadius: "0"
+                        }}
+                        id="display-format-lines-button"
+                        colorType="primary"
+                        value="lines"
+                        data=""
+                        size=""
+                        onClick={displayFormatChangeButtonHandler}
+                     >
+                        Lines
+                     </PushButton>
+                  )}
+
+                  {displayFormat !== "streamlined" && (
+                     <PushButton
+                        key="display-format-streamlined-button"
+                        inputOrButton="button"
+                        styles={{
+                           width: "75%",
+                           letterSpacing: "var(--iq-spacing-subheading)",
+                           fontSize: "calc(0.8rem + 0.2vw)",
+                           fontVariant: "all-small-caps",
+                           textAlign: "center",
+                           display: "flex",
+                           justifyContent: "center",
+                           margin: "auto",
+                           padding: "0.25em",
+                           transform: "none",
+                           borderRadius: "0"
+                        }}
+                        id="display-format-streamlined-button"
+                        colorType="primary"
+                        value="streamlined"
+                        data=""
+                        size=""
+                        onClick={displayFormatChangeButtonHandler}
+                     >
+                        Streamlined
+                     </PushButton>
+                  )}
+                  {displayFormat !== "minimal" && (
+                     <PushButton
+                        key="display-format-minimal-button"
+                        inputOrButton="button"
+                        styles={{
+                           width: "75%",
+                           letterSpacing: "var(--iq-spacing-subheading)",
+                           fontSize: "calc(0.8rem + 0.2vw)",
+                           fontVariant: "all-small-caps",
+                           textAlign: "center",
+                           display: "flex",
+                           justifyContent: "center",
+                           margin: "auto",
+                           padding: "0.25em",
+                           transform: "none",
+                           borderRadius: "0"
+                        }}
+                        id="display-format-minimal-button"
+                        colorType="primary"
+                        value="minimal"
+                        data=""
+                        size=""
+                        onClick={displayFormatChangeButtonHandler}
+                     >
+                        Minimal
+                     </PushButton>
+                  )}
+               </div>
+            </div>
+            <div
+               key="open-all-button-wrap"
+               className={styles["open-all-button-wrap"]}
+               style={{ top: headerPosition.bottom + "px" }}
+            >
+               {!toolsToDisplay.hasOwnProperty("error") && (
+                  <PushButton
+                     key={"open-all-button"}
+                     inputOrButton="button"
+                     styles={{
+                        width: "75%",
+                        letterSpacing: "var(--iq-spacing-subheading)",
+                        fontSize: "calc(0.8rem + 0.2vw)",
+                        fontVariant: "all-small-caps",
+                        textAlign: "center",
+                        display: "flex",
+                        justifyContent: "center",
+                        margin: "auto",
+                        padding: "calc(0.25em + 0.4vh)  1.5em",
+                        transform: "none",
+                        borderRadius: "50px"
+                     }}
+                     id={"open-all-button"}
+                     colorType="secondary"
+                     value="Open All"
+                     data=""
+                     size=""
+                     onClick={openAllButtonHandler}
+                  >
+                     {!openAll && <Fragment>Expand All Tools</Fragment>}
+                     {openAll && <Fragment>Collapse All Tools</Fragment>}
+                  </PushButton>
+               )}
+            </div>
             {!toolsToDisplay.hasOwnProperty("error") ? (
                sortedAllTools.map((tool) => {
                   const key = tool[0];

@@ -100,6 +100,10 @@ https://colordesigner.io/color-palette-builder?mode=lch#121232-C1E6F6-43BDE9-2F5
       #43bde9 -17%,
       #121232 36%
    );
+   --iq-color-foreground-radial-gradient: radial-gradient(
+      var(--iq-color-accent) 20%,
+      var(--iq-color-foreground) 80%
+   );
 
    /*** Alert ***/
    --iq-color-alert-red: #e74c3c;

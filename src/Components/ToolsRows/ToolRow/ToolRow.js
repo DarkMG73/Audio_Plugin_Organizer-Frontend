@@ -185,7 +185,16 @@ function ToolRow(props) {
                value = (
                   <ul
                      key={value + 10}
-                     className={styles[title + "list"] + " " + styles.list}
+                     className={
+                        styles[title + "list"] +
+                        " " +
+                        styles.list +
+                        " " +
+                        title +
+                        "list" +
+                        " " +
+                        "list"
+                     }
                   >
                      {value.map((item) => (
                         <li key={item + 11}>{item}</li>
@@ -321,14 +330,29 @@ function ToolRow(props) {
                   " " +
                   styles[title] +
                   " " +
-                  styles[favoriteClass]
+                  styles[favoriteClass] +
+                  " " +
+                  title +
+                  "-wrap" +
+                  " " +
+                  "grid-item" +
+                  " " +
+                  title +
+                  " " +
+                  favoriteClass
                }
             >
                <div
                   key={itemTitle + value}
                   className={`${styles[title + "-title"]}
                ${styles["grid-item-title"]} 
-               ${styles["grid-item-child"]} `}
+               ${styles["grid-item-child"]} 
+               
+               ${title}+ -title
+               grid-item-title
+              grid-item-child
+               
+               `}
                >
                   {itemTitle}
                </div>
@@ -358,9 +382,10 @@ function ToolRow(props) {
                >
                   <div
                      key={key + value}
-                     className={` ${styles[title + "-text"]}
+                     className={` ${styles[title + "-text"]} 
             ${styles["grid-item-text"]} 
-            ${styles["grid-item-child"]}`}
+            ${styles["grid-item-child"]} ${title}-text grid-item-text grid-item-child
+            `}
                      ref={(elm) => {
                         //  Moving this out of processing to handle after elements added.
                         setTimeout(() => {
@@ -418,7 +443,12 @@ function ToolRow(props) {
                open={props.openAll}
             >
                {AssembleInnerRow(tool, key, toolRowOrder)}
-               <div key={key + "3"} className={styles["button-container"]}>
+               <div
+                  key={key + "3"}
+                  className={
+                     styles["button-container"] + " " + "button-container"
+                  }
+               >
                   <PushButton
                      key={key + "4"}
                      inputOrButton="button"
@@ -489,7 +519,10 @@ function ToolRow(props) {
                         >
                            Delete Tool
                         </PushButton>
-                        <div key={key + "6"} className={styles["tool-id"]}>
+                        <div
+                           key={key + "6"}
+                           className={styles["tool-id"] + " " + "tool-id"}
+                        >
                            <p key={"toolrow-button-p" + key}>
                               Tool ID:
                               <br key={"toolrow-button-br" + key} />
@@ -503,8 +536,12 @@ function ToolRow(props) {
          </CardSecondary>
          {inEditMode && (
             <>
-               <div className={styles.overlay}></div>
-               <div className={styles["editing-fields-wrap"]}>
+               <div className={styles.overlay + " " + "overlay"}></div>
+               <div
+                  className={
+                     styles["editing-fields-wrap"] + " " + "editing-fields-wrap"
+                  }
+               >
                   <AddAToolForm
                      key={key + "7"}
                      saveOrUpdateData="update"
@@ -564,14 +601,20 @@ function ToolRow(props) {
          <div
             className={`${styles["tool-row-wrap"]} ${
                styles["status-" + tool.status]
-            }`}
+            } 
+        
+        tool-row-wrap status-${tool.status}
+        `}
          >
             {output}
          </div>
       );
    } else {
       return (
-         <div key={"deleted" + key} className={styles.deleted}>
+         <div
+            key={"deleted" + key}
+            className={styles.deleted + " " + "deleted"}
+         >
             <h3 key={key + "9"}>This tool was deleted (ID: {key})</h3>
          </div>
       );

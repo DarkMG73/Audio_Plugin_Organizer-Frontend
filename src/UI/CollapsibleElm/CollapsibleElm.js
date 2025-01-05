@@ -79,10 +79,22 @@ function CollapsibleElm(props) {
 
    if (elmOpen) {
       elmOpenStyles = { maxHeight: "100000px", ...props.styles };
-      seeMoreButtonText = <span>&uarr; See Less &uarr;</span>;
+      seeMoreButtonText = (
+         <span>
+            &uarr;{" "}
+            {props.seeLessButtonText ? props.seeLessButtonText : "See Less"}{" "}
+            &uarr;
+         </span>
+      );
    } else {
       elmOpenStyles = { maxHeight: props.maxHeight, ...props.styles };
-      seeMoreButtonText = <span>&darr; See More &darr;</span>;
+      seeMoreButtonText = (
+         <span>
+            &darr;{" "}
+            {props.seeMoreButtonText ? props.seeMoreButtonText : "See More"}{" "}
+            &darr;
+         </span>
+      );
    }
 
    output = (
