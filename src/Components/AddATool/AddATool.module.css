@@ -59,6 +59,11 @@
    font-size: 0.9em;
 }
 
+.button-section-container button:hover {
+   text-shadow: 0 0 1px;
+   transform: scale(1.1);
+   transition: 0.1s all ease;
+}
 .cvs-buttons-container {
    display: flex;
    justify-content: center;
