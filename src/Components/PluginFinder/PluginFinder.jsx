@@ -1,56 +1,154 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect, useReducer, Fragment } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Styles from "./PluginFinder.module.css";
 import { getLocalPluginData } from "../../storage/audioToolsDB";
 import BarLoader from "../../UI/Loaders/BarLoader/BarLoader";
 import AddAToolForm from "../AddATool/AddAToolForm";
 import useGroomDataForToolForm from "../../Hooks/useGroomDataForToolForm";
+import useSaveAudioFormData from "../../Hooks/useSaveAudioFormData";
 import {
    updateUserPluginPaths,
-   updateIgnoredPlugins
+   updateIgnoredPlugins,
+   updateMissingIgnoredPlugins
 } from "../../storage/userDB";
+import CollapsibleElm from "../../UI/CollapsibleElm/CollapsibleElm";
+import { authActions } from "../../store/authSlice";
+import { loadingRequestsActions } from "../../store/loadingRequestsSlice";
 
 const PluginFinder = (props) => {
    // If running browser version, send to download page
    const { isDesktopApp } = props;
+   const dispatch = useDispatch();
    const { user } = useSelector((state) => state.auth);
    const { allTools } = useSelector((state) => state.toolsData);
    const acceptedPluginWrappers = ["vst", "vst3", "component"];
    const [fileNames, setFileNames] = useState([]);
+   const [missingFileNames, setMissingFileNames] = useState([]);
    const [addToLibrary, setAddToLibrary] = useState([]);
    const [userFilesToGroomArray, setUserFilesToGroomArray] = useState(false);
    const [sendToLibrary, setSendToLibrary] = useState(false);
    const [findNewPlugins, setFindNewPlugins] = useState(false);
    const [pluginPathsObj, setPluginPathsObj] = useState({});
+   const [formOpen, setFormOpen] = useState(true);
    const [showPluginPathSaveButton, setShowPluginPathSaveButton] =
       useState(false);
    const [showHidePluginPathsButton, setShowHidePluginPathsButton] =
       useState(false);
    const [showPluginPaths, setShowPluginPaths] = useState(false);
+   const [showMissingPlugins, setShowMissingPlugins] = useState(false);
+
    const [noPluginPathsExist, setNoPluginPathsExist] = useState(true);
    const [ignorePluginList, setIgnorePluginList] = useState([]);
+   const [missingIgnorePluginList, setMissingIgnorePluginList] = useState(
+      user.missingIgnoredPlugins ? [...user.missingIgnoredPlugins] : []
+   );
+   const [missingPluginsInModal, setMissingPluginsInModal] = useState(true);
    const [showSaveIgnoreListButton, setShowSaveIgnoreListButton] =
+      useState(false);
+   const [showSaveMissingIgnoreListButton, setShowSaveMissingIgnoreListButton] =
       useState(false);
    const groomDataForToolForm = useGroomDataForToolForm();
    const toolsSchema = useSelector((state) => state.toolsData.toolsSchema);
-   const [activateLoader, setActivateLoader] = useState(false);
-
-   // useEffect(() => {
-   //   console.log('fileNames---->', fileNames);
-   //   console.log('ignorePluginList---->', ignorePluginList);
-   // }, [fileNames, ignorePluginList]);
+   const [activateLoader, setActivateLoader] = useState(0);
+   const saveAudioFormData = useSaveAudioFormData();
+   const cleanStr = (str) => str.toLowerCase().replaceAll(" ", "");
+   const specialBundles = {
+      EffectRack: {
+         bundleTitle: "EffectRack",
+         company: "Sound Toys",
+         items: [
+            "Crystallizer",
+            "Decapitator",
+            "Devil-LocDelux",
+            "EchoBoy",
+            "EchoBoyJr",
+            "FilterFreak",
+            "FilterFreak2",
+            "MicroShift",
+            "PanMan",
+            "PhaseMistress",
+            "PrimalTap",
+            "Radiator",
+            "Sie-Q"
+         ]
+      }
+   };
+   useEffect(() => {
+      console.log(
+         "%c⚪️►►►► %cline:78%cactivateLoader",
+         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+         "color:#fff;background:rgb(237, 222, 139);padding:3px;border-radius:2px",
+         activateLoader
+      );
+      // if (activateLoader < 0) setActivateLoader(0);
+   }, [activateLoader]);
 
    useEffect(() => {
-      let pluginPathsExist = false;
+      // Update rendered list after closing form.
+      dispatch(loadingRequestsActions.addToLoadRequest());
 
-      if (pluginPathsObj) {
-         Object.values(pluginPathsObj).forEach((path) => {
-            if (!pluginPathsExist && path) pluginPathsExist = true;
+      if (!formOpen) {
+         console.log(
+            "%c⚪️►►►► %cline:85%cformOpen",
+            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+            "color:#fff;background:rgb(34, 8, 7);padding:3px;border-radius:2px",
+            formOpen
+         );
+         dispatch(authActions.refreshUser(Math.random(10000)));
+         setFileNames([]);
+         setUserFilesToGroomArray(false);
+         setAddToLibrary([]);
+         setFindNewPlugins(!findNewPlugins);
+         alert("clearing add to library");
+      }
+      setTimeout(() => {
+         dispatch(loadingRequestsActions.removeFromLoadRequest());
+      }, 7000);
+   }, [formOpen]);
+
+   useEffect(() => {
+      console.log(
+         "%c⚪️►►►► %cline:117%cuser",
+         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+         "color:#fff;background:rgb(17, 63, 61);padding:3px;border-radius:2px",
+         user
+      );
+      if (user && Object.hasOwn(user, "pluginPaths")) {
+         console.log(
+            "%c⚪️►►►► %cline:114%cuser.pluginPaths",
+            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+            "color:#fff;background:rgb(229, 187, 129);padding:3px;border-radius:2px",
+            user.pluginPaths
+         );
+         let pluginPaths = false;
+         Object.values(user.pluginPaths).forEach((path) => {
+            console.log(
+               "%c⚪️►►►► %cline:117%cpath",
+               "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+               "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+               "color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px",
+               path
+            );
+            if (pluginPaths) return;
+            if (path && path.replaceAll(" ", "") !== "") {
+               pluginPaths = true;
+               console.log(
+                  "%c⚪️►►►► %cline:121%cpluginPaths",
+                  "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                  "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                  "color:#fff;background:rgb(118, 77, 57);padding:3px;border-radius:2px",
+                  pluginPaths
+               );
+               setNoPluginPathsExist(false);
+            }
+            if (!pluginPaths) setNoPluginPathsExist(true);
          });
       }
-
-      if (pluginPathsExist) setNoPluginPathsExist(false);
-   }, [pluginPathsObj]);
+   }, [user]);
 
    useEffect(() => {
       const userPluginPaths =
@@ -74,9 +172,28 @@ const PluginFinder = (props) => {
 
    useEffect(() => {
       if (findNewPlugins) {
-         setActivateLoader(true);
+         setActivateLoader(activateLoader + 1);
+         console.log(
+            "%c⚪️►►►► %cline:175%csetActivateLoader1",
+            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+            "color:#fff;background:rgb(56, 13, 49);padding:3px;border-radius:2px",
+            setActivateLoader
+         );
          getLocalPluginData(user, pluginPathsObj)
             .then((data) => {
+               setTimeout(() => {
+                  setActivateLoader((prevState) => prevState - 1);
+                  console.log(
+                     "%c⚪️►►►► %cline:247%cactivateLoader1 - 1",
+                     "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                     "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                     "color:#fff;background:rgb(34, 8, 7);padding:3px;border-radius:2px",
+                     activateLoader - 1
+                  );
+               }, 3000);
+
+               if (!data || data.length <= 0) return;
                const acceptedPluginNames = new Set();
 
                data.forEach((name) => {
@@ -85,11 +202,26 @@ const PluginFinder = (props) => {
                   const isValid = acceptedPluginWrappers.includes(
                      nameArray[name.split(".").length - 1]
                   );
-
-                  if (isValid) acceptedPluginNames.add(nameArray[0]);
+                  // Remove Waves (not yet supported)
+                  if (
+                     isValid &&
+                     !cleanStr(nameArray[0]).includes("waveshell")
+                  ) {
+                     // Treat differently if  bundle
+                     for (const [name, bundle] of Object.entries(
+                        specialBundles
+                     )) {
+                        if (name === nameArray[0]) {
+                           bundle.items.forEach((item) => {
+                              acceptedPluginNames.add(item);
+                           });
+                        }
+                     }
+                     acceptedPluginNames.add(nameArray[0]);
+                  }
                });
 
-               const matchedNames = [];
+               const matchedNames = [...missingIgnorePluginList];
                const groomedList = [];
                // Remove existing and ignored plugin names
                for (const name of acceptedPluginNames) {
@@ -97,17 +229,14 @@ const PluginFinder = (props) => {
                      for (const value of Object.values(allTools)) {
                         const referenceID = value.masterLibraryID || value.name;
 
-                        if (
-                           name
-                              .replaceAll(" ", "")
-                              .includes(referenceID.replaceAll(" ", ""))
-                        ) {
+                        if (cleanStr(name) === cleanStr(referenceID)) {
                            matchedNames.push(name);
                            break;
                         }
                      }
                   }
 
+                  // Add to found plugin list if not in user library
                   if (
                      !matchedNames.includes(name) &&
                      !ignorePluginList.includes(name)
@@ -116,21 +245,62 @@ const PluginFinder = (props) => {
                   }
                }
 
+               // Disable all not on computer
+               const missingList = [];
+               for (const value of Object.values(allTools)) {
+                  if (cleanStr(value.company) === "waves") continue;
+                  const nameFound = matchedNames.filter(
+                     (name) =>
+                        cleanStr(name) === cleanStr(value.masterLibraryID)
+                  );
+                  if (nameFound.length <= 0) {
+                     // Treat differently if  bundle
+                     for (const [name, bundle] of Object.entries(
+                        specialBundles
+                     )) {
+                        if (
+                           name !== value.masterLibraryID &&
+                           cleanStr(value.status) === "active"
+                        ) {
+                           const inBundle = bundle.items.filter(
+                              (item) => item === value.masterLibraryID
+                           );
+                           if (inBundle.length <= 0)
+                              missingList.push(value.masterLibraryID);
+                        }
+                     }
+                  }
+               }
+
+               setMissingFileNames(
+                  missingList.sort((a, b) => a.localeCompare(b))
+               );
                setFileNames(groomedList.sort((a, b) => a.localeCompare(b)));
-               setTimeout(() => {
-                  setActivateLoader(false);
-               }, 3000);
             })
             .catch((err) => {
                setTimeout(() => {
-                  setActivateLoader(false);
+                  setActivateLoader((prevState) => prevState - 1);
+                  console.log(
+                     "%c⚪️►►►► %cline:253%cactivateLoader1 - 1",
+                     "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                     "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                     "color:#fff;background:rgb(114, 83, 52);padding:3px;border-radius:2px",
+                     activateLoader - 1
+                  );
                }, 3000);
                console.log("err->", err);
             });
       } else {
-         setTimeout(() => {
-            setActivateLoader(false);
-         }, 3000);
+         // setTimeout(() => {
+         //   setActivateLoader(prevState=>prevState - 1);
+         //   console.log(
+         //     '%c⚪️►►►► %cline:260%cactivateLoader1 - 1',
+         //     'color:#fff;background:#ee6f57;padding:3px;border-radius:2px',
+         //     'color:#fff;background:#1f3c88;padding:3px;border-radius:2px',
+         //     'color:#fff;background:rgb(38, 157, 128);padding:3px;border-radius:2px',
+         //     activateLoader - 1,
+         //   );
+         // }, 3000);
       }
    }, [findNewPlugins]);
 
@@ -158,10 +328,23 @@ const PluginFinder = (props) => {
 
          setUserFilesToGroomArray(groomedData);
          setSendToLibrary(false);
+         setTimeout(() => {
+            console.log(
+               "%c⚪️►►►► %cline:287%csetTimeout",
+               "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+               "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+               "color:#fff;background:rgb(114, 83, 52);padding:3px;border-radius:2px"
+            );
+            setActivateLoader((prevState) => prevState - 1);
+            console.log(
+               "%c⚪️►►►► %cline:296%cactivateLoader - 1)",
+               "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+               "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+               "color:#fff;background:rgb(237, 222, 139);padding:3px;border-radius:2px",
+               activateLoader - 1
+            );
+         }, 3000);
       }
-      setTimeout(() => {
-         setActivateLoader(false);
-      }, 3000);
    }, [sendToLibrary, addToLibrary, groomDataForToolForm, toolsSchema]);
 
    ////////////////////////////////////////
@@ -170,6 +353,11 @@ const PluginFinder = (props) => {
    const handleShowPluginPaths = (e) => {
       e.preventDefault();
       setShowPluginPaths(!showPluginPaths);
+   };
+
+   const handleShowMissingPlugins = (e) => {
+      e.preventDefault();
+      setShowMissingPlugins(!showMissingPlugins);
    };
 
    const handleCheckBox = (e) => {
@@ -219,7 +407,10 @@ const PluginFinder = (props) => {
       setIgnorePluginList((prevState) => {
          const oldState = [...prevState];
          const newState = oldState.filter((item) => item !== name);
-
+         if (newState.length <= 0) {
+            updateIgnoredPlugins(user, newState);
+            setShowSaveIgnoreListButton(false);
+         }
          return newState;
       });
 
@@ -228,24 +419,177 @@ const PluginFinder = (props) => {
       });
    };
 
+   const handleAddToMissingIgnoreList = (e) => {
+      e.preventDefault();
+      setShowSaveMissingIgnoreListButton(true);
+      const name = e.target.dataset.fileName;
+      setMissingIgnorePluginList((prevState) => {
+         return [...prevState, name].sort((a, b) => a.localeCompare(b));
+      });
+
+      if (missingFileNames.includes(name)) {
+         setMissingFileNames((prevState) => {
+            const oldState = [...prevState];
+            const newState = oldState.filter((item) => item !== name);
+            return newState;
+         });
+      }
+   };
+
+   const handleRemoveFromMissingIgnoreList = (e) => {
+      e.preventDefault();
+      setShowSaveMissingIgnoreListButton(true);
+      const name = e.target.dataset.fileName;
+
+      setMissingIgnorePluginList((prevState) => {
+         const oldState = [...prevState];
+         const newState = oldState.filter((item) => item !== name);
+         if (newState.length <= 0) {
+            updateMissingIgnoredPlugins(user, newState);
+            setShowSaveMissingIgnoreListButton(true);
+         }
+         return newState;
+      });
+
+      setMissingFileNames((prevState) => {
+         return [...prevState, name].sort((a, b) => a.localeCompare(b));
+      });
+   };
+
+   const handleToggleMissingPluginsInModal = () => {
+      setMissingPluginsInModal(!missingPluginsInModal);
+   };
+
    const handleAddPluginLocationInput = (e) => {
       e.preventDefault();
-      setShowPluginPaths(true);
       setShowPluginPathSaveButton(true);
-
+      console.log(
+         "%c⚪️►►►► %cline:381%c e.target.value",
+         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+         "color:#fff;background:rgb(254, 67, 101);padding:3px;border-radius:2px",
+         e.target.value
+      );
       setPluginPathsObj((prevState) => {
          const newState = { ...prevState };
          newState[e.target.name] = e.target.value;
+
          return newState;
       });
    };
 
    const handleSaveLocationsButton = () => {
+      setFindNewPlugins(false);
+      setActivateLoader(activateLoader + 1);
+      dispatch(loadingRequestsActions.addToLoadRequest());
+
       updateUserPluginPaths(user, pluginPathsObj)
          .then((res) => {
             setShowPluginPathSaveButton(false);
 
             alert("The save was successful!\n\nServer status: " + res.status);
+
+            setFindNewPlugins(true);
+
+            dispatch(authActions.refreshUser(Math.random(10000)));
+            setTimeout(() => {
+               setFindNewPlugins(true);
+               setActivateLoader((prevState) => prevState - 1);
+               console.log(
+                  "%c⚪️►►►► %cline:443%cactivateLoader - 1",
+                  "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                  "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                  "color:#fff;background:rgb(89, 61, 67);padding:3px;border-radius:2px",
+                  activateLoader - 1
+               );
+               dispatch(loadingRequestsActions.removeFromLoadRequest());
+            }, 5000);
+         })
+         .catch((err) => {
+            console.log("ERROR: " + err);
+         });
+   };
+
+   const handleDisableMissingPluginsButton = () => {
+      console.log("THESE NEED TO BE DIABLED AND SAVED", missingFileNames);
+      const submitData = {};
+
+      for (const value of Object.values(allTools)) {
+         if (missingFileNames.includes(value.masterLibraryID)) {
+            const newValue = { ...value };
+            newValue.status = "Disabled";
+            newValue.dbID = newValue._id;
+            delete newValue._id;
+            delete newValue.updatedAt;
+
+            submitData[value.identifier] = newValue;
+         }
+      }
+
+      const successCallback = () => {
+         dispatch(loadingRequestsActions.addToLoadRequest());
+
+         alert(
+            "The item was successfully updated in your library!\n\nChanges will be reflected after you close this notice. If not, please refresh the browser."
+         );
+         dispatch(authActions.refreshUser(Math.random(10000)));
+         setFileNames([]);
+         setAddToLibrary([]);
+
+         setFindNewPlugins(true);
+         setActivateLoader(activateLoader + 1);
+         setTimeout(() => {
+            setActivateLoader((prevState) => prevState - 1);
+            console.log(
+               "%c⚪️►►►► %cline:482%c setActivateLoader(activateLoader - 1",
+               "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+               "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+               "color:#fff;background:rgb(161, 23, 21);padding:3px;border-radius:2px",
+               setActivateLoader((prevState) => prevState - 1)
+            );
+            dispatch(loadingRequestsActions.removeFromLoadRequest());
+         }, 7000);
+      };
+
+      if (submitData) {
+         saveAudioFormData(
+            submitData,
+            user,
+            "update-many",
+            successCallback
+            // noUserCallback,
+         );
+      }
+
+      // updateMissingIgnoredPlugins(user, missingIgnorePluginList)
+      //   .then((res) => {
+      //     setShowSaveMissingIgnoreListButton(false);
+      //     alert('The save was successful!\n\nServer status: ' + res.status);
+      //   })
+      //   .catch((err) => {
+      //     console.log('ERROR: ' + err);
+      //   });
+   };
+
+   const handleSaveMissingIgnoredPluginsButton = () => {
+      setActivateLoader(activateLoader + 1);
+      dispatch(loadingRequestsActions.addToLoadRequest());
+
+      updateMissingIgnoredPlugins(user, missingIgnorePluginList)
+         .then((res) => {
+            setShowSaveMissingIgnoreListButton(false);
+            alert("The save was successful!\n\nServer status: " + res.status);
+            setTimeout(() => {
+               setActivateLoader((prevState) => prevState - 1);
+               console.log(
+                  "%c⚪️►►►► %cline:517%cactivateLoader - 1",
+                  "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                  "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                  "color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px",
+                  activateLoader - 1
+               );
+               dispatch(loadingRequestsActions.removeFromLoadRequest());
+            }, 3000);
          })
          .catch((err) => {
             console.log("ERROR: " + err);
@@ -253,10 +597,23 @@ const PluginFinder = (props) => {
    };
 
    const handleSaveIgnoredPluginsButton = () => {
+      setActivateLoader(activateLoader + 1);
+      dispatch(loadingRequestsActions.addToLoadRequest());
       updateIgnoredPlugins(user, ignorePluginList)
          .then((res) => {
             setShowSaveIgnoreListButton(false);
             alert("The save was successful!\n\nServer status: " + res.status);
+            setTimeout(() => {
+               setActivateLoader((prevState) => prevState - 1);
+               console.log(
+                  "%c⚪️►►►► %cline:535%cactivateLoader - 1",
+                  "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                  "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                  "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
+                  activateLoader - 1
+               );
+               dispatch(loadingRequestsActions.removeFromLoadRequest());
+            }, 2000);
          })
          .catch((err) => {
             console.log("ERROR: " + err);
@@ -280,12 +637,20 @@ const PluginFinder = (props) => {
    };
 
    const handleFindNewPluginsButton = () => {
-      setActivateLoader(true);
+      console.log(
+         "%c⚪️►►►► %cline:486%chandleFindNewPluginsButton",
+         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+         "color:#fff;background:rgb(248, 214, 110);padding:3px;border-radius:2px"
+      );
+
       setFindNewPlugins(!findNewPlugins);
    };
+
    const handleAddToLibraryButton = () => {
-      setActivateLoader(true);
+      setActivateLoader(activateLoader + 1);
       setSendToLibrary(true);
+      setFormOpen(true);
    };
 
    ////////////////////////////////////////
@@ -323,6 +688,11 @@ const PluginFinder = (props) => {
 
    return (
       <div className={Styles["plugin-finder-container"]}>
+         {/* 
+      ************** 
+        START/OPEN BUTTON 
+      *************** 
+      */}
          <button
             type="button"
             className={
@@ -340,9 +710,24 @@ const PluginFinder = (props) => {
             {!findNewPlugins && <span>Scan Computer for Plugins</span>}
          </button>
 
-         <div className={Styles["plugin-finder-selector-wrap"]}>
+         {/* 
+      ************** 
+        NEW & MISSING PLUGINS WRAP 
+      *************** 
+      */}
+         <div
+            className={
+               Styles["plugin-finder-selector-wrap"] +
+               " " +
+               (findNewPlugins && Styles.open)
+            }
+         >
             <ul>
-               {" "}
+               {/* 
+          ************** 
+            MESSAGE IF NOT DESKTOP 
+          *************** 
+          */}
                {!isDesktopApp && findNewPlugins && (
                   <div className={Styles["need-desktop-version-container"]}>
                      <h4>Desktop App Needed for Scanning</h4>
@@ -364,11 +749,12 @@ const PluginFinder = (props) => {
                      </p>
                   </div>
                )}
-               {activateLoader > 0 && (
-                  <div key="loader" className={Styles["loader-wrap"]}>
-                     <BarLoader />
-                  </div>
-               )}
+
+               {/* 
+          ************** 
+            NO USER MESSAGE
+          *************** 
+          */}
                {isDesktopApp && !user && findNewPlugins && (
                   <div className={Styles["login-message-wrap"]}>
                      <p>
@@ -381,262 +767,971 @@ const PluginFinder = (props) => {
                      </p>
                   </div>
                )}
+
+               {/* 
+          ************** 
+            NO USER MESSAGE
+          *************** 
+          */}
                {isDesktopApp && user && findNewPlugins && (
                   <Fragment>
-                     {fileNames.length > 0 && (
-                        <h3>
-                           {fileNames.length} new plugins found on this
-                           computer.
-                        </h3>
-                     )}
+                     {/* 
+              ************** 
+                PATHS FOR PLUGIN LOCATIONS
+              *************** 
+              */}
+                     <Fragment>
+                        {showHidePluginPathsButton && (
+                           <button
+                              type="button"
+                              className={Styles["url-show-paths-button"]}
+                              onClick={handleShowPluginPaths}
+                           >
+                              {!showPluginPaths ||
+                                 (!noPluginPathsExist && <span>Show </span>)}
+                              {(showPluginPaths || noPluginPathsExist) && (
+                                 <span>Hide </span>
+                              )}
+                              Plugin Paths
+                           </button>
+                        )}
 
-                     {showHidePluginPathsButton && (
-                        <button
-                           type="button"
-                           className={Styles["url-show-paths-button"]}
-                           onClick={handleShowPluginPaths}
-                        >
-                           {!showPluginPaths && !noPluginPathsExist && (
-                              <span>Show</span>
-                           )}
-                           {(showPluginPaths || noPluginPathsExist) && (
-                              <span>Hide</span>
-                           )}
-                           Plugin Paths
-                        </button>
-                     )}
-
-                     {!showHidePluginPathsButton && (
-                        <p>
-                           * Please paste in the paths to each plugin location
-                           on your system *
-                        </p>
-                     )}
-                     {(showPluginPaths || noPluginPathsExist) && (
-                        <div className={Styles["url-input-container"]}>
-                           <div className={Styles["location-input-container"]}>
-                              <label htmlFor="location-1">
-                                 Plugin Location 1
-                              </label>
-                              <input
-                                 name="location-1"
-                                 type="text"
-                                 defaultValue={
-                                    Object.hasOwn(pluginPathsObj, "location-1")
-                                       ? pluginPathsObj["location-1"]
-                                       : ""
-                                 }
-                                 onClick={handleAddPluginLocationInput}
-                              />
-                           </div>{" "}
-                           <div className={Styles["location-input-container"]}>
-                              <label htmlFor="location-2">
-                                 Plugin Location 2
-                              </label>
-                              <input
-                                 name="location-2"
-                                 type="text"
-                                 defaultValue={
-                                    Object.hasOwn(pluginPathsObj, "location-2")
-                                       ? pluginPathsObj["location-2"]
-                                       : ""
-                                 }
-                                 onClick={handleAddPluginLocationInput}
-                              />{" "}
-                           </div>{" "}
-                           <div className={Styles["location-input-container"]}>
-                              <label htmlFor="location-3">
-                                 Plugin Location 3
-                              </label>
-                              <input
-                                 name="location-3"
-                                 type="text"
-                                 defaultValue={
-                                    Object.hasOwn(pluginPathsObj, "location-3")
-                                       ? pluginPathsObj["location-3"]
-                                       : ""
-                                 }
-                                 onClick={handleAddPluginLocationInput}
-                              />{" "}
-                           </div>{" "}
-                           <div className={Styles["location-input-container"]}>
-                              <label htmlFor="location-4">
-                                 Plugin Location 4
-                              </label>
-                              <input
-                                 name="location-4"
-                                 type="text"
-                                 defaultValue={
-                                    Object.hasOwn(pluginPathsObj, "location-4")
-                                       ? pluginPathsObj["location-4"]
-                                       : ""
-                                 }
-                                 onClick={handleAddPluginLocationInput}
-                              />
+                        {!showHidePluginPathsButton && (
+                           <p>
+                              * Please paste in the paths to each plugin
+                              location on your system *
+                           </p>
+                        )}
+                        {(showPluginPaths || noPluginPathsExist) && (
+                           <div className={Styles["url-input-container"]}>
+                              {/* 
+                    ************** 
+                      LOADER
+                    *************** 
+                    */}
+                              {activateLoader > 0 && (
+                                 <div
+                                    key="loader"
+                                    className={Styles["loader-wrap"]}
+                                 >
+                                    <BarLoader />
+                                 </div>
+                              )}
+                              <div
+                                 className={Styles["location-input-container"]}
+                              >
+                                 <label htmlFor="location-1">
+                                    Plugin Location 1
+                                 </label>
+                                 <input
+                                    name="location-1"
+                                    type="text"
+                                    defaultValue={
+                                       Object.hasOwn(
+                                          pluginPathsObj,
+                                          "location-1"
+                                       )
+                                          ? pluginPathsObj["location-1"]
+                                          : ""
+                                    }
+                                    onChange={handleAddPluginLocationInput}
+                                 />
+                              </div>{" "}
+                              <div
+                                 className={Styles["location-input-container"]}
+                              >
+                                 <label htmlFor="location-2">
+                                    Plugin Location 2
+                                 </label>
+                                 <input
+                                    name="location-2"
+                                    type="text"
+                                    defaultValue={
+                                       Object.hasOwn(
+                                          pluginPathsObj,
+                                          "location-2"
+                                       )
+                                          ? pluginPathsObj["location-2"]
+                                          : ""
+                                    }
+                                    onChange={handleAddPluginLocationInput}
+                                 />{" "}
+                              </div>{" "}
+                              <div
+                                 className={Styles["location-input-container"]}
+                              >
+                                 <label htmlFor="location-3">
+                                    Plugin Location 3
+                                 </label>
+                                 <input
+                                    name="location-3"
+                                    type="text"
+                                    defaultValue={
+                                       Object.hasOwn(
+                                          pluginPathsObj,
+                                          "location-3"
+                                       )
+                                          ? pluginPathsObj["location-3"]
+                                          : ""
+                                    }
+                                    onChange={handleAddPluginLocationInput}
+                                 />{" "}
+                              </div>{" "}
+                              <div
+                                 className={Styles["location-input-container"]}
+                              >
+                                 <label htmlFor="location-4">
+                                    Plugin Location 4
+                                 </label>
+                                 <input
+                                    name="location-4"
+                                    type="text"
+                                    defaultValue={
+                                       Object.hasOwn(
+                                          pluginPathsObj,
+                                          "location-4"
+                                       )
+                                          ? pluginPathsObj["location-4"]
+                                          : ""
+                                    }
+                                    onChange={handleAddPluginLocationInput}
+                                 />
+                              </div>
+                              {showPluginPathSaveButton &&
+                                 Object.keys(pluginPathsObj).length > 0 && (
+                                    <button
+                                       type="button"
+                                       className={Styles.pulse}
+                                       onClick={handleSaveLocationsButton}
+                                    >
+                                       Save Plugin Location Changes
+                                    </button>
+                                 )}
                            </div>
-                           {showPluginPathSaveButton &&
-                              Object.keys(pluginPathsObj).length > 0 && (
+                        )}
+                     </Fragment>
+
+                     {/* 
+              ************** 
+                MISSING PLUGINS
+              *************** 
+              */}
+                     {!noPluginPathsExist && (
+                        <div
+                           className={
+                              Styles["missing-plugins-container"] +
+                              " " +
+                              (missingPluginsInModal && Styles.modal)
+                           }
+                        >
+                           {!missingPluginsInModal &&
+                              !showSaveMissingIgnoreListButton && (
                                  <button
                                     type="button"
-                                    className={Styles.pulse}
-                                    onClick={handleSaveLocationsButton}
+                                    className={Styles["url-show-paths-button"]}
+                                    onClick={handleShowMissingPlugins}
                                  >
-                                    Save Plugin Location Changes
+                                    {!showMissingPlugins && <span>Show </span>}
+                                    {showMissingPlugins && <span>Hide </span>}
+                                    Missing Plugins
                                  </button>
                               )}
+                           {(showMissingPlugins ||
+                              missingPluginsInModal ||
+                              showSaveMissingIgnoreListButton) && (
+                              <Fragment>
+                                 {missingPluginsInModal && (
+                                    <button
+                                       type="button"
+                                       className={
+                                          Styles["button-action-needed"]
+                                       }
+                                       onClick={
+                                          handleToggleMissingPluginsInModal
+                                       }
+                                    >
+                                       CLOSE and return (this list is still
+                                       accessible)
+                                    </button>
+                                 )}
+                                 {missingIgnorePluginList.length > 1 && (
+                                    <div
+                                       className={
+                                          Styles[
+                                             "missing-ignore-plugin-list-container"
+                                          ] +
+                                          " " +
+                                          "missing-ignore-plugin-list-container" +
+                                          " " +
+                                          Styles[
+                                             "missing-plugins-inner-container"
+                                          ] +
+                                          " " +
+                                          "missing-plugins-inner-container"
+                                       }
+                                    >
+                                       {/* 
+                          ************** 
+                            LOADER
+                          *************** 
+                          */}
+                                       {activateLoader > 0 && (
+                                          <div
+                                             key="loader"
+                                             className={Styles["loader-wrap"]}
+                                          >
+                                             <BarLoader />
+                                          </div>
+                                       )}
+                                       <h3>Missing Plugins to Ignore</h3>
+                                       <p>
+                                          There{" "}
+                                          <span
+                                             className={
+                                                Styles[
+                                                   "highlighted-minor-message"
+                                                ]
+                                             }
+                                          >
+                                             {missingIgnorePluginList.length}
+                                          </span>{" "}
+                                          ignored missing plugins.
+                                       </p>
+                                       <p
+                                          className={
+                                             Styles[
+                                                "missing-ignore-plugin-list-container-text"
+                                             ] +
+                                             " " +
+                                             "missing-ignore-plugin-list-container-text"
+                                          }
+                                       >
+                                          This list will be saved and ignored
+                                          when the scanner finds these plugins
+                                          in your library but not on your
+                                          computer. This can be reversed (sent
+                                          back to the main list) by clicking on
+                                          the name.
+                                          <br />
+                                          This can be reversed (sent back to the
+                                          main list) by clicking on the name.
+                                          <br />
+                                          <br />
+                                       </p>
+
+                                       {showSaveMissingIgnoreListButton && (
+                                          <Fragment>
+                                             <p
+                                                className={
+                                                   Styles["highlighted-message"]
+                                                }
+                                             >
+                                                Be sure to save this list after
+                                                each change.
+                                                <br />
+                                             </p>
+                                             <button
+                                                type="button"
+                                                className={
+                                                   Styles.pulse +
+                                                   " " +
+                                                   Styles[
+                                                      "button-action-needed"
+                                                   ]
+                                                }
+                                                onClick={
+                                                   handleSaveMissingIgnoredPluginsButton
+                                                }
+                                             >
+                                                Save Ignored Missing Plugins
+                                             </button>
+                                          </Fragment>
+                                       )}
+
+                                       <CollapsibleElm
+                                          key={"Missing Plugins to Ignore"}
+                                          id={
+                                             "missing=plugins-to-ignore-collapsible-elm"
+                                          }
+                                          styles={{
+                                             position: "relative"
+                                          }}
+                                          maxHeight="7em"
+                                          inputOrButton="button"
+                                          buttonStyles={{
+                                             margin: "0 auto",
+                                             fontVariant: "small-caps",
+                                             transform: "translateY(50%)",
+                                             transition: "0.7s all ease",
+                                             textAlign: "center",
+                                             display: "flex",
+                                             alignItems: "center",
+                                             padding: "0.25em 0",
+                                             minWidth: "fit-content",
+                                             width: "100%"
+                                          }}
+                                          colorType="secondary"
+                                          dataAttribute={{
+                                             "data-elm":
+                                                "missing-plugins-to-ignore-collapsible-elm"
+                                          }}
+                                          size="small"
+                                       >
+                                          <ul>
+                                             {missingIgnorePluginList.length <=
+                                                0 && (
+                                                <div
+                                                   className={
+                                                      Styles[
+                                                         "plugin-finder-text-box"
+                                                      ]
+                                                   }
+                                                >
+                                                   <p>
+                                                      Plugins you don't want to
+                                                      disable will appear here.
+                                                      These are in your library,
+                                                      but not installed on this
+                                                      computer, but Click the X
+                                                      next to the plugin name to
+                                                      ignore.
+                                                      <br />
+                                                      Be sure to save this list
+                                                      after each change.
+                                                      <br />
+                                                      Restore an ignored plugin
+                                                      anytime by clicking on it.
+                                                   </p>
+                                                </div>
+                                             )}
+
+                                             {missingIgnorePluginList.map(
+                                                (fileName, index) => (
+                                                   <li key={index}>
+                                                      <label
+                                                         key={
+                                                            "ignored-label" +
+                                                            fileName
+                                                         }
+                                                         htmlFor={
+                                                            "ignored" + fileName
+                                                         }
+                                                         onClick={
+                                                            handleRemoveFromMissingIgnoreList
+                                                         }
+                                                         data-file-name={
+                                                            fileName
+                                                         }
+                                                      >
+                                                         {fileName}
+                                                      </label>
+                                                      <button
+                                                         key={
+                                                            "ignored" + fileName
+                                                         }
+                                                         type="button"
+                                                         name={
+                                                            "ignored" + fileName
+                                                         }
+                                                         className={
+                                                            Styles[
+                                                               "ignore-list-button"
+                                                            ] +
+                                                            "  " +
+                                                            "ignore-list-button"
+                                                         }
+                                                         onClick={
+                                                            handleRemoveFromMissingIgnoreList
+                                                         }
+                                                         data-file-name={
+                                                            fileName
+                                                         }
+                                                      />
+                                                   </li>
+                                                )
+                                             )}
+                                          </ul>
+                                       </CollapsibleElm>
+                                    </div>
+                                 )}
+                                 {missingFileNames.length > 0 && (
+                                    <div
+                                       className={
+                                          Styles[
+                                             "missing-plugins-inner-container"
+                                          ]
+                                       }
+                                    >
+                                       {/* 
+                          ************** 
+                            LOADER
+                          *************** 
+                          */}
+                                       {activateLoader > 0 && (
+                                          <div
+                                             key="loader"
+                                             className={Styles["loader-wrap"]}
+                                          >
+                                             <BarLoader />
+                                          </div>
+                                       )}{" "}
+                                       <h3>
+                                          {missingFileNames.length} plugins are
+                                          missing on this computer.
+                                       </h3>
+                                       <p
+                                          className={
+                                             Styles[
+                                                "missing-ignore-plugin-list-container-text"
+                                             ] +
+                                             " " +
+                                             "missing-ignore-plugin-list-container-text"
+                                          }
+                                       >
+                                          These plugins are in your library, but
+                                          not on this computer. To set each to
+                                          "Disabled" status, click the button
+                                          below. To ignore a specific plugin,
+                                          click the "X" to the right of its
+                                          name.
+                                       </p>
+                                       <button
+                                          type="button"
+                                          className={
+                                             Styles.pulse +
+                                             " " +
+                                             Styles["button-action-needed"]
+                                          }
+                                          onClick={
+                                             handleDisableMissingPluginsButton
+                                          }
+                                       >
+                                          Disable these Missing Plugins &rarr;
+                                       </button>
+                                       <CollapsibleElm
+                                          key={"Missing Plugins to Ignore"}
+                                          id={"missing-plugins-collapsible-elm"}
+                                          styles={{
+                                             position: "relative"
+                                          }}
+                                          maxHeight="7em"
+                                          inputOrButton="button"
+                                          buttonStyles={{
+                                             margin: "0 auto",
+                                             fontVariant: "small-caps",
+                                             transform: "translateY(50%)",
+                                             transition: "0.7s all ease",
+                                             textAlign: "center",
+                                             display: "flex",
+                                             alignItems: "center",
+                                             padding: "0.25em 0",
+                                             minWidth: "fit-content",
+                                             width: "100%"
+                                          }}
+                                          colorType="secondary"
+                                          dataAttribute={{
+                                             "data-elm":
+                                                "missing-plugins-collapsible-elm"
+                                          }}
+                                          size="small"
+                                       >
+                                          <ul>
+                                             {" "}
+                                             {missingFileNames.map(
+                                                (fileName, index) => (
+                                                   <li key={index}>
+                                                      <label
+                                                         htmlFor={fileName}
+                                                         data-file-name={
+                                                            fileName
+                                                         }
+                                                      >
+                                                         <input
+                                                            type="checkbox"
+                                                            name={fileName}
+                                                            data-file-name={
+                                                               fileName
+                                                            }
+                                                            defaultChecked={addToLibrary.includes(
+                                                               fileName
+                                                            )}
+                                                            checked={addToLibrary.includes(
+                                                               fileName
+                                                            )}
+                                                         />
+                                                         {fileName}
+                                                      </label>
+                                                      <button
+                                                         type="button"
+                                                         className={
+                                                            Styles[
+                                                               "ignore-list-button"
+                                                            ]
+                                                         }
+                                                         onClick={
+                                                            handleAddToMissingIgnoreList
+                                                         }
+                                                         data-file-name={
+                                                            fileName
+                                                         }
+                                                      >
+                                                         X
+                                                      </button>
+                                                   </li>
+                                                )
+                                             )}
+                                          </ul>
+                                       </CollapsibleElm>
+                                    </div>
+                                 )}
+                                 {missingFileNames.length <= 0 && (
+                                    <div
+                                       className={
+                                          Styles[
+                                             "missing-plugins-inner-container"
+                                          ]
+                                       }
+                                    >
+                                       {" "}
+                                       <h3>
+                                          No plugins are missing on this
+                                          computer.
+                                       </h3>
+                                       <p
+                                          className={
+                                             Styles[
+                                                "missing-ignore-plugin-list-container-text"
+                                             ] +
+                                             " " +
+                                             "missing-ignore-plugin-list-container-text"
+                                          }
+                                       >
+                                          Either all of the plugins in your
+                                          library are installed on this computer
+                                          or there are missing plugins you have
+                                          previously put in the "Ignored Missing
+                                          Plugins" list. The "Ignored Missing
+                                          Plugins" list will only show if there
+                                          are items in it. If it does not appear
+                                          above, that means it is empty.
+                                       </p>
+                                       <CollapsibleElm
+                                          key={"Missing Plugins to Ignore"}
+                                          id={"missing-plugins-collapsible-elm"}
+                                          styles={{
+                                             position: "relative"
+                                          }}
+                                          maxHeight="7em"
+                                          inputOrButton="button"
+                                          buttonStyles={{
+                                             margin: "0 auto",
+                                             fontVariant: "small-caps",
+                                             transform: "translateY(50%)",
+                                             transition: "0.7s all ease",
+                                             textAlign: "center",
+                                             display: "flex",
+                                             alignItems: "center",
+                                             padding: "0.25em 0",
+                                             minWidth: "fit-content",
+                                             width: "100%"
+                                          }}
+                                          colorType="secondary"
+                                          dataAttribute={{
+                                             "data-elm":
+                                                "missing-plugins-collapsible-elm"
+                                          }}
+                                          size="small"
+                                       >
+                                          <ul>
+                                             {" "}
+                                             {missingFileNames.map(
+                                                (fileName, index) => (
+                                                   <li key={index}>
+                                                      <label
+                                                         htmlFor={fileName}
+                                                         data-file-name={
+                                                            fileName
+                                                         }
+                                                      >
+                                                         <input
+                                                            type="checkbox"
+                                                            name={fileName}
+                                                            data-file-name={
+                                                               fileName
+                                                            }
+                                                            defaultChecked={addToLibrary.includes(
+                                                               fileName
+                                                            )}
+                                                            checked={addToLibrary.includes(
+                                                               fileName
+                                                            )}
+                                                         />
+                                                         {fileName}
+                                                      </label>
+                                                      <button
+                                                         type="button"
+                                                         className={
+                                                            Styles[
+                                                               "ignore-list-button"
+                                                            ]
+                                                         }
+                                                         onClick={
+                                                            handleAddToMissingIgnoreList
+                                                         }
+                                                         data-file-name={
+                                                            fileName
+                                                         }
+                                                      >
+                                                         X
+                                                      </button>
+                                                   </li>
+                                                )
+                                             )}
+                                          </ul>
+                                       </CollapsibleElm>
+                                    </div>
+                                 )}
+                              </Fragment>
+                           )}
                         </div>
                      )}
 
-                     <div className={Styles["ignore-plugin-list-container"]}>
-                        <h3>Ignored Plugins</h3>
-                        {showSaveIgnoreListButton && (
-                           <button
-                              type="button"
-                              className={
-                                 Styles.pulse +
-                                 " " +
-                                 Styles["button-action-needed"]
-                              }
-                              onClick={handleSaveIgnoredPluginsButton}
-                           >
-                              Save Ignored Plugins
-                           </button>
+                     {/* 
+              ************** 
+                NEW PLUGINS
+              *************** 
+              */}
+                     <div className={Styles["new-plugin-container"]}>
+                        {/* 
+                  ************** 
+                    LOADER
+                  *************** 
+                  */}
+                        {activateLoader > 0 && (
+                           <div key="loader" className={Styles["loader-wrap"]}>
+                              <BarLoader />
+                           </div>
                         )}
-                        <ul>
-                           {ignorePluginList.length <= 0 && (
-                              <div className={Styles["plugin-finder-text-box"]}>
-                                 <p>
-                                    Plugins to ignore will appear here. Click
-                                    the X next to the plugin name to ignore.
-                                    <br />
-                                    Be sure to save this list after each change.
-                                    <br />
-                                    Restore an ignored plugin anytime by
-                                    clicking on it.
-                                 </p>
+                        {fileNames.length > 0 && !noPluginPathsExist && (
+                           <h3>
+                              {fileNames.length} new plugins found on this
+                              computer.
+                           </h3>
+                        )}
+
+                        {/* 
+                ************** 
+                  IGNORED PLUGINS
+                *************** 
+                */}
+                        {!noPluginPathsExist &&
+                           (ignorePluginList.length > 0 ||
+                              fileNames.length > 0) && (
+                              <div
+                                 className={
+                                    Styles["ignore-plugin-list-container"]
+                                 }
+                              >
+                                 <h3>Ignored Plugins</h3>
+                                 {showSaveIgnoreListButton && (
+                                    <button
+                                       type="button"
+                                       className={
+                                          Styles.pulse +
+                                          " " +
+                                          Styles["button-action-needed"]
+                                       }
+                                       onClick={handleSaveIgnoredPluginsButton}
+                                    >
+                                       Save Ignored Plugins
+                                    </button>
+                                 )}
+                                 <ul>
+                                    {/*
+                                     *** MESSAGE: NO IGNORED PLUGINS ****/}
+                                    {fileNames.length > 0 &&
+                                       ignorePluginList.length <= 0 && (
+                                          <div
+                                             className={
+                                                Styles["plugin-finder-text-box"]
+                                             }
+                                          >
+                                             <p>
+                                                Plugins to ignore will appear
+                                                here.
+                                                <br />
+                                                Be sure to save this list after
+                                                each change.
+                                                <br />
+                                                Restore an ignored plugin
+                                                anytime by clicking on it.
+                                             </p>
+                                          </div>
+                                       )}
+
+                                    {/*
+                                     *** IGNORED PLUGINS LIST ****/}
+                                    <CollapsibleElm
+                                       key={"Missing Plugins to Ignore"}
+                                       id={
+                                          "new-plugins-to-ignore-collapsible-elm"
+                                       }
+                                       styles={{
+                                          position: "relative"
+                                       }}
+                                       maxHeight="7em"
+                                       inputOrButton="button"
+                                       buttonStyles={{
+                                          margin: "0 auto",
+                                          fontVariant: "small-caps",
+                                          transform: "translateY(50%)",
+                                          transition: "0.7s all ease",
+                                          textAlign: "center",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          padding: "0.25em 0",
+                                          minWidth: "fit-content",
+                                          width: "100%"
+                                       }}
+                                       colorType="secondary"
+                                       dataAttribute={{
+                                          "data-elm":
+                                             "new-plugins-to-ignore-collapsible-elm"
+                                       }}
+                                       size="small"
+                                    >
+                                       {ignorePluginList.map(
+                                          (fileName, index) => (
+                                             <li key={index}>
+                                                <label
+                                                   key={
+                                                      "ignored-label" + fileName
+                                                   }
+                                                   htmlFor={
+                                                      "ignored" + fileName
+                                                   }
+                                                   onClick={
+                                                      handleRemoveFromIgnoreList
+                                                   }
+                                                   data-file-name={fileName}
+                                                >
+                                                   {fileName}
+                                                </label>
+                                                <button
+                                                   key={"ignored" + fileName}
+                                                   type="button"
+                                                   name={"ignored" + fileName}
+                                                   className={
+                                                      Styles[
+                                                         "ignore-list-button"
+                                                      ]
+                                                   }
+                                                   onClick={
+                                                      handleRemoveFromIgnoreList
+                                                   }
+                                                   data-file-name={fileName}
+                                                />
+                                             </li>
+                                          )
+                                       )}
+                                    </CollapsibleElm>
+                                 </ul>
                               </div>
                            )}
-                           {ignorePluginList.map((fileName, index) => (
-                              <li key={index}>
-                                 <label
-                                    key={"ignored-label" + fileName}
-                                    htmlFor={"ignored" + fileName}
-                                    onClick={handleRemoveFromIgnoreList}
-                                    data-file-name={fileName}
-                                 >
-                                    {fileName}
-                                 </label>
-                                 <button
-                                    key={"ignored" + fileName}
-                                    type="button"
-                                    name={"ignored" + fileName}
-                                    className={Styles["ignore-list-button"]}
-                                    onClick={handleRemoveFromIgnoreList}
-                                    data-file-name={fileName}
-                                 />
-                              </li>
-                           ))}
-                        </ul>
-                     </div>
-                     <div className={Styles["button-container"]}>
-                        <label
-                           htmlFor="select-none"
-                           onClick={handleClearAllCheckBox}
-                        >
-                           <input type="checkbox" name="select-none" />
-                           Clear All
-                        </label>
 
-                        {fileNames.length > 20 && (
-                           <label
-                              htmlFor="select-twenty"
-                              onClick={handleCheckSomeCheckBox}
-                              data-amount="20"
-                           >
-                              <input type="checkbox" name="select-twenty" />
-                              Select First Twenty Items
-                           </label>
-                        )}
-                        {fileNames.length > 50 && (
-                           <label
-                              htmlFor="select-fifty"
-                              onClick={handleCheckSomeCheckBox}
-                              data-amount="50"
-                           >
-                              <input type="checkbox" name="select-fifty" />
-                              Select First Fifty Items
-                           </label>
-                        )}
-
-                        {fileNames.length > 0 && (
-                           <label
-                              htmlFor="select-all"
-                              onClick={handleCheckAllCheckBox}
-                           >
-                              <input type="checkbox" name="select-all" />
-                              Select All
-                           </label>
-                        )}
-                     </div>
-                     <div
-                        className={
-                           Styles["plugin-finder-text-box"] +
-                           " " +
-                           Styles["add-to-library-text-box"]
-                        }
-                     >
-                        <p>
-                           Click the plugin name to select it to add to the
-                           library. Click the X to ignore it in the future.
-                        </p>
-                     </div>
-                     <button
-                        type="button"
-                        className={
-                           Styles["add-to-library-button"] +
-                           " " +
-                           Styles.pulse +
-                           " " +
-                           Styles["button-action-needed"]
-                        }
-                        onClick={handleAddToLibraryButton}
-                     >
-                        Add to Library &rarr;
-                     </button>
-                     {fileNames.map((fileName, index) => (
-                        <li key={index}>
-                           <label
-                              htmlFor={fileName}
-                              onClick={handleCheckBox}
-                              data-file-name={fileName}
-                           >
-                              <input
-                                 type="checkbox"
-                                 name={fileName}
-                                 data-file-name={fileName}
-                                 defaultChecked={addToLibrary.includes(
-                                    fileName
+                        {/* 
+                ************** 
+                  NEW PLUGINS
+                *************** 
+                */}
+                        {fileNames.length > 0 && !noPluginPathsExist && (
+                           <Fragment>
+                              {/*
+                               *** NEW PLUGINS BUTTONS ****/}
+                              <div className={Styles["button-container"]}>
+                                 {fileNames.length > 20 && (
+                                    <label
+                                       htmlFor="select-twenty"
+                                       onClick={handleCheckSomeCheckBox}
+                                       data-amount="20"
+                                    >
+                                       <input
+                                          type="checkbox"
+                                          name="select-twenty"
+                                       />
+                                       Select First Twenty Items
+                                    </label>
                                  )}
-                                 checked={addToLibrary.includes(fileName)}
-                              />
-                              {fileName}
-                           </label>
-                           <button
-                              type="button"
-                              className={Styles["ignore-list-button"]}
-                              onClick={handleAddToIgnoreList}
-                              data-file-name={fileName}
-                           >
-                              X
-                           </button>
-                        </li>
-                     ))}
+                                 {fileNames.length > 50 && (
+                                    <label
+                                       htmlFor="select-fifty"
+                                       onClick={handleCheckSomeCheckBox}
+                                       data-amount="50"
+                                    >
+                                       <input
+                                          type="checkbox"
+                                          name="select-fifty"
+                                       />
+                                       Select First Fifty Items
+                                    </label>
+                                 )}
+
+                                 {fileNames.length !== addToLibrary.length && (
+                                    <label
+                                       htmlFor="select-all"
+                                       onClick={handleCheckAllCheckBox}
+                                    >
+                                       <input
+                                          type="checkbox"
+                                          name="select-all"
+                                       />
+                                       Select All
+                                    </label>
+                                 )}
+
+                                 {addToLibrary.length > 0 && (
+                                    <label
+                                       htmlFor="select-none"
+                                       onClick={handleClearAllCheckBox}
+                                    >
+                                       <input
+                                          type="checkbox"
+                                          name="select-none"
+                                       />
+                                       Clear All
+                                    </label>
+                                 )}
+                              </div>
+
+                              {/*
+                               *** MESSAGE: NEW PLUGINS ****/}
+                              <div
+                                 className={
+                                    Styles["plugin-finder-text-box"] +
+                                    " " +
+                                    Styles["add-to-library-text-box"]
+                                 }
+                              >
+                                 <p>
+                                    Click the plugin name to select it to add to
+                                    the library. Click the X to ignore it in the
+                                    future.
+                                 </p>
+                              </div>
+                              <button
+                                 type="button"
+                                 className={
+                                    Styles["add-to-library-button"] +
+                                    " " +
+                                    Styles.pulse +
+                                    " " +
+                                    Styles["button-action-needed"]
+                                 }
+                                 onClick={handleAddToLibraryButton}
+                              >
+                                 Add to Library &rarr;
+                              </button>
+
+                              {/*
+                               *** NEW PLUGINS LIST ****/}
+                              <CollapsibleElm
+                                 key={"Missing-Plugins"}
+                                 id={"new-plugins-collapsible-elm"}
+                                 styles={{
+                                    position: "relative"
+                                 }}
+                                 maxHeight="10em"
+                                 inputOrButton="button"
+                                 buttonStyles={{
+                                    margin: "0 auto",
+                                    fontVariant: "small-caps",
+                                    transform: "translateY(50%)",
+                                    transition: "0.7s all ease",
+                                    textAlign: "center",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    padding: "0.25em 0",
+                                    minWidth: "fit-content",
+                                    width: "100%"
+                                 }}
+                                 colorType="secondary"
+                                 dataAttribute={{
+                                    "data-elm": "new-plugins-collapsible-elm"
+                                 }}
+                                 size="small"
+                              >
+                                 {fileNames.map((fileName, index) => (
+                                    <li key={index}>
+                                       <label
+                                          htmlFor={fileName}
+                                          onClick={handleCheckBox}
+                                          data-file-name={fileName}
+                                       >
+                                          <input
+                                             type="checkbox"
+                                             name={fileName}
+                                             data-file-name={fileName}
+                                             defaultChecked={addToLibrary.includes(
+                                                fileName
+                                             )}
+                                             checked={addToLibrary.includes(
+                                                fileName
+                                             )}
+                                          />
+                                          {fileName}
+                                       </label>
+                                       <button
+                                          type="button"
+                                          className={
+                                             Styles["ignore-list-button"]
+                                          }
+                                          onClick={handleAddToIgnoreList}
+                                          data-file-name={fileName}
+                                       >
+                                          X
+                                       </button>
+                                    </li>
+                                 ))}
+                              </CollapsibleElm>
+                           </Fragment>
+                        )}
+
+                        {/*
+                         *** MESSAGES: NO NEW PLUGINS ****/}
+                        {!noPluginPathsExist && fileNames.length <= 0 && (
+                           <div className={Styles["message-container"]}>
+                              <p>
+                                 There are no new plugins at this time. Check
+                                 out the Plugin Paths section to make sure all
+                                 of your plugin locations are listed there. If
+                                 it is not listed, it will not be scanned. 🙂
+                                 You can add up to four plugin paths.
+                              </p>
+                           </div>
+                        )}
+                        {noPluginPathsExist && fileNames.length <= 0 && (
+                           <div className={Styles["message-container"]}>
+                              <p>
+                                 It looks like there are not any plugin paths
+                                 set. Check out the Plugin Paths section to add
+                                 all of the plugin locations on your computer.
+                                 The Plugin Finder can only scan locations
+                                 listed there. 🙂 You can add up to four paths.
+                              </p>
+                           </div>
+                        )}
+                     </div>
                   </Fragment>
                )}
             </ul>
          </div>
 
-         {userFilesToGroomArray && (
+         {/* 
+      ************** 
+        Missing Plugins Modal
+      *************** 
+      */}
+         {userFilesToGroomArray && formOpen && (
             <div className={Styles["plugin-finder-modal"]}>
                <button
                   type="button"
@@ -667,7 +1762,7 @@ const PluginFinder = (props) => {
                      buttonStyles={buttonStyles}
                      submitButtonStyles={submitButtonStyles}
                      //   ignoreFormOpen={true}
-                     setFormParentOpen={false}
+                     setFormParentOpen={setFormOpen}
                      cancelOneForm={(e) => {
                         e.preventDefault();
                         const targetParent = e.target.closest(

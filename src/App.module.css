@@ -154,7 +154,7 @@
    right: 0;
    width: 250px;
    height: 55px;
-   z-index: 110;
+   z-index: 2000;
    border-radius: 50px 0 0 50px;
    background: var(--iq-color-foreground);
    color: var(--iq-color-background-warm);

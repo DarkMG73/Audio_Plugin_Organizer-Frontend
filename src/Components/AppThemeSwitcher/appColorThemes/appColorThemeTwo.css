@@ -100,6 +100,10 @@ https://colordesigner.io/color-palette-builder?mode=lch#121232-C1E6F6-43BDE9-2F5
       #43bde9 -17%,
       #121232 36%
    );
+   --iq-color-foreground-radial-gradient: radial-gradient(
+      var(--iq-color-accent) 20%,
+      var(--iq-color-foreground) 80%
+   );
 
    /*** Alert ***/
    --iq-color-alert-red: #e74c3c;
@@ -109,6 +113,7 @@ https://colordesigner.io/color-palette-builder?mode=lch#121232-C1E6F6-43BDE9-2F5
    --iq--font-heading: small-caps normal 700 24px "ANDTIOH One", sans-serif;
    --iq--font-heading-2: small-caps normal 700 18px "ANDTIOH One", sans-serif;
    --iq--font-heading-3: small-caps normal 700 18px "Michroma", sans-serif;
+   --apo-general-font-letter-spacing: 0.125em;
    --iq-spacing-heading: 0.25em;
    --iq-spacing-subheading: 0.375em;
    --iq-font-subheading: small-caps normal 700 12px "Michroma", sans-serif;
@@ -132,7 +137,14 @@ https://colordesigner.io/color-palette-builder?mode=lch#121232-C1E6F6-43BDE9-2F5
       var(--apo-boxshadow-outer);
    --apo-login-status-form-boxshadow: none;
    --iq-color-nav-buttons-background: var(--iq-color-background-warm-gradient);
+   --apo-color-navbar-title-wrap: none;
+   --apo-border-radius-navbar-title-wrap: 50px;
+   --apo-box-shadow-navbar-title-wrap: none;
    --iq-color-nav-buttons-color: var(--iq-color-foreground);
+   --iq-color-scrollbar-track: var(--iq-color-foreground-gradient);
+
+   --iq-color-scrollbar-thumb-inner: var(--iq-color-accent-2-dark);
+   --iq-color-scrollbar-thumb-outer: var(--iq-color-foreground);
    --iq-add-tool-background: var(--iq-color-foreground);
    --apo-add-tool-color: var(--iq-color-accent);
    --apo-form-gradient: inset 0 27px 20px -16px var(--iq-color-accent-dark);
