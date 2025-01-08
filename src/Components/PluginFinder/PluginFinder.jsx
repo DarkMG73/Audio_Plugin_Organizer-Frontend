@@ -74,13 +74,6 @@ const PluginFinder = (props) => {
       }
    };
    useEffect(() => {
-      console.log(
-         "%c⚪️►►►► %cline:78%cactivateLoader",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(237, 222, 139);padding:3px;border-radius:2px",
-         activateLoader
-      );
       // if (activateLoader < 0) setActivateLoader(0);
    }, [activateLoader]);
 
@@ -89,13 +82,6 @@ const PluginFinder = (props) => {
       dispatch(loadingRequestsActions.addToLoadRequest());
 
       if (!formOpen) {
-         console.log(
-            "%c⚪️►►►► %cline:85%cformOpen",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(34, 8, 7);padding:3px;border-radius:2px",
-            formOpen
-         );
          dispatch(authActions.refreshUser(Math.random(10000)));
          setFileNames([]);
          setUserFilesToGroomArray(false);
@@ -109,40 +95,12 @@ const PluginFinder = (props) => {
    }, [formOpen]);
 
    useEffect(() => {
-      console.log(
-         "%c⚪️►►►► %cline:117%cuser",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(17, 63, 61);padding:3px;border-radius:2px",
-         user
-      );
       if (user && Object.hasOwn(user, "pluginPaths")) {
-         console.log(
-            "%c⚪️►►►► %cline:114%cuser.pluginPaths",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(229, 187, 129);padding:3px;border-radius:2px",
-            user.pluginPaths
-         );
          let pluginPaths = false;
          Object.values(user.pluginPaths).forEach((path) => {
-            console.log(
-               "%c⚪️►►►► %cline:117%cpath",
-               "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-               "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-               "color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px",
-               path
-            );
             if (pluginPaths) return;
             if (path && path.replaceAll(" ", "") !== "") {
                pluginPaths = true;
-               console.log(
-                  "%c⚪️►►►► %cline:121%cpluginPaths",
-                  "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                  "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                  "color:#fff;background:rgb(118, 77, 57);padding:3px;border-radius:2px",
-                  pluginPaths
-               );
                setNoPluginPathsExist(false);
             }
             if (!pluginPaths) setNoPluginPathsExist(true);
@@ -173,24 +131,10 @@ const PluginFinder = (props) => {
    useEffect(() => {
       if (findNewPlugins) {
          setActivateLoader(activateLoader + 1);
-         console.log(
-            "%c⚪️►►►► %cline:175%csetActivateLoader1",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(56, 13, 49);padding:3px;border-radius:2px",
-            setActivateLoader
-         );
          getLocalPluginData(user, pluginPathsObj)
             .then((data) => {
                setTimeout(() => {
                   setActivateLoader((prevState) => prevState - 1);
-                  console.log(
-                     "%c⚪️►►►► %cline:247%cactivateLoader1 - 1",
-                     "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                     "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                     "color:#fff;background:rgb(34, 8, 7);padding:3px;border-radius:2px",
-                     activateLoader - 1
-                  );
                }, 3000);
 
                if (!data || data.length <= 0) return;
@@ -280,27 +224,9 @@ const PluginFinder = (props) => {
             .catch((err) => {
                setTimeout(() => {
                   setActivateLoader((prevState) => prevState - 1);
-                  console.log(
-                     "%c⚪️►►►► %cline:253%cactivateLoader1 - 1",
-                     "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                     "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                     "color:#fff;background:rgb(114, 83, 52);padding:3px;border-radius:2px",
-                     activateLoader - 1
-                  );
                }, 3000);
                console.log("err->", err);
             });
-      } else {
-         // setTimeout(() => {
-         //   setActivateLoader(prevState=>prevState - 1);
-         //   console.log(
-         //     '%c⚪️►►►► %cline:260%cactivateLoader1 - 1',
-         //     'color:#fff;background:#ee6f57;padding:3px;border-radius:2px',
-         //     'color:#fff;background:#1f3c88;padding:3px;border-radius:2px',
-         //     'color:#fff;background:rgb(38, 157, 128);padding:3px;border-radius:2px',
-         //     activateLoader - 1,
-         //   );
-         // }, 3000);
       }
    }, [findNewPlugins]);
 
@@ -329,20 +255,7 @@ const PluginFinder = (props) => {
          setUserFilesToGroomArray(groomedData);
          setSendToLibrary(false);
          setTimeout(() => {
-            console.log(
-               "%c⚪️►►►► %cline:287%csetTimeout",
-               "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-               "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-               "color:#fff;background:rgb(114, 83, 52);padding:3px;border-radius:2px"
-            );
             setActivateLoader((prevState) => prevState - 1);
-            console.log(
-               "%c⚪️►►►► %cline:296%cactivateLoader - 1)",
-               "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-               "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-               "color:#fff;background:rgb(237, 222, 139);padding:3px;border-radius:2px",
-               activateLoader - 1
-            );
          }, 3000);
       }
    }, [sendToLibrary, addToLibrary, groomDataForToolForm, toolsSchema]);
@@ -463,13 +376,6 @@ const PluginFinder = (props) => {
    const handleAddPluginLocationInput = (e) => {
       e.preventDefault();
       setShowPluginPathSaveButton(true);
-      console.log(
-         "%c⚪️►►►► %cline:381%c e.target.value",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(254, 67, 101);padding:3px;border-radius:2px",
-         e.target.value
-      );
       setPluginPathsObj((prevState) => {
          const newState = { ...prevState };
          newState[e.target.name] = e.target.value;
@@ -495,13 +401,6 @@ const PluginFinder = (props) => {
             setTimeout(() => {
                setFindNewPlugins(true);
                setActivateLoader((prevState) => prevState - 1);
-               console.log(
-                  "%c⚪️►►►► %cline:443%cactivateLoader - 1",
-                  "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                  "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                  "color:#fff;background:rgb(89, 61, 67);padding:3px;border-radius:2px",
-                  activateLoader - 1
-               );
                dispatch(loadingRequestsActions.removeFromLoadRequest());
             }, 5000);
          })
@@ -540,13 +439,6 @@ const PluginFinder = (props) => {
          setActivateLoader(activateLoader + 1);
          setTimeout(() => {
             setActivateLoader((prevState) => prevState - 1);
-            console.log(
-               "%c⚪️►►►► %cline:482%c setActivateLoader(activateLoader - 1",
-               "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-               "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-               "color:#fff;background:rgb(161, 23, 21);padding:3px;border-radius:2px",
-               setActivateLoader((prevState) => prevState - 1)
-            );
             dispatch(loadingRequestsActions.removeFromLoadRequest());
          }, 7000);
       };
@@ -581,13 +473,6 @@ const PluginFinder = (props) => {
             alert("The save was successful!\n\nServer status: " + res.status);
             setTimeout(() => {
                setActivateLoader((prevState) => prevState - 1);
-               console.log(
-                  "%c⚪️►►►► %cline:517%cactivateLoader - 1",
-                  "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                  "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                  "color:#fff;background:rgb(222, 125, 44);padding:3px;border-radius:2px",
-                  activateLoader - 1
-               );
                dispatch(loadingRequestsActions.removeFromLoadRequest());
             }, 3000);
          })
@@ -605,13 +490,6 @@ const PluginFinder = (props) => {
             alert("The save was successful!\n\nServer status: " + res.status);
             setTimeout(() => {
                setActivateLoader((prevState) => prevState - 1);
-               console.log(
-                  "%c⚪️►►►► %cline:535%cactivateLoader - 1",
-                  "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-                  "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                  "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
-                  activateLoader - 1
-               );
                dispatch(loadingRequestsActions.removeFromLoadRequest());
             }, 2000);
          })
@@ -637,13 +515,6 @@ const PluginFinder = (props) => {
    };
 
    const handleFindNewPluginsButton = () => {
-      console.log(
-         "%c⚪️►►►► %cline:486%chandleFindNewPluginsButton",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(248, 214, 110);padding:3px;border-radius:2px"
-      );
-
       setFindNewPlugins(!findNewPlugins);
    };
 
@@ -1068,7 +939,8 @@ const PluginFinder = (props) => {
                                              alignItems: "center",
                                              padding: "0.25em 0",
                                              minWidth: "fit-content",
-                                             width: "100%"
+                                             width: "100%",
+                                             gridColumn: "1 / -1"
                                           }}
                                           colorType="secondary"
                                           dataAttribute={{
@@ -1209,7 +1081,7 @@ const PluginFinder = (props) => {
                                           Disable these Missing Plugins &rarr;
                                        </button>
                                        <CollapsibleElm
-                                          key={"Missing Plugins to Ignore"}
+                                          key={"Missing-Plugins"}
                                           id={"missing-plugins-collapsible-elm"}
                                           styles={{
                                              position: "relative"
@@ -1316,8 +1188,10 @@ const PluginFinder = (props) => {
                                           above, that means it is empty.
                                        </p>
                                        <CollapsibleElm
-                                          key={"Missing Plugins to Ignore"}
-                                          id={"missing-plugins-collapsible-elm"}
+                                          key={"Missing-Plugin-to-Ignore"}
+                                          id={
+                                             "missing-plugins-to-ignore-collapsible-elm"
+                                          }
                                           styles={{
                                              position: "relative"
                                           }}
@@ -1432,7 +1306,12 @@ const PluginFinder = (props) => {
                                     Styles["ignore-plugin-list-container"]
                                  }
                               >
-                                 <h3>Ignored Plugins</h3>
+                                 <h3>
+                                    {ignorePluginList.length > 0
+                                       ? ignorePluginList.length
+                                       : "No"}{" "}
+                                    Ignored Plugins
+                                 </h3>
                                  {showSaveIgnoreListButton && (
                                     <button
                                        type="button"
@@ -1472,7 +1351,7 @@ const PluginFinder = (props) => {
                                     {/*
                                      *** IGNORED PLUGINS LIST ****/}
                                     <CollapsibleElm
-                                       key={"Missing Plugins to Ignore"}
+                                       key={"New-Plugins-to-Ignore"}
                                        id={
                                           "new-plugins-to-ignore-collapsible-elm"
                                        }
@@ -1491,7 +1370,8 @@ const PluginFinder = (props) => {
                                           alignItems: "center",
                                           padding: "0.25em 0",
                                           minWidth: "fit-content",
-                                          width: "100%"
+                                          width: "100%",
+                                          gridColumn: "1 / -1"
                                        }}
                                        colorType="secondary"
                                        dataAttribute={{
@@ -1635,8 +1515,8 @@ const PluginFinder = (props) => {
                               {/*
                                *** NEW PLUGINS LIST ****/}
                               <CollapsibleElm
-                                 key={"Missing-Plugins"}
-                                 id={"new-plugins-collapsible-elm"}
+                                 key={"new-Plugins"}
+                                 id={"new-plugins-main-collapsible-elm"}
                                  styles={{
                                     position: "relative"
                                  }}

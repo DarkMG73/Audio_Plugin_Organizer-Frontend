@@ -605,7 +605,7 @@ div[data-elm*="collapsible-elm"] {
 .ignore-plugin-list-container {
    width: 100%;
    grid-column: 1 / -1;
-   margin: 1em auto;
+   margin: 1em auto 3em;
 }
 
 /* .ignore-plugin-list-container ul {
