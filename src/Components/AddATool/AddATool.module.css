@@ -27,6 +27,7 @@
    margin: 0 0 1em;
    min-height: fit-content;
    height: 100%;
+   position: relative;
 }
 
 .button-section-container > * {
@@ -64,6 +65,7 @@
    transform: scale(1.1);
    transition: 0.1s all ease;
 }
+
 .cvs-buttons-container {
    display: flex;
    justify-content: center;

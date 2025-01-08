@@ -88,9 +88,11 @@
    transition: 0.3s all ease;
    transition-delay: 0.5s;
 }
+
 .notes-wrap {
    text-align: left;
    line-height: 1.25em;
+   border-radius: 12.5px;
 }
 
 /* body[class*="can-hover"] .notes-wrap > div:last-child {
