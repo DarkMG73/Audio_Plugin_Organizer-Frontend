@@ -349,13 +349,13 @@ button.edit {
 }
 
 .status-Disabled > div > div > div button {
-   color: inherit !important;
-   background: inherit !important;
+   background: var(--iq-color-accent) !important;
+   color: var(--iq-color-background) !important;
 }
 
 .status-Disabled .button-container {
-   color: var(--iq-color-foreground) !important;
-   background: var(--iq-color-accent) !important;
+   background: transparent !important;
+   color: inherit !important;
    font-size: 1.5em;
    height: 3em;
 }

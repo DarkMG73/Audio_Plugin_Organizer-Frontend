@@ -14,6 +14,17 @@ export default async function GatherToolData(user) {
       "../assets/images/generic_plugin_images/",
       true
    );
+   const metadataTopicsToAlphaSort = [
+      "_id",
+      "name",
+      "company",
+      "productURL",
+      "photoURL",
+      "identifier",
+      "masterLibraryID"
+   ];
+
+   const metadataTopicsToNumberSort = ["rating"];
 
    if (pluginSchema && Object.hasOwn(pluginSchema, "status"))
       throw pluginSchema;
@@ -86,7 +97,11 @@ export default async function GatherToolData(user) {
    };
 
    // eslint-disable-next-line no-use-before-define
-   allToolsData.toolsMetadata = gatherAllMetadata(allTools);
+   allToolsData.toolsMetadata = gatherAllMetadata(
+      allTools,
+      metadataTopicsToAlphaSort,
+      metadataTopicsToNumberSort
+   );
    allToolsData.toolsSchema = pluginSchema.obj;
 
    const gatherFilters = (keysArray) => {
@@ -148,7 +163,11 @@ export default async function GatherToolData(user) {
    return allToolsData;
 }
 
-function gatherAllMetadata(dataObject) {
+function gatherAllMetadata(
+   dataObject,
+   metadataTopicsToAlphaSort,
+   metadataTopicsToNumberSort
+) {
    const itemsToExclude = ["__v", "createdAt", "updatedAt"];
    const valuesToExclude = ["undefined", "", " "];
    // eslint-disable-next-line no-use-before-define
@@ -157,7 +176,23 @@ function gatherAllMetadata(dataObject) {
       itemsToExclude,
       valuesToExclude
    );
-   return outputSet;
+
+   const groomedOutputObj = {};
+   for (const [key, value] of Object.entries(outputSet)) {
+      let newValue = [...value];
+
+      if (metadataTopicsToAlphaSort.includes(key)) {
+         newValue = value.sort((a, b) => a.localeCompare(b));
+      }
+
+      if (metadataTopicsToNumberSort.includes(key)) {
+         newValue = value.sort((a, b) => a - b);
+      }
+
+      groomedOutputObj[key] = newValue;
+   }
+
+   return groomedOutputObj;
 }
 
 function objectExtractAllValuesPerKey(

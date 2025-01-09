@@ -198,7 +198,7 @@ const PluginFinder = (props) => {
                         cleanStr(name) === cleanStr(value.masterLibraryID)
                   );
                   if (nameFound.length <= 0) {
-                     // Treat differently if  bundle
+                     // Treat differently if bundle
                      for (const [name, bundle] of Object.entries(
                         specialBundles
                      )) {
@@ -395,8 +395,6 @@ const PluginFinder = (props) => {
 
             alert("The save was successful!\n\nServer status: " + res.status);
 
-            setFindNewPlugins(true);
-
             dispatch(authActions.refreshUser(Math.random(10000)));
             setTimeout(() => {
                setFindNewPlugins(true);
@@ -410,7 +408,8 @@ const PluginFinder = (props) => {
    };
 
    const handleDisableMissingPluginsButton = () => {
-      console.log("THESE NEED TO BE DIABLED AND SAVED", missingFileNames);
+      setFindNewPlugins(false);
+
       const submitData = {};
 
       for (const value of Object.values(allTools)) {
@@ -427,18 +426,19 @@ const PluginFinder = (props) => {
 
       const successCallback = () => {
          dispatch(loadingRequestsActions.addToLoadRequest());
-
+         setMissingFileNames([]);
          alert(
             "The item was successfully updated in your library!\n\nChanges will be reflected after you close this notice. If not, please refresh the browser."
          );
          dispatch(authActions.refreshUser(Math.random(10000)));
-         setFileNames([]);
-         setAddToLibrary([]);
 
-         setFindNewPlugins(true);
          setActivateLoader(activateLoader + 1);
          setTimeout(() => {
+            setFileNames([]);
+            setAddToLibrary([]);
+            setFindNewPlugins(true);
             setActivateLoader((prevState) => prevState - 1);
+            setFindNewPlugins(true);
             dispatch(loadingRequestsActions.removeFromLoadRequest());
          }, 7000);
       };
@@ -825,7 +825,7 @@ const PluginFinder = (props) => {
                                        accessible)
                                     </button>
                                  )}
-                                 {missingIgnorePluginList.length > 1 && (
+                                 {missingIgnorePluginList.length > 0 && (
                                     <div
                                        className={
                                           Styles[
