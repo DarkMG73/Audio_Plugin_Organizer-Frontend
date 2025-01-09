@@ -577,14 +577,20 @@ function ToolRow(props) {
                      deleteButtonStyles={{
                         flexBasis: " 25%",
                         flexGrow: "1",
-                        top: "-14px",
+                        fontSize: "0.75em",
+                        top: "0",
+                        height: "2em",
                         width: "90%",
                         minWidth: "min-content",
                         maxWidth: " 40%",
-                        fontSize: "1em",
+                        boxShadow: "0 0 20px -5px var(--iq-color-accent-2)",
                         color: "var(--iq-color-alert-text)",
                         background: "var(--iq-color-alert-red)",
-                        marginTop: "1em"
+                        marginTop: "auto",
+                        margin: "auto",
+                        padding: "0 0 1em",
+                        opacity: "0.5",
+                        border: "none"
                      }}
                   />
                </div>

@@ -11,7 +11,7 @@ function CollapsibleElm(props) {
    function isOverflowActive(e) {
       if (e)
          return (
-            e.offsetHeight < e.scrollHeight || e.offsetWidth < e.scrollWidth
+            e.clientHeight + 5 < e.scrollHeight || e.clientWidth < e.scrollWidth
          );
    }
 

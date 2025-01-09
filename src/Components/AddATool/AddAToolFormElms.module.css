@@ -22,6 +22,7 @@
    grid-columns: (auto, 1fr);
    grid-template-columns: 25% 25% 25% 25%;
    grid-template-areas:
+      "close-button close-button close-button close-button"
       "name name name name"
       "functions functions functions functions"
       "precision precision precision precision"
@@ -33,8 +34,7 @@
       "notes notes notes notes"
       "identifier identifier identifier identifier"
       "masterLibraryID masterLibraryID masterLibraryID masterLibraryID"
-      "_id _id _id _id"
-      "close-button close-button close-button close-button";
+      "_id _id _id _id";
    margin-top: 10em;
    position: relative;
    box-shadow: var(--apo-form-outer-shadow);
@@ -159,17 +159,17 @@ body [class*="FormInput_id"] {
    display: block;
    grid-area: close-button;
    width: 100%;
-   max-width: 100%;
-   min-height: 100%;
-   height: 4em;
+   /* max-width: 100%; */
+   /* min-height: 100%; */
+   height: 2em;
    left: 0;
-   margin: 4em auto -0.5em;
+   margin: 0em auto;
    transform: none;
    text-transform: uppercase;
    opacity: 0.75;
    font-weight: 700;
    box-shadow:
-      3px 3px 7px -4px #ffffffdb inset,
+      3px 3px 7px -4px rgba(255, 255, 255, 0.8588235294) inset,
       -3px -3px 7px -4px black inset;
    padding: 0 1em;
    border-radius: 6.125px;

@@ -18,6 +18,10 @@
    height: 100%;
 }
 
+.inner-wrap input[type="submit"]:hover {
+   opacity: 1 !important;
+}
+
 .error-text {
    border-bottom: 14px inset orangered !important;
    border-top: 14px inset orangered !important;
