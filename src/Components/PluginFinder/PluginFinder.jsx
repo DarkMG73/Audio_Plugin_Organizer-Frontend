@@ -424,6 +424,7 @@ const PluginFinder = (props) => {
       }
 
       const successCallback = () => {
+         setActivateLoader(activateLoader + 1);
          dispatch(loadingRequestsActions.addToLoadRequest());
          setMissingFileNames([]);
          alert(
@@ -431,11 +432,14 @@ const PluginFinder = (props) => {
          );
          dispatch(authActions.refreshUser(Math.random(10000)));
 
-         setActivateLoader(activateLoader + 1);
          setTimeout(() => {
             setFileNames([]);
             setAddToLibrary([]);
-            setFindNewPlugins(true);
+
+            const confirm = window.confirm(
+               'There are unsaved items in the "Missing Plugins to Ignore" list. We are going to save those now.\n\nClick confirm to save.\n\nIf you do not want to save those, hit Cancel, but be aware that list might be out of synch with the Missing Plugin list.'
+            );
+            if (confirm) handleSaveMissingIgnoredPluginsButton();
             setActivateLoader((prevState) => prevState - 1);
             setFindNewPlugins(true);
             dispatch(loadingRequestsActions.removeFromLoadRequest());
@@ -519,6 +523,10 @@ const PluginFinder = (props) => {
 
    const handleAddToLibraryButton = () => {
       setActivateLoader(activateLoader + 1);
+      const confirm = window.confirm(
+         "There are unsaved items in the Ignored Plugin list. We are going to save those now.\n\nClick confirm to save.\n\nIf you do not want to save those, hit Cancel, but be aware that list might be out of synch with the New Plugin list."
+      );
+      if (confirm) handleSaveIgnoredPluginsButton();
       setSendToLibrary(true);
       setFormOpen(true);
    };
