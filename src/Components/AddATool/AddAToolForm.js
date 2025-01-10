@@ -53,6 +53,7 @@ function AddAToolForm(props) {
       />
    ]);
    const successCallback = () => {
+      if (props.successCallback) props.successCallback();
       runGatherToolData(user, setLocalError, GatherToolData);
       if (props.saveOrUpdateData === "update") {
          alert(

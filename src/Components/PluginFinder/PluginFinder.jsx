@@ -73,6 +73,14 @@ const PluginFinder = (props) => {
          ]
       }
    };
+
+   const sentToLibrarySuccessCallback = () => {
+      const confirm = window.confirm(
+         'There are unsaved items in the Ignored Plugin list. We are going to save those now.\n\nClick "OK" (or "CONFIRM") to save. The is highly recommended.\n\nIf you do not want to save those, hit Cancel, but be aware that list might be out of sync with the New Plugin list.'
+      );
+      if (confirm) handleSaveIgnoredPluginsButton();
+   };
+
    useEffect(() => {
       // if (activateLoader < 0) setActivateLoader(0);
    }, [activateLoader]);
@@ -392,7 +400,7 @@ const PluginFinder = (props) => {
          .then((res) => {
             setShowPluginPathSaveButton(false);
 
-            alert("The save was successful!\n\nServer status: " + res.status);
+            alert("The plugin paths have been successfully saved!");
 
             dispatch(authActions.refreshUser(Math.random(10000)));
             setTimeout(() => {
@@ -426,20 +434,19 @@ const PluginFinder = (props) => {
       const successCallback = () => {
          setActivateLoader(activateLoader + 1);
          dispatch(loadingRequestsActions.addToLoadRequest());
+         const confirm = window.confirm(
+            'There are unsaved items in the "Missing Plugins to Ignore" list. We are going to save those now.\n\nClick the "OK" (or "CONFIRM") button to save. The is highly recommended.\n\nIf you do not want to save those, click Cancel, but be aware that list might be out of sync with the Missing Plugin list.'
+         );
+         if (confirm) handleSaveMissingIgnoredPluginsButton();
          setMissingFileNames([]);
          alert(
-            "The item was successfully updated in your library!\n\nChanges will be reflected after you close this notice. If not, please refresh the browser."
+            'The missing plugins have successfully been set to "Disabled" in your library!\n\nChanges will be reflected after you close this notice. If not, please refresh the browser.'
          );
          dispatch(authActions.refreshUser(Math.random(10000)));
 
          setTimeout(() => {
             setFileNames([]);
             setAddToLibrary([]);
-
-            const confirm = window.confirm(
-               'There are unsaved items in the "Missing Plugins to Ignore" list. We are going to save those now.\n\nClick confirm to save.\n\nIf you do not want to save those, hit Cancel, but be aware that list might be out of synch with the Missing Plugin list.'
-            );
-            if (confirm) handleSaveMissingIgnoredPluginsButton();
             setActivateLoader((prevState) => prevState - 1);
             setFindNewPlugins(true);
             dispatch(loadingRequestsActions.removeFromLoadRequest());
@@ -473,7 +480,9 @@ const PluginFinder = (props) => {
       updateMissingIgnoredPlugins(user, missingIgnorePluginList)
          .then((res) => {
             setShowSaveMissingIgnoreListButton(false);
-            alert("The save was successful!\n\nServer status: " + res.status);
+            alert(
+               "The Ignored Missing Plugins list has been successfully saved!"
+            );
             setTimeout(() => {
                setActivateLoader((prevState) => prevState - 1);
                dispatch(loadingRequestsActions.removeFromLoadRequest());
@@ -490,7 +499,7 @@ const PluginFinder = (props) => {
       updateIgnoredPlugins(user, ignorePluginList)
          .then((res) => {
             setShowSaveIgnoreListButton(false);
-            alert("The save was successful!\n\nServer status: " + res.status);
+            alert("The Ignored Plugins list has been successfully saved!");
             setTimeout(() => {
                setActivateLoader((prevState) => prevState - 1);
                dispatch(loadingRequestsActions.removeFromLoadRequest());
@@ -523,10 +532,7 @@ const PluginFinder = (props) => {
 
    const handleAddToLibraryButton = () => {
       setActivateLoader(activateLoader + 1);
-      const confirm = window.confirm(
-         "There are unsaved items in the Ignored Plugin list. We are going to save those now.\n\nClick confirm to save.\n\nIf you do not want to save those, hit Cancel, but be aware that list might be out of synch with the New Plugin list."
-      );
-      if (confirm) handleSaveIgnoredPluginsButton();
+
       setSendToLibrary(true);
       setFormOpen(true);
    };
@@ -1650,6 +1656,7 @@ const PluginFinder = (props) => {
                      submitButtonStyles={submitButtonStyles}
                      //   ignoreFormOpen={true}
                      setFormParentOpen={setFormOpen}
+                     successCallback={sentToLibrarySuccessCallback}
                      cancelOneForm={(e) => {
                         e.preventDefault();
                         const targetParent = e.target.closest(
