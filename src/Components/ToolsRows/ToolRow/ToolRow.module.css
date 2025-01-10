@@ -90,7 +90,7 @@
    justify-content: left;
    font-weight: 700;
    transition: 0.3s all ease;
-   transition-delay: 0.5s;
+   transition-delay: 0s;
 }
 
 .notes-wrap {
@@ -479,7 +479,7 @@ div[class*="display-format-lines"] .grid-item {
    font-family: initial;
    font-weight: 500 !important;
    transition: 0.1s all ease;
-   transition-delay: 0s;
+   transition-delay: 1s;
    font: var(--iq-font-subheading);
    padding: 0;
 }
@@ -603,7 +603,7 @@ div[class*="display-format-streamlined"] .grid-item {
    font-family: initial;
    font-weight: 500 !important;
    transition: 0.1s all ease;
-   transition-delay: 0s;
+   transition-delay: 1s;
    font: var(--iq-font-subheading);
    padding: 0;
 }
@@ -728,14 +728,14 @@ body[class*="can-hover"] .notes-wrap:hover {
    margin: 1em;
    width: 100%;
    padding-bottom: 2em;
-   transition-delay: 0.75s;
+   transition-delay: 1s;
 }
 
 body[class*="can-hover"] .notes-wrap:hover * {
    font-family: Arial !important;
    font-weight: 500 !important;
    transition: 0.1s all ease;
-   transition-delay: 0s;
+   transition-delay: 1s;
    font-size: 1.25em;
    padding: 0.5em 1em;
 }
