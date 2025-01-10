@@ -87,7 +87,6 @@ const PluginFinder = (props) => {
          setUserFilesToGroomArray(false);
          setAddToLibrary([]);
          setFindNewPlugins(!findNewPlugins);
-         alert("clearing add to library");
       }
       setTimeout(() => {
          dispatch(loadingRequestsActions.removeFromLoadRequest());
