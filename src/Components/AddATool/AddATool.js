@@ -246,6 +246,22 @@ function AddATool(props) {
                      buttonStyles={buttonStyles}
                      submitButtonStyles={submitButtonStyles}
                      setFormParentOpen={setShowAddQuestionForm}
+                     cancelOneForm={(e) => {
+                        e.preventDefault();
+                        const targetParent = e.target.closest(
+                           "[class*=form-group-wrap]"
+                        );
+                        if (targetParent) {
+                           targetParent.remove();
+                        } else {
+                           console.log(
+                              "ERROR: Target parent element " +
+                                 targetParent +
+                                 " is not present. This form can not be closed."
+                           );
+                        }
+                     }}
+                     doNotShowDeleteButton={true}
                   />
                </div>
             )}
@@ -262,6 +278,21 @@ function AddATool(props) {
                      buttonStyles={buttonStyles}
                      submitButtonStyles={submitButtonStyles}
                      setFormParentOpen={setShowAddQuestionForm}
+                     cancelOneForm={(e) => {
+                        e.preventDefault();
+                        const targetParent = e.target.closest(
+                           "[class*=form-group-wrap]"
+                        );
+                        if (targetParent) {
+                           targetParent.remove();
+                        } else {
+                           console.log(
+                              "ERROR: Target parent element " +
+                                 targetParent +
+                                 " is not present. This form can not be closed."
+                           );
+                        }
+                     }}
                   />
                </div>
             )}

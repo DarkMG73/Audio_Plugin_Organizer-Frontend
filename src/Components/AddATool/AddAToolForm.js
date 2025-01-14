@@ -10,9 +10,11 @@ import useRunGatherToolData from "../../Hooks/useRunGatherToolData";
 import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
 import LocalErrorDisplay from "../ErrorHandling/LocalErrorDisplay/LocalErrorDisplay";
 import { loadingRequestsActions } from "../../store/loadingRequestsSlice";
+import { audioToolDataActions } from "../../store/audioToolDataSlice.js";
 
 function AddAToolForm(props) {
    const user = useSelector((state) => state.auth.user);
+   const toolsMetadata = useSelector((state) => state.toolsData);
    const [requiredError, setRequiredError] = useState(false);
    const [formOpen, setFormOpen] = useState(null);
    const [formRefresh, setFormRefresh] = useState(Math.random(10000));
@@ -83,6 +85,7 @@ function AddAToolForm(props) {
          dataEntries,
          props.saveOrUpdateData
       );
+
       setSubmitData(groomedToolsData);
    }
 
@@ -147,7 +150,6 @@ function AddAToolForm(props) {
             key={"addatoolform-4"}
             className={styles["inner-wrap"] + " " + "inner-wrap"}
          >
-            {" "}
             {localError.active && (
                <LocalErrorDisplay message={localError.message} />
             )}
@@ -195,23 +197,25 @@ function AddAToolForm(props) {
                         </div>
                      )}
                      {formElms}
-                     <PushButton
-                        key={"addatoolform-5"}
-                        inputOrButton="input"
-                        type="submit"
-                        id="tool-delete-btn"
-                        colorType="primary"
-                        value="Delete this Item"
-                        data=""
-                        size="small"
-                        onClick={props.deleteToolButtonHandler}
-                        styles={{
-                           ...props.buttonStyles,
-                           ...props.deleteButtonStyles
-                        }}
-                     >
-                        Delete this Item
-                     </PushButton>
+                     {!props.doNotShowDeleteButton && (
+                        <PushButton
+                           key={"addatoolform-5"}
+                           inputOrButton="input"
+                           type="submit"
+                           id="tool-delete-btn"
+                           colorType="primary"
+                           value="Delete this Item"
+                           data=""
+                           size="small"
+                           onClick={props.deleteToolButtonHandler}
+                           styles={{
+                              ...props.buttonStyles,
+                              ...props.deleteButtonStyles
+                           }}
+                        >
+                           Delete this Item
+                        </PushButton>
+                     )}
                   </CardPrimary>
                </Fragment>
             ))}
@@ -233,7 +237,7 @@ function AddAToolForm(props) {
                      inputOrButton="button"
                      id="quest-submit-btn"
                      colorType="primary"
-                     value="Add another Question"
+                     value="Add another Plugin"
                      data=""
                      size="large"
                      onClick={addAnotherQuestionFormButtonHandler}

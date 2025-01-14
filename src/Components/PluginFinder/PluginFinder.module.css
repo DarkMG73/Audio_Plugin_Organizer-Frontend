@@ -115,6 +115,11 @@
    font-weight: 700;
 }
 
+.plugin-finder-container [class*="close-item-form-button"] {
+   background: var(--iq-color-accent-2);
+   color: var(--iq-color-foreground);
+}
+
 .plugin-finder-container .ignore-list-button {
    background: transparent;
    color: #ff8700;
@@ -742,6 +747,10 @@ body[class*="can-hover"] .plugin-finder-container ul li:hover {
    transform: scale(1.125) translateX(0.5em);
    font-weight: 700;
    overflow: visible;
+}
+
+body[class*="can-hover"] .plugin-finder-container ul li:hover label {
+   white-space: normal;
 }
 
 .missing-ignore-plugin-list-container ul label,

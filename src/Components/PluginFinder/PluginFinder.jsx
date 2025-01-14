@@ -260,6 +260,7 @@ const PluginFinder = (props) => {
          ]);
 
          setUserFilesToGroomArray(groomedData);
+         if (formOpen) setFormOpen(groomedData.length);
          setSendToLibrary(false);
          setTimeout(() => {
             setActivateLoader((prevState) => prevState - 1);
@@ -1646,15 +1647,17 @@ const PluginFinder = (props) => {
                </button>
 
                <div
-                  key="add-a-tool-inputs-container 3"
+                  key="add-a-tool-inputs-container"
+                  id="plugin-finder-inputs-container"
                   className={Styles["inputs-container"]}
                >
                   <AddAToolForm
                      saveOrUpdateData="save"
                      formData={userFilesToGroomArray}
                      buttonStyles={buttonStyles}
+                     removeAddMoreButton={true}
                      submitButtonStyles={submitButtonStyles}
-                     //   ignoreFormOpen={true}
+                     ignoreFormOpen={true}
                      setFormParentOpen={setFormOpen}
                      successCallback={sentToLibrarySuccessCallback}
                      cancelOneForm={(e) => {
@@ -1663,7 +1666,11 @@ const PluginFinder = (props) => {
                            "[class*=form-group-wrap]"
                         );
                         if (targetParent) {
-                           targetParent.style.display = "none";
+                           targetParent.remove();
+                           // Close parent if no forms left
+                           setFormOpen((prevState) => {
+                              return prevState - 1;
+                           });
                         } else {
                            console.log(
                               "ERROR: Target parent element " +

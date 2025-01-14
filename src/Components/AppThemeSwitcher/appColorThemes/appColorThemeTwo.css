@@ -142,10 +142,11 @@ https://colordesigner.io/color-palette-builder?mode=lch#121232-C1E6F6-43BDE9-2F5
    --apo-box-shadow-navbar-title-wrap: none;
    --iq-color-nav-buttons-color: var(--iq-color-foreground);
    --iq-color-scrollbar-track: var(--iq-color-foreground-gradient);
-
    --iq-color-scrollbar-thumb-inner: var(--iq-color-accent-2-dark);
    --iq-color-scrollbar-thumb-outer: var(--iq-color-foreground);
-   --iq-add-tool-background: var(--iq-color-foreground);
+   --iq-add-tool-background: black;
+   --iq-add-tool-forms-background: var(--iq-color-foreground);
+   --iq-add-tool-forms-color: var(--iq-color-background);
    --apo-add-tool-color: var(--iq-color-accent);
    --apo-form-gradient: inset 0 27px 20px -16px var(--iq-color-accent-dark);
    --apo-form-outer-shadow: inset 0px 18px 10px 4px #005570,

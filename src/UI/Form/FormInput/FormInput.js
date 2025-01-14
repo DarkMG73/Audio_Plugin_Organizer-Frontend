@@ -382,7 +382,7 @@ const FormInput = (props) => {
          </div>
       );
    } else if (input.type === "datalist") {
-      // *** Select Boxes***
+      // *** Datalist Boxes***
       let inputHasSelected = false;
 
       const options = groomedOptions
@@ -443,6 +443,12 @@ const FormInput = (props) => {
       //    </option>
       // );
 
+      let inputDefaultValue =
+         input.options.length > 0 ? input.options[0].trim() : "";
+
+      if (Object.hasOwn(input, "preFilledData"))
+         inputDefaultValue = input.preFilledData;
+
       outputJSX = (
          <div
             key={"form-input-jsx"}
@@ -467,10 +473,8 @@ const FormInput = (props) => {
             <input
                list={formNumber + "#" + input.name}
                name={formNumber + "#" + input.name}
-               defaultValue={
-                  input.options.length > 0 ? input.options[0].trim() : ""
-               }
-               placeholder="Email address..."
+               defaultValue={inputDefaultValue}
+               placeholder={input.title + "..."}
                required={input.required}
                onChange={props.onChange || textInputOnChangeHandler}
             />

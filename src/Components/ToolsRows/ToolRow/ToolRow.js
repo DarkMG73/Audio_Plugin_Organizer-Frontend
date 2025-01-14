@@ -135,6 +135,7 @@ function ToolRow(props) {
    };
 
    const deleteToolButtonHandler = (e) => {
+      e.preventDefault();
       // Use tempKey instead of key when in dev
       // const tempKey = "TESTTEST";
       const confirmDelete = window.confirm(
@@ -549,6 +550,9 @@ function ToolRow(props) {
                      removeAddMoreButton={true}
                      deleteToolButtonHandler={deleteToolButtonHandler}
                      setFormParentOpen={setInEditMode}
+                     cancelOneForm={() => {
+                        setInEditMode(false);
+                     }}
                      styles={{ minHeight: "100%" }}
                      buttonStyles={{
                         position: "relative",

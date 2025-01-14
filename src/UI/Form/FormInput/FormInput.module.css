@@ -101,6 +101,7 @@ input {
 }
 
 input[value=""],
+input:focus,
 textarea {
    background: var(--iq-color-background);
    box-shadow:
@@ -253,16 +254,26 @@ textarea {
 /****************/
 
 /* *** App-Specific Fields *** */
+.name {
+   font-size: 18px;
+}
+
 .name,
 .input-company {
    flex-basis: 100%;
    flex-grow: 1;
    padding: 0.5em;
-   font-size: 18px;
    font-weight: 700;
    border: none;
    text-align: center;
 }
+
+.input-company input {
+   height: 3em;
+   width: 100%;
+   border-radius: 50px;
+}
+
 .input-container.name input,
 .input-container.input-company input {
    text-align: center;

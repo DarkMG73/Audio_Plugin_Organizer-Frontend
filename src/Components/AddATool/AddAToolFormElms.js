@@ -9,6 +9,7 @@ function AddAToolFormElms(props) {
    const [formOpen, setFormOpen] = useState(true);
    const formRefresh = props.formRefresh ? props.formRefresh : true;
    const [formInputData, setFormInputData] = useState(false);
+   const [newFormInputData, setNewFormInputData] = useState([]);
    const { toolsMetadata, toolsSchema } = useSelector(
       (state) => state.toolsData
    );
@@ -21,9 +22,8 @@ function AddAToolFormElms(props) {
          toolsSchema,
          toolsMetadata
       );
-
       setFormInputData(pluginFormWithOptions);
-   }, []);
+   }, [toolsMetadata.company]);
 
    ////////////////////////////////////////
    /// Additional Functionality
@@ -31,10 +31,29 @@ function AddAToolFormElms(props) {
    // spreadsheet upload sends
    // nested data groups, so blank
    // form requests need to be nested here
-   let newFormInputData = [];
 
-   if (formInputData)
-      newFormInputData = props.formData ? props.formData : [formInputData];
+   useEffect(() => {
+      if (formInputData) {
+         const output = props.formData ? props.formData : [formInputData];
+
+         // Override "company" datalist options to ensure most recent.
+         const groomedOutput = output.map((innerGroup) => {
+            return innerGroup.map((group) => {
+               const newGroup = { ...group };
+
+               if (
+                  Object.hasOwn(group, "title") &&
+                  group.title.toLowerCase().replaceAll(" ", "") === "company"
+               ) {
+                  newGroup.options = toolsMetadata.company;
+               }
+               return newGroup;
+            });
+         });
+
+         setNewFormInputData(groomedOutput);
+      }
+   }, [formInputData]);
 
    function cancelQuestionFormButtonHandler(e) {
       e.preventDefault();
@@ -43,8 +62,8 @@ function AddAToolFormElms(props) {
       );
 
       if (close) {
-         if (!props.ignoreFormOpen) setFormOpen(false);
-         if (props.setFormParentOpen) props.setFormParentOpen(false);
+         // if (!props.ignoreFormOpen) setFormOpen(false);
+         // if (props.setFormParentOpen) props.setFormParentOpen(false);
          if (props.cancelOneForm) props.cancelOneForm(e);
       }
    }

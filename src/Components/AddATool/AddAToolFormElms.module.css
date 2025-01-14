@@ -38,7 +38,10 @@
    margin-top: 10em;
    position: relative;
    box-shadow: var(--apo-form-outer-shadow);
+   border: 1px solid;
    border-top: var(--apo-form-top-border);
+   background: var(--iq-add-tool-forms-background);
+   color: var(--iq-add-tool-forms-color);
 }
 
 .form-group-wrap:first-child {

@@ -150,7 +150,9 @@ https://colordesigner.io/color-palette-builder?mode=lch#FFFFFA-A1A194-5B605F-464
    );
    --iq-color-scrollbar-thumb-inner: var(--iq-color-accent);
    --iq-color-scrollbar-thumb-outer: var(--iq-color-accent-dark);
-   --iq-add-tool-background: var(--iq-color-foreground);
+   --iq-add-tool-background: var(--iq-color-background);
+   --iq-add-tool-forms-background: var(--iq-color-foreground);
+   --iq-add-tool-forms-color: var(--iq-color-background);
    --apo-add-tool-color: var(--iq-color-accent);
    --apo-form-gradient: inset 0 7px 20px -16px rgba(128, 128, 128, 0.449);
    --apo-form-outer-shadow: none;
