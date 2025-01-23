@@ -1,19 +1,57 @@
 .admin-container {
    display: flex;
    position: fixed;
-   bottom: 75px;
-   right: 0;
+   top: 50%;
+   left: 50%;
    z-index: 100;
    font-size: 10px;
-   background: var(--iq-color-background);
-   color: var(--iq-color-foreground);
+   background: var(--iq-color-foreground);
+   color: var(--iq-color-background);
    padding: 1em 0 1em 1em;
    border-radius: 50px 0 0 50px;
-   transform: translateX(calc(100% - 10em));
+   transform: scale(0) translate(-50%, -50%);
    box-shadow:
       3px 3px 7px -4px white inset,
-      -3px -3px 7px -4px black inset;
-   transition: 0.3s all ease;
+      -3px -3px 7px -4px black inset,
+      0 0 30px -7px var(--iq-color-accent);
+   transition:
+      0.7s 0.4s all ease,
+      0.3s opacity ease;
+   height: 80%;
+   width: 88%;
+   min-width: 300px;
+   min-height: 500px;
+   overflow: auto;
+   flex-direction: column;
+   opacity: 0;
+   transform-origin: left top;
+}
+
+.backdrop {
+   position: fixed;
+   display: block;
+   top: 0;
+   left: 0;
+   width: 400vh;
+   height: 400vw;
+   background: var(--iq-color-foreground);
+   z-index: 99;
+   opacity: 0;
+   transform: scale(0);
+}
+
+.admin-open {
+   opacity: 1;
+   transform: scale(1) translate(-50%, -50%);
+   transform-origin: left top;
+   transition:
+      0.1s all ease,
+      0.3s 0.1s opacity ease;
+   padding: 2em 1em 0;
+}
+
+.admin-open.backdrop {
+   opacity: 0.75;
 }
 
 .admin-container h2 {
@@ -21,7 +59,305 @@
    margin-right: 1em;
 }
 
-/* Hover turned Off for touch and stylus */
-body[class*="can-hover"] .admin-container:hover {
-   transform: translateX(0);
+.admin-container [class*="FormInput__id"],
+.admin-container [data-elmid="webVersion"],
+.admin-container [data-elmid="webVersionReleaseDate"],
+.admin-container [data-elmid="webVersionMsg"],
+.admin-container [data-elmid="webVersion"] {
+   display: none;
 }
+
+.form-input-container {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   grid-template-areas:
+      "version-release-alert version-release-alert"
+      "desktopVersion desktopVersionReleaseDate"
+      "desktopVersionMsg desktopVersionMsg"
+      "desktopVersionDownloadLink desktopVersionDownloadLink"
+      "webVersion webVersionReleaseDate"
+      "webVersionMsg webVersionMsg"
+      "new-version-button-container new-version-button-container"
+      "fixed-version-elms fixed-version-elms";
+}
+
+.version-release-alert-container {
+   border-radius: 50px;
+   overflow: hidden;
+   width: fit-content;
+   margin: 0 auto;
+   border: 1px solid;
+}
+
+.version-release-alert {
+   grid-area: version-release-alert;
+   background: var(--iq-color-alert-red);
+   color: var(--iq-color-alert-text);
+   width: 100%;
+   margin: 0;
+   border-radius: 0;
+   padding: 1em 5em;
+}
+.version-release-alert > * {
+   margin: 0;
+}
+.version-info-caution {
+   grid-area: version-release-alert;
+   background: inherit;
+   color: inherit;
+   width: 100%;
+   margin: 0;
+   border-radius: 0;
+   padding: 1em 5em;
+}
+
+.version-info-success {
+   grid-area: version-release-alert;
+   background: #00ff95;
+   color: #000000;
+   width: 100%;
+   margin: 0;
+   border-radius: 0;
+   padding: 1em 5em;
+}
+
+.ready-to-push-version {
+   background: red;
+   color: white;
+   padding: 2em;
+   margin: 1em auto;
+   font-weight: 900;
+}
+
+.admin-container [data-elmid="desktopVersion"] {
+   grid-area: desktopVersion;
+   margin: 0.5em auto;
+   width: 100%;
+}
+.admin-container [data-elmid="desktopVersionReleaseDate"] {
+   grid-area: desktopVersionReleaseDate;
+   margin: 0.5em auto;
+   width: 100%;
+}
+.admin-container [data-elmid="desktopVersionMsg"] {
+   grid-area: desktopVersionMsg;
+   margin: 0.5em auto;
+   width: 100%;
+}
+.admin-container [data-elmid="webVersion"] {
+   grid-area: webVersion;
+   margin: 0.5em auto;
+   width: 100%;
+}
+.admin-container [data-elmid="webVersionReleaseDate"] {
+   grid-area: webVersionReleaseDate;
+   margin: 0.5em auto;
+   width: 100%;
+}
+.admin-container [data-elmid="webVersionMsg"] {
+   grid-area: webVersionMsg;
+   margin: 0.5em auto;
+   width: 100%;
+}
+.admin-container [data-elmid="desktopVersionDownloadLink"] {
+   grid-area: desktopVersionDownloadLink;
+   margin: 0.5em auto;
+   width: 100%;
+}
+
+.fixed-version-elms {
+   margin: 0 auto 4em;
+   grid-area: fixed-version-elms;
+   width: 100%;
+   border-bottom: 1px solid;
+   padding-bottom: 2em;
+}
+
+.highlight {
+   position: relative;
+   border: 1px solid var(--iq-color-accent-2);
+   border-radius: 50px;
+}
+
+.highlight:before {
+   content: "NEED TO SAVE";
+   position: absolute;
+   display: block;
+   color: var(--iq-color-accent-2);
+   text-align: center;
+   margin: auto;
+   width: 100%;
+}
+
+.new-version-pre-release-notes.highlight:before {
+   width: 100%;
+   transform: translateY(-100%);
+}
+
+.prevent {
+   pointer-events: none;
+   background: grey !important;
+}
+
+.prevent:before {
+   content: "ALERT - THE VERSION IS HIGHER, BUT THE release date is not later than today. Pushing is not allowed until both are later.";
+   background: red;
+   color: white;
+   display: block;
+   padding: 1em 3em;
+   border-radius: 50px;
+}
+
+.pulse {
+   background: var(--iq-color-accent-2);
+   font-size: 2em;
+   color: var(--iq-color-background-contrast);
+}
+
+@keyframes pulse {
+   0% {
+      transform: scale(1);
+   }
+   5% {
+      transform: scale(1, 1.25);
+   }
+   10% {
+      transform: scale(1, 1.5);
+   }
+   15% {
+      transform: scale(1);
+   }
+   20% {
+      transform: scale(1, 1.25);
+   }
+   25% {
+      transform: scale(1);
+   }
+   30% {
+      transform: scale(1, 1.5);
+   }
+   50% {
+      transform: scale(1);
+   }
+}
+
+.pulse {
+   animation: pulse 5s ease 1s infinite;
+}
+
+.new-version-button-container {
+   margin: 2em auto 0;
+   grid-area: new-version-button-container;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+}
+
+.new-version-push-button {
+   background-color: var(--iq-color-accent-2);
+   color: var(--iq-color-alert-text);
+   width: 80%;
+   margin: 0 auto 1em;
+   padding: 1em;
+}
+
+.new-version-release-checklist {
+   text-align: left;
+   width: 500px;
+   margin: 0 auto 3em;
+   /* border: 1px solid #ccc; */
+   padding: 1em 2em;
+   flex-grow: 1;
+   max-width: 400px;
+}
+
+.new-version-release-checklist li {
+   text-align: left;
+   width: 500px;
+   margin: 1em auto;
+   padding: 0 1em;
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+   max-width: 100%;
+}
+
+.new-version-release-checklist li label {
+   margin-left: 1em;
+}
+
+.checked {
+   opacity: 0.75;
+   text-decoration: line-through;
+}
+
+.new-version-pre-release-container {
+   display: flex;
+   position: relative;
+   justify-content: center;
+   padding: 0 1em 2em;
+   /* max-width: 500px; */
+   margin: 0 0 3em;
+   box-shadow:
+      3px 3px 7px -4px white inset,
+      -3px -3px 7px -4px black inset;
+   width: 100%;
+   flex-wrap: wrap;
+   border-radius: 50px;
+}
+
+.new-version-pre-release-container > div {
+   flex-grow: 1;
+   margin: 0 1em;
+   padding: 2em 1em;
+}
+.new-version-pre-release-notes {
+   display: flex;
+   flex-direction: column;
+   min-width: 300px;
+   padding: 1em 0;
+   max-width: 400px;
+}
+
+.new-version-pre-release-notes textarea {
+   min-width: 100%;
+   padding: 1em;
+   flex-grow: 1;
+   border: none;
+   border-radius: 25px;
+}
+
+.new-version-pre-release-notes button {
+   width: 80%;
+   margin: 1em auto;
+}
+
+.other-tools-container {
+   box-shadow:
+      3px 3px 7px -4px white inset,
+      -3px -3px 7px -4px black inset;
+   border-radius: 50px;
+}
+
+.admin-toggle-button {
+   position: fixed;
+   bottom: 0;
+   right: 0;
+   /* transform: translate(-50%, -100%); */
+   padding: 0.25em 1em;
+   border-radius: 50px 0 0 0;
+   z-index: 101;
+   width: 7em;
+   padding: 2em 0 1em 1em;
+   background: var(--iq-color-accent-2);
+   color: var(--iq-color-background-contrast);
+   font: var(--iq-font-subheading);
+   letter-spacing: 0.125em;
+   opacity: 0.75;
+}
+
+/* Hover turned Off for touch and stylus */
+/* body[class*='can-hover'] .admin-container:hover {
+  transform: translateX(0);
+} */
