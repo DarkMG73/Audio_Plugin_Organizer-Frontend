@@ -107,10 +107,19 @@
    padding: 0.25em;
    position: fixed;
    text-align: center;
-   transform: translate(-1em, -8em) rotate(-90deg);
+   transform: translate(-0.5em, -8em) rotate(-90deg);
    transform-origin: right;
-   width: 17em;
+   width: 21em;
    z-index: 2000;
+}
+
+.admin-notice > button {
+   position: absolute;
+   top: 0;
+   left: 50%;
+   transform: translate(-50%, -100%);
+   padding: 0.25em 1em;
+   border-radius: 50px 50px 0 0;
 }
 
 .admin-notice h3 {

@@ -100,9 +100,9 @@ function ToolsRows(props) {
                            >
                               <span className={styles["amount-after-filters"]}>
                                  {filteredToolsIds.length}
-                              </span>{" "}
-                              of the total {Object.keys(allTools).length} fit
-                              the selected filters.
+                              </span>
+                              &nbsp; of the total {Object.keys(allTools).length}{" "}
+                              fit the selected filters.
                            </h3>
                         )}
                         <ul className={styles["filters-list-container"]}>
