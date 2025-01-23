@@ -627,6 +627,7 @@ div[data-elm*="collapsible-elm"] {
    border-radius: 50px;
    padding: 2em 1em;
    max-width: 800px;
+   background: var(--iq-color-foreground-gradient);
    border: 3px inset var(--iq-color-alert-red);
    width: 100%;
    grid-column: 1 / -1;

@@ -154,6 +154,11 @@ https://colordesigner.io/color-palette-builder?mode=lch#121232-C1E6F6-43BDE9-2F5
    --apo-form-top-border: 3px solid var(--iq-color-accent-dark);
    /* --apo-background-image: url(https://www.transparenttextures.com/patterns/brushed-alum.png);
   --apo-background-image-body: url(https://www.transparenttextures.com/patterns/brushed-alum.png); */
+
+   --apo-button-background-version-download: var(
+      --iq-color-background-warm-gradient
+   );
+   --apo-button-text-version-download: var(--iq-color-foreground);
 }
 
 .themeTwo select {

@@ -208,6 +208,7 @@ function ToolRow(props) {
          }
          let itemTitle = title;
 
+         // if (!value && title !== 'photoURL') return;
          // Skip if no value
          // if (value == undefined || value === "" || value == " ") continue;
 
@@ -277,7 +278,7 @@ function ToolRow(props) {
                      />
                   </Fragment>
                );
-            } else if (title === "productURL") {
+            } else if (title === "productURL" && value) {
                // value = <img key={title + value} src={value} alt={title} />;
                value = (
                   <a

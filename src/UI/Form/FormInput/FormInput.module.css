@@ -52,6 +52,10 @@
    letter-spacing: var(--iq-spacing-heading);
    z-index: 1;
    margin-top: -0.5em;
+   margin: 0;
+   line-height: 1em;
+   text-align: left;
+   padding: 0 1em;
 }
 
 .input-container .input-wrap {
@@ -554,7 +558,7 @@ body .input-container.input-color [data-group^="SPACER"] input:after {
 .input-container .UserAdded.input-wrap:before {
    width: 100%;
    top: 0;
-   transform: translateY(-150%);
+   transform: scale(0.75) translateY(150%);
    color: var(--color-group-one-white);
 }
 

@@ -26,11 +26,12 @@ const FormInput = (props) => {
 
    const genericImageList = [];
 
-   Object.values(defaultImages).forEach((defaultImageGroup) => {
-      defaultImageGroup.forEach((imageData) =>
-         genericImageList.push(imageData)
-      );
-   });
+   if (defaultImages)
+      Object.values(defaultImages).forEach((defaultImageGroup) => {
+         defaultImageGroup.forEach((imageData) =>
+            genericImageList.push(imageData)
+         );
+      });
 
    const [requiredError, setRequiredError] = useState(true);
    const [requiredClass, setRequiredClass] = useState("");
@@ -232,6 +233,7 @@ const FormInput = (props) => {
                "FormInput_input-" +
                input.name
             }
+            data-elmid={props.elmid}
          >
             <label key={"form-input-1"} htmlFor={formNumber + "#" + input.name}>
                {" "}
@@ -523,6 +525,7 @@ const FormInput = (props) => {
                "FormInput_input-" +
                input.name
             }
+            data-elmid={props.elmid}
          >
             <label
                key={"form-input-1t"}
@@ -996,6 +999,7 @@ const FormInput = (props) => {
                "FormInput_input-" +
                input.name
             }
+            data-elmid={props.elmid}
          >
             <label key={"text-input-2"} htmlFor={formNumber + "#" + input.name}>
                {input.title}

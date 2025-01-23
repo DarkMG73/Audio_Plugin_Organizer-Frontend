@@ -129,6 +129,7 @@ https://colordesigner.io/color-palette-builder?mode=lch#FFFFFA-A1A194-5B605F-464
       inset 0 30px 50px -30px var(--iq-color-accent);
    /*** BORDER ***/
    --apo-border-button-1: 1px solid var(--iq-color-accent);
+
    /*** SPECIAL USE ***/
    --apo-color-main-title-bkg-alt-1: var(--iq-color-foreground);
    --apo-color-main-title-color-alt-1: var(--iq-color-background);
@@ -157,6 +158,8 @@ https://colordesigner.io/color-palette-builder?mode=lch#FFFFFA-A1A194-5B605F-464
    --apo-form-gradient: inset 0 7px 20px -16px rgba(128, 128, 128, 0.449);
    --apo-form-outer-shadow: none;
    --apo-form-top-border: 3px solid var(--iq-color-accent-dark);
+   --apo-button-background-version-download: var(--iq-color-accent);
+   --apo-button-text-version-download: var(--iq-color-foreground);
 }
 
 .themeOne input[value=""],

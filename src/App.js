@@ -15,9 +15,11 @@ import { authActions } from "./store/authSlice";
 import LocalErrorDisplay from "./Components/ErrorHandling/LocalErrorDisplay/LocalErrorDisplay";
 import BarLoader from "./UI/Loaders/BarLoader/BarLoader";
 import { loadingRequestsActions } from "./store/loadingRequestsSlice";
+import { getAppVersions } from "./storage/versionDB";
 
 const App = () => {
    const [user, setUser] = useState(false);
+   const [appVersions, setAppVersions] = useState(false);
    // const [rateLimitData, setRateLimitData] = useState(false);
    const { user: userLoggedIn, refreshUser } = useSelector(
       (state) => state.auth
@@ -31,6 +33,8 @@ const App = () => {
       (state) => state.loadingRequests.pendingLoadRequests
    );
    const dispatch = useDispatch();
+   const isDesktopApp = isElectron();
+
    const makeLoadingRequest = function () {
       return dispatch(loadingRequestsActions.addToLoadRequest());
    };
@@ -117,6 +121,37 @@ const App = () => {
       removeLoadingRequest();
    };
 
+   function isElectron() {
+      // Renderer process
+      if (
+         typeof window !== "undefined" &&
+         typeof window.process === "object" &&
+         window.process.type === "renderer"
+      ) {
+         return true;
+      }
+
+      // Main process
+      if (
+         typeof process !== "undefined" &&
+         typeof process.versions === "object" &&
+         !!process.versions.electron
+      ) {
+         return true;
+      }
+
+      // Detect the user agent when the `nodeIntegration` option is set to true
+      if (
+         typeof navigator === "object" &&
+         typeof navigator.userAgent === "string" &&
+         navigator.userAgent.indexOf("Electron") >= 0
+      ) {
+         return true;
+      }
+
+      return false;
+   }
+
    ////////////////////////////////////////
    /// EFFECTS
    ////////////////////////////////////////
@@ -134,6 +169,36 @@ const App = () => {
    //       return Promise.reject(error);
    //    }
    // );
+
+   useEffect(() => {
+      if (isDesktopApp)
+         getAppVersions()
+            .then((data) => {
+               setAppVersions(data);
+            })
+            .catch((e) => {
+               console.log("ERROR --->", e);
+            });
+      if (!isDesktopApp)
+         setAppVersions({
+            _id: "",
+            desktopVersion: "0",
+            desktopVersionReleaseDate: "1/18/2025 13:10",
+            desktopVersionMsg: "",
+            webVersion: "0",
+            webVersionReleaseDate: "1/30/2025",
+            webVersionMsg: "0.",
+            updatedAt: "2025-01-22T23:59:39.751Z",
+            desktopVersionDownloadLink:
+               "https://www.glassinteractive.com/download-the-audio-plugin-organizer/TEST",
+            localData: {
+               versionNumber: "0",
+               versionName: "",
+               copyrightDate: "2025",
+               appName: "r"
+            }
+         });
+   }, [isDesktopApp]);
 
    useEffect(() => {
       getUserCookie()
@@ -265,7 +330,12 @@ const App = () => {
    // );
    return (
       <Provider store={store}>
-         <div className={styles["app-container"] + " desktop-version"}>
+         <div
+            className={
+               styles["app-container"] +
+               (isDesktopApp ? " desktop-version" : " web-version")
+            }
+         >
             <div
                key="error-wrapper"
                className={
@@ -293,12 +363,18 @@ const App = () => {
             <ErrorBoundary key="header-error-boundary">
                <Header key="header" />
             </ErrorBoundary>
-            {user.isAdmin && (
+            {user.isAdmin && appVersions && (
                <Fragment key="fragment-global-admin">
                   <div className={styles["admin-notice"]}>
                      <h3>GLOBAL ADMIN MODE</h3>
                   </div>
-                  <Admin key="admin" />
+
+                  <Admin
+                     key="admin"
+                     user={user}
+                     appVersions={appVersions}
+                     isDesktopApp={isDesktopApp}
+                  />
                </Fragment>
             )}
             <div
@@ -312,7 +388,13 @@ const App = () => {
                         <BarLoader />
                      </div>
                   )}
-                  {/*toolsData.allTools &&*/ <Home key="home" />}
+                  {appVersions && (
+                     <Home
+                        key="home"
+                        isDesktopApp={isDesktopApp}
+                        appVersions={appVersions}
+                     />
+                  )}
                </ErrorBoundary>
             </div>
          </div>

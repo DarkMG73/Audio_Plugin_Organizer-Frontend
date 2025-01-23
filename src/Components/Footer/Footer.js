@@ -1,9 +1,15 @@
 import styles from "./Footer.module.css";
 import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
+import PushButton from "../../UI/Buttons/PushButton/PushButton";
 
-const Footer = (props) => {
-   const { isDesktopApp } = props;
-
+const Footer = ({
+   isDesktopApp,
+   newVersionIsReady,
+   appVersions,
+   showVersionAlert,
+   handleDesktopVersionLinkButton
+}) => {
+   const { localData, desktopVersion } = appVersions;
    return (
       <div className={styles["footer-container"]}>
          {" "}
@@ -41,7 +47,56 @@ const Footer = (props) => {
                   </a>
                   {/* Version only for web version; Electron has version in About screen */}
                   {!isDesktopApp && (
-                     <p>App Version {process.env.REACT_APP_VERSION}</p>
+                     <p>Web App Version {process.env.REACT_APP_VERSION}</p>
+                  )}
+                  {isDesktopApp && newVersionIsReady && showVersionAlert && (
+                     <div
+                        key="version-wrapper"
+                        className={
+                           styles["new-version-alert"] + " " + desktopVersion
+                        }
+                     >
+                        <ul
+                           className={`${styles["update-version-text-container"]} ${styles["column-two"]} `}
+                        >
+                           <ul>
+                              <h3>A New Version is Available!</h3>
+
+                              <li>
+                                 Newest version available: {desktopVersion}
+                              </li>
+
+                              <li>
+                                 <PushButton
+                                    inputOrButton="button"
+                                    id="create-entry-btn"
+                                    colorType=""
+                                    value="download-new-version"
+                                    data=""
+                                    size="large"
+                                    styles={{
+                                       margin: "1em auto",
+                                       borderRadius: "50px ",
+                                       padding: " 0.75em 3em",
+                                       fontVariant: "small-caps",
+                                       minWidth: "min-content",
+                                       flexBasis: "40%",
+                                       flexGrow: " 1",
+                                       background:
+                                          "var(--apo-button-background-version-download)",
+                                       color: "var(--apo-button-text-version-download)"
+                                    }}
+                                    onClick={handleDesktopVersionLinkButton}
+                                 >
+                                    Click to Download the new version now!
+                                 </PushButton>
+                              </li>
+                           </ul>
+                        </ul>
+                     </div>
+                  )}
+                  {isDesktopApp && localData && (
+                     <p>Desktop App Version {localData.versionNumber}</p>
                   )}
                </p>
             </div>

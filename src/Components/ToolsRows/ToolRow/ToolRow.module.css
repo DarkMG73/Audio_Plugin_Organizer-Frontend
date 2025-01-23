@@ -48,6 +48,7 @@
    position: relative;
    display: flex;
    align-items: center;
+   line-height: 1.25em;
 }
 
 .photoURL .grid-item-child {

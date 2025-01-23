@@ -320,3 +320,16 @@ export const getAllFunctionOptions = (toolsMetaData) => {
    }
    return output;
 };
+
+export const dateAIsLaterThanB = (d1, d2) => {
+   const date1 = new Date(d1).getTime();
+   const date2 = new Date(d2).getTime();
+
+   if (date1 < date2) {
+      return false;
+   } else if (date1 > date2) {
+      return true;
+   } else {
+      return false;
+   }
+};

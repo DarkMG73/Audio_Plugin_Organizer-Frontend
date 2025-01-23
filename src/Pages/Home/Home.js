@@ -11,47 +11,97 @@ import Footer from "../../Components/Footer/Footer";
 import BottomNavBar from "../../Components/BottomNavBar/BottomNavBar";
 import { ErrorBoundary } from "../../Components/ErrorHandling/ErrorBoundary/ErrorBoundary";
 import MobileSlideContainer from "../../UI/MobileSlideContainer/MobileSlideContainer";
+import PushButton from "../../UI/Buttons/PushButton/PushButton";
+import { dateAIsLaterThanB } from "../../Hooks/utility";
+import storage from "../../storage/storage";
 
-const Home = () => {
+const Home = ({ appVersions, isDesktopApp }) => {
+   const {
+      desktopVersionMsg,
+      desktopVersion,
+      desktopVersionDownloadLink,
+      desktopVersionReleaseDate,
+      localData
+   } = appVersions;
    const [toolListTopRef, setToolListTopRef] = useState();
+   const [showVersionAlert, setShowVersionAlert] = useState(true);
+   const newVersionIsReady =
+      appVersions &&
+      desktopVersion > localData.versionNumber &&
+      dateAIsLaterThanB(new Date(), desktopVersionReleaseDate);
+   const savedVersionDelayObjData = storage("GET", false, "apo-version-delay");
+   const savedVersionDelayObj = savedVersionDelayObjData
+      ? savedVersionDelayObjData
+      : {};
+   let userRequestedVersionDelay = false;
 
-   function isElectron() {
-      // Renderer process
+   if (isDesktopApp && Object.hasOwn(savedVersionDelayObj, "delayType")) {
       if (
-         typeof window !== "undefined" &&
-         typeof window.process === "object" &&
-         window.process.type === "renderer"
-      ) {
-         return true;
-      }
-
-      // Main process
+         savedVersionDelayObj.delayType === "time" &&
+         Object.hasOwn(savedVersionDelayObj, "threshold") &&
+         dateAIsLaterThanB(savedVersionDelayObj.threshold, new Date())
+      )
+         userRequestedVersionDelay = true;
       if (
-         typeof process !== "undefined" &&
-         typeof process.versions === "object" &&
-         !!process.versions.electron
-      ) {
-         return true;
-      }
-
-      // Detect the user agent when the `nodeIntegration` option is set to true
-      if (
-         typeof navigator === "object" &&
-         typeof navigator.userAgent === "string" &&
-         navigator.userAgent.indexOf("Electron") >= 0
-      ) {
-         return true;
-      }
-
-      return false;
+         savedVersionDelayObj.delayType === "release" &&
+         Object.hasOwn(savedVersionDelayObj, "threshold") &&
+         savedVersionDelayObj.threshold >= desktopVersion
+      )
+         userRequestedVersionDelay = true;
    }
 
-   const isDesktopApp = isElectron();
+   const handleCloseVersionAlert = () => {
+      setShowVersionAlert(false);
+   };
+   const handleCloseAlertForWeek = () => {
+      var firstDay = new Date();
+      var weekFromToday = new Date(
+         firstDay.getTime() + 7 * 24 * 60 * 60 * 1000
+      );
+
+      storage(
+         "ADD",
+         {
+            delayType: "time",
+            threshold: weekFromToday
+         },
+         "apo-version-delay"
+      );
+      setShowVersionAlert(false);
+      alert(
+         "Next week the update notice will come back as a friendly reminder.\n\nNOTE: Update info and the download link will still be in the footer of this app."
+      );
+   };
+
+   const handleDesktopVersionLinkButton = () => {
+      var a = document.createElement("a");
+      a.target = "_blank";
+      a.href = desktopVersionDownloadLink;
+      a.click();
+   };
+
+   const handleIgnoreVersion = () => {
+      const confirm = window.confirm(
+         'Are you sure you want to skip this update?\n\nIf so, you will miss out on enhancements and new solutions. The "Remind Me in a Week" button is a better option if you can\'t update right now.\n\nWhile it is not recommended, if you are rockin\' this just fine and don\'t feel like dealing an update right now, click the "OK"(or "CONFIRM") button below and the alert will not appear again until the next version is released.\n\nNOTE: Update info and the download link will still be in the footer of this app.\n\nClick "CANCEL" to keep the alert as a reminder.'
+      );
+      if (confirm) {
+         storage(
+            "ADD",
+            {
+               delayType: "release",
+               threshold: desktopVersion
+            },
+            "apo-version-delay"
+         );
+         setShowVersionAlert(false);
+      }
+   };
+
    return (
       <div key="home-page" className={styles["home-page"]}>
          <div
             key="column-one"
-            className={`${styles["column"]} ${styles["column-one"]} `}
+            className={`${styles.column} ${styles["column-one"]} `}
          >
             <div
                key="show-on-small-screens-1"
@@ -112,6 +162,132 @@ const Home = () => {
          >
             <CardPrimaryLarge key={"ToolsRowsList"}>
                <ErrorBoundary>
+                  {newVersionIsReady &&
+                     !userRequestedVersionDelay &&
+                     showVersionAlert && (
+                        <div
+                           key="version-wrapper"
+                           className={
+                              styles["new-version-alert"] + " " + desktopVersion
+                           }
+                        >
+                           <ul
+                              className={`${styles["update-version-text-container"]} ${styles["column-two"]} `}
+                           >
+                              <ul>
+                                 <h3>A New Version is Available!</h3>
+                                 <li>
+                                    <h4>{desktopVersionMsg}</h4>
+                                 </li>
+                                 <li>
+                                    Newest version available: {desktopVersion}
+                                 </li>
+
+                                 <li>
+                                    Release Date: {desktopVersionReleaseDate}
+                                 </li>
+                                 <li>
+                                    Version currently installed:{" "}
+                                    {localData.versionNumber}
+                                 </li>
+                                 <li>
+                                    <PushButton
+                                       inputOrButton="button"
+                                       id="create-entry-btn"
+                                       colorType=""
+                                       value="download-new-version"
+                                       data=""
+                                       size="large"
+                                       styles={{
+                                          margin: "1em auto",
+                                          borderRadius: "50px ",
+                                          padding: " 0.75em 3em",
+                                          fontVariant: "small-caps",
+                                          minWidth: "min-content",
+                                          flexBasis: "40%",
+                                          flexGrow: " 1",
+                                          background:
+                                             "var(--apo-button-background-version-download)",
+                                          color: "var(--apo-button-text-version-download)"
+                                       }}
+                                       onClick={handleDesktopVersionLinkButton}
+                                    >
+                                       Click to Download the new version now!
+                                    </PushButton>
+                                 </li>
+                              </ul>
+                           </ul>
+                           <div
+                              key="version-button-wrapper"
+                              className={
+                                 styles["new-version-alert-button-container"] +
+                                 " " +
+                                 desktopVersion
+                              }
+                           >
+                              <PushButton
+                                 inputOrButton="button"
+                                 id="create-entry-btn"
+                                 colorType=""
+                                 value="remind-me-later"
+                                 data=""
+                                 size="medium"
+                                 styles={{
+                                    margin: "0 auto",
+                                    borderRadius: "50px ",
+                                    padding: " 0.75em 3em",
+                                    fontVariant: "small-caps",
+                                    minWidth: "min-content",
+                                    flexBasis: "40%",
+                                    flexGrow: " 1"
+                                 }}
+                                 onClick={handleCloseVersionAlert}
+                              >
+                                 Remind Me Later
+                              </PushButton>
+                              <PushButton
+                                 inputOrButton="button"
+                                 id="create-entry-btn"
+                                 colorType=""
+                                 value="remind-me-later"
+                                 data=""
+                                 size="medium"
+                                 styles={{
+                                    margin: "0 auto",
+                                    borderRadius: "50px ",
+                                    padding: " 0.75em 3em",
+                                    fontVariant: "small-caps",
+                                    minWidth: "min-content",
+                                    flexBasis: "40%",
+                                    flexGrow: " 1"
+                                 }}
+                                 onClick={handleCloseAlertForWeek}
+                              >
+                                 Remind Me in a Week
+                              </PushButton>
+                              <PushButton
+                                 inputOrButton="button"
+                                 id="create-entry-btn"
+                                 colorType=""
+                                 value="remind-me-later"
+                                 data=""
+                                 size="medium"
+                                 styles={{
+                                    margin: "0 auto",
+                                    borderRadius: "50px ",
+                                    padding: " 0.75em 3em",
+                                    fontVariant: "small-caps",
+                                    minWidth: "min-content",
+                                    flexBasis: "40%",
+                                    flexGrow: " 1"
+                                 }}
+                                 onClick={handleIgnoreVersion}
+                              >
+                                 Skip this Release
+                              </PushButton>
+                           </div>
+                        </div>
+                     )}
                   <ToolsRowsList
                      setToolListTopRef={setToolListTopRef}
                      isDesktopApp={isDesktopApp}
@@ -130,7 +306,16 @@ const Home = () => {
             </CardPrimary>
             <CardSecondary key={"AddATool-2"} styles={{}}>
                <ErrorBoundary>
-                  <Footer isDesktopApp={isDesktopApp} />
+                  <Footer
+                     isDesktopApp={isDesktopApp}
+                     appVersions={appVersions}
+                     newVersionIsReady={newVersionIsReady}
+                     showVersionAlert={showVersionAlert}
+                     desktopVersionDownloadLink={desktopVersionDownloadLink}
+                     handleDesktopVersionLinkButton={
+                        handleDesktopVersionLinkButton
+                     }
+                  />
                </ErrorBoundary>
             </CardSecondary>
             <div className={styles["bottom-navbar-wrap"]}>
