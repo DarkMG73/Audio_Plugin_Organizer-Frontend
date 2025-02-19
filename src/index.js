@@ -13,6 +13,7 @@ import axios from "axios";
 ///    Axios Config
 ///////////////////////
 const inDevelopment = process.env.NODE_ENV === "development";
+
 console.log(
    "%c --> %cline:15%cprocess.env.NODE_ENV",
    "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
@@ -39,8 +40,8 @@ console.log(
 );
 
 if (inDevelopment) {
-   // axios.defaults.baseURL = "https://api-organizer.glassinteractive.com/";
-   axios.defaults.baseURL = "http://localhost:8000";
+   axios.defaults.baseURL = "https://api-organizer.glassinteractive.com/";
+   // axios.defaults.baseURL = "http://localhost:8000";
    // For iOS testing
    // axios.defaults.baseURL = "http://192.168.0.109:8000";
 

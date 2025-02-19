@@ -16,6 +16,16 @@ import { dateAIsLaterThanB } from "../../Hooks/utility";
 import storage from "../../storage/storage";
 
 const Home = ({ appVersions, isDesktopApp }) => {
+   if (!appVersions) {
+      appVersions = {
+         desktopVersionMsg: "",
+         desktopVersion: "",
+         desktopVersionDownloadLink: "",
+         desktopVersionReleaseDate: "",
+         localData: ""
+      };
+   }
+
    const {
       desktopVersionMsg,
       desktopVersion,
@@ -23,19 +33,20 @@ const Home = ({ appVersions, isDesktopApp }) => {
       desktopVersionReleaseDate,
       localData
    } = appVersions;
+
    const [toolListTopRef, setToolListTopRef] = useState();
    const [showVersionAlert, setShowVersionAlert] = useState(true);
    const newVersionIsReady =
       appVersions &&
       desktopVersion > localData.versionNumber &&
       dateAIsLaterThanB(new Date(), desktopVersionReleaseDate);
-   const savedVersionDelayObjData = storage("GET", false, "apo-version-delay");
-   const savedVersionDelayObj = savedVersionDelayObjData
-      ? savedVersionDelayObjData
-      : {};
+   const savedVersionDelayObj = storage("GET", false, "apo-version-delay");
    let userRequestedVersionDelay = false;
 
-   if (isDesktopApp && Object.hasOwn(savedVersionDelayObj, "delayType")) {
+   if (
+      savedVersionDelayObj &&
+      Object.hasOwn(savedVersionDelayObj, "delayType")
+   ) {
       if (
          savedVersionDelayObj.delayType === "time" &&
          Object.hasOwn(savedVersionDelayObj, "threshold") &&
@@ -51,7 +62,7 @@ const Home = ({ appVersions, isDesktopApp }) => {
    }
 
    const handleCloseVersionAlert = () => {
-      setShowVersionAlert(false);
+      window.DayPilot.alert(false);
    };
    const handleCloseAlertForWeek = () => {
       var firstDay = new Date();
@@ -67,9 +78,9 @@ const Home = ({ appVersions, isDesktopApp }) => {
          },
          "apo-version-delay"
       );
-      setShowVersionAlert(false);
-      alert(
-         "Next week the update notice will come back as a friendly reminder.\n\nNOTE: Update info and the download link will still be in the footer of this app."
+      window.DayPilot.alert(false);
+      window.DayPilot.alert(
+         "Next week the update notice will come back as a friendly reminder.<br/><br/>NOTE: Update info and the download link will still be in the footer of this app."
       );
    };
 
@@ -81,24 +92,31 @@ const Home = ({ appVersions, isDesktopApp }) => {
    };
 
    const handleIgnoreVersion = () => {
-      const confirm = window.confirm(
-         'Are you sure you want to skip this update?\n\nIf so, you will miss out on enhancements and new solutions. The "Remind Me in a Week" button is a better option if you can\'t update right now.\n\nWhile it is not recommended, if you are rockin\' this just fine and don\'t feel like dealing an update right now, click the "OK"(or "CONFIRM") button below and the alert will not appear again until the next version is released.\n\nNOTE: Update info and the download link will still be in the footer of this app.\n\nClick "CANCEL" to keep the alert as a reminder.'
-      );
-      if (confirm) {
-         storage(
-            "ADD",
-            {
-               delayType: "release",
-               threshold: desktopVersion
-            },
-            "apo-version-delay"
-         );
-         setShowVersionAlert(false);
-      }
+      window.DayPilot.confirm(
+         'Are you sure you want to skip this update?<br/><br/>If so, you will miss out on enhancements and new solutions. The "Remind Me in a Week" button is a better option if you can\'t update right now.<br/><br/>While it is not recommended, if you are rockin\' this just fine and don\'t feel like dealing an update right now, click the "OK"(or "CONFIRM") button below and the alert will not appear again until the next version is released.<br/><br/>NOTE: Update info and the download link will still be in the footer of this app.<br/><br/>Click "CANCEL" to keep the alert as a reminder.'
+      )
+         .then(function (args) {
+            if (!args.canceled) {
+               {
+                  storage(
+                     "ADD",
+                     {
+                        delayType: "release",
+                        threshold: desktopVersion
+                     },
+                     "apo-version-delay"
+                  );
+                  window.DayPilot.alert(false);
+               }
+            }
+         })
+         .catch((e) => {
+            console.lof("Error: " + e);
+         });
    };
 
    return (
-      <div key="home-page" className={styles["home-page"]}>
+      <div key="home-page" className={styles["home-page"] + " " + "home-page"}>
          <div
             key="column-one"
             className={`${styles.column} ${styles["column-one"]} `}

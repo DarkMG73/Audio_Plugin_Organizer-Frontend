@@ -89,10 +89,10 @@ https://colordesigner.io/color-palette-builder?mode=lch#FFFFFA-A1A194-5B605F-464
    --iq-color-background: #292929;
    --iq-color-background-warm-gradient: linear-gradient(
       180deg,
-      var(--iq-color-foreground) 0%,
-      hsl(0, 0%, 36%) 50%
+      var(--iq-color-foreground) 5%,
+      var(--iq-color-accent) 60%
    );
-   --iq-color-background-warm: #474040;
+   --iq-color-background-warm: #9c8b8b;
    --iq-color-background-cool: #42424a;
    --iq-color-background-contrast: #f6ebc1;
 
@@ -168,6 +168,192 @@ textarea {
    color: inherit;
 }
 
+.themeOne div[class*="FormInput_input-functions"],
+.themeOne div[class*="FormInput_input-color"],
+.themeOne div[class*="FormInput_input-photoURL"],
+.themeOne div[class*="FormInput_input-notes"] {
+   background: #000000 !important;
+   color: var(--iq-color-foreground);
+   box-shadow:
+      0px 7px 4px 3px white,
+      0px 0px 4px 3px #828282;
+}
+
+.themeOne:not([class*="largeForms"]) div[class*="FormInput_input-"] > label {
+   box-shadow: inset 7px 6px 12px -10px #000000;
+}
+
+.themeOne:not([class*="largeForms"])
+   div[class*="FormInput_input-photoURL"]
+   > label,
+.themeOne:not([class*="largeForms"])
+   div[class*="FormInput_input-function"]
+   > label,
+.themeOne:not([class*="largeForms"])
+   div[class*="FormInput_input-notes"]
+   > label,
+.themeOne:not([class*="largeForms"])
+   div[class*="FormInput_input-color"]
+   > label {
+   background: #000000 !important;
+   color: var(--iq-color-foreground);
+   box-shadow: inset 7px 6px 12px -10px #ffffff;
+}
+
+.themeOne
+   div[class*="FormInput_input-functions"]
+   div:has(input[type="checkbox"]),
+.themeOne div[class*="FormInput_input-color"] div:has(input[type="checkbox"]) {
+   -webkit-background-clip: text;
+   /* -webkit-text-fill-color: transparent; */
+   border-radius: 0 !important;
+   border: 1px outset rgb(255 255 255 / 28%);
+   opacity: 1 !important;
+}
+
+.themeOne
+   div[class*="FormInput_input-functions"]
+   div:has(input[type="checkbox"]:checked),
+.themeOne
+   div[class*="FormInput_input-color"]
+   div:has(input[type="checkbox"]:checked) {
+   -webkit-background-clip: unset;
+   -webkit-text-fill-color: unset;
+   border: 1px inset rgb(255 255 255 / 28%);
+}
+
+.themeOne div[class*="FormInput_input-functions"] input[type="checkbox"]:before,
+.themeOne div[class*="FormInput_input-color"] input[type="checkbox"]:before {
+   content: "";
+   background: rgba(0, 0, 0, 0.2509803922);
+   background: var(--iq-color-background);
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   border-radius: inherit;
+   box-shadow: none;
+}
+
+.themeOne
+   div[class*="FormInput_input-functions"]
+   input[type="checkbox"]:checked:before,
+.themeOne
+   div[class*="FormInput_input-color"]
+   input[type="checkbox"]:checked:before {
+   background: transparent;
+}
+
+.themeOne
+   div[class*="FormInput_input-functions"]
+   input[type="checkbox"]
+   + label,
+.themeOne div[class*="FormInput_input-color"] input[type="checkbox"] + label {
+   background: inherit;
+   -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+   /* text-shadow: 1px 1px 1px #616161; */
+   opacity: 1;
+}
+
+.themeOne [data-group^="SPACER"],
+.themeOne div[data-group^="SPACER"] input[type="checkbox"] + label,
+.themeOne
+   div[data-group^="SPACER"]
+   .themeOne
+   div[data-group^="SPACER"]
+   input[type="checkbox"]
+   + labellabel {
+   -webkit-background-clip: unset !important;
+   -webkit-text-fill-color: unset !important;
+   background: transparent;
+}
+
+/* .themeOne
+  div[class*='FormInput_input-functions']
+  div:has(input[type='checkbox']) {
+  -webkit-background-clip: unset;
+} */
+.themeOne [data-group^="SPACER"] {
+   border: 1px solid !important;
+   border-radius: 0 !important;
+}
+
+.themeOne
+   div[class*="FormInput_input-functions"]
+   input[type="checkbox"]:before {
+}
+
+.themeOne
+   div[class*="FormInput_input-functions"]
+   input[type="checkbox"]:checked
+   + label,
+.themeOne
+   div[class*="FormInput_input-color"]
+   input[type="checkbox"]:checked
+   + label {
+   text-shadow: 0 0 30px #e3bd26;
+   color: inherit;
+   opacity: 1;
+   background: initial;
+   -webkit-background-clip: unset;
+   -webkit-text-fill-color: unset;
+   text-shadow: none;
+}
+
+.themeOne div[class*="FormInput_input-precision"] input[type="checkbox"] {
+   position: relative;
+   display: flex;
+   -webkit-appearance: none;
+   background-color: var(--iq-color-foreground);
+   border: 1px solid var(--iq-color-accent);
+   box-shadow:
+      2px 2px 5px -1px rgba(255, 255, 255, 0.5),
+      inset 3px 3px 5px -1px hsla(0, 0%, 0%, 0.5);
+   box-shadow:
+      inset -2px -2px 5px -1px rgba(255, 255, 255, 0.5),
+      inset 1px 1px 5px -1px hsla(0, 0%, 0%, 0.5);
+   padding: 9px;
+   border-radius: 50px;
+   display: inline-block;
+   position: relative;
+   height: 1em;
+   margin: 0.25em auto 0;
+   padding: 1em;
+}
+
+.themeOne div[class*="dark_atmosphere"] label {
+   background-color: var(--iq-color-foreground) !important;
+}
+
+.themeOne div[class*="dark_atmosphere"] input[type="checkbox"]:checked + label {
+   background-color: initial !important;
+}
+
+.themeOne div[class*="FormInput_input-rating"] input[type="radio"],
+.themeOne div[class*="FormInput_input-oversampling"] input[type="radio"],
+.themeOne div[class*="FormInput_input-favorite"] input[type="radio"] {
+   accent-color: var(--iq-color-accent);
+   box-shadow: none;
+}
+
+.themeOne div[class*="FormInput_input-productURL"] a,
+.themeOne div[class*="FormInput_input-photoURL"] a {
+   font-style: italic;
+   color: inherit;
+}
+
+.themeOne div[class*="FormInput_input-productURL"] label {
+   width: 100%;
+   transform: none;
+}
+
+.themeOne div[class*="FormInput_input-productURL"] a:hover,
+.themeOne div[class*="FormInput_input-photoURL"] a:hover {
+   color: var(--iq-color-accent-2);
+}
+
 .themeOne select {
    /* border: 1px solid var(--iq-color-accent); */
    border-radius: 50px;
@@ -236,6 +422,11 @@ background: var(--iq-color-foreground-gradient);
    -webkit-background-clip: text;
    -webkit-text-fill-color: transparent;
    animation: textclip 2s linear infinite;
+}
+
+body.themeOne [data-data="audio-plugin-selector-button-container"] {
+   box-shadow: 3px 3px 10px -3px;
+   border: 1px solid var(--iq-color-accent);
 }
 
 /* ////////////////////////// */

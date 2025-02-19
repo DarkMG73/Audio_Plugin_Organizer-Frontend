@@ -4,6 +4,9 @@ import { toTitleCase } from "../../../Hooks/utility";
 import { useSelector } from "react-redux";
 import ImagePicker from "react-image-picker";
 import "react-image-picker/dist/index.css";
+// import useDefaultImageIsAvailable from '../../../Hooks/useDefaultImageIsAvailable';
+import useFindSelectedImage from "../../../Hooks/useFindSelectedImage";
+
 // import img1 from "../../../assets/images/Acoustica-Audio_AERO-AMP.png";
 // import img2 from "../../../assets/images/product-photo-placeholder-2.png";
 
@@ -11,6 +14,7 @@ const FormInput = (props) => {
    const { officialImages, defaultImages } = useSelector(
       (state) => state.toolsData
    );
+   const userAddedElms = [];
 
    // const images = require.context(
    //   '../../../assets/images/official_plugin_images/',
@@ -22,6 +26,8 @@ const FormInput = (props) => {
    //   true,
    // );
 
+   // const defaultImageIsAvailable = useDefaultImageIsAvailable();
+   const findSelectedImage = useFindSelectedImage();
    const imageList = officialImages;
 
    const genericImageList = [];
@@ -95,6 +101,12 @@ const FormInput = (props) => {
       // setInputValue(e.target.value);
    };
 
+   const handleClearPhotoSelected = (e) => {
+      e.preventDefault();
+      setInputValue(null);
+      setPhotoSelected(null);
+   };
+
    const handleClosePicSelector = (e) => {
       e.preventDefault();
 
@@ -110,41 +122,59 @@ const FormInput = (props) => {
    };
 
    const handleOnSelectPic = (imageObj) => {
-      const listArray = imageList;
+      const listObj = imageList;
       const picLocation = "official_plugin_images/";
 
-      setPhotoSelected(picLocation + applySelectedPhoto(imageObj, listArray));
+      setPhotoSelected(
+         applySelectedPhoto("oem", imageObj, listObj, picLocation)
+      );
    };
 
    const handleOnGenericSelectPic = (imageObj) => {
       const listArray = genericImageList;
       const picLocation = "generic_plugin_images/";
 
-      setPhotoSelected(picLocation + applySelectedPhoto(imageObj, listArray));
+      setPhotoSelected(
+         picLocation + applySelectedPhoto("generic", imageObj, listArray)
+      );
    };
 
    ///////////////////////////////////////
    /// FUNCTIONALITY
    ////////////////////////////////////////
-   function applySelectedPhoto(imageObj, listArray) {
+   function applySelectedPhoto(type, imageObj, list, picLocation) {
       const imageStr = imageObj.src;
 
       // const groomedImageNameStart = imageStr.substring(
       //    0,
       //    imageStr.indexOf(".")
       // );
-      const rawName = listArray.find((group) => {
-         return group.src === imageStr;
-      });
 
-      const groomedImageNameStart = rawName.name;
+      let outputStr = imageStr;
+      if (type === "generic") {
+         const rawName = list.find((group) => {
+            return group.src === imageStr.replace(picLocation);
+         });
+         const groomedImageNameStart = rawName.name;
 
-      const groomedImageNameEnd = groomedImageNameStart.replace("./", "");
+         const groomedImageNameEnd = groomedImageNameStart.replace("./", "");
 
-      return groomedImageNameEnd;
+         return groomedImageNameEnd;
+      }
+      return outputStr;
    }
 
-   const addTitlesToPicSelIMages = (listArray) => {
+   const addTitlesToPicSelIMages = (listObj) => {
+      const cleanImageName = (srcStr) => {
+         return srcStr
+            .substring(
+               srcStr.lastIndexOf("/") + 1,
+               srcStr.indexOf(".", srcStr.lastIndexOf("/"))
+            )
+            .replaceAll("%20", "")
+            .replaceAll(" ", "");
+      };
+
       try {
          const checkForElmInterval = setInterval(() => {
             const imagePickerElm = document.querySelector(".image_picker");
@@ -156,37 +186,35 @@ const FormInput = (props) => {
                allElms.forEach((elm) => {
                   // Get image within elm
                   const imgElm = elm.querySelector("img");
-
                   const imgSrc = imgElm.src;
 
-                  const cleanImageName = (srcStr) => {
-                     return srcStr
-                        .substring(
-                           srcStr.lastIndexOf("/") + 1,
-                           srcStr.indexOf(".", srcStr.lastIndexOf("/"))
-                        )
-                        .replaceAll("%20", "")
-                        .replaceAll(" ", "");
-                  };
+                  // Check if OEM
+                  let oemName = false;
 
-                  // Groom src string to be just name
-
-                  let imageName = cleanImageName(imgSrc);
-
-                  imageName = listArray.find((group) => {
-                     const groomedGroupSrc = cleanImageName(group.src);
-
-                     return groomedGroupSrc === imageName;
+                  Object.values(officialImages).forEach((group) => {
+                     if (group.src === imgSrc) oemName = group.name;
                   });
 
-                  if (
-                     !imageName ||
-                     !Object.hasOwn(imageName, "name") ||
-                     imageName.name.includes("data:image")
-                  )
-                     return;
+                  // Groom src string to be just name
+                  let imageName = oemName || cleanImageName(imgSrc);
+                  if (!oemName) {
+                     imageName = Object.values(listObj).find((group) => {
+                        const groomedGroupSrc = cleanImageName(group.src);
 
-                  imageName = cleanImageName(imageName.name.replace(/^./, ""));
+                        return groomedGroupSrc === imageName;
+                     });
+
+                     if (
+                        !imageName ||
+                        !Object.hasOwn(imageName, "name") ||
+                        imageName.name.includes("data:image")
+                     )
+                        return;
+
+                     imageName = cleanImageName(
+                        imageName.name.replace(/^./, "")
+                     );
+                  }
 
                   const charLimit = 21;
                   if (imageName.length >= charLimit) {
@@ -236,7 +264,6 @@ const FormInput = (props) => {
             data-elmid={props.elmid}
          >
             <label key={"form-input-1"} htmlFor={formNumber + "#" + input.name}>
-               {" "}
                {input.title}
             </label>
             <textarea
@@ -387,45 +414,48 @@ const FormInput = (props) => {
       // *** Datalist Boxes***
       let inputHasSelected = false;
 
-      const options = groomedOptions
-         .sort(function (a, b) {
-            if (a && b) return a.toLowerCase().localeCompare(b.toLowerCase());
-         })
-         .map((option, i) => {
-            if (
-               inputValue &&
-               option &&
-               inputValue.toLowerCase().trim() == option.toLowerCase().trim()
-            ) {
-               inputHasSelected = true;
-               return (
-                  <option
-                     key={"form-input-" + i}
-                     name={formNumber + "#" + input.name}
-                     className={
-                        styles.option + " " + styles["option-" + input.name]
-                     }
-                     defaultValue={option}
-                     selected
-                  >
-                     {option}
-                  </option>
-               );
-            } else {
-               return (
-                  <option
-                     key={"form-input-" + i}
-                     name={formNumber + "#" + input.name}
-                     className={
-                        styles.option + " " + styles["option-" + input.name]
-                     }
-                     defaultValue={option}
-                  >
-                     {option}
-                  </option>
-               );
-            }
-         });
+      let options = [];
+      if (groomedOptions)
+         options = groomedOptions
+            .sort(function (a, b) {
+               if (a && b)
+                  return a.toLowerCase().localeCompare(b.toLowerCase());
+            })
+            .map((option, i) => {
+               if (
+                  inputValue &&
+                  option &&
+                  inputValue.toLowerCase().trim() == option.toLowerCase().trim()
+               ) {
+                  inputHasSelected = true;
+                  return (
+                     <option
+                        key={"form-input-" + i}
+                        name={formNumber + "#" + input.name}
+                        className={
+                           styles.option + " " + styles["option-" + input.name]
+                        }
+                        defaultValue={option}
+                        selected
+                     >
+                        {option}
+                     </option>
+                  );
+               } else {
+                  return (
+                     <option
+                        key={"form-input-" + i}
+                        name={formNumber + "#" + input.name}
+                        className={
+                           styles.option + " " + styles["option-" + input.name]
+                        }
+                        defaultValue={option}
+                     >
+                        {option}
+                     </option>
+                  );
+               }
+            });
 
       if (!inputHasSelected)
          options.push(
@@ -446,7 +476,7 @@ const FormInput = (props) => {
       // );
 
       let inputDefaultValue =
-         input.options.length > 0 ? input.options[0].trim() : "";
+         input.options?.length > 0 ? input.options[0].trim() : "";
 
       if (Object.hasOwn(input, "preFilledData"))
          inputDefaultValue = input.preFilledData;
@@ -492,7 +522,6 @@ const FormInput = (props) => {
             >
                {options.map((optionHTML) => optionHTML)}
             </datalist>
-
             {requiredError && input.required == true && (
                <span
                   key={"form-input-3"}
@@ -531,15 +560,14 @@ const FormInput = (props) => {
                key={"form-input-1t"}
                htmlFor={formNumber + "#" + input.name}
             >
-               {input.title}
+               <span className={"label-name"}>{input.title}</span>
                {input.title === "Producturl" && (
                   <a
-                     href={`https://search.brave.com/search?q=audio+plugin+${props.parentName}&source=desktop`}
+                     href={`https://search.brave.com/search?q=audio+plugin+${props.parentName}`}
                      target="_blank"
                      alt="A Brave search for this plugin"
                   >
-                     To get the product URL a photo URL, find the developer page
-                     here &rarr;
+                     Look it up with a Brave search &rarr;
                   </a>
                )}
             </label>
@@ -552,6 +580,26 @@ const FormInput = (props) => {
                      "image-selector-outer-container"
                   }
                >
+                  <div className={styles["image-search-wrapper"]}>
+                     <img
+                        src={
+                           photoSelected
+                              ? findSelectedImage(photoSelected)
+                              : inputValue && findSelectedImage(inputValue)
+                                ? findSelectedImage(inputValue)
+                                : inputValue
+                        }
+                        alt=""
+                     />
+                     <a
+                        href={`https://search.brave.com/images?q=audio+plugin+${props.parentName}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        alt="A Brave search for this plugin"
+                     >
+                        Find a pic with a Brave search &rarr;
+                     </a>
+                  </div>
                   {
                      // OEM Pic Selector
                   }
@@ -578,14 +626,21 @@ const FormInput = (props) => {
                            }
                         >
                            <ImagePicker
-                              images={imageList.map((imageData, i) => {
-                                 if (i >= imageList.length - 1)
-                                    addTitlesToPicSelIMages(imageList);
-                                 return {
-                                    src: imageData.src,
-                                    value: i
-                                 };
-                              })}
+                              images={Object.values(imageList).map(
+                                 (imageData, i) => {
+                                    if (
+                                       i >=
+                                       Object.values(imageList).length - 1
+                                    )
+                                       addTitlesToPicSelIMages(
+                                          Object.values(imageList)
+                                       );
+                                    return {
+                                       src: imageData.src,
+                                       value: i
+                                    };
+                                 }
+                              )}
                               onPick={handleOnSelectPic}
                            />
                            <div
@@ -715,17 +770,31 @@ const FormInput = (props) => {
                   </div>
                </div>
             )}
+            <div className={styles["photoURL-wrap"]}>
+               <input
+                  key={"form-input-2"}
+                  type="url"
+                  name={formNumber + "#" + input.name}
+                  defaultValue={photoSelected ? photoSelected : inputValue}
+                  value={photoSelected || inputValue || ""}
+                  ref={requiredTextInput}
+                  placeholder="Paste an image URL here, or use one of the two tools to select an OEM or generic image."
+                  onChange={props.onChange || textInputOnChangeHandler}
+                  className={
+                     styles[requiredClass] +
+                     " " +
+                     requiredClass +
+                     " " +
+                     (photoSelected && "photo-selected")
+                  }
+               />
+               {input.title === "Photourl" && (photoSelected || inputValue) && (
+                  <button type="button" onClick={handleClearPhotoSelected}>
+                     Clear Selection
+                  </button>
+               )}
+            </div>
 
-            <input
-               key={"form-input-2"}
-               type="url"
-               name={formNumber + "#" + input.name}
-               defaultValue={photoSelected ? photoSelected : inputValue}
-               value={photoSelected}
-               ref={requiredTextInput}
-               onChange={props.onChange || textInputOnChangeHandler}
-               className={styles[requiredClass] + " " + requiredClass}
-            />
             {requiredError && input.required == true && (
                <span
                   key={"form-input-3"}
@@ -796,6 +865,7 @@ const FormInput = (props) => {
                </div>
             );
          } else if (
+            optionGroup !== "User Added" &&
             ((optionName && inputValue.constructor === String) ||
                inputValue.constructor === Array) &&
             inputValue.length > 0 &&
@@ -808,6 +878,7 @@ const FormInput = (props) => {
                optionName.toLowerCase() === "false"
             )
                optionName = toTitleCase(optionName.toLowerCase(), true);
+
             return (
                <div
                   key={"form-input-a" + optionName}
@@ -857,45 +928,95 @@ const FormInput = (props) => {
                   optionName.toLowerCase() === "false")
             )
                optionName = toTitleCase(optionName.toLowerCase(), true);
-            return (
-               <div
-                  key={"form-input-a3" + i}
-                  className={
-                     styles["input-wrap"] +
-                     " 3 " +
-                     (typeof optionName === "string" &&
-                        optionName.toLowerCase().replace(/[^A-Z0-9]+/gi, "_")) +
-                     " " +
-                     styles[
-                        "input-option-" +
-                           (typeof optionName === "string" &&
-                              optionName
-                                 .toLowerCase()
-                                 .replace(/[^A-Z0-9]+/gi, "_"))
-                     ] +
-                     " " +
-                     styles["display-row"] +
-                     " " +
-                     styles[optionGroup.replaceAll(" ", "")]
-                  }
-                  data-group={optionGroup.replaceAll(" ", "")}
-               >
-                  <input
-                     key={"form-inputa4"}
-                     type={input.type}
-                     name={formNumber + "#" + input.name}
-                     defaultValue={optionName}
-                     onChange={checkboxInputOnChangeHandler}
-                     required={props.inputRequired}
-                  />
-                  <label
-                     key={"form-input-a5"}
-                     htmlFor={formNumber + "#" + input.name}
+
+            if (optionGroup.toLowerCase().replaceAll(" ", "") === "useradded") {
+               userAddedElms.push(
+                  <div
+                     key={"form-input-a3" + i}
+                     className={
+                        styles["input-wrap"] +
+                        " 3 " +
+                        (typeof optionName === "string" &&
+                           optionName
+                              .toLowerCase()
+                              .replace(/[^A-Z0-9]+/gi, "_")) +
+                        " " +
+                        styles[
+                           "input-option-" +
+                              (typeof optionName === "string" &&
+                                 optionName
+                                    .toLowerCase()
+                                    .replace(/[^A-Z0-9]+/gi, "_"))
+                        ] +
+                        " " +
+                        styles["display-row"] +
+                        " " +
+                        styles[optionGroup.replaceAll(" ", "")]
+                     }
+                     data-group={
+                        "user-added-" + input.title.replaceAll(" ", "")
+                     }
                   >
-                     {optionName}
-                  </label>
-               </div>
-            );
+                     <input
+                        key={"form-inputa4"}
+                        type={input.type}
+                        name={formNumber + "#" + input.name}
+                        defaultValue={optionName}
+                        defaultChecked={input.preFilledData.includes(option)}
+                        onChange={checkboxInputOnChangeHandler}
+                        required={props.inputRequired}
+                     />
+                     <label
+                        key={"form-input-a5"}
+                        htmlFor={formNumber + "#" + input.name}
+                     >
+                        {optionName}
+                     </label>
+                  </div>
+               );
+            } else {
+               return (
+                  <div
+                     key={"form-input-a3" + i}
+                     className={
+                        styles["input-wrap"] +
+                        " 3 " +
+                        (typeof optionName === "string" &&
+                           optionName
+                              .toLowerCase()
+                              .replace(/[^A-Z0-9]+/gi, "_")) +
+                        " " +
+                        styles[
+                           "input-option-" +
+                              (typeof optionName === "string" &&
+                                 optionName
+                                    .toLowerCase()
+                                    .replace(/[^A-Z0-9]+/gi, "_"))
+                        ] +
+                        " " +
+                        styles["display-row"] +
+                        " " +
+                        styles[optionGroup.replaceAll(" ", "")]
+                     }
+                     data-group={optionGroup.replaceAll(" ", "")}
+                  >
+                     <input
+                        key={"form-inputa4"}
+                        type={input.type}
+                        name={formNumber + "#" + input.name}
+                        defaultValue={optionName}
+                        onChange={checkboxInputOnChangeHandler}
+                        required={props.inputRequired}
+                     />
+                     <label
+                        key={"form-input-a5"}
+                        htmlFor={formNumber + "#" + input.name}
+                     >
+                        {optionName}
+                     </label>
+                  </div>
+               );
+            }
          }
       });
       if (input.type === "radio") {
@@ -968,6 +1089,45 @@ const FormInput = (props) => {
                   </span>
                )}
                {options.map((optionHTML) => optionHTML)}
+
+               {userAddedElms.length > 0 && (
+                  <div
+                     key={"form-input-User Added" + input.title}
+                     className={
+                        styles["input-wrap"] +
+                        (typeof input.title === "string" &&
+                           "user-added" +
+                              input.title.replace(/[^A-Z0-9]+/gi, "_")) +
+                        " " +
+                        styles[
+                           "input-option-" +
+                              (typeof input.title === "string" &&
+                                 "user-added" +
+                                    input.title.replace(/[^A-Z0-9]+/gi, "_"))
+                        ] +
+                        " " +
+                        styles["input-option" + "user-added" + input.title] +
+                        " " +
+                        styles["display-row"] +
+                        " " +
+                        styles["user-added" + input.title.replaceAll(" ", "")]
+                     }
+                     data-group={
+                        "user-added-" +
+                        input.name.replaceAll(" ", "") +
+                        "-container"
+                     }
+                  >
+                     <label
+                        key={"form-input-a9"}
+                        htmlFor={formNumber + "#" + input.name}
+                        data-group={"SPACER-" + input.name}
+                     >
+                        User Added {input.title}
+                     </label>
+                     {userAddedElms.map((item) => item)}
+                  </div>
+               )}
                <input
                   key={"form-input-c3"}
                   type="text"

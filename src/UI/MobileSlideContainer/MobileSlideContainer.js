@@ -18,7 +18,6 @@ const MobileSlideContainer = (props) => {
             &darr; Open &nbsp; {props.name} &darr;
          </button>
          <div className={`${styles.container} ${styles[containerStyles]}`}>
-            {" "}
             <button
                key={"addtoolformelms-5"}
                className={`${styles["close-slider-panel-button"]} ${styles["slider-panel-button"]}`}

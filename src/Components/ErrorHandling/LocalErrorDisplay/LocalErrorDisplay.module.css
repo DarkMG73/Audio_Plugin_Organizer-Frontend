@@ -1,11 +1,11 @@
 .error-container {
-  padding: 0 3em;
+   padding: 2em 3em;
 }
 
 .error-text-container {
-  max-width: 800px;
+   max-width: 800px;
 }
 
 .error-text-container p {
-  white-space: break-spaces;
+   white-space: break-spaces;
 }

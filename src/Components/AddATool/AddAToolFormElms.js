@@ -57,15 +57,19 @@ function AddAToolFormElms(props) {
 
    function cancelQuestionFormButtonHandler(e) {
       e.preventDefault();
-      const close = window.confirm(
+      const close = window.DayPilot.confirm(
          "Are you sure you want to cancel this specific item? Any data input for this item will be lost (other items in this plugin entry form will not be affected)? "
-      );
-
-      if (close) {
-         // if (!props.ignoreFormOpen) setFormOpen(false);
-         // if (props.setFormParentOpen) props.setFormParentOpen(false);
-         if (props.cancelOneForm) props.cancelOneForm(e);
-      }
+      )
+         .then(function (args) {
+            if (!args.canceled) {
+               // if (!props.ignoreFormOpen) setFormOpen(false);
+               // if (props.setFormParentOpen) props.setFormParentOpen(false);
+               if (props.cancelOneForm) props.cancelOneForm(e);
+            }
+         })
+         .catch((e) => {
+            console.lof("Error: " + e);
+         });
    }
 
    // if (newFormInputData.length > 0) {

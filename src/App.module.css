@@ -198,3 +198,68 @@
 }
 .loader-wrap div span:nth-child(even) {
 }
+
+/* DayPilot Modals Theme */
+:global(body .modal_default_main) {
+   background: var(--iq-color-foreground) !important;
+   color: var(--iq-color-background) !important;
+   border-radius: 50px;
+   border: none;
+   box-shadow:
+      3px 3px 7px -4px white inset,
+      -3px -3px 7px -4px black inset,
+      0 0 30px 0 var(--iq-color-accent-light),
+      0 0 7px 2px var(--iq-color-accent) inset;
+   margin: auto !important;
+   position: fixed !important;
+   top: 50% !important;
+   transform: translate(-50%, -50%);
+   border: none !important;
+}
+
+:global(.modal_default_main .modal_default_inner) {
+   padding: 2em 3em;
+}
+
+:global(.modal_default_buttons) {
+   display: flex;
+   justify-content: center;
+   overflow: hidden;
+   border-radius: 50px;
+}
+
+:global(.modal_default_main) button:hover {
+   /* color: var(--iq-color-background);
+  background: var(--iq-color-accent-light); */
+   transform: scale(1.125, 1);
+   z-index: 1;
+}
+:global(.modal_default_main) button {
+   box-shadow:
+      3px 3px 7px -4px white inset,
+      -3px -3px 7px -4px black inset;
+   background: var(--iq-color-accent);
+   color: var(--iq-color-foreground);
+   border-radius: 0;
+   margin: 0;
+   padding: 1em;
+   flex-grow: 1;
+   border: none;
+   transition: 0.2s all;
+   cursor: pointer;
+}
+
+:global(.modal_default_content) {
+   padding: 10px 0px;
+   max-height: 61vh;
+   overflow: auto;
+}
+
+:global(.modal_default_main .modal_default_cancel) {
+   background: var(--iq-color-alert-red);
+   color: var(--iq-color-alert-text);
+}
+:global(.modal_default_main .modal_default_cancel:hover) {
+   /* background: var(--iq-color-accent-2-light);
+  color: var(--iq-color-background); */
+}

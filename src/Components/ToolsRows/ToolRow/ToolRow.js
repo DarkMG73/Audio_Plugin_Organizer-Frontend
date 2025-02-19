@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, Fragment } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./ToolRow.module.css";
 import PushButton from "../../../UI/Buttons/PushButton/PushButton";
 import { isValidHttpUrl, groomFormOutput } from "../../../Hooks/utility";
@@ -13,62 +13,82 @@ import {
    deleteAPlugin as deleteDocFromDb
 } from "../../../storage/audioToolsDB";
 import GetPluginFormInputsWithOptions from "../../../Hooks/GetPluginFormInputsWithOptions";
+import useDefaultImageIsAvailable from "../../../Hooks/useDefaultImageIsAvailable";
+import useFindSelectedImage from "../../../Hooks/useFindSelectedImage";
 import useToolDisplayOrder from "../../../Hooks/useToolDisplayOrder";
-import placeholderImage from "../../../assets/images/product-photo-placeholder.png";
+// import placeholderImage from '../../../assets/images/product-photo-placeholder.png';
+import placeholderImage from "../../../assets/images/generic_plugin_images/analyzers/image (3).jpg";
+import useSaveAudioFormData from "../../../Hooks/useSaveAudioFormData";
+import useRunGatherToolData from "../../../Hooks/useRunGatherToolData";
+import GatherToolData from "../../../Hooks/GatherToolData";
+import { loadingRequestsActions } from "../../../store/loadingRequestsSlice";
 
 function ToolRow(props) {
+   const dispatch = useDispatch();
    const { toolsMetadata, toolsSchema, officialImages, defaultImages } =
       useSelector((state) => state.toolsData);
 
    const [inEditMode, setInEditMode] = useState(false);
    const [toolRowOrder, setToolRowOrder] = useState(false);
    const [deleted, setDeleted] = useState(false);
+   const [submitFavChange, setSubmitFavChange] = useState(null);
    const toolDisplayOrder = useToolDisplayOrder;
    const [formInputData, setFormInputData] = useState(false);
+   const [localError, setLocalError] = useState({
+      active: false,
+      message: null
+   });
    const user = useSelector((state) => state.auth.user);
    const {
       tool: { functions }
    } = props;
-
-   const defaultImageIsAvailable = (functionsArray, defaultImgObj) => {
-      const cleanFunctionsArray = functionsArray.filter((item) => {
-         // Make str or arr
-         const eligibleTypes = ["String", "Array"];
-         if (eligibleTypes.includes(item.constructor.name))
-            return item.length > 0;
-         return false;
-         //make sure str or arr is not empty
-      });
-
-      const groomName = (name) => name.replaceAll(" ", "-").toLowerCase();
-      const imageGetter = (indexOfcleanFuncArr) => {
-         return defaultImgObj[
-            groomName(cleanFunctionsArray[indexOfcleanFuncArr])
-         ][0].src;
-      };
-
-      // See if image exists: "audio effects" is skipped to use the actual effect image.
-      if (cleanFunctionsArray.length > 0) {
-         if (
-            cleanFunctionsArray.length === 1 ||
-            groomName(cleanFunctionsArray[0]) !== "audio-effects"
-         ) {
-            try {
-               return imageGetter(0);
-            } catch {
-               return false;
-            }
-         } else {
-            try {
-               return imageGetter(1);
-            } catch {
-               return false;
-            }
-         }
-      }
-
-      return false;
+   const defaultImageIsAvailable = useDefaultImageIsAvailable();
+   const findSelectedImage = useFindSelectedImage();
+   const saveAudioFormData = useSaveAudioFormData();
+   const getRunGatherToolData = useRunGatherToolData();
+   const makeLoadingRequest = function () {
+      return dispatch(loadingRequestsActions.addToLoadRequest());
    };
+   const removeLoadingRequest = function () {
+      dispatch(loadingRequestsActions.removeFromLoadRequest());
+   };
+   const runGatherToolData = function (user, setLocalError, GatherToolData) {
+      makeLoadingRequest();
+      getRunGatherToolData(user, setLocalError, GatherToolData);
+      setTimeout(() => {
+         removeLoadingRequest();
+      }, 2000);
+   };
+   const successCallback = () => {
+      window.DayPilot.alert("This is now a Favorite in your library!");
+
+      setTimeout(() => {
+         runGatherToolData(user, setLocalError, GatherToolData);
+      }, 1000);
+   };
+
+   const noUserCallback = () => {
+      window.DayPilot.alert(
+         "To set a favorite you will need to log in and set it within your own library. If you do not have an account, register at the top of the page to start your own library! :)"
+      );
+   };
+
+   useEffect(() => {
+      if (submitFavChange) {
+         const newFav = !isFavorite;
+         // setIsFavorite(newFav);
+
+         saveAudioFormData(
+            [{ identifier: key, dbID: key, favorite: newFav.toString() }],
+            user,
+            "update",
+            successCallback,
+            noUserCallback,
+            true
+         );
+         setSubmitFavChange(false);
+      }
+   }, [submitFavChange]);
 
    useEffect(() => {
       const order = toolDisplayOrder(toolsSchema);
@@ -80,6 +100,10 @@ function ToolRow(props) {
    const editedTools = useRef({ edits: {} });
    // eslint-disable-next-line react/prop-types
    const { tool, keyOne: key } = props;
+
+   const [isFavorite, setIsFavorite] = useState(
+      tool && Object.hasOwn(tool, "favorite") ? tool.favorite : false
+   );
    // const key = props.keyOne;
    // const k = props.keyOne;
    // editButtonDirection to be used with future edit mode visual manipulations
@@ -99,6 +123,10 @@ function ToolRow(props) {
             toolRowOrder
          );
    }, [tool, formInputData, toolRowOrder]);
+
+   useEffect(() => {
+      if (tool && Object.hasOwn(tool, "favorite")) setIsFavorite(tool.favorite);
+   }, [tool]);
 
    ////////////////////////////////////////
    /// FUNCTIONALITY
@@ -138,30 +166,47 @@ function ToolRow(props) {
       e.preventDefault();
       // Use tempKey instead of key when in dev
       // const tempKey = "TESTTEST";
-      const confirmDelete = window.confirm(
-         "Are you sure you want to delete this tool (ID: " +
-            key +
-            ")? This can not be undone. You might want to use the CVS download at the bottom of the page to backup your production tools first in case you want to restore this list as it is right now. Clicking CANCEL returns to the page as-is and clicking CONFIRM will delete this tool."
-      );
-      if (confirmDelete) {
-         deleteDocFromDb(key, user)
-            .then((res) => {
-               if (res.status < 299) {
-                  setDeleted(true);
-               } else {
-                  alert(
-                     "There was an error when trying to delete this production tool. Here is the message from the server: " +
-                        res.response.data.message +
-                        ". Be sure you have an internet connections and try again. If all else fails, please notify the administrator."
-                  );
-               }
-            })
-            .catch((err) => {
-               alert(
-                  "There was an error when trying to delete this entry. Be sure you have an internet connections and try again. If all else fails, please notify the administrator."
-               );
-            });
-      }
+
+      window.DayPilot.confirm(
+         'Are you sure you want to delete this tool?<br/><br/><span style="color: var(--iq-color-accent);font-weight: 700;">' +
+            tool.name +
+            " " +
+            (tool.company && "by " + tool.company + "</span><br/><br/>") +
+            'This can not be undone. You might want to use the CVS download at the bottom of the page to backup your production tools first in case you want to restore this list as it is right now.<br/><br/>Clicking <span style="color: var(--iq-color-alert-red);font-weight: 700;">CANCEL</span> returns to the page as it is, while clicking <span style="color: var(--iq-color-accent);font-weight: 700;">OK</span> will delete this tool.'
+      ).then((args) => {
+         if (!args.canceled) {
+            window.DayPilot.confirm(
+               'Last chance!<br/><br/>Are you absolutely sure you want to delete this?<br/><br/><span style="color: var(--iq-color-alert-red);font-weight: 700;">' +
+                  tool.name +
+                  (tool.company && " by " + tool.company + "<br/>") +
+                  "</span><br/><br/>This can not be undone."
+            )
+               .then(function (args) {
+                  if (!args.canceled) {
+                     deleteDocFromDb(key, user)
+                        .then((res) => {
+                           if (res.status < 299) {
+                              setDeleted(true);
+                           } else {
+                              window.DayPilot.alert(
+                                 "There was an error when trying to delete this production tool. Here is the message from the server: " +
+                                    res.response.data.message +
+                                    ". Be sure you have an internet connections and try again. If all else fails, please notify the administrator."
+                              );
+                           }
+                        })
+                        .catch((err) => {
+                           window.DayPilot.alert(
+                              "There was an error when trying to delete this entry. Be sure you have an internet connections and try again. If all else fails, please notify the administrator."
+                           );
+                        });
+                  }
+               })
+               .catch((e) => {
+                  console.lof("Error: " + e);
+               });
+         }
+      });
    };
 
    ////////////////////////////////////////
@@ -220,47 +265,6 @@ function ToolRow(props) {
                // value = <img key={title + value} src={value} alt={title} />;
                value = <img key={title + value} src={value} alt={title} />;
             } else if (title === "photoURL" && value !== undefined) {
-               const findSelectedImage = (imageSelected) => {
-                  let defaultImageSelected = false;
-                  let officialImageSelected = false;
-
-                  officialImages.forEach((group) => {
-                     if (
-                        group.name.split("/").pop() ===
-                        imageSelected.split("/").pop()
-                     )
-                        officialImageSelected = group.src;
-                  });
-
-                  // Check if a default image was selected.
-                  if (
-                     imageSelected &&
-                     imageSelected.includes("generic_plugin_images")
-                  ) {
-                     const functionCategory = value.substring(
-                        value.indexOf("/") + 1,
-                        value.lastIndexOf("/")
-                     );
-
-                     defaultImages[functionCategory].forEach((group) => {
-                        if (
-                           group.name.split("/").pop() ===
-                           imageSelected.split("/").pop()
-                        )
-                           defaultImageSelected = group.src;
-                     });
-                  }
-                  // const defaultlImageSelected =
-                  //   defaultImages[
-                  //     `${imageSelected.replace('generic_plugin_images', '')}`
-                  //   ];
-
-                  if (officialImageSelected) return officialImageSelected;
-                  if (defaultImageSelected) return defaultImageSelected;
-
-                  return false;
-               };
-
                const photoSrc =
                   value !== ""
                      ? findSelectedImage(value)
@@ -272,9 +276,9 @@ function ToolRow(props) {
                      <img
                         key={title + value}
                         data-test={"test-" + defaultImageIsAvailable(functions)}
-                        src={photoSrc}
+                        src={photoSrc || placeholderImage}
                         // src={image}
-                        alt={title}
+                        alt=""
                      />
                   </Fragment>
                );
@@ -306,18 +310,25 @@ function ToolRow(props) {
             }
          }
 
-         let favoriteClass = "";
-         if (title === "favorite") {
-            if (
-               (value.constructor === Boolean && value) ||
-               value.toLowercase == "true" ||
-               value == "True"
-            ) {
-               favoriteClass = "favorite-true";
+         let handleElmCLick = () => {
+            if (!user) {
+               noUserCallback();
             } else {
-               favoriteClass = "favorite-false";
+               setSubmitFavChange(true);
             }
-         }
+         };
+
+         // if (title === 'favorite') {
+         //   if (
+         //     (!isFavorite && value.constructor === Boolean && value) ||
+         //     value.toLowercase == 'true' ||
+         //     value == 'True'
+         //   ) {
+         //     setIsFavorite(true);
+         //   } else {
+         //     setIsFavorite(false);
+         //   }
+         // }
          if (title === "oversampling") {
          }
          // Create the row
@@ -332,7 +343,11 @@ function ToolRow(props) {
                   " " +
                   styles[title] +
                   " " +
-                  styles[favoriteClass] +
+                  styles[
+                     isFavorite && title === "favorite"
+                        ? "favorite-true"
+                        : "favorite-false"
+                  ] +
                   " " +
                   title +
                   "-wrap" +
@@ -341,8 +356,13 @@ function ToolRow(props) {
                   " " +
                   title +
                   " " +
-                  favoriteClass
+                  (isFavorite && title === "favorite"
+                     ? "favorite-true"
+                     : "favorite-false")
                }
+               {...(title === "favorite" && {
+                  onClick: handleElmCLick
+               })}
             >
                <div
                   key={itemTitle + value}
@@ -415,6 +435,7 @@ function ToolRow(props) {
          <CardSecondary
             key={key + "1"}
             styles={{ position: "relative", minWidth: "214px" }}
+            attributes={{ "data-group": "tools-wrap" }}
          >
             <CollapsibleElm
                key={key + "2"}
@@ -573,11 +594,15 @@ function ToolRow(props) {
                      submitButtonStyles={{
                         top: "-14px",
                         width: "80%",
-                        background: "var(--iq-color-accent)",
+                        background: "var(--iq-color-accent-2)",
+                        color: "white",
                         borderRadius: "50px",
                         height: "3em",
                         font: "var(--iq-font-heading-2)",
-                        zIndex: "1"
+                        zIndex: "1",
+                        boxShadow:
+                           "inset -7px -7px 10px -7px #000000,    inset 7px 7px 10px -7px var(--iq-color-accent-2-light)",
+                        border: "none"
                      }}
                      deleteButtonStyles={{
                         flexBasis: " 25%",
@@ -626,7 +651,10 @@ function ToolRow(props) {
             key={"deleted" + key}
             className={styles.deleted + " " + "deleted"}
          >
-            <h3 key={key + "9"}>This tool was deleted (ID: {key})</h3>
+            <h3 key={key + "9"}>
+               {tool.name} was deleted. Refresh the browser to remove this
+               notice.
+            </h3>
          </div>
       );
    }

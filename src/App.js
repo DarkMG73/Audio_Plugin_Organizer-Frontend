@@ -16,8 +16,12 @@ import LocalErrorDisplay from "./Components/ErrorHandling/LocalErrorDisplay/Loca
 import BarLoader from "./UI/Loaders/BarLoader/BarLoader";
 import { loadingRequestsActions } from "./store/loadingRequestsSlice";
 import { getAppVersions } from "./storage/versionDB";
+import { Modal } from "@daypilot/modal";
 
 const App = () => {
+   window.DayPilot = Modal;
+   const dispatch = useDispatch();
+   const isDesktopApp = isElectron();
    const [user, setUser] = useState(false);
    const [appVersions, setAppVersions] = useState(false);
    // const [rateLimitData, setRateLimitData] = useState(false);
@@ -32,8 +36,6 @@ const App = () => {
    const pendingLoadRequests = useSelector(
       (state) => state.loadingRequests.pendingLoadRequests
    );
-   const dispatch = useDispatch();
-   const isDesktopApp = isElectron();
 
    const makeLoadingRequest = function () {
       return dispatch(loadingRequestsActions.addToLoadRequest());

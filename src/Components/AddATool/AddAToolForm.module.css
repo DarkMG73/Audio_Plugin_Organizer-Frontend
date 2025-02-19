@@ -20,6 +20,26 @@
 
 .inner-wrap input[type="submit"]:hover {
    opacity: 1 !important;
+   /* transform: translate(-50%, calc(-100% - 1em)) scale(1.1) !important; */
+   transform: scale(1.125) !important;
+}
+
+body div[class*="editing-fields-wrap"] [data-data="larger-forms-1"],
+body div[class*="editing-fields-wrap"] [data-data="add-tool-submit-2-wrap"] {
+   display: none;
+}
+
+body div[class*="editing-fields-wrap"] [class*="close-item-form-button"] {
+   position: fixed !important;
+   top: 12em;
+   max-width: 100%;
+   left: 50%;
+   transform: translateX(-50%);
+   opacity: 1;
+   background: var(--iq-color-accent-2);
+   border-radius: 3.125px;
+   z-index: 11;
+   letter-spacing: 0.5em;
 }
 
 .error-text {
@@ -28,4 +48,10 @@
    color: orangered !important;
    font-size: 1.5em;
    margin: 1em auto 0;
+}
+
+[data-data="add-tool-submit-2-wrap"] {
+   position: sticky !important;
+   top: 0;
+   z-index: 10;
 }

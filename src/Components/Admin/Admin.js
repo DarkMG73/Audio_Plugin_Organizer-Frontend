@@ -41,9 +41,9 @@ const Admin = ({ appVersions, user, isDesktopApp }) => {
          "Test desktop version.",
          "Test web version",
          "Set web version numbers in .env (and anywhere else needed). *** DO NOT SET THE DESKTOP VERSION NUMBER YET ***",
-         "Build web version in Production.",
+         "Build web version.",
          "Upload web build to production folder.",
-         "Test web version.",
+         "Test web version in Production.",
          "Enter new version number in Admin Tools",
          "Enter new release date in Admin Tools",
          "Update message (if needed) in Admin Tools",
@@ -86,12 +86,12 @@ const Admin = ({ appVersions, user, isDesktopApp }) => {
          updateAdminNotes(user, notesData)
             .then((res) => {
                if (res.status < 400) {
-                  alert("Admin Notes were successfully saved.");
+                  window.DayPilot.alert("Admin Notes were successfully saved.");
                } else {
-                  alert(
-                     "There was a problem saving the Admin Notes.\n\nError " +
+                  window.DayPilot.alert(
+                     "There was a problem saving the Admin Notes.<br/><br/>Error " +
                         res.data?.message +
-                        "\n\nError code " +
+                        "<br/><br/>Error code " +
                         res.status
                   );
 
@@ -100,7 +100,7 @@ const Admin = ({ appVersions, user, isDesktopApp }) => {
             })
             .catch((e) => {
                console.log("ERROR --->", e);
-               alert(
+               window.DayPilot.alert(
                   "There was a problem saving the Admin Notes: ",
                   e.data?.message
                );
@@ -148,18 +148,25 @@ const Admin = ({ appVersions, user, isDesktopApp }) => {
       updateAppVersions(newFormData, user)
          .then((res) => {
             if (res.status < 400) {
-               alert("The changes were successfully submitted.");
+               window.DayPilot.alert(
+                  "The changes were successfully submitted."
+               );
 
                setSavedData(res.data.doc);
             } else {
-               alert("There was a problem saving the changes: " + res.status);
+               window.DayPilot.alert(
+                  "There was a problem saving the changes: " + res.status
+               );
 
                console.log("ERROR --->", res);
             }
          })
          .catch((e) => {
             console.log("ERROR --->", e);
-            alert("There was a problem saving the changes: ", e);
+            window.DayPilot.alert(
+               "There was a problem saving the changes: ",
+               e
+            );
          });
       setSubmitVersionData(false);
    }, [submitVersionData]);
@@ -211,17 +218,31 @@ const Admin = ({ appVersions, user, isDesktopApp }) => {
    };
 
    const handleSubmitVersionForm = () => {
-      const confirm = window.confirm(
+      window.DayPilot.confirm(
          "This will save the data, but will not push a new release. To push a new release, hit cancel and chnage the DesktopVersion and ReleaseDate to a higher and later value."
-      );
-      if (confirm) setSubmitVersionData(true);
+      )
+         .then(function (args) {
+            if (!args.canceled) {
+               setSubmitVersionData(true);
+            }
+         })
+         .catch((e) => {
+            console.lof("Error: " + e);
+         });
    };
 
    const handlePushNewVersion = () => {
-      const confirm = window.confirm(
-         '*** THIS WILL PUSH A NEW VERSION ***\n\n Before clicking "OK", make sure:\n-The DesktopVersion is a higher number\n AND \n- the ReleaseDate is a later date than right now.'
-      );
-      if (confirm) setSubmitVersionData(true);
+      window.DayPilot.confirm(
+         '*** THIS WILL PUSH A NEW VERSION ***<br/><br/> Before clicking "OK", make sure:\n-The DesktopVersion is a higher number\n AND \n- the ReleaseDate is a later date than right now.'
+      )
+         .then(function (args) {
+            if (!args.canceled) {
+               setSubmitVersionData(true);
+            }
+         })
+         .catch((e) => {
+            console.lof("Error: " + e);
+         });
    };
 
    ////////////////////////////////////////

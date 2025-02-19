@@ -1,17 +1,18 @@
-import styles from "./CardPrimaryLarge.module.css";
+import Styles from "./CardPrimaryLarge.module.css";
 import cardStyles from "../Card/Card.module.css";
 
-const CardPrimary = (props) => {
-  return (
-    <div
-      className={
-        styles.header + " " + cardStyles.card + " " + styles["card-primary"]
-      }
-      style={props.styles}
-    >
-      {props.children}
-    </div>
-  );
+const CardPrimary = ({ styles, children, data }) => {
+   return (
+      <div
+         className={
+            Styles.header + " " + cardStyles.card + " " + Styles["card-primary"]
+         }
+         style={styles}
+         data-data={data}
+      >
+         {children}
+      </div>
+   );
 };
 
 export default CardPrimary;

@@ -195,7 +195,7 @@ function FilterTools(props) {
                                              }
                                              value=""
                                           ></option>
-                                          {groomedTopicsObj[topic].map(
+                                          {groomedTopicsObj[topic]?.map(
                                              (entry) => {
                                                 return (
                                                    <Fragment
@@ -256,7 +256,7 @@ function FilterTools(props) {
                                              : topic}
                                        </h3>
                                        <form key={"tool-filter-form-1" + topic}>
-                                          {groomedTopicsObj[topic].map(
+                                          {groomedTopicsObj[topic]?.map(
                                              (entry) => {
                                                 return (
                                                    <Fragment
@@ -279,7 +279,7 @@ function FilterTools(props) {
                                                          checked={
                                                             currentFilters[
                                                                topic
-                                                            ].length > 0
+                                                            ]?.length > 0
                                                          }
                                                          type="checkbox"
                                                          className={
@@ -365,7 +365,7 @@ function FilterTools(props) {
                                           >
                                              {topic}
                                           </h3>
-                                          {groomedTopicsObj[topic].map(
+                                          {groomedTopicsObj[topic]?.map(
                                              (entry) => {
                                                 return (
                                                    <CheckBox

@@ -78,10 +78,17 @@ body[class*="can-hover"] .open-all-button-wrap button:hover {
 
 .no-plugin-title {
    font: var(--iq-font-subheading);
+   color: var(--iq-color-foreground);
 }
+
 .no-plugin-text {
    max-width: 500px;
    margin: 0 auto 3em;
+   margin: 0 auto 3em;
+   color: var(--iq-color-background);
+   background: var(--iq-color-foreground-gradient);
+   padding: 1.5em 3em;
+   border-radius: 50px;
 }
 
 .tools-rows-list-container .filters-data-container,

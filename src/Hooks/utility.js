@@ -148,7 +148,7 @@ export const groomFormOutput = (formOutputArray, passFormInputData) => {
 
          if (
             row.hasOwnProperty(inputData.name) &&
-            row[inputData.name].constructor === Boolean
+            row[inputData.name]?.constructor === Boolean
          ) {
             if (row[inputData.name] == false)
                assembledRow.preFilledData = "false";

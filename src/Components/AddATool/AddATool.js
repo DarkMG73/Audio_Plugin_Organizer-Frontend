@@ -15,6 +15,7 @@ function AddATool(props) {
    const [showAddQuestionForm, setShowAddQuestionForm] = useState(false);
    const [showAddFromLibrary, setShowAddFromLibrary] = useState(false);
    const [fileUploadArray, setFileUploadArray] = useState(false);
+   const [uploadingFile, setUploadingFile] = useState(false);
    const doNotShowTitle = props.doNotShowTitle;
    const doNotShowWelcomeMessage = props.doNotShowWelcomeMessage;
    const doNotShowAddButtons = props.doNotShowAddButtons;
@@ -39,6 +40,15 @@ function AddATool(props) {
       }
    }, [goToAddATool]);
 
+   useEffect(() => {
+      if (!uploadingFile) {
+         setUploadingFile(true);
+         setTimeout(() => {
+            setUploadingFile(false);
+         }, 4000);
+      }
+   }, [fileUploadArray]);
+
    ////////////////////////////////////////
    /// HANDLERS
    ////////////////////////////////////////
@@ -49,19 +59,24 @@ function AddATool(props) {
       setShowAddFromLibrary(!showAddFromLibrary);
    }
 
+   function cancelUploadButtonHandler(prop) {
+      setFileUploadArray(false);
+   }
+
    ////////////////////////////////////////
    /// Styles
    ////////////////////////////////////////
    const submitButtonStyles = {
       position: "relative",
       top: "-0",
-      left: "40%",
+      // left: '40%',
       width: "80%",
-      transform: " translateX(-50%)",
-      background: "var(--iq-color-accent-gradient)",
+      // transform: ' translateX(-50%)',
       borderRadius: "50px",
       height: "3em",
-      font: "var(--iq-font-heading-2)"
+      font: "var(--iq-font-heading-2)",
+      background: "var(--iq-color-accent-2) !important",
+      color: "var(--iq-color-foreground) !important"
    };
 
    const buttonStyles = {
@@ -69,13 +84,16 @@ function AddATool(props) {
       borderRadius: "50px",
       height: "3em",
       font: "var(--iq-font-heading-2)",
-      fontSize: "1.5em",
+      // fontSize: '1.5em',
       padding: "0",
       textTransform: "uppercase",
       fontWeight: "900",
       letterSpacing: "0.25em",
       textShadow:
-         "rgb(0 0 0 / 50%) -1px -1px 1px, rgb(255 255 255 / 50%) 1px 1px 1px, 0 0 22px wheat"
+         "rgb(0 0 0 / 50%) -1px -1px 1px, rgb(255 255 255 / 50%) 1px 1px 1px, 0 0 22px wheat",
+      boxShadow:
+         "inset -7px -7px 10px -7px #000000,    inset 7px 7px 10px -7px var(--iq-color-accent-2-light), 7px 7px 7px -7px #0000008a",
+      border: "none"
    };
 
    let audioPluginLibraryButtonStyles = {};
@@ -117,7 +135,7 @@ function AddATool(props) {
                   button and fill out the small form. Feel free to click the
                   "Add Another Form" button to create as many forms as needed to
                   add multiple items at once. When they are all ready, click the{" "}
-                  <i>Submit</i> button.
+                  <i>Save</i> button.
                </p>
             )}
 
@@ -164,7 +182,7 @@ function AddATool(props) {
                         id="create-entry-btn"
                         colorType="secondary"
                         value="Add a Question"
-                        data=""
+                        data={showAddFromLibrary && "addFromLibrary-open"}
                         size="medium"
                         onClick={showAudioPluginSelectorButtonHandler}
                         styles={audioPluginLibraryButtonStyles}
@@ -176,7 +194,7 @@ function AddATool(props) {
                            </span>
                         )}
                         {!showAddFromLibrary && (
-                           <span>Add from the Plugins & Tools Library</span>
+                           <span>Master Library Selector</span>
                         )}
                      </PushButton>
                   </div>
@@ -190,14 +208,14 @@ function AddATool(props) {
                         inputOrButton="button"
                         id="create-entry-btn"
                         colorType="secondary"
-                        value="Add a Question"
-                        data=""
+                        value="Cancel the Manual Entry Form"
+                        data={showAddQuestionForm && "addQuestionForm-open"}
                         size="medium"
                         onClick={showNewQuestionFormButtonHandler}
                      >
                         {showAddQuestionForm && (
                            <span>
-                              <b>Cancel</b> the Manual Entry Form
+                              <b>Close</b> the Manual Entry Form
                            </span>
                         )}
                         {!showAddQuestionForm && <span>Manual Entry Form</span>}
@@ -216,7 +234,10 @@ function AddATool(props) {
                            "cvs-buttons-container"
                         }
                      >
-                        <CSVReader setFileUploadArray={setFileUploadArray} />
+                        <CSVReader
+                           setFileUploadArray={setFileUploadArray}
+                           showFileName={fileUploadArray}
+                        />
                      </div>
                   </div>
                </div>
@@ -269,15 +290,36 @@ function AddATool(props) {
                <div
                   key="add-a-tool-inputs-container 3"
                   className={
-                     styles["inputs-container"] + " " + "inputs-container"
+                     styles["inputs-container"] +
+                     " " +
+                     "inputs-container" +
+                     " " +
+                     "csv-form-wrap"
                   }
                >
+                  {uploadingFile && <BarLoader key="bar-loader" />}
+                  <PushButton
+                     key="add-a-tool-form-library-button"
+                     inputOrButton="button"
+                     id="create-entry-btn"
+                     colorType="secondary"
+                     value="Add a Question"
+                     data={showAddFromLibrary && "addFromLibrary-open"}
+                     size="medium"
+                     onClick={cancelUploadButtonHandler}
+                     styles={{
+                        ...audioPluginLibraryButtonStyles,
+                        width: "50%"
+                     }}
+                  >
+                     <span>Cancel Upload</span>
+                  </PushButton>
                   <AddAToolForm
                      saveOrUpdateData="save"
                      formData={fileUploadArray}
                      buttonStyles={buttonStyles}
                      submitButtonStyles={submitButtonStyles}
-                     setFormParentOpen={setShowAddQuestionForm}
+                     setFormParentOpen={cancelUploadButtonHandler}
                      cancelOneForm={(e) => {
                         e.preventDefault();
                         const targetParent = e.target.closest(

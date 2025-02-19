@@ -6,10 +6,10 @@ export default async function GatherToolData(user) {
    const allToolsData = {};
    const dataFromStorage = storage("GET");
    const pluginSchema = await getSchemaForAudioPlugin();
-   const imagesALL = require.context(
-      "../assets/images/official_plugin_images/",
-      true
-   );
+   // const imagesALL = require.context(
+   //   '../assets/images/official_plugin_images/',
+   //   true,
+   // );
    const images = require.context(
       "../assets/images/generic_plugin_images/",
       true
@@ -44,7 +44,8 @@ export default async function GatherToolData(user) {
       throw err.response;
    }
 
-   allTools = allTools.map((tool) => {
+   const { imagesOEMData: imagesALL } = allTools;
+   allTools = allTools.audioPlugins.map((tool) => {
       const output = {};
       if (!Object.keys(tool).includes("oversampling")) {
          Object.keys(tool).forEach((key) => {
@@ -71,7 +72,7 @@ export default async function GatherToolData(user) {
          {
             "Audio & Video Plugin Status": "No plugins found.",
             "What you can do":
-               'To get rolling with tracking and easily sorting your audio and video plugins and tools, simply fill out the form and hit "submit" to add your first plugin. Or, use the spreadsheet upload to make it super fast.',
+               'To get rolling with your plugin library:\n\nDesktop version: click "Scan Computer for Plugins" and let teh system find them for you.\n\nWeb version: Use the Plugin Selector to choose items from the Master Library and/or add them manually using the "+" at the bottom of the page and then choose "Manual Entry Form".',
 
             _id: "error"
          }
@@ -116,13 +117,16 @@ export default async function GatherToolData(user) {
       currentFilters ?? gatherFilters(Object.keys(allToolsData.toolsMetadata));
 
    ////////////////////////////////////////////////////////////////
-   const groomedAllImages = [];
+   const groomedAllImages = {};
 
-   imagesALL.keys().forEach((image) => {
-      groomedAllImages.push({
-         name: image.replace(".", ""),
-         src: imagesALL(image)
-      });
+   imagesALL.forEach((imageGroup) => {
+      groomedAllImages[imageGroup.public_id.replace(".", "").replace(" ", "")] =
+         {
+            name: imageGroup.filename,
+            publicID: imageGroup.public_id.replace(".", "").replace(" ", ""),
+            src: imageGroup.url,
+            data: imageGroup
+         };
    });
 
    const groomedAllDefaultImages = {};
@@ -235,7 +239,7 @@ function objectExtractAllValuesPerKey(
                   outputObject[key] = new Set();
                   outputObject[key].add(objectToLoop[i][key]);
                }
-            } else if (objectToLoop[i][key].indexOf(",") >= 0) {
+            } else if (objectToLoop[i][key]?.indexOf(",") >= 0) {
                const termArray = objectToLoop[i][key].split(",");
 
                // For each list item, put is in the Set (removes duplicates)
@@ -253,8 +257,8 @@ function objectExtractAllValuesPerKey(
             }
 
             // Since the value is not a string list, if the value is not an array, just add it as-is to the key Set
-            else if (objectToLoop[i][key].constructor !== Array) {
-               const value = objectToLoop[i][key].trim().toString();
+            else if (objectToLoop[i][key]?.constructor !== Array) {
+               const value = objectToLoop[i][key]?.trim().toString();
 
                if (Object.hasOwn(outputObject, key)) {
                   outputObject[key].add(value);
@@ -265,7 +269,7 @@ function objectExtractAllValuesPerKey(
             }
 
             // Since the value is an array, loop to add it
-            else if (objectToLoop[i][key].constructor === Array) {
+            else if (objectToLoop[i][key]?.constructor === Array) {
                if (objectToLoop[i][key].length > 0) {
                   objectToLoop[i][key].forEach((rawValue) => {
                      const value = rawValue.toString();

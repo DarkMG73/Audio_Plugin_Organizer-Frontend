@@ -56,6 +56,38 @@
    line-height: 1em;
    text-align: left;
    padding: 0 1em;
+   margin-bottom: 1em;
+}
+
+.input-container > label {
+   width: fit-content;
+   flex-basis: min-content;
+   position: absolute;
+   top: 0;
+   left: 0;
+   transform: translate(2em, -100%);
+   background: var(--iq-color-foreground);
+   color: var(--iq-color-background);
+   padding: 0 2em 0.25em;
+   border-radius: 50px 50px 0 0;
+   /* transform: rotate(-45deg); */
+   font-size: 1em;
+   box-shadow:
+      inset 0px 3px 7px -4px var(--iq-color-accent-dark),
+      inset 0px 0px 12px -19px var(--iq-color-accent-dark);
+}
+
+body[class*="largeForms"] .input-container > label {
+   position: relative;
+   top: 0;
+   left: 0;
+   transform: none;
+   background: inherit;
+   padding: 0 1em;
+   color: inherit;
+   box-shadow: none;
+   font-size: initial;
+   flex-basis: 100%;
 }
 
 .input-container .input-wrap {
@@ -84,6 +116,7 @@
    background: var(--iq-color-accent);
    color: var(--iq-color-foreground);
    border: none;
+   margin: auto 1em;
 }
 
 .required-input-error-text {
@@ -143,13 +176,14 @@ textarea {
 }
 
 .required-input-error {
-   border: 7px inset var(--iq-color-accent) !important;
+   border: 3px inset var(--iq-color-accent-2) !important;
    /* color: var(--iq-color-accent) !important; */
 }
 .required-input-error-text {
-   color: var(--iq-color-accent) !important;
+   color: var(--iq-color-accent-2) !important;
    font-size: 0.75em;
    letter-spacing: 0.25em;
+   line-height: 0.5em;
 }
 
 .required-input {
@@ -187,7 +221,7 @@ textarea {
 .input-container .UserAdded.input-wrap:before {
    flex-grow: 1;
    max-width: calc(100% - 2em);
-   font-size: calc(0.5em + 0.4vw);
+   font-size: calc(0.5em + 0.3vw);
    line-height: 1.25em;
    font-weight: 700;
    border: none;
@@ -196,6 +230,7 @@ textarea {
    min-width: min-content;
    z-index: 2;
    text-align: center;
+   text-transform: capitalize;
 }
 
 .input-container input[type="checkbox"] {
@@ -259,7 +294,7 @@ textarea {
 /****************/
 
 /* *** App-Specific Fields *** */
-.name {
+body[class*="largeForms"] .name {
    font-size: 18px;
 }
 
@@ -285,6 +320,10 @@ textarea {
    font-size: 1em;
 }
 
+body:not([class*="largeForms"]) .input-container.name input {
+   line-height: 1.75em;
+}
+
 .input-container.input-company select {
    text-align: center;
    font-size: 1em;
@@ -298,7 +337,51 @@ textarea {
 }
 .input-container.input-color .input-wrap,
 .input-container.input-precision .input-wrap {
-   flex-basis: 33.3%;
+   /* flex-basis: 33.3%; */
+   flex-basis: auto;
+   margin: 0 auto 0.5em;
+}
+
+body:not([class*="largeForms"]) .input-container.input-precision .input-wrap {
+   text-align: left;
+   width: 100%;
+}
+
+body:not([class*="largeForms"])
+   .input-container.input-precision
+   input[type="checkbox"]
+   + label,
+body:not([class*="largeForms"])
+   .input-container.input-functions
+   input[type="checkbox"]
+   + label {
+   text-align: left;
+}
+
+/* body:not([class*='largeForms'])
+  .input-container.input-functions
+  [data-group*='SPACER-']
+  input[type='checkbox']
+  + label {
+  text-align: center;
+} */
+
+body:not([class*="largeForms"]) .input-container input[type="checkbox"] + label,
+body:not([class*="largeForms"]) .input-container input[type="radio"] + label {
+   box-shadow: none;
+}
+
+.photoURL-wrap {
+   width: 100%;
+   text-align: left;
+}
+
+.photoURL-wrap button {
+   background: var(--iq-color-accent-2);
+   color: var(--iq-color-foreground);
+   opacity: 0.75;
+   padding: 0.25em 1em;
+   border-radius: 50px;
 }
 
 .input-container.productURL,
@@ -306,11 +389,29 @@ textarea {
    flex-basis: 100%;
 }
 
+.input-container.photoURL > label > span {
+   max-width: 5em;
+   line-height: 1.5em;
+   overflow: hidden;
+   display: inline-block;
+}
+
 .input-container.productURL a,
 .input-container.photoURL a {
    /* font-size: 0.75em; */
    letter-spacing: 0.125em;
    display: block;
+   transform-origin: left;
+   transition: 0.3s all ease;
+}
+
+.input-container.productURL a {
+   transform-origin: center;
+}
+
+.input-container.productURL a:hover,
+.input-container.photoURL a:hover {
+   transform: scale(1.125, 1) translateX(-3.25%);
 }
 
 .input-favorite,
@@ -326,6 +427,10 @@ textarea {
 .input-container.input-status select,
 .input-container.input-status text {
    width: 100%;
+}
+
+.input-container.input-status select {
+   font-size: 2em;
 }
 
 .input-container.input-status input {
@@ -377,16 +482,23 @@ textarea {
    flex-basis: 25%;
 }
 
-.input-container.masterLibraryID:before {
-   content: "*** This is used to match the title of the plugin file (VST or AU). Change only if it does not match.***";
-   position: absolute;
+/* .input-container.masterLibraryID {
+  padding-bottom: 5.5em;
+} */
+
+.input-container.masterLibraryID:after {
+   content: "\2191  Change this only if it does not match the VST/AU file name \2191";
+   position: relative;
    display: block;
-   top: 8.5em;
-   left: 0;
+   opacity: 0.5;
+   /* top: 8.5em;
+  left: 0; */
    width: 100%;
+   max-width: 100%;
    /* height: 100%; */
    line-height: 1em;
-   padding-top: 0.5em;
+   /* padding-top: 0.5em; */
+   font-size: 10px;
 }
 
 /* Special Styling for Functions & Color */
@@ -409,21 +521,58 @@ textarea {
       inset 5px 5px 5px -5px rgb(255 255 255 / 50%),
       inset -5px -5px 5px -4px hsl(0deg 0% 0% / 50%);
    overflow: visible;
-   border-radius: 10px;
    flex-basis: 18%;
    font-size: 10px;
-   min-height: 100% !important;
-   height: min-content;
+   min-height: 2.5em !important;
+   height: 100%;
    max-height: 100% !important;
    display: flex;
    justify-content: center;
    align-items: center;
+   border-radius: 0;
+   transition: 0s all linear;
+   opacity: 0.75;
+}
+
+.input-container.input-container.input-functions .input-wrap:hover,
+.input-container.input-container.input-color .input-wrap:hover {
+   transform: scale(1, 1.125);
+   z-index: 10;
+   box-shadow:
+      0 0 18px 0 #ffd90080,
+      inset 2px 2px 5px -5px rgba(255, 255, 255, 0.5),
+      inset -2px -2px 5px -4px hsla(0, 0%, 0%, 0.5);
+   opacity: 1;
+   z-index: 3;
+}
+
+.input-container.input-container.input-functions
+   .input-wrap:has(input[type="checkbox"]:checked),
+.input-container.input-container.input-color
+   .input-wrap:has(input[type="checkbox"]:checked) {
+   transform: scale(1);
+   /* border-radius: 0; */
+   opacity: 1;
+   z-index: 2;
+}
+
+.input-container.input-container.input-color
+   .input-wrap:has(input[type="checkbox"]) {
    border-radius: 50px;
+   min-width: 11em;
+   flex-grow: 1;
+   margin: 0.125em 0;
+}
+
+body[class*="largeForms"]
+   .input-container.input-container.input-color
+   .input-wrap:has(input[type="checkbox"]) {
+   border-radius: 0;
 }
 
 .input-container.input-container.input-color .input-wrap {
    flex-basis: 25%;
-   min-height: 4em !important;
+   height: fit-content;
 }
 
 .input-container.input-container.input-functions {
@@ -433,8 +582,10 @@ textarea {
    grid-template-columns: repeat(5, 20%);
    /* grid-auto-flow: column; */
    grid-auto-flow: column;
-   grid-auto-rows: 3em;
+   /* grid-auto-rows: 3em; */
+   grid-auto-rows: 2.5em;
    /* grid-gap: 0.5em; */
+   grid-auto-rows: minmax(1em, auto);
 }
 
 .input-container.input-container.input-color {
@@ -492,14 +643,15 @@ body .input-container.input-color [data-group^="SPACER"] input:after {
    box-shadow: none;
    min-width: 0;
    min-height: 0;
-   background: radial-gradient(#ffffff, transparent);
-   border: 5px inset #000000;
+   background: radial-gradient(#fff4b380, transparent);
+   /* border: 3px inset #fff4b380; */
    transition: 0s all ease;
 }
 
 .input-container.input-functions input[type="checkbox"]:checked + label,
 .input-container.input-color input[type="checkbox"]:checked + label {
-   color: #858585 !important;
+   /* color: #858585 !important; */
+   /* color: var(--iq-color-foreground) !important; */
 }
 
 .input-container.input-functions input[type="checkbox"]:checked:after,
@@ -536,8 +688,14 @@ body .input-container.input-color [data-group^="SPACER"] input:after {
 
 .input-container.input-functions input[type="checkbox"]:checked + label,
 .input-container.input-color input[type="checkbox"]:checked + label {
+   text-shadow: 0 0 30px #e3bd26;
    color: inherit;
    opacity: 1;
+}
+
+.input-container.input-color input[type="checkbox"]:checked + label {
+   /* opacity: 1; */
+   background: radial-gradient(#f2e6b7b5, transparent);
 }
 
 .input-container.input-functions .input-wrap:before,
@@ -585,7 +743,18 @@ body .input-container.input-color [data-group^="SPACER"] input:after {
    padding: 0.5em !important;
    border-radius: 50px !important;
    box-shadow: none !important;
-   background: var(--iq-color-foreground) !important;
+   /* background: var(--iq-color-foreground) !important; */
+   background: inherit !important;
+   box-shadow: inset 0 0 53px -22px !important;
+   /* border-radius: 50px !important; */
+   /* overflow: hidden !important; */
+   box-shadow:
+      0 15px 18px -11px,
+      0 -10px 18px -11px,
+      inset 0px -14px 11px -16px,
+      inset 0px 5px 8px -7px !important;
+   /* border: 1px dotted !important; */
+   opacity: 0.7 !important;
 }
 
 [data-group^="SPACER"] input:after {
@@ -634,7 +803,7 @@ body .input-container.input-color [data-group^="SPACER"] input:after {
 } */
 [data-group*="SPACER-Category"] {
    /* background: #1a1a1d; */
-   color: var(--color-group-one-white);
+   color: inherit;
 }
 
 [data-group*="Dynamics"],
@@ -676,12 +845,12 @@ body .input-container.input-color [data-group^="SPACER"] input:after {
 
 [data-group*="TimeandSpace"],
 .input-color [class*="sci_fi"] {
-   background: var(--color-group-one-4);
-   color: var(--color-group-one-4-text);
+   background: var(--color-group-one-9);
+   color: var(--color-group-one-9-text);
    grid-column: 4;
 }
 [data-group*="SPACER-TimeandSpace"] {
-   color: var(--color-group-one-4);
+   color: var(--color-group-one-9);
    /* background: var(--color-group-one-black); */
    grid-column: 4;
 }
@@ -690,70 +859,101 @@ body .input-container.input-color [data-group^="SPACER"] input:after {
 .input-color [class*="tribal"] {
    background: var(--color-group-one-5);
    color: var(--color-group-one-5-text);
-   grid-column: 5;
+   grid-column: 4;
 }
 [data-group*="SPACER-Modulation"] {
    color: var(--color-group-one-5);
    /* background: var(--color-group-one-black); */
-   grid-column: 5;
+   grid-column: 4;
 }
 
+.input-option-percussion_synth_sampler,
+.input-option-midi_arpeggiator_effects,
+.input-option-music_generator,
+.input-option-general_modulation,
+.input-option-subharmonic_synth,
 .input-option-chorus_flanger_phaser_tremolo,
 .input-option-vocal_specific_processing,
 .input-option-glitch_stutter_and_granular_fx,
-.input-option-frequency_shifter_pitch_shifter,
 .UserAdded,
 .input-container [data-group^="SPACER"] {
    grid-row-end: span 2;
+   /* border-radius: 16.75px !important; */
 }
 
 [data-group*="Simulation"],
 .input-color [class*="80_s"] {
    background: var(--color-group-one-6);
    color: var(--color-group-one-6-text);
-   grid-column: 1;
+   grid-column: 5;
 }
 [data-group*="SPACER-Simulation"] {
    color: var(--color-group-one-6);
    /* background: var(--color-group-one-black); */
-   grid-column: 1;
+   grid-column: 5;
 }
 
 [data-group*="CombinationTools"] {
-   background: var(--color-group-one-7);
-   color: var(--color-group-one-7-text);
+   background: var(--color-group-one-8);
+   color: var(--color-group-one-8-text);
    grid-column: 2;
 }
 [data-group*="SPACER-CombinationTools"] {
-   color: var(--color-group-one-7);
+   color: var(--color-group-one-8);
    /* background: var(--color-group-one-black); */
    grid-column: 2;
 }
 
 [data-group*="Multi-FunctionShaper"],
 .input-color [class*="vintage"] {
-   background: var(--color-group-one-8);
-   color: var(--color-group-one-8-text);
+   background: var(--color-group-one-7);
+   color: var(--color-group-one-7-text);
    grid-column: 2;
 }
 [data-group*="SPACER-Multi-FunctionShaper"] {
-   color: var(--color-group-one-8);
+   color: var(--color-group-one-7);
    /* background: var(--color-group-one-black); */
    grid-column: 2;
 }
 
 [data-group*="Analyzers"],
 .input-color [class*="latin"] {
-   background: var(--color-group-one-9);
-   color: var(--color-group-one-9-text);
-   grid-column: 4;
-}
-[data-group*="SPACER-Analyzers"] {
-   color: var(--color-group-one-9);
-   /* background: var(--color-group-one-black); */
-   grid-column: 4;
+   background: var(--color-group-one-10);
+   color: var(--color-group-one-10-text);
+   grid-column: 5;
 }
 
+[data-group*="SPACER-Analyzers"] {
+   color: var(--color-group-one-10);
+   /* background: var(--color-group-one-black); */
+   grid-column: 5;
+}
+
+[data-group*="user-added-functions-container"] {
+   display: flex;
+   flex-wrap: wrap;
+   min-height: fit-content;
+   grid-column: 1 / -1;
+   /* justify-content: center; */
+   height: fit-content;
+   align-items: center;
+}
+
+[data-group*="user-added-functions-container"] > label {
+   flex-basis: 100%;
+   color: var(--color-group-one-4);
+}
+
+[data-group*="user-added-functions-container"] > * {
+   flex-grow: 1;
+   min-height: 3em;
+}
+
+[data-group*="SPACER-user-added-functions"] {
+   color: var(--color-group-one-4);
+   /* background: var(--color-group-one-black); */
+   grid-column: 1;
+}
 /* .Category {
   background: var(--iq-color-background-warm-gradient);
   color: var(--iq-color-foreground);
@@ -843,20 +1043,27 @@ body .input-container.input-color [data-group^="SPACER"] input:after {
 
 .input-container .UserAdded,
 .input-color [class*="asian"] {
-   background: var(--color-group-one-10);
-   color: var(--color-group-one-10-text);
+   background: var(--color-group-one-4);
+   color: var(--color-group-one-4-text);
+}
+
+div[class*="frequency_shifter_pitch_shifter"] > label {
+   min-height: 5em !important;
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }
 
 .input-container .UserAdded {
    grid-column: 5;
-   margin-top: 6em;
+   /* margin-top: 6em; */
    /* grid-column: 1 / -1; */
 }
 
-.UserAdded:before {
-   content: "User Added";
-   font-variant: small-caps;
-}
+/* .UserAdded:before {
+  content: 'User Added';
+  font-variant: small-caps;
+} */
 
 /* .input-container .Tools {
   background: rgb(226, 224, 224);
@@ -872,7 +1079,11 @@ body .input-container.input-color [data-group^="SPACER"] input:after {
    display: flex;
    margin-left: 1em;
    flex-direction: row-reverse;
-   margin: auto;
+   flex-wrap: wrap-reverse;
+   justify-content: flex-end;
+   margin: 0;
+   padding: 0;
+   text-align: left;
 }
 
 .image-selector {
@@ -902,9 +1113,24 @@ body .input-container.input-color [data-group^="SPACER"] input:after {
    flex-wrap: wrap;
 }
 
+.image-search-wrapper {
+   flex-basis: 100%;
+   display: flex;
+   align-items: center;
+   text-align: center;
+   width: 100%;
+}
+
+.image-search-wrapper img {
+   max-height: 10em;
+   max-width: 75%;
+   margin: 1em;
+}
+
 .image-selector .button-container {
    position: fixed;
    display: flex;
+   flex-wrap: nowrap;
    top: 0;
    left: 50%;
    z-index: 10;
@@ -935,18 +1161,30 @@ body .input-container.input-color [data-group^="SPACER"] input:after {
    cursor: pointer;
 }
 
+.image-selector .select-button,
+.image-selector .cancel-button {
+   flex-grow: 1;
+   border-radius: 0;
+   margin: auto;
+}
+
 .image-selector .select-button {
    flex-basis: 75%;
+   background: var(--iq-color-accent);
 }
 
 .image-selector .cancel-button {
    flex-basis: 25%;
-   background: var(--color-group-one-3);
+   background: var(--iq-color-alert-red);
    opacity: 0.5;
    font-size: 1em;
 }
 
 .image-selector [class*="responsive"] {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
    max-width: min-content;
    min-width: 170px;
    background: var(--iq-color-foreground);
@@ -967,8 +1205,8 @@ body .input-container.input-color [data-group^="SPACER"] input:after {
    /* color: var(--iq-color-foreground); */
    font-variant: small-caps;
    line-height: 1.25em;
-   margin: 1em auto 0;
-   padding: 0 0.25em 1em;
+   margin: 0.5em auto;
+   padding: 0 0.5em;
    border-radius: 10px;
    font-size: 1rem;
    text-shadow: 0 0 1px var(--iq-color-background);
@@ -979,6 +1217,7 @@ body .input-container.input-color [data-group^="SPACER"] input:after {
 .image-selector [class*="responsive"] img {
    border-color: var(--iq-color-accent) !important;
    border-radius: 10px !important;
+   border: none !important;
 }
 
 /* Hover turned Off for touch and stylus */
@@ -1031,6 +1270,9 @@ body[class*="can-hover"] .image-selector button:hover {
    box-shadow: inset 0 0 20px 0 white;
    transition: 0.2s all ease;
 }
+body[class*="can-hover"] .image-selector .cancel-button:hover {
+   background: var(--iq-color-alert-red);
+}
 
 /* /// Responsive Breakpoints /// */
 @media screen and (min-width: 1500px) {
@@ -1039,13 +1281,11 @@ body[class*="can-hover"] .image-selector button:hover {
    }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 600px) {
    .input-container.masterLibraryID:before {
       content: "*** Must match the title of the plugin file (VST or AU) ***";
    }
-}
 
-@media screen and (max-width: 600px) {
    body .input-container.input-container.input-functions {
       display: flex;
       justify-content: center;

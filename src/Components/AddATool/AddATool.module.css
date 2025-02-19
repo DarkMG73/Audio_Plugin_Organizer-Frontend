@@ -43,6 +43,7 @@
 }
 
 .button-container > * {
+   position: relative;
    min-height: fit-content;
    height: 100%;
 }
@@ -80,8 +81,8 @@
    flex-grow: 1;
    justify-content: center;
    align-items: center;
-   background: var(--iq-color-background-warm-gradient);
-   color: var(--iq-color-foreground);
+   background: var(--iq-color-background-warm-gradient) !important;
+   color: var(--iq-color-foreground) !important;
    box-shadow:
       inset 1px 1px 1px rgb(255 255 255 / 25%),
       inset 1px -1px 1px rgb(0 0 0 / 15%),
@@ -116,4 +117,29 @@
       7px 7px 10px -7px black inset,
       -7px -7px 10px -7px #b8b8b8 inset;
    border-radius: 50px;
+}
+
+.inputs-container [data-data="larger-forms-1"] {
+   position: sticky;
+   width: 50%;
+   margin: auto;
+   top: calc(100% - 7em);
+   z-index: 10;
+   /* padding: 1em; */
+   /* margin: 0 0 16em 0; */
+}
+
+div[class*="csv-form-wrap"] input[data-data="delete-button"] {
+   display: none;
+}
+
+.button-container [data-data="addQuestionForm-open"],
+.button-container [data-data="addFromLibrary-open"] {
+   background: var(--iq-color-alert-red) !important;
+   color: var(--iq-color-alert-text) !important;
+}
+
+.button-container button:hover {
+   z-index: 9;
+   opacity: 1;
 }

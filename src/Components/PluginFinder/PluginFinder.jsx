@@ -14,7 +14,7 @@ import {
 import CollapsibleElm from "../../UI/CollapsibleElm/CollapsibleElm";
 import { authActions } from "../../store/authSlice";
 import { loadingRequestsActions } from "../../store/loadingRequestsSlice";
-
+import AudioPluginSelector from "../AudioPluginSelector/AudioPluginSelector.js";
 const PluginFinder = (props) => {
    // If running browser version, send to download page
    const { isDesktopApp } = props;
@@ -23,6 +23,7 @@ const PluginFinder = (props) => {
    const { allTools } = useSelector((state) => state.toolsData);
    const acceptedPluginWrappers = ["vst", "vst3", "component"];
    const [fileNames, setFileNames] = useState([]);
+   const [unmatchedFiles, setUnmatchedFiles] = useState([]);
    const [missingFileNames, setMissingFileNames] = useState([]);
    const [addToLibrary, setAddToLibrary] = useState([]);
    const [userFilesToGroomArray, setUserFilesToGroomArray] = useState(false);
@@ -35,6 +36,8 @@ const PluginFinder = (props) => {
    const [showHidePluginPathsButton, setShowHidePluginPathsButton] =
       useState(false);
    const [showPluginPaths, setShowPluginPaths] = useState(false);
+   const [openPluginFinder, setOpenPluginFinder] = useState(false);
+   const [activateFinderLoader, setActivateFinderLoader] = useState(false);
    const [showMissingPlugins, setShowMissingPlugins] = useState(false);
 
    const [noPluginPathsExist, setNoPluginPathsExist] = useState(true);
@@ -75,10 +78,17 @@ const PluginFinder = (props) => {
    };
 
    const sentToLibrarySuccessCallback = () => {
-      const confirm = window.confirm(
-         'There are unsaved items in the Ignored Plugin list. We are going to save those now.\n\nClick "OK" (or "CONFIRM") to save. The is highly recommended.\n\nIf you do not want to save those, hit Cancel, but be aware that list might be out of sync with the New Plugin list.'
-      );
-      if (confirm) handleSaveIgnoredPluginsButton();
+      window.DayPilot.confirm(
+         'There are unsaved items in the Ignored Plugin list. We are going to save those now.<br/><br/>Click "OK" (or "CONFIRM") to save. The is highly recommended.<br/><br/>If you do not want to save those, hit Cancel, but be aware that list might be out of sync with the New Plugin list.'
+      )
+         .then(function (args) {
+            if (!args.canceled) {
+               handleSaveIgnoredPluginsButton();
+            }
+         })
+         .catch((e) => {
+            console.lof("Error: " + e);
+         });
    };
 
    useEffect(() => {
@@ -249,7 +259,8 @@ const PluginFinder = (props) => {
                "/Audio Effects/";
             outputArray[categoryTitles.indexOf("status")] = "active";
             outputArray[categoryTitles.indexOf("rating")] = "3";
-            outputArray[categoryTitles.indexOf("masterLibraryID")] = name;
+            outputArray[categoryTitles.indexOf("masterLibraryID")] =
+               cleanStr(name);
 
             return outputArray;
          });
@@ -401,7 +412,9 @@ const PluginFinder = (props) => {
          .then((res) => {
             setShowPluginPathSaveButton(false);
 
-            alert("The plugin paths have been successfully saved!");
+            window.DayPilot.alert(
+               "The plugin paths have been successfully saved!"
+            );
 
             dispatch(authActions.refreshUser(Math.random(10000)));
             setTimeout(() => {
@@ -435,13 +448,21 @@ const PluginFinder = (props) => {
       const successCallback = () => {
          setActivateLoader(activateLoader + 1);
          dispatch(loadingRequestsActions.addToLoadRequest());
-         const confirm = window.confirm(
-            'There are unsaved items in the "Missing Plugins to Ignore" list. We are going to save those now.\n\nClick the "OK" (or "CONFIRM") button to save. The is highly recommended.\n\nIf you do not want to save those, click Cancel, but be aware that list might be out of sync with the Missing Plugin list.'
-         );
-         if (confirm) handleSaveMissingIgnoredPluginsButton();
+         window.DayPilot.confirm(
+            'There are unsaved items in the "Missing Plugins to Ignore" list. We are going to save those now.<br/><br/>Click the "OK" (or "CONFIRM") button to save. The is highly recommended.<br/><br/>If you do not want to save those, click Cancel, but be aware that list might be out of sync with the Missing Plugin list.'
+         )
+            .then(function (args) {
+               if (!args.canceled) {
+                  handleSaveMissingIgnoredPluginsButton();
+               }
+            })
+            .catch((e) => {
+               console.lof("Error: " + e);
+            });
+
          setMissingFileNames([]);
-         alert(
-            'The missing plugins have successfully been set to "Disabled" in your library!\n\nChanges will be reflected after you close this notice. If not, please refresh the browser.'
+         window.DayPilot.alert(
+            'The missing plugins have successfully been set to "Disabled" in your library!<br/><br/>Changes will be reflected after you close this notice. If not, please refresh the browser.'
          );
          dispatch(authActions.refreshUser(Math.random(10000)));
 
@@ -467,7 +488,7 @@ const PluginFinder = (props) => {
       // updateMissingIgnoredPlugins(user, missingIgnorePluginList)
       //   .then((res) => {
       //     setShowSaveMissingIgnoreListButton(false);
-      //     alert('The save was successful!\n\nServer status: ' + res.status);
+      //     window.DayPilot.alert('The save was successful!\n\nServer status: ' + res.status);
       //   })
       //   .catch((err) => {
       //     console.log('ERROR: ' + err);
@@ -481,7 +502,7 @@ const PluginFinder = (props) => {
       updateMissingIgnoredPlugins(user, missingIgnorePluginList)
          .then((res) => {
             setShowSaveMissingIgnoreListButton(false);
-            alert(
+            window.DayPilot.alert(
                "The Ignored Missing Plugins list has been successfully saved!"
             );
             setTimeout(() => {
@@ -500,7 +521,9 @@ const PluginFinder = (props) => {
       updateIgnoredPlugins(user, ignorePluginList)
          .then((res) => {
             setShowSaveIgnoreListButton(false);
-            alert("The Ignored Plugins list has been successfully saved!");
+            window.DayPilot.alert(
+               "The Ignored Plugins list has been successfully saved!"
+            );
             setTimeout(() => {
                setActivateLoader((prevState) => prevState - 1);
                dispatch(loadingRequestsActions.removeFromLoadRequest());
@@ -531,6 +554,23 @@ const PluginFinder = (props) => {
       setFindNewPlugins(!findNewPlugins);
    };
 
+   const handleOpenPluginFinder = () => {
+      setOpenPluginFinder(true);
+      setActivateFinderLoader(true);
+      setTimeout(() => {
+         setActivateFinderLoader(false);
+      }, 3000);
+   };
+
+   const handleClosePluginFinder = () => {
+      // setFileNames([]);
+      setOpenPluginFinder(false);
+      setActivateFinderLoader(true);
+      setTimeout(() => {
+         setActivateFinderLoader(false);
+      }, 3000);
+   };
+
    const handleAddToLibraryButton = () => {
       setActivateLoader(activateLoader + 1);
 
@@ -547,7 +587,7 @@ const PluginFinder = (props) => {
       left: "40%",
       width: "80%",
       transform: " translateX(-50%)",
-      background: "var(--iq-color-accent-gradient)",
+      // background: 'var(--iq-color-accent-gradient)',
       borderRadius: "50px",
       height: "3em",
       font: "var(--iq-font-heading-2)"
@@ -583,6 +623,8 @@ const PluginFinder = (props) => {
             className={
                Styles["find-new-plugins-button"] +
                " " +
+               Styles.button +
+               " " +
                (findNewPlugins && Styles.open)
             }
             onClick={handleFindNewPluginsButton}
@@ -607,7 +649,7 @@ const PluginFinder = (props) => {
                (findNewPlugins && Styles.open)
             }
          >
-            <ul>
+            <ul className={Styles["unordered-list"]}>
                {/* 
           ************** 
             MESSAGE IF NOT DESKTOP 
@@ -669,7 +711,12 @@ const PluginFinder = (props) => {
                         {showHidePluginPathsButton && (
                            <button
                               type="button"
-                              className={Styles["url-show-paths-button"]}
+                              className={
+                                 Styles["url-show-paths-button"] +
+                                 " " +
+                                 Styles.button +
+                                 " "
+                              }
                               onClick={handleShowPluginPaths}
                            >
                               {!showPluginPaths ||
@@ -705,7 +752,10 @@ const PluginFinder = (props) => {
                               <div
                                  className={Styles["location-input-container"]}
                               >
-                                 <label htmlFor="location-1">
+                                 <label
+                                    htmlFor="location-1"
+                                    className={Styles.label}
+                                 >
                                     Plugin Location 1
                                  </label>
                                  <input
@@ -725,7 +775,10 @@ const PluginFinder = (props) => {
                               <div
                                  className={Styles["location-input-container"]}
                               >
-                                 <label htmlFor="location-2">
+                                 <label
+                                    htmlFor="location-2"
+                                    className={Styles.label}
+                                 >
                                     Plugin Location 2
                                  </label>
                                  <input
@@ -745,7 +798,10 @@ const PluginFinder = (props) => {
                               <div
                                  className={Styles["location-input-container"]}
                               >
-                                 <label htmlFor="location-3">
+                                 <label
+                                    htmlFor="location-3"
+                                    className={Styles.label}
+                                 >
                                     Plugin Location 3
                                  </label>
                                  <input
@@ -765,7 +821,10 @@ const PluginFinder = (props) => {
                               <div
                                  className={Styles["location-input-container"]}
                               >
-                                 <label htmlFor="location-4">
+                                 <label
+                                    htmlFor="location-4"
+                                    className={Styles.label}
+                                 >
                                     Plugin Location 4
                                  </label>
                                  <input
@@ -786,7 +845,9 @@ const PluginFinder = (props) => {
                                  Object.keys(pluginPathsObj).length > 0 && (
                                     <button
                                        type="button"
-                                       className={Styles.pulse}
+                                       className={
+                                          Styles.pulse + " " + Styles.button
+                                       }
                                        onClick={handleSaveLocationsButton}
                                     >
                                        Save Plugin Location Changes
@@ -813,7 +874,11 @@ const PluginFinder = (props) => {
                               !showSaveMissingIgnoreListButton && (
                                  <button
                                     type="button"
-                                    className={Styles["url-show-paths-button"]}
+                                    className={
+                                       Styles["url-show-paths-button"] +
+                                       " " +
+                                       Styles.button
+                                    }
                                     onClick={handleShowMissingPlugins}
                                  >
                                     {!showMissingPlugins && <span>Show </span>}
@@ -829,7 +894,9 @@ const PluginFinder = (props) => {
                                     <button
                                        type="button"
                                        className={
-                                          Styles["button-action-needed"]
+                                          Styles["button-action-needed"] +
+                                          " " +
+                                          Styles.button
                                        }
                                        onClick={
                                           handleToggleMissingPluginsInModal
@@ -920,6 +987,8 @@ const PluginFinder = (props) => {
                                                 className={
                                                    Styles.pulse +
                                                    " " +
+                                                   Styles.button +
+                                                   " " +
                                                    Styles[
                                                       "button-action-needed"
                                                    ]
@@ -963,7 +1032,11 @@ const PluginFinder = (props) => {
                                           }}
                                           size="small"
                                        >
-                                          <ul>
+                                          <ul
+                                             className={
+                                                Styles["unordered-list"]
+                                             }
+                                          >
                                              {missingIgnorePluginList.length <=
                                                 0 && (
                                                 <div
@@ -993,11 +1066,19 @@ const PluginFinder = (props) => {
 
                                              {missingIgnorePluginList.map(
                                                 (fileName, index) => (
-                                                   <li key={index}>
+                                                   <li
+                                                      key={index}
+                                                      className={
+                                                         Styles["list-item"]
+                                                      }
+                                                   >
                                                       <label
                                                          key={
                                                             "ignored-label" +
                                                             fileName
+                                                         }
+                                                         className={
+                                                            Styles.label
                                                          }
                                                          htmlFor={
                                                             "ignored" + fileName
@@ -1023,6 +1104,8 @@ const PluginFinder = (props) => {
                                                             Styles[
                                                                "ignore-list-button"
                                                             ] +
+                                                            " " +
+                                                            Styles.button +
                                                             "  " +
                                                             "ignore-list-button"
                                                          }
@@ -1086,6 +1169,8 @@ const PluginFinder = (props) => {
                                           className={
                                              Styles.pulse +
                                              " " +
+                                             Styles.button +
+                                             " " +
                                              Styles["button-action-needed"]
                                           }
                                           onClick={
@@ -1121,13 +1206,25 @@ const PluginFinder = (props) => {
                                           }}
                                           size="small"
                                        >
-                                          <ul>
+                                          <ul
+                                             className={
+                                                Styles["unordered-list"]
+                                             }
+                                          >
                                              {" "}
                                              {missingFileNames.map(
                                                 (fileName, index) => (
-                                                   <li key={index}>
+                                                   <li
+                                                      key={index}
+                                                      className={
+                                                         Styles["list-item"]
+                                                      }
+                                                   >
                                                       <label
                                                          htmlFor={fileName}
+                                                         className={
+                                                            Styles.label
+                                                         }
                                                          data-file-name={
                                                             fileName
                                                          }
@@ -1152,7 +1249,9 @@ const PluginFinder = (props) => {
                                                          className={
                                                             Styles[
                                                                "ignore-list-button"
-                                                            ]
+                                                            ] +
+                                                            " " +
+                                                            Styles.button
                                                          }
                                                          onClick={
                                                             handleAddToMissingIgnoreList
@@ -1230,13 +1329,25 @@ const PluginFinder = (props) => {
                                           }}
                                           size="small"
                                        >
-                                          <ul>
+                                          <ul
+                                             className={
+                                                Styles["unordered-list"]
+                                             }
+                                          >
                                              {" "}
                                              {missingFileNames.map(
                                                 (fileName, index) => (
-                                                   <li key={index}>
+                                                   <li
+                                                      key={index}
+                                                      className={
+                                                         Styles["list-item"]
+                                                      }
+                                                   >
                                                       <label
                                                          htmlFor={fileName}
+                                                         className={
+                                                            Styles.label
+                                                         }
                                                          data-file-name={
                                                             fileName
                                                          }
@@ -1261,7 +1372,9 @@ const PluginFinder = (props) => {
                                                          className={
                                                             Styles[
                                                                "ignore-list-button"
-                                                            ]
+                                                            ] +
+                                                            " " +
+                                                            Styles.button
                                                          }
                                                          onClick={
                                                             handleAddToMissingIgnoreList
@@ -1332,14 +1445,16 @@ const PluginFinder = (props) => {
                                        className={
                                           Styles.pulse +
                                           " " +
-                                          Styles["button-action-needed"]
+                                          Styles["button-action-needed"] +
+                                          " " +
+                                          Styles.button
                                        }
                                        onClick={handleSaveIgnoredPluginsButton}
                                     >
                                        Save Ignored Plugins
                                     </button>
                                  )}
-                                 <ul>
+                                 <ul className={Styles["unordered-list"]}>
                                     {/*
                                      *** MESSAGE: NO IGNORED PLUGINS ****/}
                                     {fileNames.length > 0 &&
@@ -1396,11 +1511,15 @@ const PluginFinder = (props) => {
                                     >
                                        {ignorePluginList.map(
                                           (fileName, index) => (
-                                             <li key={index}>
+                                             <li
+                                                key={index}
+                                                className={Styles["list-item"]}
+                                             >
                                                 <label
                                                    key={
                                                       "ignored-label" + fileName
                                                    }
+                                                   className={Styles.label}
                                                    htmlFor={
                                                       "ignored" + fileName
                                                    }
@@ -1418,7 +1537,7 @@ const PluginFinder = (props) => {
                                                    className={
                                                       Styles[
                                                          "ignore-list-button"
-                                                      ]
+                                                      ] + Styles.button
                                                    }
                                                    onClick={
                                                       handleRemoveFromIgnoreList
@@ -1438,161 +1557,330 @@ const PluginFinder = (props) => {
                   NEW PLUGINS
                 *************** 
                 */}
-                        {fileNames.length > 0 && !noPluginPathsExist && (
-                           <Fragment>
-                              {/*
-                               *** NEW PLUGINS BUTTONS ****/}
-                              <div className={Styles["button-container"]}>
-                                 {fileNames.length > 20 && (
-                                    <label
-                                       htmlFor="select-twenty"
-                                       onClick={handleCheckSomeCheckBox}
-                                       data-amount="20"
-                                    >
-                                       <input
-                                          type="checkbox"
-                                          name="select-twenty"
-                                       />
-                                       Select First Twenty Items
-                                    </label>
-                                 )}
-                                 {fileNames.length > 50 && (
-                                    <label
-                                       htmlFor="select-fifty"
-                                       onClick={handleCheckSomeCheckBox}
-                                       data-amount="50"
-                                    >
-                                       <input
-                                          type="checkbox"
-                                          name="select-fifty"
-                                       />
-                                       Select First Fifty Items
-                                    </label>
-                                 )}
-
-                                 {fileNames.length !== addToLibrary.length && (
-                                    <label
-                                       htmlFor="select-all"
-                                       onClick={handleCheckAllCheckBox}
-                                    >
-                                       <input
-                                          type="checkbox"
-                                          name="select-all"
-                                       />
-                                       Select All
-                                    </label>
-                                 )}
-
-                                 {addToLibrary.length > 0 && (
-                                    <label
-                                       htmlFor="select-none"
-                                       onClick={handleClearAllCheckBox}
-                                    >
-                                       <input
-                                          type="checkbox"
-                                          name="select-none"
-                                       />
-                                       Clear All
-                                    </label>
-                                 )}
-                              </div>
-
-                              {/*
-                               *** MESSAGE: NEW PLUGINS ****/}
-                              <div
-                                 className={
-                                    Styles["plugin-finder-text-box"] +
-                                    " " +
-                                    Styles["add-to-library-text-box"]
-                                 }
-                              >
-                                 <p>
-                                    Click the plugin name to select it to add to
-                                    the library. Click the X to ignore it in the
-                                    future.
-                                 </p>
-                              </div>
-                              <button
-                                 type="button"
-                                 className={
-                                    Styles["add-to-library-button"] +
-                                    " " +
-                                    Styles.pulse +
-                                    " " +
-                                    Styles["button-action-needed"]
-                                 }
-                                 onClick={handleAddToLibraryButton}
-                              >
-                                 Add to Library &rarr;
-                              </button>
-
-                              {/*
-                               *** NEW PLUGINS LIST ****/}
-                              <CollapsibleElm
-                                 key={"new-Plugins"}
-                                 id={"new-plugins-main-collapsible-elm"}
-                                 styles={{
-                                    position: "relative"
-                                 }}
-                                 maxHeight="10em"
-                                 inputOrButton="button"
-                                 buttonStyles={{
-                                    margin: "0 auto",
-                                    fontVariant: "small-caps",
-                                    transform: "translateY(50%)",
-                                    transition: "0.7s all ease",
-                                    textAlign: "center",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    padding: "0.25em 0",
-                                    minWidth: "fit-content",
-                                    width: "100%"
-                                 }}
-                                 colorType="secondary"
-                                 dataAttribute={{
-                                    "data-elm": "new-plugins-collapsible-elm"
-                                 }}
-                                 size="small"
-                              >
-                                 {fileNames.map((fileName, index) => (
-                                    <li key={index}>
-                                       <label
-                                          htmlFor={fileName}
-                                          onClick={handleCheckBox}
-                                          data-file-name={fileName}
-                                       >
-                                          <input
-                                             type="checkbox"
-                                             name={fileName}
-                                             data-file-name={fileName}
-                                             defaultChecked={addToLibrary.includes(
-                                                fileName
-                                             )}
-                                             checked={addToLibrary.includes(
-                                                fileName
-                                             )}
-                                          />
-                                          {fileName}
-                                       </label>
-                                       <button
-                                          type="button"
-                                          className={
-                                             Styles["ignore-list-button"]
-                                          }
-                                          onClick={handleAddToIgnoreList}
-                                          data-file-name={fileName}
-                                       >
-                                          X
-                                       </button>
-                                    </li>
-                                 ))}
-                              </CollapsibleElm>
-                           </Fragment>
+                        <button
+                           type="button"
+                           className={
+                              Styles["url-show-paths-button"] +
+                              " " +
+                              Styles.button +
+                              " "
+                           }
+                           onClick={handleOpenPluginFinder}
+                        >
+                           Open Plugin Finder
+                        </button>
+                        {activateFinderLoader > 0 && (
+                           <div
+                              key="loader"
+                              className={
+                                 Styles["loader-wrap"] +
+                                 " " +
+                                 (openPluginFinder && Styles["in-modal"])
+                              }
+                           >
+                              <BarLoader />
+                           </div>
                         )}
+                        {fileNames.length > 0 &&
+                           openPluginFinder &&
+                           !noPluginPathsExist && (
+                              <Fragment>
+                                 {/*
+                                  *** NEW PLUGINS BUTTONS ****/}
+                                 <div
+                                    className={
+                                       Styles["plugin-selector-modal"] +
+                                       " plugin-selector-modal"
+                                    }
+                                 >
+                                    <h2
+                                       className={
+                                          Styles["plugin-selector-title"] +
+                                          " section-title"
+                                       }
+                                    >
+                                       Plugin Finder
+                                    </h2>
+                                    <button
+                                       type="button"
+                                       className={
+                                          Styles["close-plugin-finder-button"] +
+                                          " " +
+                                          Styles.button +
+                                          " "
+                                       }
+                                       onClick={handleClosePluginFinder}
+                                    >
+                                       Close Plugin Finder
+                                    </button>
+                                    <div
+                                       className={
+                                          Styles["plugin-selector-wrap"] +
+                                          " " +
+                                          "plugin-selector-wrap" +
+                                          " " +
+                                          Styles["modal-inner-wrap"] +
+                                          " " +
+                                          "modal-inner-wrap"
+                                       }
+                                    >
+                                       <h3>
+                                          Add Plugins From the Master Library
+                                       </h3>
+                                       <p>
+                                          These plugins are not available in the
+                                          Master Library, but can be added
+                                          manually.
+                                       </p>
+                                       <AudioPluginSelector
+                                          limitedToolsListArr={fileNames}
+                                          setUnMatchedItems={setUnmatchedFiles}
+                                       />
+                                    </div>
+
+                                    {unmatchedFiles.length > 0 && (
+                                       <div
+                                          className={
+                                             Styles["unmatched-plugin-wrap"] +
+                                             " " +
+                                             Styles["modal-inner-wrap"]
+                                          }
+                                       >
+                                          <h3>Manually Add Plugins</h3>
+                                          <p>
+                                             These plugins are not available in
+                                             the Master Library, but can be
+                                             added manually.
+                                          </p>
+                                          <p>
+                                             Click on a few you want to add,
+                                             then click
+                                             <b>Add to Library</b>. Each will
+                                             open in a form to add more detail
+                                             before saving them to your library.
+                                          </p>
+                                          <p className={Styles["highlight"]}>
+                                             <b>NOTE:</b>{" "}
+                                             <i>
+                                                It is best to grab a small
+                                                number at a time to avoid having
+                                                many to fill out at once.
+                                                Between 15 or 20 is a good
+                                                bundle each time, but up to 50
+                                                is reasonable.
+                                             </i>
+                                          </p>
+                                          <div
+                                             className={
+                                                Styles["button-container"]
+                                             }
+                                          >
+                                             {fileNames.length > 20 && (
+                                                <label
+                                                   htmlFor="select-twenty"
+                                                   className={Styles.label}
+                                                   onClick={
+                                                      handleCheckSomeCheckBox
+                                                   }
+                                                   data-amount="20"
+                                                >
+                                                   <input
+                                                      type="checkbox"
+                                                      name="select-twenty"
+                                                   />
+                                                   Select First Twenty Items
+                                                </label>
+                                             )}
+                                             {fileNames.length > 50 && (
+                                                <label
+                                                   htmlFor="select-fifty"
+                                                   className={Styles.label}
+                                                   onClick={
+                                                      handleCheckSomeCheckBox
+                                                   }
+                                                   data-amount="50"
+                                                >
+                                                   <input
+                                                      type="checkbox"
+                                                      name="select-fifty"
+                                                   />
+                                                   Select First Fifty Items
+                                                </label>
+                                             )}
+
+                                             {fileNames.length !==
+                                                addToLibrary.length && (
+                                                <label
+                                                   htmlFor="select-all"
+                                                   className={Styles.label}
+                                                   onClick={
+                                                      handleCheckAllCheckBox
+                                                   }
+                                                >
+                                                   <input
+                                                      type="checkbox"
+                                                      name="select-all"
+                                                   />
+                                                   Select All
+                                                </label>
+                                             )}
+
+                                             {addToLibrary.length > 0 && (
+                                                <label
+                                                   htmlFor="select-none"
+                                                   className={Styles.label}
+                                                   onClick={
+                                                      handleClearAllCheckBox
+                                                   }
+                                                >
+                                                   <input
+                                                      type="checkbox"
+                                                      name="select-none"
+                                                   />
+                                                   Clear All
+                                                </label>
+                                             )}
+                                          </div>
+                                          {/*
+                                           *** MESSAGE: NEW PLUGINS ****/}
+                                          <div
+                                             className={
+                                                Styles[
+                                                   "plugin-finder-text-box"
+                                                ] +
+                                                " " +
+                                                Styles[
+                                                   "add-to-library-text-box"
+                                                ]
+                                             }
+                                          >
+                                             <p>
+                                                Click the{" "}
+                                                <span
+                                                   className={
+                                                      Styles["highlight-x"]
+                                                   }
+                                                >
+                                                   X
+                                                </span>{" "}
+                                                to ignore it in the future.
+                                             </p>
+                                          </div>
+                                          <button
+                                             type="button"
+                                             className={
+                                                Styles[
+                                                   "add-to-library-button"
+                                                ] +
+                                                " " +
+                                                Styles.button +
+                                                " " +
+                                                Styles.pulse +
+                                                " " +
+                                                Styles["button-action-needed"]
+                                             }
+                                             onClick={handleAddToLibraryButton}
+                                          >
+                                             Add to Library &rarr;
+                                          </button>
+                                          {/*
+                                           *** NEW PLUGINS LIST ****/}
+                                          <CollapsibleElm
+                                             key={"new-Plugins"}
+                                             id={
+                                                "new-plugins-main-collapsible-elm"
+                                             }
+                                             styles={{
+                                                position: "relative"
+                                             }}
+                                             maxHeight="10em"
+                                             inputOrButton="button"
+                                             buttonStyles={{
+                                                margin: "0 auto",
+                                                fontVariant: "small-caps",
+                                                transform: "translateY(50%)",
+                                                transition: "0.7s all ease",
+                                                textAlign: "center",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                padding: "0.25em 0",
+                                                minWidth: "fit-content",
+                                                width: "100%"
+                                             }}
+                                             colorType="secondary"
+                                             dataAttribute={{
+                                                "data-elm":
+                                                   "new-plugins-collapsible-elm"
+                                             }}
+                                             size="small"
+                                          >
+                                             {unmatchedFiles.map(
+                                                (fileName, index) => (
+                                                   <li
+                                                      key={index}
+                                                      className={
+                                                         Styles["list-item"]
+                                                      }
+                                                   >
+                                                      <label
+                                                         htmlFor={fileName}
+                                                         className={
+                                                            Styles.label
+                                                         }
+                                                         onClick={
+                                                            handleCheckBox
+                                                         }
+                                                         data-file-name={
+                                                            fileName
+                                                         }
+                                                      >
+                                                         <input
+                                                            type="checkbox"
+                                                            name={fileName}
+                                                            data-file-name={
+                                                               fileName
+                                                            }
+                                                            defaultChecked={addToLibrary.includes(
+                                                               fileName
+                                                            )}
+                                                            checked={addToLibrary.includes(
+                                                               fileName
+                                                            )}
+                                                         />
+                                                         {fileName}
+                                                      </label>
+                                                      <button
+                                                         type="button"
+                                                         className={
+                                                            Styles[
+                                                               "ignore-list-button"
+                                                            ] +
+                                                            " " +
+                                                            Styles.button +
+                                                            " "
+                                                         }
+                                                         onClick={
+                                                            handleAddToIgnoreList
+                                                         }
+                                                         data-file-name={
+                                                            fileName
+                                                         }
+                                                      >
+                                                         X
+                                                      </button>
+                                                   </li>
+                                                )
+                                             )}
+                                          </CollapsibleElm>
+                                       </div>
+                                    )}
+                                 </div>
+                              </Fragment>
+                           )}
 
                         {/*
                          *** MESSAGES: NO NEW PLUGINS ****/}
-                        {!noPluginPathsExist && fileNames.length <= 0 && (
+                        {!noPluginPathsExist && unmatchedFiles.length <= 0 && (
                            <div className={Styles["message-container"]}>
                               <p>
                                  There are no new plugins at this time. Check
@@ -1633,14 +1921,22 @@ const PluginFinder = (props) => {
                   className={
                      Styles["close-form-button"] +
                      " " +
+                     Styles.button +
+                     " " +
                      Styles["close-all-forms-button"]
                   }
                   onClick={() => {
-                     const close = window.confirm(
+                     window.DayPilot.confirm(
                         "Are you sure you want to cancel all of the new plugin forms? Any data input will be lost. "
-                     );
-
-                     if (close) setUserFilesToGroomArray(false);
+                     )
+                        .then(function (args) {
+                           if (!args.canceled) {
+                              setUserFilesToGroomArray(false);
+                           }
+                        })
+                        .catch((e) => {
+                           console.lof("Error: " + e);
+                        });
                   }}
                >
                   Close All

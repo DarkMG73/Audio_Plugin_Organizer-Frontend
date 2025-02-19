@@ -1,6 +1,6 @@
 .container {
    position: fixed;
-   display: none;
+   /* display: none; */
    flex-direction: column;
    top: 0;
    left: 0;
@@ -56,8 +56,11 @@ body[class*="can-hover"] .slider-panel-button:hover {
    border-radius: 0 !important;
 }
 
+.container div[class*="slide-button-wrap"] {
+   max-width: 28em;
+}
+
 @media only screen and (max-width: 768px) {
-   .container,
    .slider-panel-button {
       display: flex;
    }
