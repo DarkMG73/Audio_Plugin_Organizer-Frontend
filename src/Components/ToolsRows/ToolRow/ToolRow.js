@@ -17,7 +17,7 @@ import useDefaultImageIsAvailable from "../../../Hooks/useDefaultImageIsAvailabl
 import useFindSelectedImage from "../../../Hooks/useFindSelectedImage";
 import useToolDisplayOrder from "../../../Hooks/useToolDisplayOrder";
 // import placeholderImage from '../../../assets/images/product-photo-placeholder.png';
-import placeholderImage from "../../../assets/images/generic_plugin_images/analyzers/image (3).jpg";
+import placeholderImage from "../../../assets/images/generic_plugin_images/default.jpg";
 import useSaveAudioFormData from "../../../Hooks/useSaveAudioFormData";
 import useRunGatherToolData from "../../../Hooks/useRunGatherToolData";
 import GatherToolData from "../../../Hooks/GatherToolData";

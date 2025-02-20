@@ -53,6 +53,7 @@ const useFindSelectedImage = () => {
                .pop()
                .replace("official_plugin_images/")
                .replace(/\.[^/.]+$/, "")
+               .toLowerCase()
          ]
       ) {
          const img =
@@ -62,6 +63,7 @@ const useFindSelectedImage = () => {
                   .pop()
                   .replace("official_plugin_images/")
                   .replace(/\.[^/.]+$/, "")
+                  .toLowerCase()
             ]?.src;
 
          imageSelectedURL = img;

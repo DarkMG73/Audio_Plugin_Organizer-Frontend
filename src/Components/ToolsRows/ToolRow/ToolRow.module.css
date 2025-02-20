@@ -53,7 +53,7 @@
 
 .photoURL .grid-item-child {
    justify-content: center;
-   border-radius: 25px;
+   border-radius: 12.5px;
    overflow: hidden;
 }
 
