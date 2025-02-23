@@ -37,7 +37,7 @@ const useSaveAudioFormData = () => {
 
                   const runSuccessCallback = window.DayPilot.confirm(
                      `The following were skipped because they were already in your database:<br/><br/>${failedNames?.join(
-                        "\n"
+                        "<br/>"
                      )}<br/><br/>Any not listed above were entered successfully.<br/><br/> Click "OK" to finish or "CANCEL" to return to the form.<br/><br/>If you intended to add a different tool that happens to have the exact same name as one you already have saved, please add it again, but alter the name in some way. The name must be unique.`
                   )
                      .then(function (args) {
@@ -49,9 +49,18 @@ const useSaveAudioFormData = () => {
                         console.lof("Error: " + e);
                      });
                } else {
+                  console.log(
+                     "%c⚪️►►►► %cline:53%cres",
+                     "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                     "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                     "color:#fff;background:rgb(227, 160, 93);padding:3px;border-radius:2px",
+                     res
+                  );
+                  const message = res.data?.message || "Unknown Network Error";
+
                   window.DayPilot.alert(
-                     "There was an error when trying to save the new entry. Here is the message from the server: \n",
-                     res.data.message
+                     "There was an error when trying to save the new entry. Here is the message from the server: <br />",
+                     message
                   );
                }
             });
@@ -64,7 +73,7 @@ const useSaveAudioFormData = () => {
                   } else {
                      window.DayPilot.alert(
                         "There was an error when trying to update this production tool. If the problem continues, please contact the website administrator. Here is the message from the server: ",
-                        res.data.message
+                        res?.data?.message
                      );
                   }
                })

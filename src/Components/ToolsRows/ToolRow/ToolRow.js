@@ -190,7 +190,7 @@ function ToolRow(props) {
                            } else {
                               window.DayPilot.alert(
                                  "There was an error when trying to delete this production tool. Here is the message from the server: " +
-                                    res.response.data.message +
+                                    res.response?.data?.message +
                                     ". Be sure you have an internet connections and try again. If all else fails, please notify the administrator."
                               );
                            }

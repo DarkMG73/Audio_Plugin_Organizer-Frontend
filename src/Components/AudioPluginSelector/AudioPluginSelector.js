@@ -480,7 +480,7 @@ const AudioPluginSelector = ({ limitedToolsListArr, setUnMatchedItems }) => {
                      );
                      window.DayPilot.confirm(
                         `The following were skipped because they were already in your database:<br/><br/>${failedNames.join(
-                           "\n"
+                           "<br />"
                         )}<br/><br/>Any not listed above were entered successfully.<br/><br/> Click "OK" to finish or "CANCEL" to return to the form.<br/><br/>If you intended to add a different tool that happens to have the exact same name as one you already have saved, please add it again, but alter the name in some way. The name must be unique.`
                      )
                         .then(function (args) {

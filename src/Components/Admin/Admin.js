@@ -219,7 +219,7 @@ const Admin = ({ appVersions, user, isDesktopApp }) => {
 
    const handleSubmitVersionForm = () => {
       window.DayPilot.confirm(
-         "This will save the data, but will not push a new release. To push a new release, hit cancel and chnage the DesktopVersion and ReleaseDate to a higher and later value."
+         "This will save the data, but will not push a new release. To push a new release, hit cancel and change the DesktopVersion and ReleaseDate to a higher and later value."
       )
          .then(function (args) {
             if (!args.canceled) {
@@ -233,7 +233,7 @@ const Admin = ({ appVersions, user, isDesktopApp }) => {
 
    const handlePushNewVersion = () => {
       window.DayPilot.confirm(
-         '*** THIS WILL PUSH A NEW VERSION ***<br/><br/> Before clicking "OK", make sure:\n-The DesktopVersion is a higher number\n AND \n- the ReleaseDate is a later date than right now.'
+         '*** THIS WILL PUSH A NEW VERSION ***<br/><br/> Before clicking "OK", make sure:<br />-The DesktopVersion is a higher number<br /> AND <br />- the ReleaseDate is a later date than right now.'
       )
          .then(function (args) {
             if (!args.canceled) {

@@ -37,7 +37,7 @@ function OutputControls(props) {
 
                                  window.DayPilot.alert(
                                     "There was an error when trying reset the database. Please try again later. If the problem continues, please contact the website administrator. Here is the message from the server: " +
-                                       res.response.data.message
+                                       res.response?.data?.message
                                  );
                               }
                            })
