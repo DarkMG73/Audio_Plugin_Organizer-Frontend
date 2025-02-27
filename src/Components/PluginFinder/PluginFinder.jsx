@@ -54,7 +54,7 @@ const PluginFinder = (props) => {
    const toolsSchema = useSelector((state) => state.toolsData.toolsSchema);
    const [activateLoader, setActivateLoader] = useState(0);
    const saveAudioFormData = useSaveAudioFormData();
-   const cleanStr = (str) => str.toLowerCase().replaceAll(" ", "");
+   const cleanStr = (str) => str && str.toLowerCase().replaceAll(" ", "");
    const specialBundles = {
       EffectRack: {
          bundleTitle: "EffectRack",

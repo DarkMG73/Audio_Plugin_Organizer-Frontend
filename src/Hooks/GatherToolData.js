@@ -129,8 +129,11 @@ export default async function GatherToolData(user) {
          };
    });
 
-   if (Object.hasOwn(allToolsData, "toolsMetadata")) {
-      allToolsData.toolsMetadata?.photoURL.forEach((url) => {
+   if (
+      Object.hasOwn(allToolsData, "toolsMetadata") &&
+      Object.hasOwn(allToolsData.toolsMetadata, "photoURL")
+   ) {
+      allToolsData.toolsMetadata.photoURL.forEach((url) => {
          // Skip if local or from the site Cloudinary account
          if (
             !url ||
