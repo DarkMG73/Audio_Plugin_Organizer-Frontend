@@ -24,6 +24,11 @@
    transform: scale(1.125) !important;
 }
 
+.inner-wrap input[data-data="delete-button"]:hover {
+   transform: translateY(-100%) scale(1.125) !important;
+   box-shadow: 0 0 20px -5px var(--iq-color-accent-2) !important;
+}
+
 body div[class*="editing-fields-wrap"] [data-data="larger-forms-1"],
 body div[class*="editing-fields-wrap"] [data-data="add-tool-submit-2-wrap"] {
    display: none;

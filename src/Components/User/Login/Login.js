@@ -36,7 +36,7 @@ const Login = (props) => {
    // if (process.env.NODE_ENV === 'development')
    //   forgotPasswordURL = 'http://localhost:8000/api/users/auth/forgot_password?';
 
-   // This is kept for reference, but teh URL encoded version is used.
+   // This is kept for reference, but the URL encoded version is used.
    let forgotPWPlaceholder = (
       <div
          style="font: normal 500 12px Kodchasan, sans-serif;

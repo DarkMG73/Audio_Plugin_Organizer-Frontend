@@ -613,14 +613,17 @@ function ToolRow(props) {
                         width: "90%",
                         minWidth: "min-content",
                         maxWidth: " 40%",
-                        boxShadow: "0 0 20px -5px var(--iq-color-accent-2)",
+                        boxShadow:
+                           "0 0 20px -5px var(--iq-color-accent-2), inset 0 0 25px 0 black",
                         color: "var(--iq-color-alert-text)",
                         background: "var(--iq-color-alert-red)",
                         marginTop: "auto",
                         margin: "auto",
                         padding: "0 0 1em",
-                        opacity: "0.5",
-                        border: "none"
+                        // opacity: '0.5',
+                        border: "none",
+                        transform: "translateY(-100%)",
+                        zIndex: "3"
                      }}
                   />
                </div>
