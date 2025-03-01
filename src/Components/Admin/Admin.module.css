@@ -272,6 +272,10 @@
    max-width: 400px;
 }
 
+.new-version-release-checklist input[type="checkbox"] {
+   transform: scale(2);
+}
+
 .new-version-release-checklist li {
    text-align: left;
    width: 500px;

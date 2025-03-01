@@ -944,6 +944,12 @@ const PluginFinder = (props) => {
                                        <h3>Missing Plugins to Ignore</h3>
                                        <p>
                                           There{" "}
+                                          {missingIgnorePluginList.length >
+                                          1 ? (
+                                             <span>are</span>
+                                          ) : (
+                                             <span>is</span>
+                                          )}{" "}
                                           <span
                                              className={
                                                 Styles[
@@ -953,7 +959,10 @@ const PluginFinder = (props) => {
                                           >
                                              {missingIgnorePluginList.length}
                                           </span>{" "}
-                                          ignored missing plugins.
+                                          ignored missing plugin
+                                          {missingIgnorePluginList.length >
+                                             1 && <span>s</span>}
+                                          .
                                        </p>
                                        <p
                                           className={
@@ -1426,143 +1435,6 @@ const PluginFinder = (props) => {
                            </h3>
                         )}
 
-                        {/* 
-                ************** 
-                  IGNORED PLUGINS
-                *************** 
-                */}
-                        {!noPluginPathsExist &&
-                           (ignorePluginList.length > 0 ||
-                              fileNames.length > 0) && (
-                              <div
-                                 className={
-                                    Styles["ignore-plugin-list-container"]
-                                 }
-                              >
-                                 <h3>
-                                    {ignorePluginList.length > 0
-                                       ? ignorePluginList.length
-                                       : "No"}{" "}
-                                    Ignored Plugins
-                                 </h3>
-                                 {showSaveIgnoreListButton && (
-                                    <button
-                                       type="button"
-                                       className={
-                                          Styles.pulse +
-                                          " " +
-                                          Styles["button-action-needed"] +
-                                          " " +
-                                          Styles.button
-                                       }
-                                       onClick={handleSaveIgnoredPluginsButton}
-                                    >
-                                       Save Ignored Plugins
-                                    </button>
-                                 )}
-                                 <ul className={Styles["unordered-list"]}>
-                                    {/*
-                                     *** MESSAGE: NO IGNORED PLUGINS ****/}
-                                    {fileNames.length > 0 &&
-                                       ignorePluginList.length <= 0 && (
-                                          <div
-                                             className={
-                                                Styles["plugin-finder-text-box"]
-                                             }
-                                          >
-                                             <p>
-                                                Plugins to ignore will appear
-                                                here.
-                                                <br />
-                                                Be sure to save this list after
-                                                each change.
-                                                <br />
-                                                Restore an ignored plugin
-                                                anytime by clicking on it.
-                                             </p>
-                                          </div>
-                                       )}
-
-                                    {/*
-                                     *** IGNORED PLUGINS LIST ****/}
-                                    <CollapsibleElm
-                                       key={"New-Plugins-to-Ignore"}
-                                       id={
-                                          "new-plugins-to-ignore-collapsible-elm"
-                                       }
-                                       styles={{
-                                          position: "relative"
-                                       }}
-                                       maxHeight="7em"
-                                       inputOrButton="button"
-                                       buttonStyles={{
-                                          margin: "0 auto",
-                                          fontVariant: "small-caps",
-                                          transform: "translateY(50%)",
-                                          transition: "0.7s all ease",
-                                          textAlign: "center",
-                                          display: "flex",
-                                          alignItems: "center",
-                                          padding: "0.25em 0",
-                                          minWidth: "fit-content",
-                                          width: "100%",
-                                          gridColumn: "1 / -1"
-                                       }}
-                                       colorType="secondary"
-                                       dataAttribute={{
-                                          "data-elm":
-                                             "new-plugins-to-ignore-collapsible-elm"
-                                       }}
-                                       size="small"
-                                    >
-                                       {ignorePluginList.map(
-                                          (fileName, index) => (
-                                             <li
-                                                key={index}
-                                                className={Styles["list-item"]}
-                                             >
-                                                <label
-                                                   key={
-                                                      "ignored-label" + fileName
-                                                   }
-                                                   className={Styles.label}
-                                                   htmlFor={
-                                                      "ignored" + fileName
-                                                   }
-                                                   onClick={
-                                                      handleRemoveFromIgnoreList
-                                                   }
-                                                   data-file-name={fileName}
-                                                >
-                                                   {fileName}
-                                                </label>
-                                                <button
-                                                   key={"ignored" + fileName}
-                                                   type="button"
-                                                   name={"ignored" + fileName}
-                                                   className={
-                                                      Styles[
-                                                         "ignore-list-button"
-                                                      ] + Styles.button
-                                                   }
-                                                   onClick={
-                                                      handleRemoveFromIgnoreList
-                                                   }
-                                                   data-file-name={fileName}
-                                                />
-                                             </li>
-                                          )
-                                       )}
-                                    </CollapsibleElm>
-                                 </ul>
-                              </div>
-                           )}
-
-                        {/* 
-                ************** 
-                  NEW PLUGINS
-                *************** 
-                */}
                         <button
                            type="button"
                            className={
@@ -1634,9 +1506,12 @@ const PluginFinder = (props) => {
                                           Add Plugins From the Master Library
                                        </h3>
                                        <p>
-                                          These plugins are not available in the
-                                          Master Library, but can be added
-                                          manually.
+                                          The Master Library contains hundreds
+                                          of plugins already setup and ready to
+                                          add to your library. Just select the
+                                          items you want to add (or select all)
+                                          and save them. They will appear in
+                                          your library.
                                        </p>
                                        {unsupportedMessage && (
                                           <p
@@ -1645,7 +1520,9 @@ const PluginFinder = (props) => {
                                                    "missing-ignore-plugin-list-container-text"
                                                 ] +
                                                 " " +
-                                                "missing-ignore-plugin-list-container-text"
+                                                "missing-ignore-plugin-list-container-text" +
+                                                " " +
+                                                Styles["highlighted-message-2"]
                                              }
                                           >
                                              <i> {unsupportedMessage}</i>
@@ -1656,6 +1533,189 @@ const PluginFinder = (props) => {
                                           setUnMatchedItems={setUnmatchedFiles}
                                        />
                                     </div>
+                                    {/* 
+                ************** 
+                  IGNORED PLUGINS
+                *************** 
+                */}
+                                    {!noPluginPathsExist &&
+                                       (ignorePluginList.length > 0 ||
+                                          fileNames.length > 0) && (
+                                          <div
+                                             className={
+                                                Styles[
+                                                   "ignore-plugin-list-container"
+                                                ]
+                                             }
+                                          >
+                                             <h3>
+                                                {ignorePluginList.length > 0
+                                                   ? ignorePluginList.length
+                                                   : "No"}{" "}
+                                                Ignored Plugins
+                                             </h3>
+                                             <p>
+                                                These have been removed from the
+                                                "Manually Add Plugins" list
+                                                below. These will always be
+                                                skipped, unless you click on one
+                                                to restore it to the "Manually
+                                                Add" list.
+                                             </p>
+                                             {showSaveIgnoreListButton && (
+                                                <button
+                                                   type="button"
+                                                   className={
+                                                      Styles.pulse +
+                                                      " " +
+                                                      Styles[
+                                                         "button-action-needed"
+                                                      ] +
+                                                      " " +
+                                                      Styles.button
+                                                   }
+                                                   onClick={
+                                                      handleSaveIgnoredPluginsButton
+                                                   }
+                                                >
+                                                   Save Ignored Plugins
+                                                </button>
+                                             )}
+                                             <ul
+                                                className={
+                                                   Styles["unordered-list"]
+                                                }
+                                             >
+                                                {/*
+                                                 *** MESSAGE: NO IGNORED PLUGINS ****/}
+                                                {fileNames.length > 0 &&
+                                                   ignorePluginList.length <=
+                                                      0 && (
+                                                      <div
+                                                         className={
+                                                            Styles[
+                                                               "plugin-finder-text-box"
+                                                            ]
+                                                         }
+                                                      >
+                                                         <p>
+                                                            Plugins to ignore
+                                                            will appear here.
+                                                            <br />
+                                                            Be sure to save this
+                                                            list after each
+                                                            change.
+                                                            <br />
+                                                            Restore an ignored
+                                                            plugin anytime by
+                                                            clicking on it.
+                                                         </p>
+                                                      </div>
+                                                   )}
+
+                                                {/*
+                                                 *** IGNORED PLUGINS LIST ****/}
+                                                <CollapsibleElm
+                                                   key={"New-Plugins-to-Ignore"}
+                                                   id={
+                                                      "new-plugins-to-ignore-collapsible-elm"
+                                                   }
+                                                   styles={{
+                                                      position: "relative"
+                                                   }}
+                                                   maxHeight="7em"
+                                                   inputOrButton="button"
+                                                   buttonStyles={{
+                                                      margin: "0 auto",
+                                                      fontVariant: "small-caps",
+                                                      transform:
+                                                         "translateY(50%)",
+                                                      transition:
+                                                         "0.7s all ease",
+                                                      textAlign: "center",
+                                                      display: "flex",
+                                                      alignItems: "center",
+                                                      padding: "0.25em 0",
+                                                      minWidth: "fit-content",
+                                                      width: "100%",
+                                                      gridColumn: "1 / -1"
+                                                   }}
+                                                   colorType="secondary"
+                                                   dataAttribute={{
+                                                      "data-elm":
+                                                         "new-plugins-to-ignore-collapsible-elm"
+                                                   }}
+                                                   size="small"
+                                                >
+                                                   {ignorePluginList.map(
+                                                      (fileName, index) => (
+                                                         <li
+                                                            key={index}
+                                                            className={
+                                                               Styles[
+                                                                  "list-item"
+                                                               ]
+                                                            }
+                                                         >
+                                                            <label
+                                                               key={
+                                                                  "ignored-label" +
+                                                                  fileName
+                                                               }
+                                                               className={
+                                                                  Styles.label
+                                                               }
+                                                               htmlFor={
+                                                                  "ignored" +
+                                                                  fileName
+                                                               }
+                                                               onClick={
+                                                                  handleRemoveFromIgnoreList
+                                                               }
+                                                               data-file-name={
+                                                                  fileName
+                                                               }
+                                                            >
+                                                               {fileName}
+                                                            </label>
+                                                            <button
+                                                               key={
+                                                                  "ignored" +
+                                                                  fileName
+                                                               }
+                                                               type="button"
+                                                               name={
+                                                                  "ignored" +
+                                                                  fileName
+                                                               }
+                                                               className={
+                                                                  Styles[
+                                                                     "ignore-list-button"
+                                                                  ] +
+                                                                  " " +
+                                                                  Styles.button
+                                                               }
+                                                               onClick={
+                                                                  handleRemoveFromIgnoreList
+                                                               }
+                                                               data-file-name={
+                                                                  fileName
+                                                               }
+                                                            />
+                                                         </li>
+                                                      )
+                                                   )}
+                                                </CollapsibleElm>
+                                             </ul>
+                                          </div>
+                                       )}
+
+                                    {/* 
+                ************** 
+                  NEW PLUGINS
+                *************** 
+                */}
+
                                     {unmatchedFiles.length > 0 && (
                                        <div
                                           className={
@@ -1677,8 +1737,14 @@ const PluginFinder = (props) => {
                                              open in a form to add more detail
                                              before saving them to your library.
                                           </p>
-                                          <p className={Styles["highlight"]}>
-                                             <b>NOTE:</b>{" "}
+                                          <p
+                                             className={
+                                                Styles["highlighted-message-2"]
+                                             }
+                                          >
+                                             <i>
+                                                <b>NOTE: </b>
+                                             </i>
                                              <i>
                                                 It is best to grab a small
                                                 number at a time to avoid having
