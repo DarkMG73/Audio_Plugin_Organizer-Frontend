@@ -39,7 +39,6 @@ const PluginFinder = (props) => {
    const [openPluginFinder, setOpenPluginFinder] = useState(false);
    const [activateFinderLoader, setActivateFinderLoader] = useState(false);
    const [showMissingPlugins, setShowMissingPlugins] = useState(false);
-
    const [noPluginPathsExist, setNoPluginPathsExist] = useState(true);
    const [ignorePluginList, setIgnorePluginList] = useState([]);
    const [missingIgnorePluginList, setMissingIgnorePluginList] = useState(
@@ -53,6 +52,7 @@ const PluginFinder = (props) => {
    const groomDataForToolForm = useGroomDataForToolForm();
    const toolsSchema = useSelector((state) => state.toolsData.toolsSchema);
    const [activateLoader, setActivateLoader] = useState(0);
+   const [unsupportedMessage, setUnsupportedMessage] = useState(null);
    const saveAudioFormData = useSaveAudioFormData();
    const cleanStr = (str) => str && str.toLowerCase().replaceAll(" ", "");
    const specialBundles = {
@@ -163,6 +163,12 @@ const PluginFinder = (props) => {
                   const isValid = acceptedPluginWrappers.includes(
                      nameArray[name.split(".").length - 1]
                   );
+
+                  // Activate special Waves message.
+                  if (isValid && cleanStr(nameArray[0]).includes("waveshell"))
+                     setUnsupportedMessage(
+                        'NOTE: Waves plugins have been detected, but this Plugin Finder portion of the website does not yet support their method of wrapping plugins. To add Waves plugins, after closing the Plugin Finder, click the "+" button at the bottom of the main page and then use the Audio Plugin Selector and/or enter them manually.'
+                     );
                   // Remove Waves (not yet supported)
                   if (
                      isValid &&
@@ -1632,12 +1638,24 @@ const PluginFinder = (props) => {
                                           Master Library, but can be added
                                           manually.
                                        </p>
+                                       {unsupportedMessage && (
+                                          <p
+                                             className={
+                                                Styles[
+                                                   "missing-ignore-plugin-list-container-text"
+                                                ] +
+                                                " " +
+                                                "missing-ignore-plugin-list-container-text"
+                                             }
+                                          >
+                                             <i> {unsupportedMessage}</i>
+                                          </p>
+                                       )}
                                        <AudioPluginSelector
                                           limitedToolsListArr={fileNames}
                                           setUnMatchedItems={setUnmatchedFiles}
                                        />
                                     </div>
-
                                     {unmatchedFiles.length > 0 && (
                                        <div
                                           className={
