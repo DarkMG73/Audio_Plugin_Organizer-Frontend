@@ -1964,7 +1964,7 @@ const PluginFinder = (props) => {
 
                         {/*
                          *** MESSAGES: NO NEW PLUGINS ****/}
-                        {!noPluginPathsExist && unmatchedFiles.length <= 0 && (
+                        {!noPluginPathsExist && fileNames.length <= 0 && (
                            <div className={Styles["message-container"]}>
                               <p>
                                  There are no new plugins at this time. Check
