@@ -335,6 +335,14 @@ const PluginFinder = (props) => {
             return newState;
          });
       }
+
+      if (unmatchedFiles.includes(name)) {
+         setUnmatchedFiles((prevState) => {
+            const oldState = [...prevState];
+            const newState = oldState.filter((item) => item !== name);
+            return newState;
+         });
+      }
    };
 
    const handleRemoveFromIgnoreList = (e) => {

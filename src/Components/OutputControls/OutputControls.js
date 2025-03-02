@@ -25,21 +25,42 @@ function OutputControls(props) {
                )
                   .then(function (args) {
                      if (!args.canceled) {
-                        deleteAllPlugins(user)
-                           .then((res) => {
-                              if (res.status < 299) {
-                                 window.location.reload();
-                              } else {
-                                 console.log(
-                                    "%c --> %cline:29%cThere was an error when trying reset the database. Please try again later. If the problem continues, please contact the website administrator. Here is the message from the server: ",
-                                    res.response.data
-                                 );
+                        window.DayPilot.prompt(
+                           "Final confirmation: type the following word into the text input box below and then hit OK to delete all info form your library.<br/><br/>delete"
+                        )
+                           .then((args) => {
+                              if (args.result === "delete")
+                                 deleteAllPlugins(user)
+                                    .then((res) => {
+                                       if (res.status < 299) {
+                                          window.location.reload();
+                                       } else {
+                                          console.log(
+                                             "%c --> %cline:29%cThere was an error when trying reset the database. Please try again later. If the problem continues, please contact the website administrator. Here is the message from the server: ",
+                                             res.response.data
+                                          );
 
-                                 window.DayPilot.alert(
-                                    "There was an error when trying reset the database. Please try again later. If the problem continues, please contact the website administrator. Here is the message from the server: " +
-                                       res.response?.data?.message
-                                 );
-                              }
+                                          window.DayPilot.alert(
+                                             "There was an error when trying reset the database. Please try again later. If the problem continues, please contact the website administrator. Here is the message from the server: " +
+                                                res.response?.data?.message
+                                          );
+                                       }
+                                    })
+                                    .catch((err) => {
+                                       console.log(
+                                          "%c --> %cline:47%cerr",
+                                          "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                                          "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                                          "color:#fff;background:rgb(217, 104, 49);padding:3px;border-radius:2px",
+                                          err
+                                       );
+                                       window.DayPilot.alert(
+                                          "There was an error when trying reset the database. Please try again later. If the problem continues, please contact the website administrator. Here is the message from the server: " +
+                                             err.response.status +
+                                             " | " +
+                                             err.response.data
+                                       );
+                                    });
                            })
                            .catch((err) => {
                               console.log(
