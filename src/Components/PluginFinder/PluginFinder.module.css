@@ -686,18 +686,6 @@ div[data-elm*="collapsible-elm"] {
    pointer-events: none;
 }
 
-.plugin-finder-container input[type="radio"]:checked {
-   color: var(--iq-color-accent);
-   background: var(--iq-color-accent);
-}
-
-.plugin-finder-container input[type="radio"] {
-   box-shadow: none;
-   appearance: none;
-   padding: 0.5em;
-   background: #005570;
-}
-
 .plugin-finder-container:has(input[type="checkbox"]:checked)
    .add-to-library-button {
    transform: scale(1);

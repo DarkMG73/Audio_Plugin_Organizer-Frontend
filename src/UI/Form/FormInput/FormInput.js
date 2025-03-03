@@ -98,7 +98,7 @@ const FormInput = (props) => {
    };
 
    const checkboxInputOnChangeHandler = (e) => {
-      // setInputValue(e.target.value);
+      setInputValue(e.target.value);
    };
 
    const handleClearPhotoSelected = (e) => {
@@ -853,7 +853,7 @@ const FormInput = (props) => {
                      name={formNumber + "#" + input.name}
                      value={option}
                      checked={"true"}
-                     onChange={checkboxInputOnChangeHandler}
+                     onChange={props.onChange || checkboxInputOnChangeHandler}
                      required={props.inputRequired}
                   />
                   <label
@@ -910,7 +910,7 @@ const FormInput = (props) => {
                      name={formNumber + "#" + input.name}
                      value={optionName}
                      defaultChecked={"true"}
-                     onChange={checkboxInputOnChangeHandler}
+                     onChange={props.onChange || checkboxInputOnChangeHandler}
                      required={props.inputRequired}
                   />{" "}
                   <label
@@ -963,7 +963,9 @@ const FormInput = (props) => {
                         name={formNumber + "#" + input.name}
                         defaultValue={optionName}
                         defaultChecked={input.preFilledData.includes(option)}
-                        onChange={checkboxInputOnChangeHandler}
+                        onChange={
+                           props.onChange || checkboxInputOnChangeHandler
+                        }
                         required={props.inputRequired}
                      />
                      <label
@@ -1005,7 +1007,9 @@ const FormInput = (props) => {
                         type={input.type}
                         name={formNumber + "#" + input.name}
                         defaultValue={optionName}
-                        onChange={checkboxInputOnChangeHandler}
+                        onChange={
+                           props.onChange || checkboxInputOnChangeHandler
+                        }
                         required={props.inputRequired}
                      />
                      <label
@@ -1135,7 +1139,7 @@ const FormInput = (props) => {
                   name={formNumber + "#" + input.name}
                   value={checkboxTextInputValue}
                   ref={requiredTextInput}
-                  onChange={checkboxTextInputOnChangeHandler}
+                  onChange={props.onCHange || checkboxTextInputOnChangeHandler}
                   className={styles[requiredClass]}
                   required={props.inputRequired}
                />

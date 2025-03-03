@@ -260,7 +260,7 @@ textarea {
 
 .input-container input[type="checkbox"]:checked:after {
    content: "\2714";
-   font-size: 28px;
+   font-size: 2em;
    position: absolute;
    font-weight: 900;
    top: 50%;
@@ -271,7 +271,7 @@ textarea {
    color: var(--iq-color-accent);
    background: var(--iq-color-foreground);
    box-shadow: none;
-   transform: scale(1.5) translate(12%, -32%);
+   transform: scale(1.5) translate(12%, -40%);
    text-shadow: 0 0 5px var(--iq-color-foreground);
 }
 
@@ -370,7 +370,6 @@ body:not([class*="largeForms"]) .input-container input[type="checkbox"] + label,
 body:not([class*="largeForms"]) .input-container input[type="radio"] + label {
    box-shadow: none;
 }
-
 .photoURL-wrap {
    width: 100%;
    text-align: left;

@@ -244,15 +244,72 @@ https://colordesigner.io/color-palette-builder?mode=lch#121232-C1E6F6-43BDE9-2F5
    color: var(--iq-color-accent-2);
 }
 
+.themeTwo div[class*="FormInput_input-rating"] > div,
+.themeTwo div[class*="FormInput_input-oversampling"] > div,
+.themeTwo div[class*="FormInput_input-favorite"] > div {
+   overflow: visible;
+}
+
 .themeTwo div[class*="FormInput_input-rating"] input[type="radio"],
 .themeTwo div[class*="FormInput_input-oversampling"] input[type="radio"],
 .themeTwo div[class*="FormInput_input-favorite"] input[type="radio"] {
-   accent-color: var(--iq-color-accent-2);
-   overflow: hidden;
-   border-radius: 50px;
-   padding: 0;
-   box-shadow: none;
+   /* accent-color: var(--iq-color-accent-2); */
+   /* overflow: hidden; */
+   /* border-radius: 50px; */
+   /* padding: 0; */
+   position: relative;
+   box-shadow:
+      1px 1px 3px -2px black inset,
+      -1px -1px 3px -2px white inset;
+   appearance: none;
+   padding: 0.5em;
+   background: #e3e3e3;
 }
+
+.themeTwo div[class*="FormInput_input-rating"] input[type="radio"]:checked,
+.themeTwo
+   div[class*="FormInput_input-oversampling"]
+   input[type="radio"]:checked,
+.themeTwo div[class*="FormInput_input-favorite"]input[type="radio"]:checked {
+   color: var(--iq-color-accent);
+   background: var(--iq-color-accent);
+}
+
+.themeTwo
+   div[class*="FormInput_input-rating"]
+   input[type="radio"]:checked:after,
+.themeTwo
+   div[class*="FormInput_input-oversampling"]
+   input[type="radio"]:checked:after,
+.themeTwo
+   div[class*="FormInput_input-favorite"]input[type="radio"]:checked:after {
+   content: "✔";
+   font-size: 2em;
+   position: absolute;
+   font-weight: 900;
+   top: 50%;
+   left: 0px;
+   max-width: 110%;
+   min-width: 110%;
+   min-height: 110%;
+   color: var(--iq-color-foreground);
+   background: transparent;
+   box-shadow: none;
+   transform: scale(1.5) translate(12%, -40%);
+   text-shadow: 0 0 5px var(--iq-color-foreground);
+}
+
+/* .plugin-finder-container input[type='radio']:checked {
+  color: var(--iq-color-accent);
+  background: var(--iq-color-accent);
+}
+
+.plugin-finder-container input[type='radio'] {
+  box-shadow: none;
+  appearance: none;
+  padding: 0.5em;
+  background: #005570;
+} */
 
 .themeTwo div[class*="FormInput_input-productURL"] a,
 .themeTwo div[class*="FormInput_input-photoURL"] a {

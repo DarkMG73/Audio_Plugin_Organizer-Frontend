@@ -331,11 +331,62 @@ textarea {
    background-color: initial !important;
 }
 
+.themeOne div[class*="FormInput_input-rating"] > div,
+.themeOne div[class*="FormInput_input-oversampling"] > div,
+.themeOne div[class*="FormInput_input-favorite"] > div {
+   overflow: visible;
+}
+
 .themeOne div[class*="FormInput_input-rating"] input[type="radio"],
 .themeOne div[class*="FormInput_input-oversampling"] input[type="radio"],
 .themeOne div[class*="FormInput_input-favorite"] input[type="radio"] {
    accent-color: var(--iq-color-accent);
    box-shadow: none;
+}
+
+.themeOne div[class*="FormInput_input-rating"] input[type="radio"],
+.themeOne div[class*="FormInput_input-oversampling"] input[type="radio"],
+.themeOne div[class*="FormInput_input-favorite"] input[type="radio"] {
+   position: relative;
+   box-shadow:
+      1px 1px 3px -2px black inset,
+      -1px -1px 3px -2px white inset;
+   appearance: none;
+   padding: 0.5em;
+   background: #e3e3e3;
+}
+
+.themeOne div[class*="FormInput_input-rating"] input[type="radio"]:checked,
+.themeOne
+   div[class*="FormInput_input-oversampling"]
+   input[type="radio"]:checked,
+.themeOne div[class*="FormInput_input-favorite"]input[type="radio"]:checked {
+   color: var(--iq-color-accent);
+   background: var(--iq-color-accent);
+}
+
+.themeOne
+   div[class*="FormInput_input-rating"]
+   input[type="radio"]:checked:after,
+.themeOne
+   div[class*="FormInput_input-oversampling"]
+   input[type="radio"]:checked:after,
+.themeOne
+   div[class*="FormInput_input-favorite"]input[type="radio"]:checked:after {
+   content: "✔";
+   font-size: 2em;
+   position: absolute;
+   font-weight: 900;
+   top: 50%;
+   left: 0px;
+   max-width: 110%;
+   min-width: 110%;
+   min-height: 110%;
+   color: var(--iq-color-accent);
+   background: transparent;
+   box-shadow: none;
+   transform: scale(1.5) translate(12%, -40%);
+   text-shadow: 0 0 5px var(--iq-color-foreground);
 }
 
 .themeOne div[class*="FormInput_input-productURL"] a,
