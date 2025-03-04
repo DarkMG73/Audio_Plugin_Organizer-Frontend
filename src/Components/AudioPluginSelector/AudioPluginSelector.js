@@ -2,151 +2,39 @@ import { useState, useEffect, Fragment, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./AudioPluginSelector.module.css";
 import GatherToolData from "../../Hooks/GatherToolData";
-import { audioToolDataActions } from "../../store/audioToolDataSlice";
 import PushButton from "../../UI/Buttons/PushButton/PushButton";
 import CardPrimaryLarge from "../../UI/Cards/CardPrimaryLarge/CardPrimaryLarge";
 import CardSecondary from "../../UI/Cards/CardSecondary/CardSecondary";
-import { saveManyPlugins } from "../../storage/audioToolsDB";
 import { isValidHttpUrl } from "../../Hooks/utility";
-import placeholderImage from "../../assets/images/product-photo-placeholder-5.png";
+import useRunGatherToolData from "../../Hooks/useRunGatherToolData";
+import useSortToolsList from "../../Hooks/useSortToolsList";
+import useSubmitSelectionsHandler from "../../Hooks/useSubmitSelectionsHandler";
+import placeholderImage from "../../assets/images/generic_plugin_images/default.jpg";
 import LocalErrorDisplay from "../ErrorHandling/LocalErrorDisplay/LocalErrorDisplay";
 import LoginStatus from "../User/LoginStatus/LoginStatus";
+import useDefaultImageIsAvailable from "../../Hooks/useDefaultImageIsAvailable";
+import useFindSelectedImage from "../../Hooks/useFindSelectedImage";
 
 const AudioPluginSelector = ({ limitedToolsListArr, setUnMatchedItems }) => {
-   // Bring in list of file names
-   // Filter sorted, cleaned Library list to only include those that match masterLibraryID to file named (cleaned)
-   // Send unmatched back to parent.
-   // Display matches.
-
-   // const limitedToolsListArr = [
-   //   '606 Koncept',
-   //   'Abstract Crystal Pads',
-   //   'Abstract Crystal Pads copy',
-   //   'Addictive Drums 2',
-   //   'Addictive Keys',
-   //   'ADPTR StreamLiner',
-
-   //   // 'AMPER',
-   //   // 'AmpliTube 5',
-   //   // 'Analog Lab 4',
-   //   'Analog Lab V',
-   //   'Analog Waveforms',
-   //   'ANIMATE',
-   //   'Apache',
-   //   'ARCTIC',
-   //   'ARCTICFLAT',
-   //   'Crystal Harp',
-   //   // 'Crystallizer',
-   //   // 'CUBE',
-   //   // 'Cymatics Diablo Lite',
-   //   // 'Cymatics Origin',
-   //   // 'D-05_D50 Editor VST3ance',
-   //   // 'Massive',
-   //   // 'Massive X',
-   //   // 'MAutopan',
-   //   // 'MAutoPitch',
-   //   // 'MBandPass',
-   //   // 'MBitFun',
-   //   'MCCGenerator',
-
-   //   // 'Mini V3',
-   //   // 'Minipol',
-   //   // 'Miniverse',
-   //   // 'MINT',
-
-   //   // 'MVibrato',
-   //   // 'MWaveFolder',
-   //   // 'MWaveShaper',
-   //   // 'MYSTICT',
-   //   // 'MYSTICTZL',
-   //   // 'Natura',
-   //   // 'Nectar 3 Elements',
-   //   'NEOLD BIG AL',
-   //   'NEOLD V76U73',
-   //   'NEOLD WARBLE',
-   //   'NICKELPRE',
-   //   'NICKELPREZL',
-   //   'Nostromos v2',
-   //   // 'Nu Guzheng',
-   //   // 'Oberom',
-   //   // 'OCEAN',
-   //   // 'OCEANZL',
-   //   // 'OPALCOMPT',
-   //   // 'OPALCOMPTZL',
-   //   // 'Orbit',
-
-   //   // 'smartEQ4',
-   //   // 'smartlimit',
-   //   // 'Smasher',
-   //   // 'SMOKE',
-   //   // 'SMOKECOMP',
-   //   // 'SMOKECOMPZL',
-   //   // 'SMOKEEQ',
-   //   // 'SMOKEEQZL',
-   //   // 'SMOKEZL',
-   //   'Snap Heap',
-   //   // 'soothe2',
-   //   // 'SOUNDA',
-   //   // 'SOUNDAZL',
-   //   // 'SoundID Reference VST3 Plugin',
-   //   // 'SPAN',
-   //   // 'SPAN Plus',
-   //   // 'SPECOMP',
-   //   // 'SSL Native Channel Strip 2',
-   //   // 'SSL X-Orcism 2',
-   //   // 'Stage-73 V2',
-   //   // 'StandardCLIP',
-   //   // 'Stardust 201 Tape Echo',
-   //   // 'StereoDelta',
-   //   // 'StereoSavageElements',
-   //   // 'Stutter Edit 2',
-   //   // 'Stylo Synthesis',
-   //   // 'Subdivine',
-   //   // 'SubLab',
-   //   // 'SUNGLOWT',
-   //   // 'SUNGLOWTZL',
-   //   // 'Supercharger',
-   //   // 'Supercharger GT',
-   //   // 'SuperPlate',
-
-   //   // 'Tape Cassette 2',
-   //   // 'TIGERMASTFLAT',
-   //   // 'TIGERMASTFLATZL',
-   //   // 'TONEX',
-   //   // 'Toy Keyboard',
-   //   // 'Toy Keyboard v3',
-   //   // 'TranceEngine',
-   //   // 'Transient Shaper',
-   //   // 'trapdrive',
-   //   // 'TripleCheese',
-   //   // 'truebalance',
-   //   // 'truelevel',
-   //   // 'TuPRE',
-   //   // 'uaudio_century_channel_strip',
-   //   // 'uaudio_pultec_eqp-1a',
-   //   // 'uaudio_pultec_hlf-3c',
-   //   // 'uaudio_pultec_meq-5',
-   //   // 'Ultrabasic',
-   //   // 'ULTRAMARINE4',
-   //   // 'ULTRAM',
-   //   // 'ValhallaSupermassive',
-
-   //   // 'ZebraHZ',
-   //   'Zither Renaissance',
-   // ];
-   const dispatch = useDispatch();
    const [toolsFromLibrary, setToolsFromLibrary] = useState(false);
    const [refreshList, setRefreshList] = useState(false);
    const [selectedTools, setSelectedTools] = useState([]);
    const [showLoginModal, setShowLoginModal] = useState(false);
    const user = useSelector((state) => state.auth.user);
-   const { toolsMetadata } = useSelector((state) => state.toolsData);
+   const { toolsMetadata, defaultImages } = useSelector(
+      (state) => state.toolsData
+   );
    const [listOpen, setListOpen] = useState([]);
    const listHeightRef = useRef();
    const headerPosition = useSelector(
       (state) => state.elementDimensions.header
    );
    const cleanStr = (str) => str.toLowerCase().replaceAll(" ", "");
+   const runGatherToolData = useRunGatherToolData();
+   const sortToolsList = useSortToolsList();
+   const submitButtonHandlerFunction = useSubmitSelectionsHandler();
+   const defaultImageIsAvailable = useDefaultImageIsAvailable();
+   const findSelectedImage = useFindSelectedImage();
    const [localError, setLocalError] = useState({
       active: false,
       message: null
@@ -166,78 +54,49 @@ const AudioPluginSelector = ({ limitedToolsListArr, setUnMatchedItems }) => {
    ////////////////////////////////////////
    /// HELPER FUNCTIONS
    ////////////////////////////////////////
-   const runGatherToolData = (
-      user,
-      setLocalError,
-      GatherToolData,
-      gatherCallback
-   ) => {
-      GatherToolData(user)
-         .then((data) => {
-            if (process.env.NODE_ENV === "development")
-               console.log(
-                  "%c Getting tool data from DB:",
-                  "color:#fff;background:#777;padding:14px;border-radius:0 25px 25px 0",
-                  data
-               );
-            gatherCallback();
-            dispatch(audioToolDataActions.initState(data));
-         })
-         .catch((err) => {
-            console.log(
-               "color:#fff;background:#ee6f57;padding:3px;border-radius:2px;padding:3px;border-radius:0 25px 25px 0",
-               err
-            );
-            if (err.hasOwnProperty("status") && err.status >= 500) {
-               setLocalError({
-                  active: true,
-                  message:
-                     " *** " +
-                     err.statusText +
-                     `***\n\nIt looks like we can not make a connection. Please refresh the browser plus make sure there is an internet connection and  nothing like a firewall of some sort blocking this request.\n\nIt is also possible that the server's security software detected abnormally high traffic between this IP address and the server.  This is nothing anyone did wrong, just a rare occurrence with a highly-secured server. This will clear itself sometime within the next thirty minutes or so.\n\nPlease contact us if you find you are online and this error does not clear within an hour.\n\nSorry for the trouble. 😢`
-               });
-            } else if (err.hasOwnProperty("status")) {
-               setLocalError({
-                  active: true,
-                  message:
-                     "Oh no! Something went wrong. Please try again or contact general@glassinteractive.com with the following information if the problem continues -->  " +
-                     err.status +
-                     " |" +
-                     err.statusText +
-                     " | " +
-                     err.request.responseURL
-               });
-            } else {
-               setLocalError({
-                  active: true,
-                  message:
-                     "Oh no! Something went wrong. Please try again or contact general@glassinteractive.com with the following information if the problem continues -->  " +
-                     err
-               });
-            }
-         });
-   };
 
    // Product Photo Logic
    const createPhotoURLImage = (tool) => {
       let output = "";
-      const title = tool.title;
+      const { title, functions } = tool;
       const value = tool.photoURL;
       const isValidLink = isValidHttpUrl(value);
+      // if (isValidLink) {
+      //   output = <img key={title + value} src={value} alt={title} />;
+      // }
+
       if (isValidLink) {
+         // value = <img key={title + value} src={value} alt={title} />;
          output = <img key={title + value} src={value} alt={title} />;
-      } else {
+      } else if (value !== undefined) {
          const photoSrc =
-            value !== "" && value !== undefined
-               ? "./assets/images/" + value
-               : placeholderImage;
+            value !== ""
+               ? findSelectedImage(value)
+               : defaultImageIsAvailable(functions, defaultImages)
+                 ? defaultImageIsAvailable(functions, defaultImages)
+                 : placeholderImage;
          output = (
-            <img
+            <Fragment>
+               <img
+                  key={title + value}
+                  data-test={"test-" + defaultImageIsAvailable(functions)}
+                  src={photoSrc || placeholderImage}
+                  // src={image}
+                  alt=""
+               />
+            </Fragment>
+         );
+      } else {
+         output = (
+            <a
                key={title + value}
-               src={photoSrc}
-               // src={image}
+               href={value}
                alt={title}
-            />
+               target="_blank"
+               rel="noreferrer"
+            >
+               {value}
+            </a>
          );
       }
 
@@ -251,124 +110,6 @@ const AudioPluginSelector = ({ limitedToolsListArr, setUnMatchedItems }) => {
       });
 
       return Array.from(output);
-   };
-
-   const sortToolsList = (
-      toolsListArray,
-      sortArray,
-      currentMasterLibraryIDArray
-   ) => {
-      if (!currentMasterLibraryIDArray) currentMasterLibraryIDArray = [];
-      const output = [];
-
-      sortArray.forEach((topic) => {
-         output.push({
-            [topic]: toolsListArray.filter((item) => {
-               if (item.company === "-") {
-               } // Make sure all previous masterLibraryID's treated with current standard
-               const groomedCurrentMasterLibraryIDArray =
-                  currentMasterLibraryIDArray.map((masterLibraryID) =>
-                     cleanStr(masterLibraryID)
-                  );
-               return (
-                  item.company === topic &&
-                  !groomedCurrentMasterLibraryIDArray.includes(
-                     cleanStr(item.masterLibraryID)
-                  )
-               );
-            })
-         });
-      });
-
-      // Remove all empty topic categories
-      const filteredOutput = output.filter((group) => {
-         const value = Object.values(group)[0];
-         return value.constructor === Array && value.length > 0;
-      });
-
-      // Replace personal settings with defaults
-      let cleanedOutput = filteredOutput.map((group) => {
-         const [companyData] = Object.entries(group);
-         const company = companyData[0];
-         const valueArray = companyData[1];
-         const outputCompanyArray = [];
-         valueArray.forEach((tool) => {
-            const outputToolData = { ...tool };
-
-            // Add defaults
-            outputToolData.status = "active";
-            outputToolData.rating = "3";
-            outputToolData.notes = "";
-            outputToolData.favorite = "false";
-
-            outputCompanyArray.push(outputToolData);
-         });
-
-         const outputCompanyObj = { [company]: [...outputCompanyArray] };
-
-         return outputCompanyObj;
-      });
-
-      // Bring in list of file names
-      let limitedCleanedOutputArr = [];
-      if (limitedToolsListArr) {
-         const limitedToolsListMasterIDArray = limitedToolsListArr.map((name) =>
-            cleanStr(name)
-         );
-
-         cleanedOutput.forEach((group) => {
-            const [companyData] = Object.entries(group);
-            const company = companyData[0];
-            const valueArray = companyData[1];
-            const outputCompanyArray = [];
-            valueArray.forEach((tool) => {
-               if (
-                  limitedToolsListMasterIDArray.includes(
-                     cleanStr(tool.masterLibraryID)
-                  )
-               ) {
-                  outputCompanyArray.push(tool);
-               }
-            });
-
-            const outputCompanyObj = { [company]: [...outputCompanyArray] };
-
-            limitedCleanedOutputArr.push(outputCompanyObj);
-         });
-
-         // Remove all empty topic categories
-         limitedCleanedOutputArr = limitedCleanedOutputArr.filter((group) => {
-            const value = Object.values(group)[0];
-            return value.constructor === Array && value.length > 0;
-         });
-      }
-      // Filter sorted, cleaned Library list to only include those that match masterLibraryID to file named (cleaned)
-
-      // Display matches.
-
-      if (limitedCleanedOutputArr.length > 0) {
-         // Send unmatched back to parent.
-         // Build name List of output
-         const limitedOutputToolList = [];
-         for (const group of Object.values(limitedCleanedOutputArr)) {
-            Object.values(group).forEach((tools) =>
-               limitedOutputToolList.push(...tools)
-            );
-         }
-
-         const limitedOutputNameList = [];
-         for (const tool of Object.values(limitedOutputToolList)) {
-            limitedOutputNameList.push(cleanStr(tool.name));
-         }
-
-         const unMatchedItems = limitedToolsListArr.filter((name) => {
-            return !limitedOutputNameList.includes(cleanStr(name));
-         });
-         setUnMatchedItems(unMatchedItems);
-         cleanedOutput = limitedCleanedOutputArr;
-      }
-
-      return cleanedOutput;
    };
 
    ////////////////////////////////////////
@@ -432,79 +173,14 @@ const AudioPluginSelector = ({ limitedToolsListArr, setUnMatchedItems }) => {
    };
 
    const submitButtonHandler = () => {
-      window.DayPilot.confirm(
-         "If you are ready to save these, click OK.<br/><br/>If not, click CANCEL to return to the form."
-      )
-         .then(function (args) {
-            if (!args.canceled) {
-               const tempToolsLibraryArray = [];
-               const flattenedToolsLibraryArray = [];
-               toolsFromLibrary.forEach((toolGroup) =>
-                  Object.keys(toolGroup).forEach((key) => {
-                     tempToolsLibraryArray.push(toolGroup[key]);
-                  })
-               );
-               tempToolsLibraryArray.forEach((toolGroupArray) =>
-                  toolGroupArray.forEach((tool) => {
-                     flattenedToolsLibraryArray.push(tool);
-                  })
-               );
-
-               const theData = [];
-
-               selectedTools.forEach((selectedID) =>
-                  flattenedToolsLibraryArray.forEach((toolObj) => {
-                     if (toolObj.identifier === selectedID) {
-                        if (toolObj.hasOwnProperty("_id")) {
-                           toolObj.masterLibraryID = cleanStr(
-                              toolObj.masterLibraryID
-                           );
-                           delete toolObj._id;
-                        }
-                        theData.push(toolObj);
-                     }
-                  })
-               );
-
-               saveManyPlugins({ user, theData }, true).then((res) => {
-                  if (res.status && res.status < 299) {
-                     successCallback();
-                  } else if (res.response.status === 404) {
-                     const failedIdsAndNames =
-                        res.response.data.err.writeErrors.map((item) => ({
-                           id: item.op._id,
-                           name: item.op.name
-                        }));
-                     const failedNames = failedIdsAndNames.map(
-                        (item) => item.name
-                     );
-                     window.DayPilot.confirm(
-                        `The following were skipped because they were already in your database:<br/><br/>${failedNames.join(
-                           "<br />"
-                        )}<br/><br/>Any not listed above were entered successfully.<br/><br/> Click "OK" to finish or "CANCEL" to return to the form.<br/><br/>If you intended to add a different tool that happens to have the exact same name as one you already have saved, please add it again, but alter the name in some way. The name must be unique.`
-                     )
-                        .then(function (args) {
-                           if (!args.canceled) {
-                              successCallback();
-                           }
-                        })
-                        .catch((e) => {
-                           console.lof("Error: " + e);
-                        });
-                  } else if (res.response.status === 401) {
-                     setShowLoginModal(true);
-                  } else {
-                     window.DayPilot.alert(
-                        "There was an error when trying to save the new entry. Here is the message from the server: " +
-                           res.message
-                     );
-                  }
-               });
-            }
-         })
-         .catch((e) => {
-            console.lof("Error: " + e);
-         });
+      submitButtonHandlerFunction(
+         toolsFromLibrary,
+         selectedTools,
+         user,
+         successCallback,
+         setShowLoginModal,
+         cleanStr
+      );
    };
 
    const localErrorButtonHandler = () => {
@@ -531,13 +207,16 @@ const AudioPluginSelector = ({ limitedToolsListArr, setUnMatchedItems }) => {
 
          // GatherToolData(user).then((userData) => {
 
-         const libraryTools = Object.values(data.allTools);
+         const userToolsLibrary = Object.values(data.allTools);
          const libraryCompanies = new Set();
-         libraryTools.forEach((tool) => libraryCompanies.add(tool.company));
+         userToolsLibrary.forEach((tool) => libraryCompanies.add(tool.company));
          const sortedToolsList = sortToolsList(
-            libraryTools,
+            userToolsLibrary,
             Array.from(libraryCompanies),
-            toolsMetadata.masterLibraryID
+            toolsMetadata.masterLibraryID,
+            cleanStr,
+            limitedToolsListArr,
+            setUnMatchedItems
          ).sort((a, b) => {
             if (
                Object.keys(a)[0].toLowerCase() < Object.keys(b)[0].toLowerCase()
