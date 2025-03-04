@@ -237,10 +237,21 @@ const FormInput = (props) => {
       }
    };
 
-   let groomedOptions;
+   const groomedOptions = [];
    if (Object.hasOwn(input, "options") && input.options) {
-      groomedOptions = input.options.map((option) => {
-         return typeof option === "string" && option.trim();
+      input.options.forEach((option) => {
+         if (typeof option !== "string") return false;
+
+         // Skip duplicates
+         for (const groomedOption of groomedOptions) {
+            if (
+               groomedOption.trim().toLowerCase() ===
+               option.trim().toLowerCase()
+            )
+               return false;
+         }
+
+         groomedOptions.push(option.trim());
       });
    }
 

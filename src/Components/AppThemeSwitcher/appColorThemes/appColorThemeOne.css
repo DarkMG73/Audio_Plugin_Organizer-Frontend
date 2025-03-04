@@ -360,7 +360,7 @@ textarea {
 .themeOne
    div[class*="FormInput_input-oversampling"]
    input[type="radio"]:checked,
-.themeOne div[class*="FormInput_input-favorite"]input[type="radio"]:checked {
+.themeOne div[class*="FormInput_input-favorite"] input[type="radio"]:checked {
    color: var(--iq-color-accent);
    background: var(--iq-color-accent);
 }
@@ -372,7 +372,8 @@ textarea {
    div[class*="FormInput_input-oversampling"]
    input[type="radio"]:checked:after,
 .themeOne
-   div[class*="FormInput_input-favorite"]input[type="radio"]:checked:after {
+   div[class*="FormInput_input-favorite"]
+   input[type="radio"]:checked:after {
    content: "✔";
    font-size: 2em;
    position: absolute;

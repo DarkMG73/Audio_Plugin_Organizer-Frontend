@@ -282,7 +282,8 @@ https://colordesigner.io/color-palette-builder?mode=lch#121232-C1E6F6-43BDE9-2F5
    div[class*="FormInput_input-oversampling"]
    input[type="radio"]:checked:after,
 .themeTwo
-   div[class*="FormInput_input-favorite"]input[type="radio"]:checked:after {
+   div[class*="FormInput_input-favorite"]
+   input[type="radio"]:checked:after {
    content: "✔";
    font-size: 2em;
    position: absolute;
