@@ -226,6 +226,16 @@
    opacity: 1;
 }
 
+div[class*="MobileSlideContainer_container"]
+   .slide-button-inner-wrap
+   input[type="checkbox"]:checked {
+   background: red;
+}
+div[class*="MobileSlideContainer_container"]
+   .slide-button-inner-wrap
+   input[type="checkbox"]:checked:after {
+   content: none;
+}
 .slide-button-inner-wrap input[type="checkbox"]:checked:after {
    content: "\2714";
    font-size: 28px;
