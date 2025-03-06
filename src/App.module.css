@@ -141,8 +141,15 @@
    width: 100%;
 }
 
+.error-wrapper > * {
+   max-width: 100%;
+   overflow-y: auto;
+}
+
 .error-active {
    transform: translate(-50%, 0) scale(1, 1);
+   max-width: 100%;
+   min-width: 0;
 }
 
 .error-close-button {
@@ -184,6 +191,7 @@
    background: transparent;
    box-shadow: none;
    overflow: visible;
+   border-radius: inherit;
 }
 
 .loader-wrap div span {

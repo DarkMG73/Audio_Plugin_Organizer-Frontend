@@ -270,7 +270,7 @@ https://colordesigner.io/color-palette-builder?mode=lch#121232-C1E6F6-43BDE9-2F5
 .themeTwo
    div[class*="FormInput_input-oversampling"]
    input[type="radio"]:checked,
-.themeTwo div[class*="FormInput_input-favorite"]input[type="radio"]:checked {
+.themeTwo div[class*="FormInput_input-favorite"] input[type="radio"]:checked {
    color: var(--iq-color-accent);
    background: var(--iq-color-accent);
 }
@@ -520,4 +520,12 @@ background: var(--iq-color-foreground-gradient);
    animation: textclip 2s linear infinite;
 }
 
+/* LOADER */
+body.themeTwo div[class*="loader-container"] {
+   background: var(--iq-color-foreground-gradient);
+}
+
+/* body.themeTwo div[class*='loader-container']:before {
+  content: none !important;
+} */
 /* ////////////////////////// */

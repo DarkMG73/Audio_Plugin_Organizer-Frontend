@@ -360,7 +360,7 @@ textarea {
 .themeOne
    div[class*="FormInput_input-oversampling"]
    input[type="radio"]:checked,
-.themeOne div[class*="FormInput_input-favorite"] input[type="radio"]:checked {
+.themeOne div[class*="FormInput_input-favorite"]input[type="radio"]:checked {
    color: var(--iq-color-accent);
    background: var(--iq-color-accent);
 }
@@ -479,6 +479,21 @@ background: var(--iq-color-foreground-gradient);
 body.themeOne [data-data="audio-plugin-selector-button-container"] {
    box-shadow: 3px 3px 10px -3px;
    border: 1px solid var(--iq-color-accent);
+}
+
+/* LOADER */
+body.themeOne div[class*="loader-container"] {
+   /* background: linear-gradient(
+    var(--iq-color-foreground) 90%,
+    rgba(0, 0, 0, 0.23)
+  ); */
+   box-shadow:
+      inset 3px 3px 4px -3px rgb(231, 231, 231),
+      inset -3px -3px 4px -3px rgb(0, 0, 0);
+}
+
+body.themeOne div[class*="loader-container"]:before {
+   content: none !important;
 }
 
 /* ////////////////////////// */
