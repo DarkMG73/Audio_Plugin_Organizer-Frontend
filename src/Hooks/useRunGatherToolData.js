@@ -18,7 +18,7 @@ const useRunGatherToolData = () => {
                   "color:#fff;background:#777;padding:14px;border-radius:0 25px 25px 0",
                   data
                );
-            dispatch(audioToolDataActions.initState(data));
+            dispatch(audioToolDataActions.partialStateReset(data));
             if (successCallback) successCallback();
          })
          .catch((err) => {

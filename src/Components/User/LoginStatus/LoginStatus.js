@@ -8,6 +8,7 @@ import { authActions } from "../../../store/authSlice";
 import { deleteUserCookie } from "../../../storage/userDB";
 import GatherToolData from "../../../Hooks/GatherToolData";
 import { audioToolDataActions } from "../../../store/audioToolDataSlice";
+import { loadingRequestsActions } from "../../../store/loadingRequestsSlice";
 
 function LoginStatus(props) {
    const userData = useSelector((state) => state.auth);
@@ -39,6 +40,7 @@ function LoginStatus(props) {
       window.DayPilot.confirm("Are you sure you want to do this?")
          .then(function (args) {
             if (!args.canceled) {
+               dispatch(loadingRequestsActions.addToLoadRequest());
                try {
                   deleteUserCookie();
                   dispatch(authActions.logOut());
@@ -50,6 +52,11 @@ function LoginStatus(props) {
                            data
                         );
                      dispatch(audioToolDataActions.initState(data));
+                     setTimeout(() => {
+                        dispatch(
+                           loadingRequestsActions.removeFromLoadRequest()
+                        );
+                     }, 2000);
                   });
                   setLoginError(false);
                   if (callback) callback();
@@ -58,6 +65,7 @@ function LoginStatus(props) {
                      "Unfortunately, we could not log you out. Please contact general@glassinteractive.com if the problem continues. Error received: " +
                         error.message
                   );
+                  dispatch(loadingRequestsActions.removeFromLoadRequest());
                }
             }
          })

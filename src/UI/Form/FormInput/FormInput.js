@@ -98,6 +98,10 @@ const FormInput = (props) => {
    };
 
    const checkboxInputOnChangeHandler = (e) => {
+      // setInputValue(e.target.value);
+   };
+
+   const radioInputOnChangeHandler = (e) => {
       setInputValue(e.target.value);
    };
 
@@ -864,7 +868,12 @@ const FormInput = (props) => {
                      name={formNumber + "#" + input.name}
                      value={option}
                      checked={"true"}
-                     onChange={props.onChange || checkboxInputOnChangeHandler}
+                     onChange={
+                        props.onChange ||
+                        (input.type === "checkbox"
+                           ? checkboxInputOnChangeHandler
+                           : radioInputOnChangeHandler)
+                     }
                      required={props.inputRequired}
                   />
                   <label
@@ -921,7 +930,12 @@ const FormInput = (props) => {
                      name={formNumber + "#" + input.name}
                      value={optionName}
                      defaultChecked={"true"}
-                     onChange={props.onChange || checkboxInputOnChangeHandler}
+                     onChange={
+                        props.onChange ||
+                        (input.type === "checkbox"
+                           ? checkboxInputOnChangeHandler
+                           : radioInputOnChangeHandler)
+                     }
                      required={props.inputRequired}
                   />{" "}
                   <label
@@ -975,7 +989,10 @@ const FormInput = (props) => {
                         defaultValue={optionName}
                         defaultChecked={input.preFilledData.includes(option)}
                         onChange={
-                           props.onChange || checkboxInputOnChangeHandler
+                           props.onChange ||
+                           (input.type === "checkbox"
+                              ? checkboxInputOnChangeHandler
+                              : radioInputOnChangeHandler)
                         }
                         required={props.inputRequired}
                      />
@@ -1019,7 +1036,10 @@ const FormInput = (props) => {
                         name={formNumber + "#" + input.name}
                         defaultValue={optionName}
                         onChange={
-                           props.onChange || checkboxInputOnChangeHandler
+                           props.onChange ||
+                           (input.type === "checkbox"
+                              ? checkboxInputOnChangeHandler
+                              : radioInputOnChangeHandler)
                         }
                         required={props.inputRequired}
                      />

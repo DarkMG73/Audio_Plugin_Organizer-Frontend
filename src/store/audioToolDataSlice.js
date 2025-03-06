@@ -37,6 +37,29 @@ export const audioToolDataSlice = createSlice({
          state.appUserNameMemory = toolsData.appUserNameMemory;
       },
 
+      /// PARTIAL STATE RESET /////////////////////////////
+      partialStateReset: (state, action) => {
+         const toolsData = action.payload;
+         console.log(
+            "%c⚪️►►►► %cline:31%ctoolsData.currentFilters",
+            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+            "color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px",
+            toolsData.currentFilters
+         );
+         state.allTools = toolsData.allTools;
+         state.filteredToolsIds = toolsData.filteredToolsIds || [];
+         state.toolsMetadata = toolsData.toolsMetadata;
+         state.toolsHistory = toolsData.toolsHistory;
+         state.currentFilters =
+            state.currentFilters || toolsData.currentFilters;
+         state.toolsSchema = toolsData.toolsSchema;
+         state.goToAddATool = 0;
+         state.goToToolRows = 0;
+         state.officialImages = toolsData.officialImages;
+         state.defaultImages = toolsData.defaultImages;
+         state.appUserNameMemory = toolsData.appUserNameMemory;
+      },
       /// ADD TO FILTERS /////////////////////////////
       addToToolFilters: (state, action) => {
          state.currentFilters[action.payload.type] = [
