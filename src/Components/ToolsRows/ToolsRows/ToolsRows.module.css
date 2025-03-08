@@ -51,6 +51,7 @@
    top: 50px;
    z-index: 50;
    transition: all 0.2s ease;
+   margin: 1em auto !important;
 }
 
 .open-all-button-wrap button {
@@ -165,6 +166,7 @@ body .tools-rows-list-container .display-button-container .display-button-wrap {
    position: relative;
    width: 80%;
    flex-basis: 100%;
+   flex-wrap: wrap;
    display: flex;
    overflow: hidden;
    border-radius: 50px;
@@ -177,8 +179,27 @@ body .tools-rows-list-container .display-button-container .display-button-wrap {
 
 body .tools-rows-list-container .display-button-wrap button {
    border-radius: 0;
+   min-width: min-content;
+   flex-grow: 1;
+   flex-basis: 33.333%;
 }
+
+@media screen and (max-width: 800px) {
+   body .tools-rows-list-container .display-button-wrap button {
+      min-height: 2.5em;
+      display: flex;
+      align-items: center;
+   }
+}
+
 @media screen and (max-width: 600px) {
+   body
+      .tools-rows-list-container
+      .display-button-container
+      .display-button-wrap {
+      box-shadow: 0 0 10px 0 var(--iq-color-accent);
+      border: 1px solid var(--iq-color-accent);
+   }
    .tools-rows-list-container > div {
       width: 100%;
       max-width: 100%;
@@ -191,5 +212,18 @@ body .tools-rows-list-container .display-button-wrap button {
       flex-grow: 1;
       min-width: 100%;
       max-width: 100%;
+   }
+   body .tools-rows-list-container .display-button-container {
+      margin: auto auto 1em;
+   }
+
+   body .tools-rows-list-container .display-button-wrap button {
+      border-radius: 0;
+      min-width: min-content;
+      flex-grow: 1;
+      flex-basis: 50%;
+      min-height: 2.5em;
+      display: flex;
+      align-items: center;
    }
 }
