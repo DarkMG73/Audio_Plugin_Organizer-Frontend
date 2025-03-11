@@ -1442,7 +1442,7 @@ const PluginFinder = (props) => {
                               computer.
                            </h3>
                         )}
-
+                        &nbsp;
                         <button
                            type="button"
                            className={
@@ -1487,6 +1487,11 @@ const PluginFinder = (props) => {
                                     >
                                        Plugin Finder
                                     </h2>
+
+                                    <h4>
+                                       {fileNames.length} new plugins found on
+                                       this computer.
+                                    </h4>
                                     <button
                                        type="button"
                                        className={
@@ -1717,13 +1722,11 @@ const PluginFinder = (props) => {
                                              </ul>
                                           </div>
                                        )}
-
                                     {/* 
                 ************** 
                   NEW PLUGINS
                 *************** 
                 */}
-
                                     {unmatchedFiles.length > 0 && (
                                        <div
                                           className={
@@ -1969,7 +1972,6 @@ const PluginFinder = (props) => {
                                  </div>
                               </Fragment>
                            )}
-
                         {/*
                          *** MESSAGES: NO NEW PLUGINS ****/}
                         {!noPluginPathsExist && fileNames.length <= 0 && (
