@@ -4,12 +4,14 @@ import GetPluginFormInputsWithOptions from "./GetPluginFormInputsWithOptions";
 
 const useGroomDataForToolForm = (pluginSchema) => {
    const [formInputData, setFormInputData] = useState(false);
-   const toolsSchema = useSelector((state) => state.toolsData.toolsSchema);
+   const { toolsSchema, toolsMetadata } = useSelector(
+      (state) => state.toolsData
+   );
    ////////////////////////////////////////
    /// EFFECTS
    ////////////////////////////////////////
    useEffect(() => {
-      const res = GetPluginFormInputsWithOptions(toolsSchema);
+      const res = GetPluginFormInputsWithOptions(toolsSchema, toolsMetadata);
       setFormInputData(res);
    }, [toolsSchema]);
 
