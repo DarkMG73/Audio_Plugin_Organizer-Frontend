@@ -40,10 +40,10 @@ console.log(
 );
 
 if (inDevelopment) {
-   // axios.defaults.baseURL = "https://api-organizer.glassinteractive.com/";
+   axios.defaults.baseURL = "https://api-organizer.glassinteractive.com/";
    // axios.defaults.baseURL = "http://localhost:8000";
    // For iOS testing
-   axios.defaults.baseURL = "http://192.168.1.119:8000/";
+   // axios.defaults.baseURL = "http://192.168.1.119:8000/";
 
    console.log(
       "%cRunning in DEV MODE with the base URL:",
