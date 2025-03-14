@@ -6,6 +6,7 @@ import ImagePicker from "react-image-picker";
 import "react-image-picker/dist/index.css";
 // import useDefaultImageIsAvailable from '../../../Hooks/useDefaultImageIsAvailable';
 import useFindSelectedImage from "../../../Hooks/useFindSelectedImage";
+import topicOptions from "../../../data/topicOptions";
 
 // import img1 from "../../../assets/images/Acoustica-Audio_AERO-AMP.png";
 // import img2 from "../../../assets/images/product-photo-placeholder-2.png";
@@ -920,9 +921,18 @@ const FormInput = (props) => {
                      " " +
                      styles["display-row"] +
                      " " +
-                     styles[optionGroup.replaceAll(" ", "")]
+                     styles[optionGroup.replaceAll(" ", "")] +
+                     " " +
+                     (input.name.replace("0#", "") === "color" &&
+                        !topicOptions.color.includes(optionName) &&
+                        styles["UserAdded"])
                   }
                   data-group={optionGroup.replaceAll(" ", "")}
+                  data-isusercolorname={
+                     input.name.replace("0#", "") === "color" &&
+                     !topicOptions.color.includes(optionName) &&
+                     "UserAdded"
+                  }
                >
                   <input
                      key={"form-input-b" + optionName}
@@ -976,7 +986,8 @@ const FormInput = (props) => {
                         " " +
                         styles["display-row"] +
                         " " +
-                        styles[optionGroup.replaceAll(" ", "")]
+                        styles[optionGroup.replaceAll(" ", "")] +
+                        " "
                      }
                      data-group={
                         "user-added-" + input.title.replaceAll(" ", "")
@@ -1004,7 +1015,7 @@ const FormInput = (props) => {
                      </label>
                   </div>
                );
-            } else {
+            } else if (optionName.replaceAll(" ", "") !== "") {
                return (
                   <div
                      key={"form-input-a3" + i}
@@ -1026,9 +1037,18 @@ const FormInput = (props) => {
                         " " +
                         styles["display-row"] +
                         " " +
-                        styles[optionGroup.replaceAll(" ", "")]
+                        styles[optionGroup.replaceAll(" ", "")] +
+                        " " +
+                        (input.name.replace("0#", "") === "color" &&
+                           !topicOptions.color.includes(optionName) &&
+                           styles["UserAdded"])
                      }
                      data-group={optionGroup.replaceAll(" ", "")}
+                     data-isusercolorname={
+                        input.name.replace("0#", "") === "color" &&
+                        !topicOptions.color.includes(optionName) &&
+                        "UserAdded"
+                     }
                   >
                      <input
                         key={"form-inputa4"}

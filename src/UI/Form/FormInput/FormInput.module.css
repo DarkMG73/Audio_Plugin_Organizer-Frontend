@@ -756,6 +756,10 @@ body .input-container.input-color [data-group^="SPACER"] input:after {
    opacity: 0.7 !important;
 }
 
+[data-group="SPACER-UserAdded"] {
+   display: none !important;
+}
+
 [data-group^="SPACER"] input:after {
    background: transparent;
    color: transparent;

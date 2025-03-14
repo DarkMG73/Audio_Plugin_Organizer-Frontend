@@ -67,9 +67,10 @@ const topicOptions = {
       "Dynamics ~ Multi-band Comp",
       "Dynamics ~ Limiter",
       "Dynamics ~ Clipper",
-      "Dynamics ~ Transient",
+      "Dynamics ~ Transient Designer",
       "Dynamics ~ Gate or Expander",
       "Dynamics ~ De-Esser",
+      "Dynamics ~ Gain or Volume Control",
 
       "SPACER-Saturation ~ Saturation",
       "Saturation ~ Distortion",

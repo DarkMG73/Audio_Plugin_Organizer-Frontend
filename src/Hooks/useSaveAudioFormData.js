@@ -22,9 +22,30 @@ const useSaveAudioFormData = () => {
       if (user) {
          if (saveOrUpdateData === "save")
             saveManyPlugins({ user, theData }, true).then((res) => {
+               console.log(
+                  "%c⚪️►►►► %cline:24%cres",
+                  "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                  "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                  "color:#fff;background:rgb(237, 222, 139);padding:3px;border-radius:2px",
+                  res
+               );
                if (res.status && res.status < 299) {
+                  console.log(
+                     "%c⚪️►►►► %cline:32%cres.status < 299",
+                     "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                     "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                     "color:#fff;background:rgb(20, 68, 106);padding:3px;border-radius:2px",
+                     res.status < 299
+                  );
                   if (successCallback) successCallback(res);
                } else if (res.response.status === 404) {
+                  console.log(
+                     "%c⚪️►►►► %cline:41%cres.response.status === 404",
+                     "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                     "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                     "color:#fff;background:rgb(118, 77, 57);padding:3px;border-radius:2px",
+                     res.response.status === 404
+                  );
                   const failedIdsAndNames =
                      res.response.data.err.writeErrors?.map((item) => ({
                         id: item.op._id,
@@ -50,17 +71,16 @@ const useSaveAudioFormData = () => {
                      });
                } else {
                   console.log(
-                     "%c⚪️►►►► %cline:53%cres",
+                     "%c⚪️►►►► %cline:65%celse",
                      "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
                      "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-                     "color:#fff;background:rgb(227, 160, 93);padding:3px;border-radius:2px",
-                     res
+                     "color:#fff;background:rgb(39, 72, 98);padding:3px;border-radius:2px"
                   );
                   const message = res.data?.message || "Unknown Network Error";
 
                   window.DayPilot.alert(
-                     "There was an error when trying to save the new entry. Here is the message from the server: <br />",
-                     message
+                     "There was an error when trying to save the new entry. Here is the message from the server: <br />" +
+                        message
                   );
                }
             });
