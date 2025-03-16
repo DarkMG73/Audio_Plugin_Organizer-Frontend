@@ -8,7 +8,7 @@ import SetFilteredToolIdList from "../../Hooks/SetFilteredToolList";
 import { audioToolDataActions } from "../../store/audioToolDataSlice";
 import CollapsibleElm from "../../UI/CollapsibleElm/CollapsibleElm";
 
-function FilterTools(props) {
+function FilterTools() {
    const allToolsData = useSelector((state) => state.toolsData);
    const user = useSelector((state) => state.auth.user);
    const dispatch = useDispatch();
@@ -44,8 +44,29 @@ function FilterTools(props) {
          // Groom topic arrays
          const groomedToolsMetadata = { ...toolsMetadata };
 
-         for (const [key, value] of Object.entries(groomedToolsMetadata)) {
-            let groomedValue = [...value];
+         for (const [key, valueArray] of Object.entries(groomedToolsMetadata)) {
+            let groomedValue = [];
+            valueArray.forEach((name) => {
+               if (groomedValue.length > 0) {
+                  if (name && name.constructor === String) {
+                     let alreadyExists = false;
+                     groomedValue.forEach((nameTwo) => {
+                        if (
+                           nameTwo &&
+                           name.replaceAll(" ", "").toLowerCase() ===
+                              nameTwo.replaceAll(" ", "").toLowerCase()
+                        )
+                           alreadyExists = true;
+                     });
+                     if (!alreadyExists) groomedValue.push(name);
+                  } else if (!groomedValue.includes(name)) {
+                     groomedValue.push(name);
+                  }
+               } else {
+                  groomedValue.push(name);
+               }
+            });
+
             // Alpha Sort Functions
             if (key === "functions") {
                groomedValue = groomedValue.sort((a, b) => a.localeCompare(b));
@@ -53,6 +74,7 @@ function FilterTools(props) {
 
             groomedToolsMetadata[key] = groomedValue;
          }
+
          setGroomedTopicsObj(groomedToolsMetadata);
       }
    }, [toolsMetadata]);
@@ -195,7 +217,7 @@ function FilterTools(props) {
                                              }
                                              value=""
                                           ></option>
-                                          {groomedTopicsObj[topic]?.map(
+                                          {groomedTopicsObj[topic].map(
                                              (entry) => {
                                                 return (
                                                    <Fragment
