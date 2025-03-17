@@ -62,13 +62,6 @@ function AddAToolForm(props) {
       />
    ]);
    const successCallback = (unsavedItems) => {
-      console.log(
-         "%c⚪️►►►► %cline:62%csuccessCallback",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(251, 178, 23);padding:3px;border-radius:2px",
-         successCallback
-      );
       if (props.successCallback) props.successCallback();
 
       if (user && props.saveOrUpdateData === "update") {

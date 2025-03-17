@@ -40,13 +40,6 @@ export const audioToolDataSlice = createSlice({
       /// PARTIAL STATE RESET /////////////////////////////
       partialStateReset: (state, action) => {
          const toolsData = action.payload;
-         console.log(
-            "%c⚪️►►►► %cline:31%ctoolsData.currentFilters",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(23, 44, 60);padding:3px;border-radius:2px",
-            toolsData.currentFilters
-         );
          state.allTools = toolsData.allTools;
          state.filteredToolsIds = toolsData.filteredToolsIds || [];
          state.toolsMetadata = toolsData.toolsMetadata;

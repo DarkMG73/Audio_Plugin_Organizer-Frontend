@@ -78,13 +78,6 @@ const PluginFinder = (props) => {
    };
 
    const sentToLibrarySuccessCallback = () => {
-      console.log(
-         "%c⚪️►►►► %cline:80%csentToLibrarySuccessCallback",
-         "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-         "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-         "color:#fff;background:rgb(237, 222, 139);padding:3px;border-radius:2px",
-         sentToLibrarySuccessCallback
-      );
       window.DayPilot.confirm(
          'There are unsaved items in the Ignored Plugin list. We are going to save those now.<br/><br/>Click "OK" (or "CONFIRM") to save. The is highly recommended.<br/><br/>If you do not want to save those, hit Cancel, but be aware that list might be out of sync with the New Plugin list.'
       )
@@ -467,12 +460,6 @@ const PluginFinder = (props) => {
       }
 
       const successCallback = () => {
-         console.log(
-            "%c⚪️►►►► %cline:449%csuccessCallback",
-            "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-            "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-            "color:#fff;background:rgb(227, 160, 93);padding:3px;border-radius:2px"
-         );
          setActivateLoader(activateLoader + 1);
          dispatch(loadingRequestsActions.addToLoadRequest());
          window.DayPilot.confirm(
