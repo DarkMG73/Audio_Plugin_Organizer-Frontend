@@ -339,7 +339,7 @@ body[class*="can-hover"]body[class*="largeForms"]
 }
 
 .scroll-wrap {
-   overflow: scroll;
+   overflow: auto;
    max-height: calc(93% - 72px);
    position: relative;
    padding: 0 1em;

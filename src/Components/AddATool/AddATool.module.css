@@ -119,6 +119,19 @@
    border-radius: 50px;
 }
 
+.inputs-container [class*="loader-wrap"] {
+   max-height: 91%;
+   top: 5em;
+   width: 97%;
+   opacity: 0.9;
+   border-radius: 50px;
+   align-items: flex-start;
+}
+
+.inputs-container [class*="loader-container"] {
+   max-height: 5em;
+}
+
 .inputs-container [data-data="larger-forms-1"] {
    position: sticky;
    width: 50%;

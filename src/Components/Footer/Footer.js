@@ -46,7 +46,7 @@ const Footer = ({
                      glassinteractive.com
                   </a>
                   {/* Version only for web version; Electron has version in About screen */}
-                  {!isDesktopApp && (
+                  {!isDesktopApp && typeof process !== "undefined" && (
                      <p>Web App Version {process.env.REACT_APP_VERSION}</p>
                   )}
                   {isDesktopApp && newVersionIsReady && showVersionAlert && (

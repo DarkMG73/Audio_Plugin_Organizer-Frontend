@@ -4,7 +4,7 @@ import {
    updateAPlugin,
    UpdateManyAudioPlugins
 } from "../storage/audioToolsDB";
-
+import Login from "../Components/User/Login/Login";
 const useSaveAudioFormData = () => {
    const outputFunction = (
       toolsGroomedObject,
@@ -12,7 +12,8 @@ const useSaveAudioFormData = () => {
       saveOrUpdateData,
       successCallback,
       noUserCallback,
-      onlyRunNoUserCallback
+      onlyRunNoUserCallback,
+      loginExpiredCallback
    ) => {
       const theData = [];
       for (const key in toolsGroomedObject) {
@@ -43,6 +44,21 @@ const useSaveAudioFormData = () => {
                      .then(function (args) {
                         if (!args.canceled) {
                            if (successCallback) successCallback(res);
+                        }
+                     })
+                     .catch((e) => {
+                        console.lof("Error: " + e);
+                     });
+               } else if (
+                  res.response.status === 401 ||
+                  res.response.status === 403
+               ) {
+                  window.DayPilot.confirm(
+                     `It looks like your login expired.<br/><br/>Click OK to log in again. You will then be able to go back to the form to save the plugin(s).<br /><br />You will not lose any of your work in this process.<br/><br/>Click CANCEL if you wish to return to the page without logging in.`
+                  )
+                     .then(function (args) {
+                        if (!args.canceled) {
+                           loginExpiredCallback();
                         }
                      })
                      .catch((e) => {

@@ -40,7 +40,7 @@ const Admin = ({ appVersions, user, isDesktopApp }) => {
          "Copy all changes to both the desktop and web app.",
          "Test desktop version.",
          "Test web version",
-         "Set web version numbers in .env (and anywhere else needed). *** DO NOT SET THE DESKTOP VERSION NUMBER YET ***",
+         "Set web version numbers in package.json (and anywhere else needed). *** DO NOT SET THE DESKTOP VERSION NUMBER YET ***",
          "Build web version.",
          "Upload web build to production folder.",
          "Test web version in Production.",
@@ -52,7 +52,7 @@ const Admin = ({ appVersions, user, isDesktopApp }) => {
          "*** Push desktop update. ***"
       ],
       postPush: [
-         "Set version for desktop in VERSION.json",
+         "Set version for desktop in VERSION.json AND desktop package.json.",
          "Package Desktop version.",
          "Upload desktop version to download folder.",
          "Test desktop download in production."

@@ -78,6 +78,15 @@ const PluginFinder = (props) => {
    };
 
    const sentToLibrarySuccessCallback = () => {
+      setFileNames([]);
+      setAddToLibrary([]);
+      console.log("addToLibrary%c%", "color: #731d1d", addToLibrary);
+      console.log("fileNames%c%", "color: #807160", fileNames);
+      const newFileNames = [];
+      fileNames.forEach((name) => {
+         if (!addToLibrary.includes(name)) newFileNames.push(name);
+      });
+
       window.DayPilot.confirm(
          'There are unsaved items in the Ignored Plugin list. We are going to save those now.<br/><br/>Click "OK" (or "CONFIRM") to save. The is highly recommended.<br/><br/>If you do not want to save those, hit Cancel, but be aware that list might be out of sync with the New Plugin list.'
       )
@@ -85,6 +94,7 @@ const PluginFinder = (props) => {
             if (!args.canceled) {
                handleSaveIgnoredPluginsButton();
             }
+            setFileNames(newFileNames);
          })
          .catch((e) => {
             console.lof("Error: " + e);
@@ -94,6 +104,22 @@ const PluginFinder = (props) => {
    useEffect(() => {
       // if (activateLoader < 0) setActivateLoader(0);
    }, [activateLoader]);
+
+   useEffect(() => {
+      console.log("fileNames.length%c%", "color: #007300", fileNames.length);
+   }, [fileNames]);
+
+   useEffect(() => {
+      console.log("%c%s", "color: #731d6d", fileNames.length);
+      console.log("%c%s", "color: #e57373", openPluginFinder);
+      console.log("%c%s", "color: #997326", !noPluginPathsExist);
+      if (fileNames.length > 0 && openPluginFinder && !noPluginPathsExist) {
+         // document.body.style.overflow = 'hidden !important';
+         document.body.style.overflow = "hidden";
+      } else {
+         document.body.style.overflow = "";
+      }
+   }, [fileNames, openPluginFinder, noPluginPathsExist]);
 
    useEffect(() => {
       // Update rendered list after closing form.
@@ -167,7 +193,7 @@ const PluginFinder = (props) => {
                   // Activate special Waves message.
                   if (isValid && cleanStr(nameArray[0]).includes("waveshell"))
                      setUnsupportedMessage(
-                        'NOTE: Waves plugins have been detected, but this Plugin Finder portion of the website does not yet support their method of wrapping plugins. To add Waves plugins, after closing the Plugin Finder, click the "+" button at the bottom of the main page and then use the Audio Plugin Selector and/or enter them manually.'
+                        'NOTE: We detected Waves plugins, which this Finder tool does not yet support. Add Waves using the "+" at the bottom of the main page via the "Master Library Selector" or "Manual Entry Form"'
                      );
                   // Remove Waves (not yet supported)
                   if (
@@ -600,6 +626,9 @@ const PluginFinder = (props) => {
       setFormOpen(true);
    };
 
+   const closeFormsAfterSave = () => {
+      setUserFilesToGroomArray(false);
+   };
    ////////////////////////////////////////
    /// Styles
    ////////////////////////////////////////
@@ -989,15 +1018,14 @@ const PluginFinder = (props) => {
                                              "missing-ignore-plugin-list-container-text"
                                           }
                                        >
-                                          This list will be saved and ignored
+                                          Items in this list will be ignored
                                           when the scanner finds these plugins
-                                          in your library but not on your
-                                          computer. This can be reversed (sent
-                                          back to the main list) by clicking on
-                                          the name.
-                                          <br />
-                                          This can be reversed (sent back to the
-                                          main list) by clicking on the name.
+                                          to be missing (in your library but not
+                                          on your computer).
+                                          <br /> <br />
+                                          To "restore" an item (send it back to
+                                          the "Missing Plugins" list), click on
+                                          the item name.
                                           <br />
                                           <br />
                                        </p>
@@ -1009,8 +1037,9 @@ const PluginFinder = (props) => {
                                                    Styles["highlighted-message"]
                                                 }
                                              >
-                                                Be sure to save this list after
-                                                each change.
+                                                IMPORTANT! &rarr; Be sure to
+                                                save this list after each
+                                                change.
                                                 <br />
                                              </p>
                                              <button
@@ -1086,8 +1115,18 @@ const PluginFinder = (props) => {
                                                       next to the plugin name to
                                                       ignore.
                                                       <br />
-                                                      Be sure to save this list
-                                                      after each change.
+                                                      <p
+                                                         className={
+                                                            Styles[
+                                                               "highlighted-message"
+                                                            ]
+                                                         }
+                                                      >
+                                                         IMPORTANT! &rarr; Be
+                                                         sure to save this list
+                                                         after each change.
+                                                         <br />
+                                                      </p>
                                                       <br />
                                                       Restore an ignored plugin
                                                       anytime by clicking on it.
@@ -1189,11 +1228,30 @@ const PluginFinder = (props) => {
                                           }
                                        >
                                           These plugins are in your library, but
-                                          not on this computer. To set each to
-                                          "Disabled" status, click the button
-                                          below. To ignore a specific plugin,
-                                          click the "X" to the right of its
-                                          name.
+                                          not on this computer.
+                                          <br /> <br />
+                                          <p
+                                             className={
+                                                Styles["highlighted-message"]
+                                             }
+                                             style={{ padding: "2em" }}
+                                          >
+                                             IMPORTANT! &rarr; Only do the
+                                             following if this computer is your
+                                             main workstation where the plugins
+                                             should be. This will not affect any
+                                             plugins, but does change the
+                                             "Status" in your library listing to
+                                             "Disabled".
+                                             <br />
+                                          </p>
+                                          <br />
+                                          You can automatically set each to
+                                          "Disabled" status by clicking the
+                                          button below. To ignore a specific
+                                          plugin when this tool thinks it is
+                                          missing, click the "X" to the right of
+                                          its name.
                                        </p>
                                        <button
                                           type="button"
@@ -1445,10 +1503,10 @@ const PluginFinder = (props) => {
                            </div>
                         )}
                         {fileNames.length > 0 && !noPluginPathsExist && (
-                           <h3>
+                           <h4>
                               {fileNames.length} new plugins found on this
                               computer.
-                           </h3>
+                           </h4>
                         )}
                         <br />
                         <button
@@ -1500,6 +1558,21 @@ const PluginFinder = (props) => {
                                        {fileNames.length} new plugins found on
                                        this computer.
                                     </h4>
+                                    {unsupportedMessage && (
+                                       <p
+                                          className={
+                                             Styles[
+                                                "missing-ignore-plugin-list-container-text"
+                                             ] +
+                                             " " +
+                                             "missing-ignore-plugin-list-container-text" +
+                                             " " +
+                                             Styles["highlighted-message-2"]
+                                          }
+                                       >
+                                          <i> {unsupportedMessage}</i>
+                                       </p>
+                                    )}
                                     <button
                                        type="button"
                                        className={
@@ -1512,48 +1585,40 @@ const PluginFinder = (props) => {
                                     >
                                        Close Plugin Finder
                                     </button>
-                                    <div
-                                       className={
-                                          Styles["plugin-selector-wrap"] +
-                                          " " +
-                                          "plugin-selector-wrap" +
-                                          " " +
-                                          Styles["modal-inner-wrap"] +
-                                          " " +
-                                          "modal-inner-wrap"
-                                       }
-                                    >
-                                       <h3>
-                                          Add Plugins From the Master Library
-                                       </h3>
-                                       <p>
-                                          The Master Library contains hundreds
-                                          of plugins already setup and ready to
-                                          add to your library. Just select the
-                                          items you want to add (or select all)
-                                          and save them. They will appear in
-                                          your library.
-                                       </p>
-                                       {unsupportedMessage && (
-                                          <p
-                                             className={
-                                                Styles[
-                                                   "missing-ignore-plugin-list-container-text"
-                                                ] +
-                                                " " +
-                                                "missing-ignore-plugin-list-container-text" +
-                                                " " +
-                                                Styles["highlighted-message-2"]
-                                             }
-                                          >
-                                             <i> {unsupportedMessage}</i>
+                                    {unmatchedFiles.length !==
+                                       fileNames.length && (
+                                       <div
+                                          className={
+                                             Styles["plugin-selector-wrap"] +
+                                             " " +
+                                             "plugin-selector-wrap" +
+                                             " " +
+                                             Styles["modal-inner-wrap"] +
+                                             " " +
+                                             "modal-inner-wrap"
+                                          }
+                                       >
+                                          <h3>
+                                             Add Plugins From the Master Library
+                                          </h3>
+                                          <p>
+                                             The following plugins found on your
+                                             computer exist in our Master
+                                             Library. These are already set up
+                                             and ready to go. Click "Select All"
+                                             and the add them to your library.
                                           </p>
-                                       )}
-                                       <AudioPluginSelector
-                                          limitedToolsListArr={fileNames}
-                                          setUnMatchedItems={setUnmatchedFiles}
-                                       />
-                                    </div>
+                                          <AudioPluginSelector
+                                             limitedToolsListArr={fileNames}
+                                             setUnMatchedItems={
+                                                setUnmatchedFiles
+                                             }
+                                             hideTitle={true}
+                                             noPluginsInstructionsText='Scroll down to "MANUALLY ADD PLUGINS"'
+                                             instTextArrows="down"
+                                          />
+                                       </div>
+                                    )}
                                     {/* 
                 ************** 
                   IGNORED PLUGINS
@@ -1569,12 +1634,13 @@ const PluginFinder = (props) => {
                                                 ]
                                              }
                                           >
-                                             <h3>
+                                             <h3>Ignored Plugins</h3>
+                                             <h4>
                                                 {ignorePluginList.length > 0
                                                    ? ignorePluginList.length
                                                    : "No"}{" "}
-                                                Ignored Plugins
-                                             </h3>
+                                                Plugins Being Ignored
+                                             </h4>
                                              <p>
                                                 These have been removed from the
                                                 "Manually Add Plugins" list
@@ -1623,9 +1689,19 @@ const PluginFinder = (props) => {
                                                             Plugins to ignore
                                                             will appear here.
                                                             <br />
-                                                            Be sure to save this
-                                                            list after each
-                                                            change.
+                                                            <p
+                                                               className={
+                                                                  Styles[
+                                                                     "highlighted-message"
+                                                                  ]
+                                                               }
+                                                            >
+                                                               IMPORTANT! &rarr;
+                                                               Be sure to save
+                                                               this list after
+                                                               each change.
+                                                               <br />
+                                                            </p>
                                                             <br />
                                                             Restore an ignored
                                                             plugin anytime by
@@ -1752,8 +1828,9 @@ const PluginFinder = (props) => {
                                           <p>
                                              Click on a few you want to add,
                                              then click
-                                             <b>Add to Library</b>. Each will
-                                             open in a form to add more detail
+                                             <b> Add to Library</b>. A form will
+                                             open for each, but you need to add
+                                             the relevant detail to each one
                                              before saving them to your library.
                                           </p>
                                           <p
@@ -2056,7 +2133,7 @@ const PluginFinder = (props) => {
                      removeAddMoreButton={true}
                      submitButtonStyles={submitButtonStyles}
                      ignoreFormOpen={true}
-                     setFormParentOpen={setFormOpen}
+                     setFormParentOpen={closeFormsAfterSave}
                      successCallback={sentToLibrarySuccessCallback}
                      cancelOneForm={(e) => {
                         e.preventDefault();

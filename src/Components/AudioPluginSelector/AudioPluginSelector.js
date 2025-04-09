@@ -15,7 +15,13 @@ import LoginStatus from "../User/LoginStatus/LoginStatus";
 import useDefaultImageIsAvailable from "../../Hooks/useDefaultImageIsAvailable";
 import useFindSelectedImage from "../../Hooks/useFindSelectedImage";
 
-const AudioPluginSelector = ({ limitedToolsListArr, setUnMatchedItems }) => {
+const AudioPluginSelector = ({
+   limitedToolsListArr,
+   setUnMatchedItems,
+   hideTitle,
+   noPluginsInstructionsText,
+   instTextArrows
+}) => {
    const [toolsFromLibrary, setToolsFromLibrary] = useState(false);
    const [refreshList, setRefreshList] = useState(false);
    const [selectedTools, setSelectedTools] = useState([]);
@@ -311,9 +317,11 @@ const AudioPluginSelector = ({ limitedToolsListArr, setUnMatchedItems }) => {
                   <LocalErrorDisplay message={localError.message} />
                </div>
             )}
-            <h2 key="home" className="section-title">
-               Plugins & Tools Library
-            </h2>
+            {!hideTitle && (
+               <h2 key="home" className="section-title">
+                  Plugins & Tools Library
+               </h2>
+            )}
             {toolsFromLibrary && toolsFromLibrary.length > 0 && (
                <Fragment>
                   <p className={styles["welcome-text"]}>
@@ -454,6 +462,20 @@ const AudioPluginSelector = ({ limitedToolsListArr, setUnMatchedItems }) => {
                            Your library already contains all of the items from
                            the Master Library.
                         </p>
+                        {noPluginsInstructionsText && (
+                           <Fragment>
+                              <p>
+                                 {instTextArrows === "down" && (
+                                    <span>&darr;</span>
+                                 )}
+
+                                 {noPluginsInstructionsText}
+                                 {instTextArrows === "down" && (
+                                    <span>&darr;</span>
+                                 )}
+                              </p>
+                           </Fragment>
+                        )}
                      </div>
                   ))}
                {toolsFromLibrary &&

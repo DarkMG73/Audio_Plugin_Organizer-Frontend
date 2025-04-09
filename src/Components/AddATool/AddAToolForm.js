@@ -10,6 +10,8 @@ import useRunGatherToolData from "../../Hooks/useRunGatherToolData";
 import CardPrimary from "../../UI/Cards/CardPrimary/CardPrimary";
 import LocalErrorDisplay from "../ErrorHandling/LocalErrorDisplay/LocalErrorDisplay";
 import { loadingRequestsActions } from "../../store/loadingRequestsSlice";
+import BarLoader from "../../UI/Loaders/BarLoader/BarLoader";
+import Login from "../User/Login/Login";
 
 function AddAToolForm(props) {
    const user = useSelector((state) => state.auth.user);
@@ -41,8 +43,12 @@ function AddAToolForm(props) {
    const headerPosition = useSelector(
       (state) => state.elementDimensions.header
    );
-
+   const [showLoginModal, setShowLoginModal] = useState(false);
    const [localError, setLocalError] = useState({
+      active: false,
+      message: null
+   });
+   const [loaderActive, setLoaderActive] = useState({
       active: false,
       message: null
    });
@@ -97,6 +103,12 @@ function AddAToolForm(props) {
       props.setFormParentOpen(false);
    };
 
+   const sucessCallback = () => {
+      window.DayPilot.alert(
+         "You are now logged back in and can save your work."
+      );
+      setShowLoginModal(false);
+   };
    ////////////////////////////////////////
    /// HANDLERS
    ////////////////////////////////////////
@@ -136,9 +148,19 @@ function AddAToolForm(props) {
       }
    }
 
+   const loginSlidePanelToggleButtonHandler = () => {
+      setShowLoginModal(false);
+   };
+
    ////////////////////////////////////////
    /// EFFECTS
    ////////////////////////////////////////
+   useEffect(() => {
+      setLoaderActive(true);
+      setTimeout(() => {
+         setLoaderActive(false);
+      }, 4000);
+   }, []);
 
    useEffect(() => {
       setFormJSX([
@@ -162,13 +184,18 @@ function AddAToolForm(props) {
          const loadedSuccessCallback = () => {
             successCallback(unsavedItems);
          };
+         const loginExpiredCallback = () => {
+            setShowLoginModal(true);
+         };
          if (groomedToolsData && Object.keys(groomedToolsData).length > 0)
             saveAudioFormData(
                groomedToolsData,
                user,
                props.saveOrUpdateData,
                loadedSuccessCallback,
-               noUserCallback
+               noUserCallback,
+               false,
+               loginExpiredCallback
             );
       }
    }, [submitData]);
@@ -199,7 +226,30 @@ function AddAToolForm(props) {
          id="add-quest-form"
          className={styles["inner-wrap form"] + " " + "inner-wrap form"}
       >
-         {" "}
+         {showLoginModal && (
+            <div className={`${styles["login-slide-panel"]} `}>
+               <Login
+                  // toggleSignupLoginButtonHandler={toggleSignupLoginButtonHandler}
+
+                  // signUpButtonStyles={props.signUpButtonStyles}
+                  callback={sucessCallback}
+               />
+               <div className={`${styles["login-slide-panel-close-wrap"]} `}>
+                  <PushButton
+                     inputOrButton="button"
+                     id="create-entry-btn"
+                     colorType="secondary"
+                     value="close"
+                     data=""
+                     size="small"
+                     onClick={loginSlidePanelToggleButtonHandler}
+                     styles={{ margin: "0 auto" }}
+                  >
+                     <span>Cancel</span>
+                  </PushButton>
+               </div>
+            </div>
+         )}
          <div
             style={{ top: headerPosition.bottom - 18 + "px" }}
             data-data="add-tool-submit-2-wrap"
@@ -220,7 +270,8 @@ function AddAToolForm(props) {
                   background: "var(--iq-color-accent-2) !important",
                   boxShadow:
                      "inset -7px -7px 10px -7px #000000,    inset 7px 7px 10px -7px var(--iq-color-accent-2-light), 7px 7px 7px -7px #0000008a",
-                  border: "none"
+                  border: "none",
+                  zIndex: "1000000"
                }}
             >
                Save
@@ -255,6 +306,14 @@ function AddAToolForm(props) {
             />
             {localError.active && (
                <LocalErrorDisplay message={localError.message} />
+            )}
+            {loaderActive && (
+               <div
+                  key="loader"
+                  className={styles["loader-wrap"] + " loader-wrap"}
+               >
+                  <BarLoader />
+               </div>
             )}
             {formJSX.map((formElms, i) => (
                <Fragment key={"addatoolformcomponent-5"}>

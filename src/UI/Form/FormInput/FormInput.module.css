@@ -101,6 +101,7 @@ body[class*="largeForms"] .input-container > label {
    width: fit-content;
    overflow: hidden;
    font-size: 1.4rem;
+   align-items: center;
 }
 
 .input-container button {
@@ -225,7 +226,7 @@ textarea {
    line-height: 1.25em;
    font-weight: 700;
    border: none;
-   padding: 0.75em 0.5em 0.75em 0.5em;
+   padding: 0 0.5em 0 0.5em;
    margin: auto;
    min-width: min-content;
    z-index: 2;
@@ -947,9 +948,12 @@ body .input-container.input-color [data-group^="SPACER"] input:after {
    color: var(--color-group-one-4);
 }
 
-[data-group*="user-added-functions-container"] > * {
+div[id="root"]
+   .input-container
+   [data-group*="user-added-functions-container"]
+   div[data-group="user-added-Functions"] {
    flex-grow: 1;
-   min-height: 3em;
+   min-height: 5em !important;
 }
 
 [data-group*="SPACER-user-added-functions"] {
@@ -1284,7 +1288,7 @@ body[class*="can-hover"] .image-selector .cancel-button:hover {
    }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
    .input-container.masterLibraryID:before {
       content: "*** Must match the title of the plugin file (VST or AU) ***";
    }
@@ -1299,7 +1303,8 @@ body[class*="can-hover"] .image-selector .cancel-button:hover {
       height: max-content;
    }
 
-   body .input-container.input-container.input-functions > * {
+   body .input-container.input-container.input-functions > *,
+   body .input-container.input-container.input-color > * {
       flex-basis: 100% !important;
       max-height: 100% !important;
       position: relative !important;
@@ -1316,11 +1321,11 @@ body[class*="can-hover"] .image-selector .cancel-button:hover {
       font-size: 1em;
    }
 
-   .input-container.masterLibraryID:before {
-      bottom: 0;
-      max-width: 90%;
-      min-width: 0;
-      left: 50%;
-      transform: translate(-50%, -50%);
-   }
+   /* .input-container.masterLibraryID:before {
+    bottom: 0;
+    max-width: 90%;
+    min-width: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  } */
 }

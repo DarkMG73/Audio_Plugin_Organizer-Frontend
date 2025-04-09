@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { Provider, useSelector, useDispatch } from "react-redux";
+import { Modal } from "@daypilot/modal";
 // import ReactDOM from 'react-dom/client';
 import store from "./store/store";
 import { ErrorBoundary } from "./Components/ErrorHandling/ErrorBoundary/ErrorBoundary";
@@ -16,12 +17,12 @@ import LocalErrorDisplay from "./Components/ErrorHandling/LocalErrorDisplay/Loca
 import BarLoader from "./UI/Loaders/BarLoader/BarLoader";
 import { loadingRequestsActions } from "./store/loadingRequestsSlice";
 import { getAppVersions } from "./storage/versionDB";
-import { Modal } from "@daypilot/modal";
-
-const App = () => {
+import Login from "./Components/User/Login/Login";
+import PushButton from "./UI/Buttons/PushButton/PushButton";
+const PluginOrganizerApp = () => {
    window.DayPilot = Modal;
-   const dispatch = useDispatch();
    const isDesktopApp = isElectron();
+   const dispatch = useDispatch();
    const [user, setUser] = useState(false);
    const [appVersions, setAppVersions] = useState(false);
    // const [rateLimitData, setRateLimitData] = useState(false);
@@ -33,10 +34,11 @@ const App = () => {
       active: false,
       message: null
    });
+
    const pendingLoadRequests = useSelector(
       (state) => state.loadingRequests.pendingLoadRequests
    );
-
+   const [showLoginModal, setShowLoginModal] = useState(false);
    const makeLoadingRequest = function () {
       return dispatch(loadingRequestsActions.addToLoadRequest());
    };
@@ -83,16 +85,43 @@ const App = () => {
                   "color:#fff;background:rgb(114, 83, 52);padding:3px;border-radius:2px",
                   err
                );
-               setLocalError({
-                  active: true,
-                  message:
-                     "Oh no! Something went wrong. Please try again or contact general@glassinteractive.com with the following information if the problem continues -->  " +
-                     err.status +
-                     " |" +
-                     err.statusText +
-                     " | " +
-                     err.request.responseURL
-               });
+
+               if (err.status >= 401 || err.status >= 403) {
+                  console.log(
+                     "%c --> %cline:66%cerr",
+                     "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
+                     "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
+                     "color:#fff;background:rgb(3, 38, 58);padding:3px;border-radius:2px",
+                     err
+                  );
+
+                  const responseURL =
+                     Object.hasOwn(err, "request") &&
+                     Object.hasOwn(err.request, "responseURL")
+                        ? err.request.responseURL
+                        : "";
+                  setLocalError({
+                     active: true,
+                     message:
+                        "Oh no! There appears to be an authorization issue. make sure you are using teh correct credentials and try again. If the problem continues. If the problem continues, please contact general@glassinteractive.com with the following information  -->  " +
+                        err.status +
+                        " |" +
+                        err.statusText +
+                        " | " +
+                        responseURL
+                  });
+               } else {
+                  setLocalError({
+                     active: true,
+                     message:
+                        "Oh no! Something went wrong. Please try again or contact general@glassinteractive.com with the following information if the problem continues -->  " +
+                        err.status +
+                        " |" +
+                        err.statusText +
+                        " | " +
+                        err.request.responseURL
+                  });
+               }
             } else {
                console.log(
                   "%c --> %cline:66%cerr",
@@ -192,7 +221,7 @@ const App = () => {
             webVersionMsg: "0.",
             updatedAt: "2025-01-22T23:59:39.751Z",
             desktopVersionDownloadLink:
-               "https://www.glassinteractive.com/download-the-audio-plugin-organizer/TEST",
+               "https://www.glassinteractive.com/download-the-audio-plugin-organizer",
             localData: {
                versionNumber: "0",
                versionName: "",
@@ -210,7 +239,7 @@ const App = () => {
             } else {
                getUserUserByToken(res.data.cookie)
                   .then((userProfile) => {
-                     if (userProfile.status >= 400) {
+                     if (userProfile?.status >= 400) {
                         runGatherToolData();
                      } else {
                         setUser({ ...userProfile, token: res.data.cookie });
@@ -293,7 +322,7 @@ const App = () => {
    //          message:
    //             "It looks like the browser has exceeded the traffic limit to the server.\n\nThis is not anything you did, just some security software that is concerned. Wait a bit and you should be back in action.\n\nSorry for the trouble 😢"
    //       });
-   //    // alert(
+   //    // window.DayPilot.alert(
    //    //   "It looks like the browser has exceeded the traffic limit to the server. This is not anything you did, just some security software that is concerned. Wait a bit and you should be back in action.\n\nSorry for the trouble :("
    //    // );
    // }, [rateLimitData]);
@@ -316,6 +345,10 @@ const App = () => {
       setLocalError({ active: !localError, message: localError.message });
    };
 
+   const loginSlidePanelToggleButtonHandler = () => {
+      setShowLoginModal(false);
+   };
+
    ////////////////////////////////////////
    /// OUTPUT
    ////////////////////////////////////////
@@ -330,11 +363,15 @@ const App = () => {
    //     </Provider>
    //   </div>
    // );
+
    return (
       <Provider store={store}>
          <div
             className={
                styles["app-container"] +
+               " " +
+               "app-container" +
+               " " +
                (isDesktopApp ? " desktop-version" : " web-version")
             }
          >
@@ -342,6 +379,8 @@ const App = () => {
                key="error-wrapper"
                className={
                   styles["error-wrapper"] +
+                  " " +
+                  "error-wrapper" +
                   " " +
                   (localError.active && styles["error-active"])
                }
@@ -379,9 +418,33 @@ const App = () => {
                   />
                </Fragment>
             )}
+            {showLoginModal && (
+               <div className={`${styles["login-slide-panel"]} `}>
+                  <Login
+                  // toggleSignupLoginButtonHandler={toggleSignupLoginButtonHandler}
+
+                  // signUpButtonStyles={props.signUpButtonStyles}
+                  // callback={callback}
+                  />
+                  <div className={`${styles["login-slide-panel-close-wrap"]} `}>
+                     <PushButton
+                        inputOrButton="button"
+                        id="create-entry-btn"
+                        colorType="secondary"
+                        value="close"
+                        data=""
+                        size="small"
+                        onClick={loginSlidePanelToggleButtonHandler}
+                        styles={{ margin: "0 auto" }}
+                     >
+                        <span>Cancel</span>
+                     </PushButton>
+                  </div>
+               </div>
+            )}
             <div
                key="content-container"
-               className={styles["content-container"]}
+               className={styles["content-container"] + " content-container"}
             >
                {/* !toolsData.allTools && <BarLoader />*/}
                <ErrorBoundary key="home-error-boundary">
@@ -390,13 +453,12 @@ const App = () => {
                         <BarLoader />
                      </div>
                   )}
-                  {appVersions && (
-                     <Home
-                        key="home"
-                        isDesktopApp={isDesktopApp}
-                        appVersions={appVersions}
-                     />
-                  )}
+
+                  <Home
+                     key="home"
+                     isDesktopApp={isDesktopApp}
+                     appVersions={appVersions}
+                  />
                </ErrorBoundary>
             </div>
          </div>
@@ -404,4 +466,4 @@ const App = () => {
    );
 };
 
-export default App;
+export default PluginOrganizerApp;

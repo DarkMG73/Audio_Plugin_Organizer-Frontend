@@ -128,6 +128,15 @@ function ToolRow(props) {
       if (tool && Object.hasOwn(tool, "favorite")) setIsFavorite(tool.favorite);
    }, [tool]);
 
+   useEffect(() => {
+      if (inEditMode) {
+         // document.body.style.overflow = 'hidden !important';
+         document.body.style.overflow = "hidden";
+      } else {
+         document.body.style.overflow = "";
+      }
+   }, [inEditMode]);
+
    ////////////////////////////////////////
    /// FUNCTIONALITY
    ////////////////////////////////////////
