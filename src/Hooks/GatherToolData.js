@@ -72,7 +72,7 @@ export default async function GatherToolData(user) {
          {
             "Audio & Video Plugin Status": "No plugins found.",
             "What you can do":
-               'To get rolling with your plugin library:<br/><br/>Desktop version: click "Scan Computer for Plugins" and let the system find them for you.<br/>Web version: Use the Plugin Selector to choose items from the Master Library and/or add them manually using the "+" at the bottom of the page and then choose "Manual Entry Form".',
+               'Here is how to get rolling with your plugin library: The Desktop version has a "Scan Computer for Plugins" button that is the best way to get started. On the web version, you can start with the "Plugins & Tools Library" section below.  You can also use the "Master Library Selector" and/or the "Manual Entry Form at the bottom of the page. Click the "+" to get you to quickly get you to those options.',
 
             _id: "error"
          }
