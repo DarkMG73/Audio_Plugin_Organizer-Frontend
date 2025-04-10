@@ -144,8 +144,8 @@ body[class*="can-hover"]
 .loader-wrap {
    position: absolute;
    z-index: 11;
-   height: 100%;
-   width: 100%;
+   height: 98%;
+   width: 98%;
    background: var(--iq-color-background-warm-gradient);
    opacity: 0.9;
    display: flex;
@@ -153,6 +153,7 @@ body[class*="can-hover"]
    max-height: 95vh;
    min-width: 50vw;
    max-width: 100vw;
+   border-radius: 50px;
    top: 0;
    left: 0;
 }

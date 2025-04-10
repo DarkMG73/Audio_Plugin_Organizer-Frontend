@@ -1,6 +1,6 @@
 {
    "name": "audio-plugin-organizer",
-   "version": "0.9.59",
+   "version": "0.9.7",
    "private": true,
    "homepage": "./",
    "dependencies": {

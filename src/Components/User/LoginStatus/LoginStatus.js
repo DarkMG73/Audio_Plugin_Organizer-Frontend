@@ -96,8 +96,19 @@ function LoginStatus(props) {
                         styles["not-logged-in-text"]
                      }
                   >
-                     {" "}
-                     No one is currently logged in.
+                     <br />
+                     ***
+                     <br />
+                     This is a DEMO version
+                     <br />
+                     ***
+                     <br />
+                     <br />
+                     Enjoy the demo! <br />
+                     When you are ready, either log in or sign up to use your
+                     own custom plugin library.
+                     <br />
+                     <br />
                   </span>
                )}
             </span>
