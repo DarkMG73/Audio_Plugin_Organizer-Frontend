@@ -196,6 +196,7 @@ function ToolRow(props) {
                         .then((res) => {
                            if (res.status < 299) {
                               setDeleted(true);
+                              setInEditMode(false);
                            } else {
                               window.DayPilot.alert(
                                  "There was an error when trying to delete this production tool. Here is the message from the server: " +

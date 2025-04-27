@@ -948,22 +948,28 @@ body[class*="can-hover"] body[class*="can-hover"] .tool-id:hover {
 }
 
 body[class*="can-hover"] .notes-wrap:hover {
-   transform: scale(1.1) translateX(0%);
+   /* transform: scale(1.1) translateX(0%); */
+   /* margin: 1em; */
+   /* width: 100%; */
+   /* padding-bottom: 2em; */
+   transition-delay: 1s;
+   z-index: 20;
+}
+
+body[class*="can-hover"] .notes-wrap:hover {
    background: white;
    color: black;
-   margin: 1em;
-   width: 100%;
-   padding-bottom: 2em;
-   transition-delay: 1s;
+
+   transition-delay: 0.5s;
 }
 
 body[class*="can-hover"] .notes-wrap:hover * {
-   font-family: Arial !important;
-   font-weight: 500 !important;
-   transition: 0.1s all ease;
-   transition-delay: 1s;
-   font-size: 1.25em;
-   padding: 0.5em 1em;
+   /* font-family: Arial !important; */
+   /* font-size: 1.25em; */
+   /* font-weight: 500 !important; */
+   /* transition: 0.1s all ease;
+  transition-delay: 1s; */
+   /* padding: 0.5em 1em; */
 }
 
 body[class*="can-hover"] .button-container button:hover {

@@ -138,8 +138,9 @@ const topicOptions = {
       "Dynamics ~ Multi-band Comp",
       "Dynamics ~ Limiter",
       "Dynamics ~ Clipper",
+      "Dynamics ~ Expander",
       "Dynamics ~ Transient Designer",
-      "Dynamics ~ Gate or Expander",
+      "Dynamics ~ Gate",
       "Dynamics ~ De-Esser",
       "Dynamics ~ Gain or Volume Control",
 

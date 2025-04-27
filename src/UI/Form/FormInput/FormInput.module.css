@@ -684,6 +684,7 @@ body .input-container.input-color [data-group^="SPACER"] input:after {
 .input-container.input-color input {
    grid-row: 19;
    grid-column: 1 / span 5;
+   margin: 1em;
 }
 
 .input-container.input-functions input[type="checkbox"]:checked + label,
