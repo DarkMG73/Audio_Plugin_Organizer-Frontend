@@ -431,8 +431,21 @@ const FormInput = (props) => {
       let inputHasSelected = false;
 
       let options = [];
-      if (groomedOptions)
-         options = groomedOptions
+      if (groomedOptions) {
+         let combinedOptions = [...groomedOptions];
+         if (Object.hasOwn(topicOptions, input.title.toLowerCase())) {
+            // Add and remove duplicates in the process
+            combinedOptions = new Set();
+            groomedOptions.forEach((name) =>
+               combinedOptions.add(name.replaceAll(" ", ""))
+            );
+            topicOptions[input.title.toLowerCase()].forEach((name) =>
+               combinedOptions.add(name.replaceAll(" ", ""))
+            );
+            combinedOptions = Array.from(combinedOptions);
+         }
+
+         options = combinedOptions
             .sort(function (a, b) {
                if (a && b)
                   return a.toLowerCase().localeCompare(b.toLowerCase());
@@ -472,7 +485,7 @@ const FormInput = (props) => {
                   );
                }
             });
-
+      }
       if (!inputHasSelected)
          options.push(
             <option
