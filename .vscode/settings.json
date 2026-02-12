@@ -15,8 +15,9 @@
         "editorBracketHighlight.unexpectedBracket.foreground": "#db6165",
         "editor.lineHighlightBackground": "#9fced10c",
         "editor.lineHighlightBorder": "#a910cf12",
-        "activityBar.background": "#223030",
-        "titleBar.activeBackground": "#2F4443",
-        "titleBar.activeForeground": "#FAFBFB"
+        "gitDecoration.ignoredResourceForeground": "#535353",
+        "activityBar.background": "#9CBAB9",
+        "titleBar.activeBackground": "#B0C8C7",
+        "titleBar.activeForeground": "#131B1B"
     }
 }
