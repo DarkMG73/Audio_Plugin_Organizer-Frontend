@@ -30,40 +30,39 @@ console.log(
 );
 
 axios.defaults.baseURL = "https://api-organizer.glassinteractive.com/";
-
-console.log(
-   "%c --> %cline:16%caxios.defaults.baseURL",
-   "color:#fff;background:#ee6f57;padding:3px;border-radius:2px",
-   "color:#fff;background:#1f3c88;padding:3px;border-radius:2px",
-   "color:#fff;background:rgb(229, 187, 129);padding:3px;border-radius:2px",
-   axios.defaults.baseURL
-);
+axios.defaults.withCredentials = true;
 
 if (inDevelopment) {
-   axios.defaults.baseURL = "https://api-organizer.glassinteractive.com/";
-   // axios.defaults.baseURL = "http://localhost:8000";
-   // For iOS testing
-   // axios.defaults.baseURL = "http://192.168.1.119:8000/";
-
-   console.log(
-      "%cRunning in DEV MODE with the base URL:",
-      "color:#fff;background:#027482;padding:14px;border-radius:0 25px 25px 0",
-      axios.defaults.baseURL
-   );
+   axios.defaults.baseURL = "http://localhost:8000";
 }
 
-axios.defaults.headers.common["Authorization"] = "AUTH TOKEN";
 axios.defaults.headers.post["Content-Type"] = "application/json";
+
+function readSessionToken() {
+   try {
+      const raw = sessionStorage.getItem("giProductionTool");
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (parsed && parsed.token) return parsed.token;
+      if (typeof parsed === "string") return parsed;
+   } catch (err) {
+      return null;
+   }
+   return null;
+}
 
 axios.interceptors.request.use(
    (request) => {
-      // alert("In REQ");
-      if (inDevelopment) console.log("request", request);
-      // Edit request config
+      const token = readSessionToken();
+      if (token) {
+         request.headers.Authorization = "Bearer " + token;
+      } else if (request.headers && request.headers.Authorization === "AUTH TOKEN") {
+         delete request.headers.Authorization;
+      }
+      if (inDevelopment) console.log("request", request.method, request.url);
       return request;
    },
    (error) => {
-      // alert("In REQ Error");
       if (inDevelopment) console.log(error);
       return Promise.reject(error);
    }

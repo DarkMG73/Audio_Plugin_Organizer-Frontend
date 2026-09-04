@@ -27,20 +27,15 @@ const handleError = (error, functionName) => {
 
 /// GET THE PLUGINS/////////////////////////////
 export const getData = async (user) => {
-   let axiosConfig = null;
-
-   if (user) {
-      axiosConfig = {
-         headers: {
-            "Content-Type": "text/plain",
-            Authorization: "JWT " + user.token
-         },
-         timeout: 60000
-      };
+   const axiosConfig = { timeout: 60000 };
+   if (!user) {
+      const res = await axios.get("/api/plugins", {
+         ...axiosConfig,
+         params: { library: "master" }
+      });
+      return res.data;
    }
-
-   const res = await axios.post("/api/all-plugins/", user, axiosConfig);
-
+   const res = await axios.get("/api/plugins", axiosConfig);
    return res.data;
 };
 
@@ -58,11 +53,7 @@ export const getPluginBy_Id = async (user, tool_Id) => {
       };
    }
 
-   const res = await axios.post(
-      "/api/all-plugins/" + tool_Id,
-      user,
-      axiosConfig
-   );
+   const res = await axios.get("/api/plugins/" + tool_Id, axiosConfig);
    return res.data;
 };
 
@@ -102,7 +93,7 @@ export async function savePlugin(userAndDataObject) {
    };
 
    const response = await axios
-      .post(`/api/all-plugins/add/`, userAndDataObject, axiosConfig)
+      .post(`/api/plugins/`, userAndDataObject, axiosConfig)
       .then((res) => {
          return res;
       })
@@ -124,7 +115,7 @@ export async function saveManyPlugins(userAndDataObject) {
    };
 
    const response = await axios
-      .post(`/api/all-plugins/add-many/`, userAndDataObject, axiosConfig)
+      .post(`/api/plugins/bulk`, userAndDataObject, axiosConfig)
       .then((res) => {
          return res;
       })
@@ -146,7 +137,7 @@ export async function updateAPlugin(id, dataObj, user) {
    };
 
    const response = await axios
-      .post(`/api/all-plugins/update/`, { dataObj }, axiosConfig)
+      .patch(`/api/plugins/${id}`, { dataObj }, axiosConfig)
       .then((res) => {
          return res;
       })
@@ -167,7 +158,7 @@ export async function UpdateManyAudioPlugins(dataObj, user) {
    };
 
    const response = await axios
-      .post(`/api/all-plugins/update-many/`, { dataObj }, axiosConfig)
+      .patch(`/api/plugins/`, { dataObj }, axiosConfig)
       .then((res) => {
          return res;
       })
@@ -188,7 +179,7 @@ export async function deleteAPlugin(id, user) {
       }
    };
    const response = await axios
-      .get(`/api/all-plugins/${id}/delete/`, axiosConfig)
+      .delete(`/api/plugins/${id}`, axiosConfig)
       .then((res) => {
          return res;
       })
@@ -209,7 +200,7 @@ export async function deleteAllPlugins(user) {
       }
    };
    const response = await axios
-      .get(`/api/all-plugins/deleteAll/`, axiosConfig)
+      .delete(`/api/plugins/`, axiosConfig)
       .then((res) => {
          return res;
       })
@@ -237,7 +228,7 @@ export async function getSchemaForAudioPlugin() {
    };
 
    const output = await axios
-      .get(`/api/all-plugins/model/`, axiosConfig)
+      .get(`/api/plugins/model/`, axiosConfig)
       .then((res) => {
          return res.data.model;
       })
