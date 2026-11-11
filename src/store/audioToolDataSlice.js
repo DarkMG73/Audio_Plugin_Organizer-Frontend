@@ -13,6 +13,7 @@ function InitState() {
    initialState.officialImages = null;
    initialState.defaultImages = null;
    initialState.appUserNameMemory = null;
+   initialState.searchQuery = "";
 
    return initialState;
 }
@@ -77,6 +78,30 @@ export const audioToolDataSlice = createSlice({
       /// CLEAR TOOL FILTER IDS ////////////////////
       clearToolFilterIds: (state, action) => {
          state.filteredToolsIds = [];
+      },
+
+      /// SEARCH QUERY /////////////////////////////
+      setSearchQuery: (state, action) => {
+         state.searchQuery = action.payload || "";
+      },
+
+      /// REPLACE ONE FILTER CATEGORY //////////////
+      setFilterValues: (state, action) => {
+         if (!state.currentFilters) state.currentFilters = {};
+         state.currentFilters[action.payload.type] = [
+            ...(action.payload.values || [])
+         ];
+      },
+
+      /// CLEAR SEARCH + CATEGORY FILTERS //////////
+      clearAllFilters: (state) => {
+         state.searchQuery = "";
+         state.filteredToolsIds = [];
+         if (state.currentFilters) {
+            Object.keys(state.currentFilters).forEach((key) => {
+               state.currentFilters[key] = [];
+            });
+         }
       },
 
       /// GO TO: ADD TOOL /////////////////////////////

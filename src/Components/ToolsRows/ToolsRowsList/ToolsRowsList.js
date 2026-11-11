@@ -6,15 +6,22 @@ import { audioToolDataActions } from "../../../store/audioToolDataSlice";
 import LoginStatus from "../../User/LoginStatus/LoginStatus";
 import BarLoader from "../../../UI/Loaders/BarLoader/BarLoader";
 import PluginFinder from "../../PluginFinder/PluginFinder";
+import PluginSearch from "../../PluginSearch/PluginSearch";
+import { hasActiveFilters } from "../../../Hooks/SetFilteredToolList";
 
 function ToolsRowsList(props) {
    const [toolsAreReady, setToolsAreReady] = useState(false);
-   const { allTools, filteredToolsIds, currentFilters, goToToolRows } =
-      useSelector((state) => state.toolsData);
+   const {
+      allTools,
+      filteredToolsIds,
+      currentFilters,
+      goToToolRows,
+      searchQuery
+   } = useSelector((state) => state.toolsData);
 
    const user = useSelector((state) => state.auth.user);
    const toolListRef = useRef();
-   const dispatch = useDispatch;
+   const dispatch = useDispatch();
 
    ////////////////////////////////////////
    /// EFFECTS
@@ -64,23 +71,19 @@ function ToolsRowsList(props) {
       </p>
    );
 
-   let filtersAreSet = false;
-   if (toolsAreReady && filteredToolsIds.length <= 0) {
-      Object.keys(currentFilters).forEach((filterName) => {
-         if (currentFilters[filterName].length > 0) {
-            toolsToDisplay = {};
-            filtersAreSet = true;
-         }
-      });
-      if (filtersAreSet) {
-         noQuestionsMessage = (
-            <p>
-               We can not find any plugins or tools using all of the filters you
-               have selected. Try removing some of the filters and we will see
-               if that helps.
-            </p>
-         );
-      }
+   if (
+      toolsAreReady &&
+      filteredToolsIds.length <= 0 &&
+      hasActiveFilters(currentFilters, searchQuery)
+   ) {
+      toolsToDisplay = {};
+      noQuestionsMessage = (
+         <p>
+            No plugins match that search and filter combination. Clear a chip,
+            drop a category, or try a shorter search like &quot;eq&quot; or
+            &quot;valhalla&quot;.
+         </p>
+      );
    }
 
    ////////////////////////////////////////
@@ -125,6 +128,7 @@ function ToolsRowsList(props) {
                />
             )}
          </div>
+         {toolsAreReady && <PluginSearch />}
          {user && <PluginFinder isDesktopApp={props.isDesktopApp} />}
          <div
             key={"tool-list-wrap-key"}

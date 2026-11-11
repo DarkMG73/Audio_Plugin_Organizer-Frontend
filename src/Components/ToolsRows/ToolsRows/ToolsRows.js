@@ -18,12 +18,16 @@ function ToolsRows(props) {
    const headerPosition = useSelector(
       (state) => state.elementDimensions.header
    );
-   const { currentFilters } = useSelector((state) => state.toolsData);
-   let filtersAreSelected = false;
-
-   Object.values(currentFilters).forEach((value) => {
-      if (value.length > 0) filtersAreSelected = true;
-   });
+   const { currentFilters, searchQuery } = useSelector(
+      (state) => state.toolsData
+   );
+   let filtersAreSelected = Boolean(
+      (searchQuery && String(searchQuery).trim() !== "") ||
+         (currentFilters &&
+            Object.values(currentFilters).some(
+               (value) => Array.isArray(value) && value.length > 0
+            ))
+   );
    //  if (!headerPosition.hasOwnProperty("bottom")) headerPosition.bottom = 0;
 
    ////////////////////////////////////////
@@ -45,9 +49,20 @@ function ToolsRows(props) {
    for (const key in toolsToDisplay) {
       sortedAllTools.push([key, toolsToDisplay[key].name]);
    }
-   // Sort by name
    sortedAllTools.sort(function (a, b) {
-      return a[1].toLowerCase().localeCompare(b[1].toLowerCase());
+      const toolA = toolsToDisplay[a[0]] || {};
+      const toolB = toolsToDisplay[b[0]] || {};
+      const favA =
+         toolA.favorite === true || toolA.favorite === "true" ? 1 : 0;
+      const favB =
+         toolB.favorite === true || toolB.favorite === "true" ? 1 : 0;
+      if (favA !== favB) return favB - favA;
+      const ratingA = Number(toolA.rating) || 0;
+      const ratingB = Number(toolB.rating) || 0;
+      if (ratingA !== ratingB) return ratingB - ratingA;
+      return String(a[1] || "")
+         .toLowerCase()
+         .localeCompare(String(b[1] || "").toLowerCase());
    });
 
    ////////////////////////////////////////

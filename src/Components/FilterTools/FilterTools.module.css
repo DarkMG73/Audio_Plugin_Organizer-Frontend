@@ -2,6 +2,28 @@
    position: relative;
 }
 
+.filter-hint {
+   font-size: 0.72rem;
+   letter-spacing: 0.04em;
+   opacity: 0.7;
+   margin: 0.4em 0.75em 0.6em;
+   text-align: left;
+   max-width: 176px;
+}
+
+.clear-filters {
+   display: block;
+   margin: 0 auto 0.75em;
+   border-radius: 50px;
+   border: 1px solid var(--iq-color-accent-dark);
+   background: transparent;
+   color: inherit;
+   padding: 0.35em 0.9em;
+   font-variant: small-caps;
+   letter-spacing: 0.08em;
+   cursor: pointer;
+}
+
 .main-title {
    font: var(--iq--font-heading-2);
    letter-spacing: var(--iq-spacing-heading);

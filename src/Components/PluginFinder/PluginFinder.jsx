@@ -15,13 +15,14 @@ import CollapsibleElm from "../../UI/CollapsibleElm/CollapsibleElm";
 import { authActions } from "../../store/authSlice";
 import { loadingRequestsActions } from "../../store/loadingRequestsSlice";
 import AudioPluginSelector from "../AudioPluginSelector/AudioPluginSelector.js";
+import { findLibraryMatch, pluginNamesMatch } from "../../Hooks/pluginIdentity";
 const PluginFinder = (props) => {
    // If running browser version, send to download page
    const { isDesktopApp } = props;
    const dispatch = useDispatch();
    const { user } = useSelector((state) => state.auth);
    const { allTools } = useSelector((state) => state.toolsData);
-   const acceptedPluginWrappers = ["vst", "vst3", "component"];
+   const acceptedPluginWrappers = ["vst", "vst3", "component", "aaxplugin", "clap"];
    const [fileNames, setFileNames] = useState([]);
    const [unmatchedFiles, setUnmatchedFiles] = useState([]);
    const [missingFileNames, setMissingFileNames] = useState([]);
@@ -44,7 +45,7 @@ const PluginFinder = (props) => {
    const [missingIgnorePluginList, setMissingIgnorePluginList] = useState(
       user.missingIgnoredPlugins ? [...user.missingIgnoredPlugins] : []
    );
-   const [missingPluginsInModal, setMissingPluginsInModal] = useState(true);
+   const [missingPluginsInModal, setMissingPluginsInModal] = useState(false);
    const [showSaveIgnoreListButton, setShowSaveIgnoreListButton] =
       useState(false);
    const [showSaveMissingIgnoreListButton, setShowSaveMissingIgnoreListButton] =
@@ -134,7 +135,7 @@ const PluginFinder = (props) => {
       }
       setTimeout(() => {
          dispatch(loadingRequestsActions.removeFromLoadRequest());
-      }, 7000);
+      }, 300);
    }, [formOpen]);
 
    useEffect(() => {
@@ -216,24 +217,14 @@ const PluginFinder = (props) => {
 
                const matchedNames = [...missingIgnorePluginList];
                const groomedList = [];
-               // Remove existing and ignored plugin names
                for (const name of acceptedPluginNames) {
-                  if (!matchedNames.includes(name)) {
-                     for (const value of Object.values(allTools)) {
-                        const referenceID = value.masterLibraryID || value.name;
-
-                        if (cleanStr(name) === cleanStr(referenceID)) {
-                           matchedNames.push(name);
-                           break;
-                        }
-                     }
+                  const alreadyInLibrary = findLibraryMatch(name, allTools);
+                  if (alreadyInLibrary) {
+                     matchedNames.push(name);
+                     continue;
                   }
 
-                  // Add to found plugin list if not in user library
-                  if (
-                     !matchedNames.includes(name) &&
-                     !ignorePluginList.includes(name)
-                  ) {
+                  if (!ignorePluginList.includes(name)) {
                      groomedList.push(name);
                   }
                }
@@ -244,7 +235,8 @@ const PluginFinder = (props) => {
                   if (cleanStr(value.company) === "waves") continue;
                   const nameFound = matchedNames.filter(
                      (name) =>
-                        cleanStr(name) === cleanStr(value.masterLibraryID)
+                        pluginNamesMatch(name, value.masterLibraryID) ||
+                        pluginNamesMatch(name, value.name)
                   );
                   if (nameFound.length <= 0) {
                      // Treat differently if bundle
@@ -461,7 +453,7 @@ const PluginFinder = (props) => {
                setFindNewPlugins(true);
                setActivateLoader((prevState) => prevState - 1);
                dispatch(loadingRequestsActions.removeFromLoadRequest());
-            }, 5000);
+            }, 300);
          })
          .catch((err) => {
             console.log("ERROR: " + err);
@@ -512,7 +504,7 @@ const PluginFinder = (props) => {
             setActivateLoader((prevState) => prevState - 1);
             setFindNewPlugins(true);
             dispatch(loadingRequestsActions.removeFromLoadRequest());
-         }, 7000);
+         }, 300);
       };
 
       if (submitData) {

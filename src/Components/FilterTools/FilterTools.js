@@ -12,7 +12,8 @@ function FilterTools() {
    const allToolsData = useSelector((state) => state.toolsData);
    const user = useSelector((state) => state.auth.user);
    const dispatch = useDispatch();
-   const { currentFilters, allTools, toolsMetadata } = allToolsData;
+   const { currentFilters, allTools, toolsMetadata, searchQuery } =
+      allToolsData;
    const [groomedTopicsObj, setGroomedTopicsObj] = useState(false);
    const doNotFilterList = [
       "name",
@@ -26,17 +27,18 @@ function FilterTools() {
    /// EFFECTS
    ////////////////////////////////////////
    useEffect(() => {
-      dispatch(audioToolDataActions.clearToolFilterIds);
+      dispatch(audioToolDataActions.clearToolFilterIds());
       const filteredToolIdList = SetFilteredToolIdList(
          allTools,
-         currentFilters
+         currentFilters,
+         searchQuery
       );
 
       dispatch(audioToolDataActions.setToolFilterIds(filteredToolIdList));
-   }, [currentFilters, allTools, dispatch]);
+   }, [currentFilters, allTools, searchQuery, dispatch]);
 
    useEffect(() => {
-      dispatch(audioToolDataActions.clearToolFilterIds);
+      dispatch(audioToolDataActions.clearToolFilterIds());
    }, [user, dispatch]);
 
    useEffect(() => {
@@ -84,64 +86,37 @@ function FilterTools() {
    ////////////////////////////////////////
    function filterButtonHandler(e) {
       const value = escapeHtml(e.target.value);
+      const filterType = e.target.dataset.data;
 
-      if (e.target.dataset.data === "rating" && value !== "") {
-         // Only one rating can be selected at a time
+      if (filterType === "rating") {
          dispatch(
-            audioToolDataActions.removeFromToolFilters({
-               type: e.target.dataset.data,
-               value: currentFilters.rating
+            audioToolDataActions.setFilterValues({
+               type: "rating",
+               values: value === "" ? [] : [parseInt(value, 10)]
             })
          );
-
+      } else if (filterType === "oversampling" || filterType === "favorite") {
          dispatch(
-            audioToolDataActions.addToToolFilters({
-               type: e.target.dataset.data,
-               value: parseInt(value)
+            audioToolDataActions.setFilterValues({
+               type: filterType,
+               values: e.target.checked ? [true] : []
             })
          );
-
-         SetFilteredToolIdList();
-      } else if (
-         e.target.dataset.data === "oversampling" ||
-         e.target.dataset.data === "favorite"
-      ) {
-         // Only one boolean selection can be selected at a time
-         dispatch(
-            audioToolDataActions.removeFromToolFilters({
-               type: e.target.dataset.data,
-               value: currentFilters[e.target.dataset.data]
-            })
-         );
-         if (e.target.checked) {
-            dispatch(
-               audioToolDataActions.addToToolFilters({
-                  type: e.target.dataset.data,
-                  value: true
-               })
-            );
-         }
-
-         SetFilteredToolIdList();
       } else if (e.target.checked) {
          dispatch(
             audioToolDataActions.addToToolFilters({
-               type: e.target.dataset.data,
+               type: filterType,
                value: value
             })
          );
-         SetFilteredToolIdList();
       } else {
          dispatch(
             audioToolDataActions.removeFromToolFilters({
-               type: e.target.dataset.data,
+               type: filterType,
                value: value
             })
          );
       }
-
-      dispatch(audioToolDataActions.goToToolRows());
-      // FilterTools(allToolsData);
    }
 
    ////////////////////////////////////////
@@ -155,6 +130,23 @@ function FilterTools() {
          >
             Filters
          </h2>
+         <p className={styles["filter-hint"]}>
+            Combine groups (EQ + analog). Within a group, any match counts.
+         </p>
+         {currentFilters &&
+            Object.values(currentFilters).some(
+               (values) => Array.isArray(values) && values.length > 0
+            ) && (
+               <button
+                  type="button"
+                  className={styles["clear-filters"]}
+                  onClick={() =>
+                     dispatch(audioToolDataActions.clearAllFilters())
+                  }
+               >
+                  Clear filters
+               </button>
+            )}
          {groomedTopicsObj && (
             <div
                key={"tool-filter-1"}
@@ -192,7 +184,9 @@ function FilterTools() {
                                              ]
                                           }
                                        >
-                                          {topic}
+                                          {topic === "rating"
+                                             ? "Rated ≥"
+                                             : topic}
                                        </h3>
                                        {currentFilters[topic] > 0 && (
                                           <span
@@ -239,7 +233,7 @@ function FilterTools() {
                                                          }
                                                          value={entry}
                                                       >
-                                                         {entry}
+                                                         {entry}+
                                                       </option>
                                                    </Fragment>
                                                 );
@@ -400,7 +394,7 @@ function FilterTools() {
                                                          topic
                                                       ].includes(entry)}
                                                       data={topic}
-                                                      user={user.email}
+                                                      user={user?.email}
                                                       slideButtonTitleStyles={{
                                                          textAlign: "right",
                                                          fontSize: "10px"
