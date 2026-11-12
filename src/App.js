@@ -10,7 +10,11 @@ import Home from "./Pages/Home/Home";
 import Header from "./Components/Header/Header";
 import Admin from "./Components/Admin/Admin";
 import GatherToolData from "./Hooks/GatherToolData";
-import { getUserCookie, getUserUserByToken } from "./storage/userDB";
+import {
+   getUserCookie,
+   getUserUserByToken,
+   deleteUserCookie
+} from "./storage/userDB";
 import { audioToolDataActions } from "./store/audioToolDataSlice";
 import { authActions } from "./store/authSlice";
 import LocalErrorDisplay from "./Components/ErrorHandling/LocalErrorDisplay/LocalErrorDisplay";
@@ -240,7 +244,7 @@ const PluginOrganizerApp = () => {
                getUserUserByToken(res.data.cookie)
                   .then((userProfile) => {
                      if (userProfile?.status >= 400) {
-                        runGatherToolData();
+                        deleteUserCookie().finally(() => runGatherToolData());
                      } else {
                         setUser({ ...userProfile, token: res.data.cookie });
                      }

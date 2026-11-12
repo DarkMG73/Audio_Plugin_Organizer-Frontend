@@ -433,14 +433,21 @@ const Admin = ({ appVersions, user, isDesktopApp }) => {
                                     />
                                  </div>
                               );
-                           } else {
+                           } else if (entry[1] && typeof entry[1] === "object") {
                               return (
-                                 <div className={styles["fixed-version-elms"]}>
-                                    <label>{entry[0]}</label>;
+                                 <div
+                                    key={entry[0]}
+                                    className={styles["fixed-version-elms"]}
+                                 >
+                                    <label>{entry[0]}</label>
                                     {Object.entries(entry[1]).map((item) => {
                                        return (
-                                          <li>
-                                             {item[0]}: {item[1]}
+                                          <li key={entry[0] + "-" + item[0]}>
+                                             {item[0]}:{" "}
+                                             {item[1] != null &&
+                                             typeof item[1] === "object"
+                                                ? JSON.stringify(item[1])
+                                                : String(item[1] ?? "")}
                                           </li>
                                        );
                                     })}
