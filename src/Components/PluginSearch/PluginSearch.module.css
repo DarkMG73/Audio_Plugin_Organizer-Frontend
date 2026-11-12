@@ -1,25 +1,23 @@
 .wrap {
    position: sticky;
-   top: 46px;
-   z-index: 45;
-   width: 100%;
-   padding: 0.85em 1em 0.65em;
-   margin: 0 0 0.5em;
-   border-radius: 28px;
+   top: 42px;
+   z-index: 60;
+   width: calc(100% + 1.8rem);
+   margin: 0 -0.9rem 0.65em;
+   padding: 0.45em 0.9rem 0.55em;
+   border-radius: 0;
    background: var(--iq-color-foreground);
    color: var(--iq-color-background);
-   box-shadow:
-      0 8px 18px -14px #000,
-      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+   box-shadow: 0 12px 20px -10px rgba(0, 0, 0, 0.55);
 }
 
 .searchLabel {
    display: block;
    font: var(--iq-font-subheading);
-   letter-spacing: 0.18em;
+   letter-spacing: 0.08em;
    text-transform: uppercase;
-   font-size: 0.7rem;
-   opacity: 0.7;
+   font-size: 0.68rem;
+   opacity: 0.62;
    margin: 0 0 0.4em;
    text-align: left;
 }
@@ -33,18 +31,19 @@
 .searchInput {
    flex: 1;
    min-width: 0;
-   height: 2.6em;
-   border-radius: 50px;
-   border: 1px solid var(--iq-color-accent-dark);
+   height: 2.35em;
+   border-radius: var(--apo-radius-control);
+   border: 1px solid color-mix(in srgb, var(--iq-color-accent) 45%, transparent);
    background: var(--iq-color-background);
    color: var(--iq-color-foreground);
-   padding: 0 1.1em;
+   padding: 0 0.9em;
    font-size: 1rem;
    outline: none;
 }
 
 .searchInput:focus {
-   box-shadow: 0 0 0 2px var(--iq-color-accent);
+   box-shadow: var(--apo-glow);
+   border-color: var(--iq-color-accent);
 }
 
 .clearSearch,
@@ -52,10 +51,10 @@
    border: 1px solid var(--iq-color-accent-dark);
    background: transparent;
    color: inherit;
-   border-radius: 50px;
-   padding: 0.35em 0.9em;
+   border-radius: var(--apo-radius-pill);
+   padding: 0.28em 0.75em;
    font-variant: small-caps;
-   letter-spacing: 0.08em;
+   letter-spacing: 0.04em;
    cursor: pointer;
 }
 
@@ -101,6 +100,6 @@
 @media only screen and (max-width: 600px) {
    .wrap {
       top: 0;
-      border-radius: 18px;
+      border-radius: var(--apo-radius-md);
    }
 }

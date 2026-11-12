@@ -110,7 +110,7 @@ function ToolsRowsList(props) {
          </div>
          <div className={styles["add-a-tool-wrap"]}>
             {!toolsAreReady && <BarLoader />}
-            {toolsAreReady && (
+            {toolsAreReady && !user && (
                <LoginStatus
                   horizontalDisplay={false}
                   showAddAToolButton={false}
@@ -118,11 +118,11 @@ function ToolsRowsList(props) {
                      background:
                         "linear-gradient(var(--iq-color-accent) 37%, rgba(0, 0, 0, 1) 100%)",
                      color: "var(--iq-color-foreground)",
-                     textShadow: "0 0 3px wheat",
+                     textShadow: "none",
                      fontSize: "1em",
-                     borderRadius: "50px",
+                     borderRadius: "var(--apo-radius-control)",
                      height: "2em",
-                     padding: "0.25em 2em 0.5em",
+                     padding: "0.25em 1.25em 0.5em",
                      lineHeight: "1em"
                   }}
                />

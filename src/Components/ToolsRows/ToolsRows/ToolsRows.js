@@ -1,7 +1,7 @@
 import { useState, useEffect, Fragment } from "react";
 import { useSelector } from "react-redux";
 import styles from "./ToolsRows.module.css";
-import ToolRow from "../ToolRow/ToolRow";
+import VirtualizedToolList from "../VirtualizedToolList/VirtualizedToolList";
 import AudioPluginSelector from "../../AudioPluginSelector/AudioPluginSelector";
 import Card from "../../../UI/Cards/Card/Card";
 import BarLoader from "../../../UI/Loaders/BarLoader/BarLoader";
@@ -174,6 +174,9 @@ function ToolsRows(props) {
                </div>
             )}
             <div
+               className={styles["list-chrome"]}
+            >
+            <div
                key="display-button-container"
                className={styles["display-button-container"]}
             >
@@ -316,7 +319,7 @@ function ToolsRows(props) {
                         margin: "auto",
                         padding: "calc(0.25em + 0.4vh)  1.5em",
                         transform: "none",
-                        borderRadius: "50px"
+                        borderRadius: "8px"
                      }}
                      id={"open-all-button"}
                      colorType="secondary"
@@ -330,18 +333,14 @@ function ToolsRows(props) {
                   </PushButton>
                )}
             </div>
+            </div>
             {!toolsToDisplay.hasOwnProperty("error") ? (
-               sortedAllTools.map((tool) => {
-                  const key = tool[0];
-                  return (
-                     <ToolRow
-                        key={key}
-                        tool={toolsToDisplay[key]}
-                        keyOne={key}
-                        openAll={openAll}
-                     />
-                  );
-               })
+               <VirtualizedToolList
+                  sortedTools={sortedAllTools}
+                  toolsById={toolsToDisplay}
+                  displayFormat={displayFormat}
+                  openAll={openAll}
+               />
             ) : (
                <Card
                   key="toolsrows-2"

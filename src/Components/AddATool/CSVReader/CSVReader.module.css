@@ -18,7 +18,7 @@
    min-width: 100%;
    background: var(--iq-color-background);
    color: var(--iq-color-foreground);
-   border-radius: 50px;
+   border-radius: var(--apo-radius-control);
    margin: auto 5em;
    white-space: nowrap;
    text-overflow: ellipsis;
@@ -76,7 +76,7 @@
    box-shadow:
       inset -3px -3px 7px -4px black,
       inset 3px 3px 7px -4px white;
-   border-radius: 50px;
+   border-radius: var(--apo-radius-control);
    font: var(--iq-font-body-text);
    font-size: 1em;
    font-weight: 700;

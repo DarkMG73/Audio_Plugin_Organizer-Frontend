@@ -3,6 +3,7 @@ import Styles from "./AppThemeSwitcher.module.css";
 import storage from "../../storage/storage";
 import "./appColorThemes/appColorThemeOne.css";
 import "./appColorThemes/appColorThemeTwo.css";
+import "../../designSystem.css";
 
 const AppThemeSwitcher = () => {
    const [savedTheme, setSavedTheme] = useState(false);

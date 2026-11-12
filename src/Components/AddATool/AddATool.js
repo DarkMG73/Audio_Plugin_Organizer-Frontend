@@ -72,7 +72,7 @@ function AddATool(props) {
       // left: '40%',
       width: "80%",
       // transform: ' translateX(-50%)',
-      borderRadius: "50px",
+      borderRadius: "var(--apo-radius-control)",
       height: "3em",
       font: "var(--iq-font-heading-2)",
       background: "var(--iq-color-accent-2) !important",
@@ -81,7 +81,7 @@ function AddATool(props) {
 
    const buttonStyles = {
       width: "80%",
-      borderRadius: "50px",
+      borderRadius: "var(--apo-radius-control)",
       height: "3em",
       font: "var(--iq-font-heading-2)",
       // fontSize: '1.5em',

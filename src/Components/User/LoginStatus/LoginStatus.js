@@ -148,7 +148,7 @@ function LoginStatus(props) {
                   data=""
                   size="medium"
                   onClick={logOutButtonHandler}
-                  styles={{ margin: "1em auto 1em" }}
+                  styles={{ margin: "0" }}
                >
                   LogOut
                </PushButton>
@@ -174,7 +174,7 @@ function LoginStatus(props) {
                   margin: "1.5em auto",
                   padding: "0.75em",
                   transform: "none",
-                  borderRadius: "50px"
+                  borderRadius: "var(--apo-radius-control)"
                }}
             >
                <span>Add a Plugin or Tool</span>

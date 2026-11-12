@@ -64,224 +64,223 @@ https://colordesigner.io/color-palette-builder?mode=lch#FFFFFA-A1A194-5B605F-464
 
 /* Cool Energy  */
 :root .themeOne {
-   /*** ACCENT ***/
-   --iq-color-accent: #3498db;
-   --iq-color-accent-RGB: 255, 135, 0;
-   --iq-color-accent-gradient: radial-gradient(
-      ellipse at center,
-      var(--iq-color-accent) 0%,
-      rgba(0, 0, 0, 1) 100%
-   );
-   --iq-color-accent-light: #a5daf3;
-   --iq-color-accent-dark: #2e657a;
+  /*** ACCENT ***/
+  --iq-color-accent: #3498db;
+  --iq-color-accent-RGB: 255, 135, 0;
+  --iq-color-accent-gradient: radial-gradient(
+    ellipse at center,
+    var(--iq-color-accent) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  --iq-color-accent-light: #a5daf3;
+  --iq-color-accent-dark: #2e657a;
 
-   /*** ACCENT 2***/
-   --iq-color-accent-2: #e74c3c;
-   --iq-color-accent-2-gradient: radial-gradient(
-      ellipse at center,
-      var(--iq-color-accent-2) 0%,
-      rgba(0, 0, 0, 1) 100%
-   );
-   --iq-color-accent-2-light: #ffbe95;
-   --iq-color-accent-2-dark: #ffbe95;
+  /*** ACCENT 2***/
+  --iq-color-accent-2: #e74c3c;
+  --iq-color-accent-2-gradient: radial-gradient(
+    ellipse at center,
+    var(--iq-color-accent-2) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  --iq-color-accent-2-light: #ffbe95;
+  --iq-color-accent-2-dark: #ffbe95;
 
-   /*** BACKGROUND ***/
-   --iq-color-background: #292929;
-   --iq-color-background-warm-gradient: linear-gradient(
-      180deg,
-      var(--iq-color-foreground) 5%,
-      var(--iq-color-accent) 60%
-   );
-   --iq-color-background-warm: #9c8b8b;
-   --iq-color-background-cool: #42424a;
-   --iq-color-background-contrast: #f6ebc1;
+  /*** BACKGROUND ***/
+  --iq-color-background: #292929;
+  --iq-color-background-warm-gradient: linear-gradient(
+    180deg,
+    var(--iq-color-foreground) 5%,
+    var(--iq-color-accent) 60%
+  );
+  --iq-color-background-warm: #9c8b8b;
+  --iq-color-background-cool: #42424a;
+  --iq-color-background-contrast: #f6ebc1;
 
-   /*** Foreground ***/
-   --iq-color-foreground: #fffffa;
-   --iq-color-foreground-gradient: linear-gradient(
-      177deg,
-      var(--iq-color-accent) 17%,
-      var(--iq-color-foreground) 36%
-   );
-   --iq-color-foreground-radial-gradient: radial-gradient(
-      var(--iq-color-accent) 20%,
-      var(--iq-color-foreground) 80%
-   );
+  /*** Foreground ***/
+  --iq-color-foreground: #fffffa;
+  --iq-color-foreground-gradient: linear-gradient(
+    177deg,
+    var(--iq-color-accent) 17%,
+    var(--iq-color-foreground) 36%
+  );
+  --iq-color-foreground-radial-gradient: radial-gradient(
+    var(--iq-color-accent) 20%,
+    var(--iq-color-foreground) 80%
+  );
 
-   /*** Alert ***/
-   --iq-color-alert-red: #e74c3c;
-   --iq-color-alert-text: white;
+  /*** Alert ***/
+  --iq-color-alert-red: #e74c3c;
+  --iq-color-alert-text: white;
 
-   /*** TEXT ***/
-   --iq--font-heading: small-caps normal 700 24px "ANDTIOH One", sans-serif;
-   --iq--font-heading-2: small-caps normal 700 18px "ANDTIOH One", sans-serif;
-   --iq--font-heading-3: small-caps normal 700 18px "Michroma", sans-serif;
-   --apo-general-font-letter-spacing: 0.125em;
-   --iq-spacing-heading: 0.25em;
-   --iq-spacing-subheading: 0.375em;
-   --iq-font-subheading: small-caps normal 700 12px "Michroma", sans-serif;
-   --iq-font-body-text: normal 500 12px "Michroma", sans-serif;
-   /*** SHADOWS ***/
-   --apo-boxshadow-small-glow-inner: inset 0 0 15px 0px var(--iq-color-accent);
-   --apo-boxshadow-outer: 0 -30px 50px -30px var(--iq-color-accent),
-      0 30px 50px -30px var(--iq-color-accent);
-   --apo-boxshadow-inner: inset 0 -30px 50px -30px var(--iq-color-accent),
-      inset 0 30px 50px -30px var(--iq-color-accent);
-   /*** BORDER ***/
-   --apo-border-button-1: 1px solid var(--iq-color-accent);
+  /*** TEXT ***/
+  --iq--font-heading: 600 20px/1.15 'ANDTIOH One', 'Kodchasan', sans-serif;
+  --iq--font-heading-2: 600 16px/1.2 'ANDTIOH One', 'Kodchasan', sans-serif;
+  --iq--font-heading-3: 600 14px/1.25 'Kodchasan', sans-serif;
+  --apo-general-font-letter-spacing: 0.015em;
+  --iq-spacing-heading: 0.04em;
+  --iq-spacing-subheading: 0.06em;
+  --iq-font-subheading: 600 11px/1.35 'Kodchasan', sans-serif;
+  --iq-font-body-text: 500 13px/1.45 'Kodchasan', 'Avenir Next', sans-serif;
+  /*** SHADOWS ***/
+  --apo-boxshadow-small-glow-inner: inset 0 0 0 1px rgba(52, 152, 219, 0.28);
+  --apo-boxshadow-outer: 0 10px 28px -18px rgba(20, 32, 48, 0.22),
+    0 0 0 1px rgba(52, 152, 219, 0.16);
+  --apo-boxshadow-inner: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  /*** BORDER ***/
+  --apo-border-button-1: 1px solid var(--iq-color-accent);
 
-   /*** SPECIAL USE ***/
-   --apo-color-main-title-bkg-alt-1: var(--iq-color-foreground);
-   --apo-color-main-title-color-alt-1: var(--iq-color-background);
-   --apo-background-image: url(https://www.transparenttextures.com/patterns/brushed-alum.png);
-   --apo-background-image-body: none;
-   --apo-background-body: none;
-   --apo-login-status-boxshadow: var(--apo-boxshadow-inner),
-      var(--apo-boxshadow-outer);
-   --apo-login-status-form-boxshadow: none;
-   --apo-color-navbar-title-wrap: var(--iq-color-foreground);
-   --apo-border-radius-navbar-title-wrap: 50px 25px;
-   --apo-box-shadow-navbar-title-wrap: 1px 1px 3px -2px #000000 inset,
-      -1px -1px 3px -2px #ffffff inset;
-   --iq-color-nav-buttons-background: var(--iq-color-accent);
-   --iq-color-nav-buttons-color: var(--iq-color-foreground);
-   --iq-color-scrollbar-track: radial-gradient(
-      var(--iq-color-accent),
-      var(--iq-color-accent-light)
-   );
-   --iq-color-scrollbar-thumb-inner: var(--iq-color-accent);
-   --iq-color-scrollbar-thumb-outer: var(--iq-color-accent-dark);
-   --iq-add-tool-background: var(--iq-color-background);
-   --iq-add-tool-forms-background: var(--iq-color-foreground);
-   --iq-add-tool-forms-color: var(--iq-color-background);
-   --apo-add-tool-color: var(--iq-color-accent);
-   --apo-form-gradient: inset 0 7px 20px -16px rgba(128, 128, 128, 0.449);
-   --apo-form-outer-shadow: none;
-   --apo-form-top-border: 3px solid var(--iq-color-accent-dark);
-   --apo-button-background-version-download: var(--iq-color-accent);
-   --apo-button-text-version-download: var(--iq-color-foreground);
+  /*** SPECIAL USE ***/
+  --apo-color-main-title-bkg-alt-1: var(--iq-color-foreground);
+  --apo-color-main-title-color-alt-1: var(--iq-color-background);
+  --apo-background-image: none;
+  --apo-background-image-body: none;
+  --apo-background-body: none;
+  --apo-login-status-boxshadow: var(--apo-boxshadow-inner),
+    var(--apo-boxshadow-outer);
+  --apo-login-status-form-boxshadow: none;
+  --apo-color-navbar-title-wrap: var(--iq-color-foreground);
+  --apo-border-radius-navbar-title-wrap: 8px;
+  --apo-box-shadow-navbar-title-wrap: 1px 1px 3px -2px #000000 inset,
+    -1px -1px 3px -2px #ffffff inset;
+  --iq-color-nav-buttons-background: var(--iq-color-accent);
+  --iq-color-nav-buttons-color: var(--iq-color-foreground);
+  --iq-color-scrollbar-track: radial-gradient(
+    var(--iq-color-accent),
+    var(--iq-color-accent-light)
+  );
+  --iq-color-scrollbar-thumb-inner: var(--iq-color-accent);
+  --iq-color-scrollbar-thumb-outer: var(--iq-color-accent-dark);
+  --iq-add-tool-background: var(--iq-color-background);
+  --iq-add-tool-forms-background: var(--iq-color-foreground);
+  --iq-add-tool-forms-color: var(--iq-color-background);
+  --apo-add-tool-color: var(--iq-color-accent);
+  --apo-form-gradient: inset 0 7px 20px -16px rgba(128, 128, 128, 0.449);
+  --apo-form-outer-shadow: none;
+  --apo-form-top-border: 3px solid var(--iq-color-accent-dark);
+  --apo-button-background-version-download: var(--iq-color-accent);
+  --apo-button-text-version-download: var(--iq-color-foreground);
 }
 
-.themeOne input[value=""],
+.themeOne input[value=''],
 textarea {
-   background: inherit;
-   color: inherit;
+  background: inherit;
+  color: inherit;
 }
 
-.themeOne div[class*="FormInput_input-functions"],
-.themeOne div[class*="FormInput_input-color"],
-.themeOne div[class*="FormInput_input-photoURL"],
-.themeOne div[class*="FormInput_input-notes"] {
-   background: #000000 !important;
-   color: var(--iq-color-foreground);
-   box-shadow:
-      0px 7px 4px 3px white,
-      0px 0px 4px 3px #828282;
+.themeOne div[class*='FormInput_input-functions'],
+.themeOne div[class*='FormInput_input-color'],
+.themeOne div[class*='FormInput_input-photoURL'],
+.themeOne div[class*='FormInput_input-notes'] {
+  background: #000000 !important;
+  color: var(--iq-color-foreground);
+  box-shadow:
+    0px 7px 4px 3px white,
+    0px 0px 4px 3px #828282;
 }
 
-.themeOne:not([class*="largeForms"]) div[class*="FormInput_input-"] > label {
-   box-shadow: inset 7px 6px 12px -10px #000000;
+.themeOne:not([class*='largeForms']) div[class*='FormInput_input-'] > label {
+  box-shadow: inset 7px 6px 12px -10px #000000;
 }
 
-.themeOne:not([class*="largeForms"])
-   div[class*="FormInput_input-photoURL"]
-   > label,
-.themeOne:not([class*="largeForms"])
-   div[class*="FormInput_input-function"]
-   > label,
-.themeOne:not([class*="largeForms"])
-   div[class*="FormInput_input-notes"]
-   > label,
-.themeOne:not([class*="largeForms"])
-   div[class*="FormInput_input-color"]
-   > label {
-   background: #000000 !important;
-   color: var(--iq-color-foreground);
-   box-shadow: inset 7px 6px 12px -10px #ffffff;
-}
-
-.themeOne
-   div[class*="FormInput_input-functions"]
-   div:has(input[type="checkbox"]),
-.themeOne div[class*="FormInput_input-color"] div:has(input[type="checkbox"]) {
-   -webkit-background-clip: text;
-   /* -webkit-text-fill-color: transparent; */
-   border-radius: 0 !important;
-   border: 1px outset rgb(255 255 255 / 28%);
-   opacity: 1 !important;
+.themeOne:not([class*='largeForms'])
+  div[class*='FormInput_input-photoURL']
+  > label,
+.themeOne:not([class*='largeForms'])
+  div[class*='FormInput_input-function']
+  > label,
+.themeOne:not([class*='largeForms'])
+  div[class*='FormInput_input-notes']
+  > label,
+.themeOne:not([class*='largeForms'])
+  div[class*='FormInput_input-color']
+  > label {
+  background: #000000 !important;
+  color: var(--iq-color-foreground);
+  box-shadow: inset 7px 6px 12px -10px #ffffff;
 }
 
 .themeOne
-   div[class*="FormInput_input-functions"]
-   div:has(input[type="checkbox"]:checked),
-.themeOne
-   div[class*="FormInput_input-color"]
-   div:has(input[type="checkbox"]:checked) {
-   -webkit-background-clip: unset;
-   -webkit-text-fill-color: unset;
-   border: 1px inset rgb(255 255 255 / 28%);
-}
-
-.themeOne div[class*="FormInput_input-functions"] input[type="checkbox"]:before,
-.themeOne div[class*="FormInput_input-color"] input[type="checkbox"]:before {
-   content: "";
-   background: rgba(0, 0, 0, 0.2509803922);
-   background: var(--iq-color-background);
-   position: absolute;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   border-radius: inherit;
-   box-shadow: none;
+  div[class*='FormInput_input-functions']
+  div:has(input[type='checkbox']),
+.themeOne div[class*='FormInput_input-color'] div:has(input[type='checkbox']) {
+  -webkit-background-clip: text;
+  /* -webkit-text-fill-color: transparent; */
+  border-radius: 0 !important;
+  border: 1px outset rgb(255 255 255 / 28%);
+  opacity: 1 !important;
 }
 
 .themeOne
-   div[class*="FormInput_input-functions"]
-   input[type="checkbox"]:checked:before,
+  div[class*='FormInput_input-functions']
+  div:has(input[type='checkbox']:checked),
 .themeOne
-   div[class*="FormInput_input-color"]
-   input[type="checkbox"]:checked:before {
-   background: transparent;
+  div[class*='FormInput_input-color']
+  div:has(input[type='checkbox']:checked) {
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: unset;
+  border: 1px inset rgb(255 255 255 / 28%);
+}
+
+.themeOne div[class*='FormInput_input-functions'] input[type='checkbox']:before,
+.themeOne div[class*='FormInput_input-color'] input[type='checkbox']:before {
+  content: '';
+  background: rgba(0, 0, 0, 0.2509803922);
+  background: var(--iq-color-background);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  box-shadow: none;
 }
 
 .themeOne
-   div[class*="FormInput_input-functions"]
-   input[type="checkbox"]
-   + label,
-.themeOne div[class*="FormInput_input-color"] input[type="checkbox"] + label {
-   background: inherit;
-   -webkit-background-clip: text;
-   -webkit-text-fill-color: transparent;
-   /* text-shadow: 1px 1px 1px #616161; */
-   opacity: 1;
-}
-
-.themeOne [data-group^="SPACER"],
-.themeOne div[data-group^="SPACER"] input[type="checkbox"] + label,
+  div[class*='FormInput_input-functions']
+  input[type='checkbox']:checked:before,
 .themeOne
-   div[data-group^="SPACER"]
-   .themeOne
-   div[data-group^="SPACER"]
-   input[type="checkbox"]
-   + labellabel {
-   -webkit-background-clip: unset !important;
-   -webkit-text-fill-color: unset !important;
-   background: transparent;
-   min-height: 4em !important;
-   align-items: center !important;
-   display: flex;
+  div[class*='FormInput_input-color']
+  input[type='checkbox']:checked:before {
+  background: transparent;
 }
 
-.themeOne [data-group^="SPACER"]:after {
-   content: "";
-   position: absolute;
-   display: block;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   box-shadow: inset 0px 12px 14px -10px;
+.themeOne
+  div[class*='FormInput_input-functions']
+  input[type='checkbox']
+  + label,
+.themeOne div[class*='FormInput_input-color'] input[type='checkbox'] + label {
+  background: inherit;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* text-shadow: 1px 1px 1px #616161; */
+  opacity: 1;
+}
+
+.themeOne [data-group^='SPACER'],
+.themeOne div[data-group^='SPACER'] input[type='checkbox'] + label,
+.themeOne
+  div[data-group^='SPACER']
+  .themeOne
+  div[data-group^='SPACER']
+  input[type='checkbox']
+  + labellabel {
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: unset !important;
+  background: transparent;
+  min-height: 4em !important;
+  align-items: center !important;
+  display: flex;
+}
+
+.themeOne [data-group^='SPACER']:after {
+  content: '';
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 0px 12px 14px -10px;
 }
 
 /* .themeOne
@@ -289,150 +288,150 @@ textarea {
   div:has(input[type='checkbox']) {
   -webkit-background-clip: unset;
 } */
-.themeOne [data-group^="SPACER"] {
-   border: 1px solid !important;
-   border-radius: 0 !important;
+.themeOne [data-group^='SPACER'] {
+  border: 1px solid !important;
+  border-radius: 0 !important;
 }
 
 .themeOne
-   div[class*="FormInput_input-functions"]
-   input[type="checkbox"]:before {
+  div[class*='FormInput_input-functions']
+  input[type='checkbox']:before {
 }
 
 .themeOne
-   div[class*="FormInput_input-functions"]
-   input[type="checkbox"]:checked
-   + label,
+  div[class*='FormInput_input-functions']
+  input[type='checkbox']:checked
+  + label,
 .themeOne
-   div[class*="FormInput_input-color"]
-   input[type="checkbox"]:checked
-   + label {
-   text-shadow: 0 0 30px #e3bd26;
-   color: inherit;
-   opacity: 1;
-   background: initial;
-   -webkit-background-clip: unset;
-   -webkit-text-fill-color: unset;
-   text-shadow: none;
+  div[class*='FormInput_input-color']
+  input[type='checkbox']:checked
+  + label {
+  text-shadow: 0 0 30px #e3bd26;
+  color: inherit;
+  opacity: 1;
+  background: initial;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: unset;
+  text-shadow: none;
 }
 
-.themeOne div[class*="FormInput_input-precision"] input[type="checkbox"] {
-   position: relative;
-   display: flex;
-   -webkit-appearance: none;
-   background-color: var(--iq-color-foreground);
-   border: 1px solid var(--iq-color-accent);
-   box-shadow:
-      2px 2px 5px -1px rgba(255, 255, 255, 0.5),
-      inset 3px 3px 5px -1px hsla(0, 0%, 0%, 0.5);
-   box-shadow:
-      inset -2px -2px 5px -1px rgba(255, 255, 255, 0.5),
-      inset 1px 1px 5px -1px hsla(0, 0%, 0%, 0.5);
-   padding: 9px;
-   border-radius: 50px;
-   display: inline-block;
-   position: relative;
-   height: 1em;
-   margin: 0.25em auto 0;
-   padding: 1em;
+.themeOne div[class*='FormInput_input-precision'] input[type='checkbox'] {
+  position: relative;
+  display: flex;
+  -webkit-appearance: none;
+  background-color: var(--iq-color-foreground);
+  border: 1px solid var(--iq-color-accent);
+  box-shadow:
+    2px 2px 5px -1px rgba(255, 255, 255, 0.5),
+    inset 3px 3px 5px -1px hsla(0, 0%, 0%, 0.5);
+  box-shadow:
+    inset -2px -2px 5px -1px rgba(255, 255, 255, 0.5),
+    inset 1px 1px 5px -1px hsla(0, 0%, 0%, 0.5);
+  padding: 9px;
+  border-radius: var(--apo-radius-control);
+  display: inline-block;
+  position: relative;
+  height: 1em;
+  margin: 0.25em auto 0;
+  padding: 1em;
 }
 
-.themeOne div[class*="dark_atmosphere"] label {
-   background-color: var(--iq-color-foreground) !important;
+.themeOne div[class*='dark_atmosphere'] label {
+  background-color: var(--iq-color-foreground) !important;
 }
 
-.themeOne div[class*="dark_atmosphere"] input[type="checkbox"]:checked + label {
-   background-color: initial !important;
+.themeOne div[class*='dark_atmosphere'] input[type='checkbox']:checked + label {
+  background-color: initial !important;
 }
 
-.themeOne div[class*="FormInput_input-rating"] > div,
-.themeOne div[class*="FormInput_input-oversampling"] > div,
-.themeOne div[class*="FormInput_input-favorite"] > div {
-   overflow: visible;
+.themeOne div[class*='FormInput_input-rating'] > div,
+.themeOne div[class*='FormInput_input-oversampling'] > div,
+.themeOne div[class*='FormInput_input-favorite'] > div {
+  overflow: visible;
 }
 
-.themeOne div[class*="FormInput_input-rating"] input[type="radio"],
-.themeOne div[class*="FormInput_input-oversampling"] input[type="radio"],
-.themeOne div[class*="FormInput_input-favorite"] input[type="radio"] {
-   accent-color: var(--iq-color-accent);
-   box-shadow: none;
+.themeOne div[class*='FormInput_input-rating'] input[type='radio'],
+.themeOne div[class*='FormInput_input-oversampling'] input[type='radio'],
+.themeOne div[class*='FormInput_input-favorite'] input[type='radio'] {
+  accent-color: var(--iq-color-accent);
+  box-shadow: none;
 }
 
-.themeOne div[class*="FormInput_input-rating"] input[type="radio"],
-.themeOne div[class*="FormInput_input-oversampling"] input[type="radio"],
-.themeOne div[class*="FormInput_input-favorite"] input[type="radio"] {
-   position: relative;
-   box-shadow:
-      1px 1px 3px -2px black inset,
-      -1px -1px 3px -2px white inset;
-   appearance: none;
-   padding: 0.5em;
-   background: #e3e3e3;
+.themeOne div[class*='FormInput_input-rating'] input[type='radio'],
+.themeOne div[class*='FormInput_input-oversampling'] input[type='radio'],
+.themeOne div[class*='FormInput_input-favorite'] input[type='radio'] {
+  position: relative;
+  box-shadow:
+    1px 1px 3px -2px black inset,
+    -1px -1px 3px -2px white inset;
+  appearance: none;
+  padding: 0.5em;
+  background: #e3e3e3;
 }
 
-.themeOne div[class*="FormInput_input-rating"] input[type="radio"]:checked,
+.themeOne div[class*='FormInput_input-rating'] input[type='radio']:checked,
 .themeOne
-   div[class*="FormInput_input-oversampling"]
-   input[type="radio"]:checked,
-.themeOne div[class*="FormInput_input-favorite"]input[type="radio"]:checked {
-   color: var(--iq-color-accent);
-   background: var(--iq-color-accent);
+  div[class*='FormInput_input-oversampling']
+  input[type='radio']:checked,
+.themeOne div[class*='FormInput_input-favorite']input[type='radio']:checked {
+  color: var(--iq-color-accent);
+  background: var(--iq-color-accent);
 }
 
 .themeOne
-   div[class*="FormInput_input-rating"]
-   input[type="radio"]:checked:after,
+  div[class*='FormInput_input-rating']
+  input[type='radio']:checked:after,
 .themeOne
-   div[class*="FormInput_input-oversampling"]
-   input[type="radio"]:checked:after,
+  div[class*='FormInput_input-oversampling']
+  input[type='radio']:checked:after,
 .themeOne
-   div[class*="FormInput_input-favorite"]
-   input[type="radio"]:checked:after {
-   content: "✔";
-   font-size: 2em;
-   position: absolute;
-   font-weight: 900;
-   top: 50%;
-   left: 0px;
-   max-width: 110%;
-   min-width: 110%;
-   min-height: 110%;
-   color: var(--iq-color-accent);
-   background: transparent;
-   box-shadow: none;
-   transform: scale(1.5) translate(12%, -40%);
-   text-shadow: 0 0 5px var(--iq-color-foreground);
+  div[class*='FormInput_input-favorite']
+  input[type='radio']:checked:after {
+  content: '✔';
+  font-size: 2em;
+  position: absolute;
+  font-weight: 900;
+  top: 50%;
+  left: 0px;
+  max-width: 110%;
+  min-width: 110%;
+  min-height: 110%;
+  color: var(--iq-color-accent);
+  background: transparent;
+  box-shadow: none;
+  transform: scale(1.5) translate(12%, -40%);
+  text-shadow: 0 0 5px var(--iq-color-foreground);
 }
 
-.themeOne div[class*="FormInput_input-productURL"] a,
-.themeOne div[class*="FormInput_input-photoURL"] a {
-   font-style: italic;
-   color: inherit;
+.themeOne div[class*='FormInput_input-productURL'] a,
+.themeOne div[class*='FormInput_input-photoURL'] a {
+  font-style: italic;
+  color: inherit;
 }
 
-.themeOne div[class*="FormInput_input-productURL"] label {
-   width: 100%;
-   transform: none;
+.themeOne div[class*='FormInput_input-productURL'] label {
+  width: 100%;
+  transform: none;
 }
 
-.themeOne div[class*="FormInput_input-productURL"] a:hover,
-.themeOne div[class*="FormInput_input-photoURL"] a:hover {
-   color: var(--iq-color-accent-2);
+.themeOne div[class*='FormInput_input-productURL'] a:hover,
+.themeOne div[class*='FormInput_input-photoURL'] a:hover {
+  color: var(--iq-color-accent-2);
 }
 
 .themeOne select {
-   /* border: 1px solid var(--iq-color-accent); */
-   border-radius: 50px;
-   padding: 0.25em 0.25em 0.25em 1em;
-   background: var(--iq-color-accent);
-   color: var(--iq-color-background-cool);
-   background: var(--iq-color-accent-gradient);
-   text-shadow: 0 0 5px var(--iq-color-background-contrast);
-   font-weight: 700;
-   text-transform: uppercase;
-   font-variant: all-small-caps;
-   background: var(--iq-color-foreground);
-   /* box-shadow: inset 3px 3px 15px -3px var(--iq-color-accent); */
+  /* border: 1px solid var(--iq-color-accent); */
+  border-radius: var(--apo-radius-control);
+  padding: 0.25em 0.25em 0.25em 1em;
+  background: var(--iq-color-accent);
+  color: var(--iq-color-background-cool);
+  background: var(--iq-color-accent-gradient);
+  text-shadow: 0 0 5px var(--iq-color-background-contrast);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-variant: all-small-caps;
+  background: var(--iq-color-foreground);
+  /* box-shadow: inset 3px 3px 15px -3px var(--iq-color-accent); */
 }
 
 /* 
@@ -440,74 +439,74 @@ background: var(--iq-color-foreground-gradient);
     color: inherit; */
 /* COLOR GROUPS FOR BUTTONS */
 :root .themeOne {
-   --color-group-one-white: #ffffff;
-   --color-group-one-black: #1a1a1d;
-   --color-group-one-1: #5680e9;
-   --color-group-one-1-text: var(--color-group-one-white);
-   --color-group-one-2: #ff700a;
-   --color-group-one-2-text: var(--color-group-one-black);
-   --color-group-one-3: #ff0a0a;
-   --color-group-one-3-text: var(--color-group-one-black);
-   --color-group-one-4: #c1c8e4;
-   --color-group-one-4-text: var(--color-group-one-black);
-   --color-group-one-5: #0aff99;
-   --color-group-one-5-text: var(--color-group-one-black);
-   --color-group-one-6: #84ceeb;
-   --color-group-one-6-text: var(--color-group-one-black);
-   --color-group-one-7: #5ab9ea;
-   --color-group-one-7-text: var(--color-group-one-black);
-   --color-group-one-8: #e3bd26;
-   --color-group-one-8-text: var(--color-group-one-black);
-   --color-group-one-9: #da2fc3;
-   --color-group-one-9-text: var(--color-group-one-white);
-   --color-group-one-10: #8860d0;
-   --color-group-one-10-text: var(--color-group-one-white);
+  --color-group-one-white: #ffffff;
+  --color-group-one-black: #1a1a1d;
+  --color-group-one-1: #5680e9;
+  --color-group-one-1-text: var(--color-group-one-white);
+  --color-group-one-2: #ff700a;
+  --color-group-one-2-text: var(--color-group-one-black);
+  --color-group-one-3: #ff0a0a;
+  --color-group-one-3-text: var(--color-group-one-black);
+  --color-group-one-4: #c1c8e4;
+  --color-group-one-4-text: var(--color-group-one-black);
+  --color-group-one-5: #0aff99;
+  --color-group-one-5-text: var(--color-group-one-black);
+  --color-group-one-6: #84ceeb;
+  --color-group-one-6-text: var(--color-group-one-black);
+  --color-group-one-7: #5ab9ea;
+  --color-group-one-7-text: var(--color-group-one-black);
+  --color-group-one-8: #e3bd26;
+  --color-group-one-8-text: var(--color-group-one-black);
+  --color-group-one-9: #da2fc3;
+  --color-group-one-9-text: var(--color-group-one-white);
+  --color-group-one-10: #8860d0;
+  --color-group-one-10-text: var(--color-group-one-white);
 }
 
 @keyframes textclip {
-   to {
-      background-position: 200% center;
-   }
+  to {
+    background-position: 200% center;
+  }
 }
 
 .themeOne .animate {
-   text-transform: uppercase;
-   background-image: linear-gradient(
-      -225deg,
-      var(--iq-color-accent-2-dark) 20%,
-      vaR(--iq-color-accent-2) 40%,
-      var(--iq-color-accent) 50%,
-      var(--iq-color-accent-dark) 80%
-   );
-   background-size: auto auto;
-   background-clip: border-box;
-   background-size: 100% auto;
-   color: #fff;
-   background-clip: text;
-   text-fill-color: transparent;
-   -webkit-background-clip: text;
-   -webkit-text-fill-color: transparent;
-   animation: textclip 2s linear infinite;
+  text-transform: uppercase;
+  background-image: linear-gradient(
+    -225deg,
+    var(--iq-color-accent-2-dark) 20%,
+    vaR(--iq-color-accent-2) 40%,
+    var(--iq-color-accent) 50%,
+    var(--iq-color-accent-dark) 80%
+  );
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 100% auto;
+  color: #fff;
+  background-clip: text;
+  text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 2s linear infinite;
 }
 
-body.themeOne [data-data="audio-plugin-selector-button-container"] {
-   box-shadow: 3px 3px 10px -3px;
-   border: 1px solid var(--iq-color-accent);
+body.themeOne [data-data='audio-plugin-selector-button-container'] {
+  box-shadow: 3px 3px 10px -3px;
+  border: 1px solid var(--iq-color-accent);
 }
 
 /* LOADER */
-body.themeOne div[class*="loader-container"] {
-   /* background: linear-gradient(
+body.themeOne div[class*='loader-container'] {
+  /* background: linear-gradient(
     var(--iq-color-foreground) 90%,
     rgba(0, 0, 0, 0.23)
   ); */
-   box-shadow:
-      inset 3px 3px 4px -3px rgb(231, 231, 231),
-      inset -3px -3px 4px -3px rgb(0, 0, 0);
+  box-shadow:
+    inset 3px 3px 4px -3px rgb(231, 231, 231),
+    inset -3px -3px 4px -3px rgb(0, 0, 0);
 }
 
-body.themeOne div[class*="loader-container"]:before {
-   content: none !important;
+body.themeOne div[class*='loader-container']:before {
+  content: none !important;
 }
 
 /* ////////////////////////// */

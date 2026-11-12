@@ -116,7 +116,7 @@
    box-shadow:
       7px 7px 10px -7px black inset,
       -7px -7px 10px -7px #b8b8b8 inset;
-   border-radius: 50px;
+   border-radius: var(--apo-radius-control);
 }
 
 .inputs-container [class*="loader-wrap"] {
@@ -124,7 +124,7 @@
    top: 5em;
    width: 97%;
    opacity: 0.9;
-   border-radius: 50px;
+   border-radius: var(--apo-radius-control);
    align-items: flex-start;
 }
 

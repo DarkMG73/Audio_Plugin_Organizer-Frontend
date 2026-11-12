@@ -630,24 +630,22 @@ const PluginFinder = (props) => {
       left: "40%",
       width: "80%",
       transform: " translateX(-50%)",
-      // background: 'var(--iq-color-accent-gradient)',
-      borderRadius: "50px",
-      height: "3em",
-      font: "var(--iq-font-heading-2)"
+      borderRadius: "var(--apo-radius-control)",
+      height: "2.4em",
+      font: "var(--iq-font-heading-3)"
    };
 
    const buttonStyles = {
-      width: "80%",
-      borderRadius: "50px",
-      height: "3em",
-      font: "var(--iq-font-heading-2)",
-      fontSize: "1.5em",
-      padding: "0",
+      width: "auto",
+      borderRadius: "var(--apo-radius-control)",
+      height: "2.4em",
+      font: "var(--iq-font-body-text)",
+      fontSize: "0.85rem",
+      padding: "0 1.25em",
       textTransform: "uppercase",
-      fontWeight: "900",
-      letterSpacing: "0.25em",
-      textShadow:
-         "rgb(0 0 0 / 50%) -1px -1px 1px, rgb(255 255 255 / 50%) 1px 1px 1px, 0 0 22px wheat"
+      fontWeight: "700",
+      letterSpacing: "0.06em",
+      textShadow: "none"
    };
 
    ////////////////////////////////////////

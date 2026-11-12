@@ -139,7 +139,7 @@ const Home = ({ appVersions, isDesktopApp }) => {
                         overflowY: "auto",
                         top: "0",
                         paddingBottom: "7em",
-                        borderRadius: "50px 50px 0 0"
+                        borderRadius: "var(--apo-radius-md) var(--apo-radius-md) 0 0"
                      }}
                   >
                      <ErrorBoundary>
@@ -165,7 +165,7 @@ const Home = ({ appVersions, isDesktopApp }) => {
                      overflowY: "auto",
                      top: "38px",
                      paddingBottom: "7em",
-                     borderRadius: "50px 50px 0 0"
+                     borderRadius: "var(--apo-radius-md) var(--apo-radius-md) 0 0"
                   }}
                >
                   <ErrorBoundary>
@@ -218,7 +218,7 @@ const Home = ({ appVersions, isDesktopApp }) => {
                                        size="large"
                                        styles={{
                                           margin: "1em auto",
-                                          borderRadius: "50px ",
+                                          borderRadius: 'var(--apo-radius-control)',
                                           padding: " 0.75em 3em",
                                           fontVariant: "small-caps",
                                           minWidth: "min-content",
@@ -252,7 +252,7 @@ const Home = ({ appVersions, isDesktopApp }) => {
                                  size="medium"
                                  styles={{
                                     margin: "0 auto",
-                                    borderRadius: "50px ",
+                                    borderRadius: 'var(--apo-radius-control)',
                                     padding: " 0.75em 3em",
                                     fontVariant: "small-caps",
                                     minWidth: "min-content",
@@ -272,7 +272,7 @@ const Home = ({ appVersions, isDesktopApp }) => {
                                  size="medium"
                                  styles={{
                                     margin: "0 auto",
-                                    borderRadius: "50px ",
+                                    borderRadius: 'var(--apo-radius-control)',
                                     padding: " 0.75em 3em",
                                     fontVariant: "small-caps",
                                     minWidth: "min-content",
@@ -292,7 +292,7 @@ const Home = ({ appVersions, isDesktopApp }) => {
                                  size="medium"
                                  styles={{
                                     margin: "0 auto",
-                                    borderRadius: "50px ",
+                                    borderRadius: 'var(--apo-radius-control)',
                                     padding: " 0.75em 3em",
                                     fontVariant: "small-caps",
                                     minWidth: "min-content",

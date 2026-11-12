@@ -257,7 +257,7 @@ const Register = (props) => {
                size="small"
                onClick={props.toggleSignupLoginButtonHandler}
                styles={{
-                  borderRadius: "50px",
+                  borderRadius: "var(--apo-radius-control)",
                   height: "2em",
                   padding: "0 2em"
                }}

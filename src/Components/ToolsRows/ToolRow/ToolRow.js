@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, Fragment } from "react";
+import { useState, useRef, useEffect, Fragment, memo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./ToolRow.module.css";
 import PushButton from "../../../UI/Buttons/PushButton/PushButton";
@@ -444,7 +444,7 @@ function ToolRow(props) {
       <div key={key + "1"} id={key} className="tool-result-container">
          <CardSecondary
             key={key + "1"}
-            styles={{ position: "relative", minWidth: "214px" }}
+            styles={{ position: "relative", minWidth: 0 }}
             attributes={{ "data-group": "tools-wrap" }}
          >
             <CollapsibleElm
@@ -456,13 +456,13 @@ function ToolRow(props) {
                   flexWrap: "wrap",
                   justifyContent: "space-between",
                   alignItems: "baseline",
-                  minHeight: "21em"
+                  minHeight: "13em"
                }}
-               maxHeight="21em"
+               maxHeight="13em"
                inputOrButton="button"
                buttonStyles={{
                   margin: "0 auto",
-                  letterSpacing: "0.25em",
+                  letterSpacing: "0.06em",
                   fontVariant: "small-caps",
                   transform: "translateY(100%)",
                   minWidth: "5em",
@@ -597,7 +597,7 @@ function ToolRow(props) {
                         textTransform: "uppercase",
                         margin: "auto",
                         color: "var( --iq-color-foreground)",
-                        borderRadius: "50px ",
+                        borderRadius: 'var(--apo-radius-control)',
                         boxShadow: "0 0 20px -5px var(--iq-color-accent)",
                         textShadow: "0 0 3px var(--iq-color-accent)"
                      }}
@@ -606,7 +606,7 @@ function ToolRow(props) {
                         width: "80%",
                         background: "var(--iq-color-accent-2)",
                         color: "white",
-                        borderRadius: "50px",
+                        borderRadius: "var(--apo-radius-control)",
                         height: "3em",
                         font: "var(--iq-font-heading-2)",
                         zIndex: "1",
@@ -673,4 +673,10 @@ function ToolRow(props) {
    }
 }
 
-export default ToolRow;
+export default memo(ToolRow, (prevProps, nextProps) => {
+   return (
+      prevProps.keyOne === nextProps.keyOne &&
+      prevProps.openAll === nextProps.openAll &&
+      prevProps.tool === nextProps.tool
+   );
+});

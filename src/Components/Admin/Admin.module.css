@@ -8,7 +8,7 @@
    background: var(--iq-color-foreground);
    color: var(--iq-color-background);
    padding: 1em 0 1em 1em;
-   border-radius: 50px 0 0 50px;
+   border-radius: var(--apo-radius-md) 0 0 var(--apo-radius-md);
    transform: scale(0) translate(-50%, -50%);
    box-shadow:
       3px 3px 7px -4px white inset,
@@ -82,7 +82,7 @@
 }
 
 .version-release-alert-container {
-   border-radius: 50px;
+   border-radius: var(--apo-radius-control);
    overflow: hidden;
    width: fit-content;
    margin: 0 auto;
@@ -176,7 +176,7 @@
 .highlight {
    position: relative;
    border: 1px solid var(--iq-color-accent-2);
-   border-radius: 50px;
+   border-radius: var(--apo-radius-control);
 }
 
 .highlight:before {
@@ -205,7 +205,7 @@
    color: white;
    display: block;
    padding: 1em 3em;
-   border-radius: 50px;
+   border-radius: var(--apo-radius-control);
 }
 
 .pulse {
@@ -308,7 +308,7 @@
       -3px -3px 7px -4px black inset;
    width: 100%;
    flex-wrap: wrap;
-   border-radius: 50px;
+   border-radius: var(--apo-radius-control);
 }
 
 .new-version-pre-release-container > div {
@@ -341,7 +341,7 @@
    box-shadow:
       3px 3px 7px -4px white inset,
       -3px -3px 7px -4px black inset;
-   border-radius: 50px;
+   border-radius: var(--apo-radius-control);
 }
 
 .admin-toggle-button {
@@ -350,7 +350,7 @@
    right: 0;
    /* transform: translate(-50%, -100%); */
    padding: 0.25em 1em;
-   border-radius: 50px 0 0 0;
+   border-radius: var(--apo-radius-md) 0 0 0;
    z-index: 101;
    width: 7em;
    padding: 2em 0 1em 1em;

@@ -76,7 +76,7 @@ const Footer = ({
                                     size="large"
                                     styles={{
                                        margin: "1em auto",
-                                       borderRadius: "50px ",
+                                       borderRadius: 'var(--apo-radius-control)',
                                        padding: " 0.75em 3em",
                                        fontVariant: "small-caps",
                                        minWidth: "min-content",

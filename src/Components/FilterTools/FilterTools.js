@@ -348,20 +348,19 @@ function FilterTools() {
                                        inputOrButton="button"
                                        buttonStyles={{
                                           margin: "-0.75em auto 0",
-                                          letterSpacing: "0.25em",
+                                          letterSpacing: "0.04em",
                                           fontVariant: "small-caps",
-                                          // transform: 'translateY(0%)',
-                                          transition: "0.7s all ease",
+                                          transition: "0.2s all ease",
                                           minWidth: "100%",
                                           textAlign: "center",
                                           display: "flex",
                                           alignItems: "center",
                                           zIndex: "10",
-                                          borderRadius: "0 0 50px 50px",
-                                          paddingBottom: "0.5em",
-                                          paddingTop: "0.5em"
+                                          borderRadius: "0 0 8px 8px",
+                                          paddingBottom: "0.3em",
+                                          paddingTop: "0.3em"
                                        }}
-                                       colorType="secondary"
+                                       colorType="primary"
                                        size="small"
                                        open={false}
                                     >

@@ -204,7 +204,7 @@ body [class*="FormInput_input-oversampling"] > label {
 body [class*="FormInput_input-oversampling"] > label:hover {
    max-width: max-content;
    z-index: 2;
-   border-radius: 50px 50px 0 0;
+   border-radius: var(--apo-radius-md) var(--apo-radius-md) 0 0;
    border: 1px outset gray;
    border-bottom: none;
 }
@@ -345,14 +345,14 @@ body[class*="can-hover"]body[class*="largeForms"]
    padding: 0 1em;
    margin: 0 auto 2%;
    box-shadow: 0px 25px 30px -25px #494949;
-   border-radius: 50px;
+   border-radius: var(--apo-radius-control);
    background: var(--iq-add-tool-background);
    color: var(--apo-add-tool-color);
    font-weight: 700;
 }
 
 div[class*="editing-fields-wrap"] .scroll-wrap {
-   border-radius: 0 0 50px 50px;
+   border-radius: 0 0 var(--apo-radius-md) var(--apo-radius-md);
 }
 
 /* .scroll-wrap > .form-group-wrap {

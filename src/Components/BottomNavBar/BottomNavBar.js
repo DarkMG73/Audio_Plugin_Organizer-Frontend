@@ -37,15 +37,15 @@ const BottomNavBar = () => {
             <PushButton
                inputOrButton="button"
                id="create-entry-btn"
-               colorType="secondary"
+               colorType="primary"
                value="Add a Question"
                data=""
                size="small"
                onClick={goToTopButtonHandler}
                styles={{
                   margin: "0 auto",
-                  borderRadius: "50px 0 0 0",
-                  padding: " 0.75em 3em",
+                  borderRadius: 'var(--apo-radius-md) 0 0 0',
+                  padding: "0.45em 1.25em",
                   fontVariant: "small-caps",
                   minWidth: "min-content",
                   flexBasis: "40%",
@@ -57,15 +57,15 @@ const BottomNavBar = () => {
             <PushButton
                inputOrButton="button"
                id="create-entry-btn"
-               colorType="primary"
+               colorType="secondary"
                value="Add a Question"
                data=""
                size="small"
                onClick={addAToolButtonHandler}
                styles={{
                   margin: "0 auto",
-                  textShadow: "0 0 3px wheat",
-                  padding: " 0.75em 0.25em",
+                  textShadow: "none",
+                  padding: "0.45em 0.25em",
                   fontVariant: "small-caps",
                   borderRadius: "3px",
                   display: "flex",
@@ -92,15 +92,15 @@ const BottomNavBar = () => {
             <PushButton
                inputOrButton="button"
                id="create-entry-btn"
-               colorType="secondary"
+               colorType="primary"
                value="Add a Question"
                data=""
                size="small"
                onClick={goToBottomButtonHandler}
                styles={{
                   margin: "0 auto",
-                  borderRadius: "0 50px 0 0",
-                  padding: " 0.75em 3em",
+                  borderRadius: '0 var(--apo-radius-md) 0 0',
+                  padding: "0.45em 1.25em",
                   fontVariant: "small-caps",
                   minWidth: "min-content",
                   flexBasis: "40%",

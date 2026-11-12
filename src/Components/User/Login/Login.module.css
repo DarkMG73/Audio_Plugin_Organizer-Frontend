@@ -32,7 +32,7 @@
 .form input[type="email"],
 .form button {
    font-size: 1em;
-   border-radius: 50px;
+   border-radius: var(--apo-radius-control);
    padding: 0px 2em;
    margin: 0;
 }

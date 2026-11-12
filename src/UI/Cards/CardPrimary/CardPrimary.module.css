@@ -1,16 +1,13 @@
 .card-primary {
   display: flex;
   flex-direction: column;
-  background: var(--iq-color-foreground-gradient);
-  background-image: var(--apo-background-image);
+  background: var(--iq-color-foreground);
+  background-image: none;
   color: var(--iq-color-background-warm);
-  padding: 2rem;
-  border-radius: 50px;
-  box-shadow:
-    inset 4px 4px 14px -7px rgb(255 255 255),
-    inset -4px -4px 14px -7px rgb(0 0 0 / 50%);
-  box-shadow: var(--apo-boxshadow-outer), var(--apo-boxshadow-inner);
-  border: 1px solid;
+  padding: 0.75rem 0.95rem;
+  border-radius: var(--apo-radius-md);
+  box-shadow: var(--apo-boxshadow-outer);
+  border: var(--apo-hairline);
 }
 
 .card-priimary a {

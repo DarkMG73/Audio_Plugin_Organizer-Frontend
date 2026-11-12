@@ -3,7 +3,7 @@
   flex-direction: column;
   background: transparent;
   color: inherit;
-  border-radius: 50px;
+  border-radius: var(--apo-radius-md);
   overflow: hidden;
 }
 header > div,
