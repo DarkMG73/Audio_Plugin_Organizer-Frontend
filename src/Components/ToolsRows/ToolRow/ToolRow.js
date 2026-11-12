@@ -388,50 +388,25 @@ function ToolRow(props) {
                >
                   {itemTitle}
                </div>
-               <CollapsibleElm
-                  key={key + "2"}
-                  id={key + "-collapsible-elm"}
-                  styles={{
-                     position: "relative"
-                  }}
-                  maxHeight="10em"
-                  inputOrButton="button"
-                  buttonStyles={{
-                     margin: "0 auto",
-                     fontVariant: "small-caps",
-                     transform: "translateY(50%)",
-                     transition: "0.7s all ease",
-                     textAlign: "center",
-                     display: "flex",
-                     alignItems: "center",
-                     padding: "0.25em 0",
-                     minWidth: "fit-content",
-                     width: "100%"
-                  }}
-                  colorType="secondary"
-                  data=""
-                  size="small"
-               >
-                  <div
-                     key={key + value}
-                     className={` ${styles[title + "-text"]} 
+               <div
+                  key={key + value}
+                  className={` ${styles[title + "-text"]} 
             ${styles["grid-item-text"]} 
             ${styles["grid-item-child"]} ${title}-text grid-item-text grid-item-child
             `}
-                     ref={(elm) => {
-                        //  Moving this out of processing to handle after elements added.
-                        setTimeout(() => {
-                           if (elm)
-                              editedTools.current.edits[title] = elm.innerText;
-                        }, 0);
-                     }}
-                     onBlur={(e) => {
-                        onTextChangeHandler(e, title);
-                     }}
-                  >
-                     {value}
-                  </div>
-               </CollapsibleElm>
+                  ref={(elm) => {
+                     //  Moving this out of processing to handle after elements added.
+                     setTimeout(() => {
+                        if (elm)
+                           editedTools.current.edits[title] = elm.innerText;
+                     }, 0);
+                  }}
+                  onBlur={(e) => {
+                     onTextChangeHandler(e, title);
+                  }}
+               >
+                  {value}
+               </div>
             </div>
          );
       });
@@ -459,20 +434,10 @@ function ToolRow(props) {
                   minHeight: "13em"
                }}
                maxHeight="13em"
-               inputOrButton="button"
-               buttonStyles={{
-                  margin: "0 auto",
-                  letterSpacing: "0.06em",
-                  fontVariant: "small-caps",
-                  transform: "translateY(100%)",
-                  minWidth: "5em",
-                  textAlign: "center",
-                  display: "flex",
-                  alignItems: "center"
-               }}
-               colorType="primary"
+               alwaysShowToggle
+               seeMoreButtonText="Show more"
+               seeLessButtonText="Show less"
                data="see-more-button"
-               size="small"
                open={props.openAll}
             >
                {AssembleInnerRow(tool, key, toolRowOrder)}

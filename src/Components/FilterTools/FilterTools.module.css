@@ -16,12 +16,13 @@
    margin: 0 auto 0.75em;
    border-radius: var(--apo-radius-pill);
    border: 1px solid var(--iq-color-accent-dark);
-   background: transparent;
+   background: color-mix(in srgb, var(--iq-color-foreground) 55%, #1c2a58);
    color: inherit;
    padding: 0.35em 0.9em;
    font-variant: small-caps;
    letter-spacing: 0.08em;
    cursor: pointer;
+   box-shadow: var(--apo-boxshadow-small-glow-inner);
 }
 
 .main-title {
@@ -34,13 +35,13 @@
    padding: 0.4em 0.65em;
    border-radius: var(--apo-radius-sm);
    z-index: 1;
-   background: color-mix(in srgb, var(--iq-color-foreground) 82%, #1c2a58);
+   background: color-mix(in srgb, var(--iq-color-foreground) 70%, #1c2a58);
    color: var(--apo-color-main-title-color-alt-1);
    margin: 0 0 0.35em;
    width: 100%;
    z-index: 11;
-   box-shadow: none;
-   border: var(--apo-hairline);
+   box-shadow: var(--apo-boxshadow-small-glow-inner), var(--apo-glow-soft);
+   border: none;
    font-weight: 600;
 }
 
@@ -111,8 +112,10 @@
 }
 
 .slide-button-inner-wrap {
-   border: var(--apo-hairline);
+   border: none;
    border-radius: var(--apo-radius-sm);
+   background: var(--apo-surface-sunken, transparent);
+   box-shadow: var(--apo-boxshadow-sunken);
 }
 
 .slide-button-inner-wrap {

@@ -1,13 +1,22 @@
 .card-secondary {
   display: flex;
   flex-direction: column;
-  background: var(--iq-color-foreground);
+  background-color: var(--apo-surface, var(--iq-color-foreground));
+  background-image: var(--apo-sheen);
   color: var(--iq-color-background);
-  padding: 0.7rem 0.8rem;
+  padding: 0.7rem 0.8rem 0.45rem;
   border-radius: var(--apo-radius-md);
   box-shadow: var(--apo-boxshadow-outer);
-  border: var(--apo-hairline);
-  background-image: none;
+  border: none;
+  overflow: hidden;
+  transition: box-shadow var(--apo-ease), transform var(--apo-ease),
+    background-color var(--apo-ease);
+}
+
+body[class*='can-hover'] .card-secondary:hover {
+  background-color: var(--apo-surface-raised, var(--iq-color-foreground));
+  box-shadow: var(--apo-boxshadow-outer-hover);
+  transform: translateY(-1px);
 }
 
 card-secondary a {

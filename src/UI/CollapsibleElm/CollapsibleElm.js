@@ -1,130 +1,116 @@
-import { useState, useEffect, useRef, Fragment } from "react";
-import styles from "./CollapsibleElm.module.css";
-import PushButton from "../Buttons/PushButton/PushButton";
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import styles from './CollapsibleElm.module.css';
+
+function measureOverflow(body, content) {
+  if (!body || !content) return false;
+  return (
+    content.scrollHeight > body.clientHeight + 2 ||
+    content.scrollWidth > body.clientWidth + 2
+  );
+}
 
 function CollapsibleElm(props) {
-   const [elmOpen, setElmOpen] = useState(props.open);
-   const [overflowActive, setOverflowActive] = useState(false);
-   const textRef = useRef();
+  const {
+    open: openProp,
+    maxHeight,
+    styles: contentStyles,
+    children,
+    alwaysShowToggle = false,
+    seeMoreButtonText,
+    seeLessButtonText,
+    data,
+    dataAttribute,
+    elmId,
+    id,
+    className,
+    onToggle,
+  } = props;
 
-   // See if div is overflowing and Se More button is needed
-   function isOverflowActive(e) {
-      if (e)
-         return (
-            e.clientHeight + 5 < e.scrollHeight || e.clientWidth < e.scrollWidth
-         );
-   }
+  const [elmOpen, setElmOpen] = useState(Boolean(openProp));
+  const [overflowActive, setOverflowActive] = useState(false);
+  const bodyRef = useRef(null);
+  const contentRef = useRef(null);
 
-   ////////////////////////////////////////
-   /// EFFECTS
-   ////////////////////////////////////////
-   useEffect(() => {
-      if (isOverflowActive(textRef.current)) {
-         setOverflowActive(true);
-      } else {
-         setOverflowActive(false);
-      }
-   }, []);
+  useEffect(() => {
+    setElmOpen(Boolean(openProp));
+  }, [openProp]);
 
-   // This allows the elm to be opened without a click by setting the open props
-   useEffect(() => {
-      setElmOpen(props.open);
-   }, [props.open]);
+  useLayoutEffect(() => {
+    const body = bodyRef.current;
+    const content = contentRef.current;
+    if (!body || !content) return undefined;
 
-   ////////////////////////////////////////
-   /// Functions
-   ////////////////////////////////////////
-   const repeatFunction = (
-      functionToRun,
-      millisecondsInterval = 500,
-      repetitions = 5,
-      millisecondsToFirstRun,
-      millisecondsToSecondRun
-   ) => {
-      for (let trips = 1; trips <= repetitions; trips++) {
-         if (trips === 1 && millisecondsToFirstRun) {
-            setTimeout(functionToRun, millisecondsToFirstRun);
-         } else if (trips === 2 && millisecondsToSecondRun) {
-            setTimeout(functionToRun, millisecondsToSecondRun);
-         } else {
-            setTimeout(functionToRun, millisecondsInterval);
-         }
-      }
-   };
+    const measure = () => {
+      setOverflowActive(measureOverflow(body, content));
+    };
 
-   // Repeating a check on overflow to
-   // allow for slow connections/response
-   const functionToRepeat = () => {
-      if (isOverflowActive(textRef.current)) {
-         setOverflowActive(true);
-      } else {
-         setOverflowActive(false);
-      }
-   };
-   repeatFunction(functionToRepeat, 50000, 5, 100, 10000);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(body);
+    observer.observe(content);
 
-   ////////////////////////////////////////
-   /// Helpers
-   ////////////////////////////////////////
-   const seeMoreButtonHandler = (e) => {
-      setElmOpen(!elmOpen);
-   };
+    const images = content.querySelectorAll('img');
+    images.forEach((img) => {
+      if (!img.complete) img.addEventListener('load', measure);
+    });
 
-   ////////////////////////////////////////
-   /// OUTPUT
-   ////////////////////////////////////////
-   let output;
-   let elmOpenStyles;
-   let seeMoreButtonText;
+    return () => {
+      observer.disconnect();
+      images.forEach((img) => img.removeEventListener('load', measure));
+    };
+  }, [maxHeight, elmOpen]);
 
-   if (elmOpen) {
-      elmOpenStyles = { maxHeight: "100000px", ...props.styles };
-      seeMoreButtonText = (
-         <span>
-            &uarr;{" "}
-            {props.seeLessButtonText ? props.seeLessButtonText : "See Less"}{" "}
-            &uarr;
-         </span>
-      );
-   } else {
-      elmOpenStyles = { maxHeight: props.maxHeight, ...props.styles };
-      seeMoreButtonText = (
-         <span>
-            &darr;{" "}
-            {props.seeMoreButtonText ? props.seeMoreButtonText : "See More"}{" "}
-            &darr;
-         </span>
-      );
-   }
+  const showToggle = alwaysShowToggle || overflowActive || elmOpen;
+  const moreLabel = seeMoreButtonText || 'Show more';
+  const lessLabel = seeLessButtonText || 'Show less';
 
-   output = (
-      <Fragment key={props.elmId}>
-         <div
-            ref={textRef}
-            className={styles["collapsible-elm"]}
-            style={elmOpenStyles}
-            {...props.dataAttribute}
-         >
-            {props.children}
-         </div>
-         {!elmOpen && !overflowActive ? null : (
-            <PushButton
-               inputOrButton={props.inputOrButton}
-               styles={props.buttonStyles}
-               id={props.elmId + "-see-more-btn"}
-               colorType={props.colorType}
-               value={seeMoreButtonText}
-               data={props.data}
-               size={props.size}
-               onClick={seeMoreButtonHandler}
-            >
-               {seeMoreButtonText}
-            </PushButton>
-         )}
-      </Fragment>
-   );
+  const handleToggle = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const next = !elmOpen;
+    setElmOpen(next);
+    if (typeof onToggle === 'function') onToggle(next);
+  };
 
-   return output;
+  const bodyStyle = elmOpen
+    ? { maxHeight: 'none' }
+    : { maxHeight: maxHeight || '12em' };
+
+  return (
+    <div
+      className={`${styles.collapsible} ${
+        elmOpen ? styles.open : styles.closed
+      } ${className || ''} collapsible-elm`}
+      id={id}
+      {...dataAttribute}
+    >
+      <div className={styles.clip}>
+        <div ref={bodyRef} className={styles.body} style={bodyStyle}>
+          <div ref={contentRef} className={styles.content} style={contentStyles}>
+            {children}
+          </div>
+        </div>
+        {!elmOpen && overflowActive && (
+          <div className={styles.fade} aria-hidden="true" />
+        )}
+      </div>
+      {showToggle && (
+        <button
+          type="button"
+          className={styles.toggle}
+          data-data={data}
+          id={elmId ? `${elmId}-see-more-btn` : undefined}
+          aria-expanded={elmOpen}
+          onClick={handleToggle}
+        >
+          <span>{elmOpen ? lessLabel : moreLabel}</span>
+          <span className={styles.chevron} aria-hidden="true">
+            {elmOpen ? '▴' : '▾'}
+          </span>
+        </button>
+      )}
+    </div>
+  );
 }
 
 export default CollapsibleElm;

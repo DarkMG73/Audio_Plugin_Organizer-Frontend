@@ -1061,26 +1061,12 @@ const PluginFinder = (props) => {
                                              position: "relative"
                                           }}
                                           maxHeight="7em"
-                                          inputOrButton="button"
-                                          buttonStyles={{
-                                             margin: "0 auto",
-                                             fontVariant: "small-caps",
-                                             transform: "translateY(50%)",
-                                             transition: "0.7s all ease",
-                                             textAlign: "center",
-                                             display: "flex",
-                                             alignItems: "center",
-                                             padding: "0.25em 0",
-                                             minWidth: "fit-content",
-                                             width: "100%",
-                                             gridColumn: "1 / -1"
-                                          }}
-                                          colorType="secondary"
+                                          seeMoreButtonText="Show more"
+                                          seeLessButtonText="Show less"
                                           dataAttribute={{
                                              "data-elm":
                                                 "missing-plugins-to-ignore-collapsible-elm"
                                           }}
-                                          size="small"
                                        >
                                           <ul
                                              className={
@@ -1265,25 +1251,12 @@ const PluginFinder = (props) => {
                                              position: "relative"
                                           }}
                                           maxHeight="7em"
-                                          inputOrButton="button"
-                                          buttonStyles={{
-                                             margin: "0 auto",
-                                             fontVariant: "small-caps",
-                                             transform: "translateY(50%)",
-                                             transition: "0.7s all ease",
-                                             textAlign: "center",
-                                             display: "flex",
-                                             alignItems: "center",
-                                             padding: "0.25em 0",
-                                             minWidth: "fit-content",
-                                             width: "100%"
-                                          }}
-                                          colorType="secondary"
+                                          seeMoreButtonText="Show more"
+                                          seeLessButtonText="Show less"
                                           dataAttribute={{
                                              "data-elm":
                                                 "missing-plugins-collapsible-elm"
                                           }}
-                                          size="small"
                                        >
                                           <ul
                                              className={
@@ -1388,25 +1361,12 @@ const PluginFinder = (props) => {
                                              position: "relative"
                                           }}
                                           maxHeight="7em"
-                                          inputOrButton="button"
-                                          buttonStyles={{
-                                             margin: "0 auto",
-                                             fontVariant: "small-caps",
-                                             transform: "translateY(50%)",
-                                             transition: "0.7s all ease",
-                                             textAlign: "center",
-                                             display: "flex",
-                                             alignItems: "center",
-                                             padding: "0.25em 0",
-                                             minWidth: "fit-content",
-                                             width: "100%"
-                                          }}
-                                          colorType="secondary"
+                                          seeMoreButtonText="Show more"
+                                          seeLessButtonText="Show less"
                                           dataAttribute={{
                                              "data-elm":
                                                 "missing-plugins-collapsible-elm"
                                           }}
-                                          size="small"
                                        >
                                           <ul
                                              className={
@@ -1711,28 +1671,12 @@ const PluginFinder = (props) => {
                                                       position: "relative"
                                                    }}
                                                    maxHeight="7em"
-                                                   inputOrButton="button"
-                                                   buttonStyles={{
-                                                      margin: "0 auto",
-                                                      fontVariant: "small-caps",
-                                                      transform:
-                                                         "translateY(50%)",
-                                                      transition:
-                                                         "0.7s all ease",
-                                                      textAlign: "center",
-                                                      display: "flex",
-                                                      alignItems: "center",
-                                                      padding: "0.25em 0",
-                                                      minWidth: "fit-content",
-                                                      width: "100%",
-                                                      gridColumn: "1 / -1"
-                                                   }}
-                                                   colorType="secondary"
+                                                   seeMoreButtonText="Show more"
+                                                   seeLessButtonText="Show less"
                                                    dataAttribute={{
                                                       "data-elm":
                                                          "new-plugins-to-ignore-collapsible-elm"
                                                    }}
-                                                   size="small"
                                                 >
                                                    {ignorePluginList.map(
                                                       (fileName, index) => (
@@ -1964,25 +1908,12 @@ const PluginFinder = (props) => {
                                                 position: "relative"
                                              }}
                                              maxHeight="10em"
-                                             inputOrButton="button"
-                                             buttonStyles={{
-                                                margin: "0 auto",
-                                                fontVariant: "small-caps",
-                                                transform: "translateY(50%)",
-                                                transition: "0.7s all ease",
-                                                textAlign: "center",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                padding: "0.25em 0",
-                                                minWidth: "fit-content",
-                                                width: "100%"
-                                             }}
-                                             colorType="secondary"
+                                             seeMoreButtonText="Show more"
+                                             seeLessButtonText="Show less"
                                              dataAttribute={{
                                                 "data-elm":
                                                    "new-plugins-collapsible-elm"
                                              }}
-                                             size="small"
                                           >
                                              {unmatchedFiles.map(
                                                 (fileName, index) => (

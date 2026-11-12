@@ -30,7 +30,8 @@
   flex-basis: 23%;
   border-radius: var(--apo-radius-md);
   flex-grow: 1;
-  min-width: min-content;
+  min-width: 0;
+  overflow: visible;
 }
 
 @media screen and (max-width: 600px) {

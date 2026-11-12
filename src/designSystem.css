@@ -1,6 +1,6 @@
 /* APO Studio Console
-   Night navy + cyan, quieter glow, denser chrome.
-   Surfaces stay sharp. Glow is a focus/active signal, not decoration.
+   Night navy + cyan. Surfaces are layered. Glow is a quiet material,
+   not decoration on every control.
 */
 
 :root {
@@ -24,11 +24,16 @@
   --apo-space-6: 2rem;
 
   --apo-control-height: 32px;
-  --apo-ease: 140ms ease;
+  --apo-ease: 160ms ease;
   --apo-hairline: 1px solid
-    color-mix(in srgb, var(--iq-color-accent) 22%, transparent);
+    color-mix(in srgb, var(--iq-color-accent) 26%, transparent);
   --apo-focus-ring: 0 0 0 2px var(--iq-color-foreground),
     0 0 0 4px var(--iq-color-accent);
+  --apo-sheen: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.055) 0%,
+    rgba(255, 255, 255, 0) 42%
+  );
 }
 
 body.themeOne,
@@ -50,28 +55,79 @@ body.themeTwo {
 }
 
 body.themeTwo {
-  --apo-boxshadow-small-glow-inner: inset 0 0 0 1px
-    rgba(67, 189, 233, 0.22);
-  --apo-boxshadow-outer: 0 8px 22px -16px rgba(0, 0, 0, 0.7),
-    0 0 0 1px rgba(67, 189, 233, 0.12);
-  --apo-boxshadow-inner: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --apo-canvas-color: #0a0a22;
+  --apo-canvas:
+    radial-gradient(
+      1100px 460px at 50% -12%,
+      rgba(67, 189, 233, 0.16),
+      transparent 62%
+    ),
+    radial-gradient(
+      820px 540px at 110% 118%,
+      rgba(47, 85, 178, 0.2),
+      transparent 58%
+    ),
+    linear-gradient(180deg, #14143c 0%, #0a0a22 100%);
+  --apo-surface: color-mix(in srgb, var(--iq-color-foreground) 78%, #243056);
+  --apo-surface-raised: color-mix(
+    in srgb,
+    var(--iq-color-foreground) 62%,
+    #2c3d72
+  );
+  --apo-surface-sunken: color-mix(in srgb, var(--iq-color-foreground) 82%, #000);
+  --apo-boxshadow-small-glow-inner: inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 0 1px rgba(67, 189, 233, 0.2);
+  --apo-boxshadow-outer: inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.28), 0 10px 24px -14px rgba(0, 0, 0, 0.78),
+    0 0 0 1px rgba(67, 189, 233, 0.16);
+  --apo-boxshadow-outer-hover: inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.22), 0 16px 30px -14px rgba(0, 0, 0, 0.82),
+    0 0 0 1px rgba(67, 189, 233, 0.34), 0 0 22px -12px rgba(67, 189, 233, 0.4);
+  --apo-boxshadow-inner: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --apo-boxshadow-sunken: inset 0 1px 2px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(67, 189, 233, 0.12);
   --apo-login-status-boxshadow: none;
   --apo-glow: 0 0 18px -8px var(--iq-color-accent);
-  --apo-surface: color-mix(in srgb, var(--iq-color-foreground) 88%, #1c2a58);
+  --apo-glow-soft: 0 8px 18px -12px rgba(67, 189, 233, 0.42);
 }
 
 body.themeOne {
-  --apo-boxshadow-small-glow-inner: inset 0 0 0 1px
-    rgba(52, 152, 219, 0.22);
-  --apo-boxshadow-outer: 0 8px 22px -16px rgba(20, 32, 48, 0.2),
-    0 0 0 1px rgba(52, 152, 219, 0.14);
+  --apo-canvas-color: #e8e8e2;
+  --apo-canvas:
+    radial-gradient(
+      1100px 460px at 50% -12%,
+      rgba(52, 152, 219, 0.12),
+      transparent 62%
+    ),
+    linear-gradient(180deg, #fffffa 0%, #ecece4 100%);
+  --apo-surface: #fffffa;
+  --apo-surface-raised: #ffffff;
+  --apo-surface-sunken: #f2f2ea;
+  --apo-boxshadow-small-glow-inner: inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 0 0 1px rgba(52, 152, 219, 0.22);
+  --apo-boxshadow-outer: inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 10px 22px -14px rgba(20, 32, 48, 0.28),
+    0 0 0 1px rgba(52, 152, 219, 0.16);
+  --apo-boxshadow-outer-hover: inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 16px 28px -14px rgba(20, 32, 48, 0.32),
+    0 0 0 1px rgba(52, 152, 219, 0.32), 0 0 18px -12px rgba(52, 152, 219, 0.35);
   --apo-boxshadow-inner: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  --apo-boxshadow-sunken: inset 0 1px 2px rgba(20, 32, 48, 0.12),
+    inset 0 0 0 1px rgba(52, 152, 219, 0.14);
   --apo-login-status-boxshadow: none;
   --apo-glow: 0 0 16px -10px var(--iq-color-accent);
+  --apo-glow-soft: 0 8px 16px -12px rgba(52, 152, 219, 0.28);
 }
 
 html {
-  background: var(--iq-color-foreground);
+  background: var(--apo-canvas-color, var(--iq-color-foreground));
+}
+
+body.themeOne,
+body.themeTwo {
+  background: var(--apo-canvas);
+  background-color: var(--apo-canvas-color);
+  background-attachment: fixed;
 }
 
 body {

@@ -344,24 +344,9 @@ function FilterTools() {
                                           flexWrap: "wrap",
                                           justifyContent: "space-between"
                                        }}
-                                       maxHeight="20.5em"
-                                       inputOrButton="button"
-                                       buttonStyles={{
-                                          margin: "-0.75em auto 0",
-                                          letterSpacing: "0.04em",
-                                          fontVariant: "small-caps",
-                                          transition: "0.2s all ease",
-                                          minWidth: "100%",
-                                          textAlign: "center",
-                                          display: "flex",
-                                          alignItems: "center",
-                                          zIndex: "10",
-                                          borderRadius: "0 0 8px 8px",
-                                          paddingBottom: "0.3em",
-                                          paddingTop: "0.3em"
-                                       }}
-                                       colorType="primary"
-                                       size="small"
+                                       maxHeight="8.5em"
+                                       seeMoreButtonText="More"
+                                       seeLessButtonText="Less"
                                        open={false}
                                     >
                                        <div

@@ -6,9 +6,12 @@
    margin: 0 -0.9rem 0.65em;
    padding: 0.45em 0.9rem 0.55em;
    border-radius: 0;
-   background: var(--iq-color-foreground);
+   background: color-mix(in srgb, var(--iq-color-foreground) 72%, transparent);
    color: var(--iq-color-background);
-   box-shadow: 0 12px 20px -10px rgba(0, 0, 0, 0.55);
+   backdrop-filter: blur(16px) saturate(1.15);
+   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 12px 22px -14px rgba(0, 0, 0, 0.55),
+      0 1px 0 color-mix(in srgb, var(--iq-color-accent) 22%, transparent);
 }
 
 .searchLabel {
@@ -33,29 +36,31 @@
    min-width: 0;
    height: 2.35em;
    border-radius: var(--apo-radius-control);
-   border: 1px solid color-mix(in srgb, var(--iq-color-accent) 45%, transparent);
+   border: 1px solid color-mix(in srgb, var(--iq-color-accent) 38%, transparent);
    background: var(--iq-color-background);
    color: var(--iq-color-foreground);
    padding: 0 0.9em;
    font-size: 1rem;
    outline: none;
+   box-shadow: var(--apo-boxshadow-sunken);
 }
 
 .searchInput:focus {
-   box-shadow: var(--apo-glow);
+   box-shadow: var(--apo-boxshadow-sunken), var(--apo-glow);
    border-color: var(--iq-color-accent);
 }
 
 .clearSearch,
 .chip {
    border: 1px solid var(--iq-color-accent-dark);
-   background: transparent;
+   background: color-mix(in srgb, var(--iq-color-foreground) 45%, transparent);
    color: inherit;
    border-radius: var(--apo-radius-pill);
    padding: 0.28em 0.75em;
    font-variant: small-caps;
    letter-spacing: 0.04em;
    cursor: pointer;
+   box-shadow: var(--apo-boxshadow-small-glow-inner);
 }
 
 .metaRow {
@@ -80,9 +85,15 @@
 }
 
 .chipOn {
-   background: var(--iq-color-accent);
+   background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--iq-color-accent) 78%, white),
+      var(--iq-color-accent)
+   );
    color: var(--iq-color-foreground);
    border-color: transparent;
+   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28),
+      0 4px 10px -6px var(--iq-color-accent);
 }
 
 .chipClear {
